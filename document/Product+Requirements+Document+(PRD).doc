@@ -1,0 +1,1360 @@
+Date: Tue, 17 Mar 2026 04:33:53 +0000 (UTC)
+Message-ID: <1770506894.63.1773722033540@a80405f67cc2>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_62_1045254328.1773722033539"
+
+------=_Part_62_1045254328.1773722033539
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>Product Requirements Document (PRD)</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font: var(--ds-font-body-small, Arial, Helvetica, FreeSans, sans-se=
+rif);
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: var(--ds-surface, #fff) !important;
+        color: var(--ds-text, #000) !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: var(--ds-text, #000);
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        page-break-after: avoid;
+    }
+
+    pre {
+        font: var(--ds-font-code, Monaco, "Courier New", monospace);
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>Product Requirements Document (PRD)</h1>
+    <div class=3D"Section1">
+        <div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Product overview</strong></p></th>
+<th class=3D"confluenceTh">
+<p></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>=F0=9F=93=85 <strong>Target date</strong></p></td>
+<td class=3D"confluenceTd">
+<p>April 21, 2026 (Week 10 - MVP Launch)</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>=F0=9F=9F=A1 <strong>Document status</strong></p></td>
+<td class=3D"confluenceTd">
+<p>DRAFT</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>=F0=9F=8F=83 <strong>Team members</strong></p></td>
+<td class=3D"confluenceTd">
+<p>@Vishnu P S @Abhiraj Selvaraj @Akhil Prahlad</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p><strong>Quick links</strong></p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>=F0=9F=8E=A8 <strong>Designs</strong></p></td>
+<td class=3D"confluenceTd">
+<p><a class=3D"external-link" href=3D"https://www.figma.com/design/dN933eYk=
+QKEuP05RbydIBV/Home-OS?node-id=3D0-1&amp;t=3DNYT9NQP5Sys0kLTx-1" rel=3D"nof=
+ollow">Figma - Home OS Design System</a></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>=F0=9F=97=83=EF=B8=8F <strong>Work tracker</strong></p></td>
+<td class=3D"confluenceTd">
+<p><a class=3D"external-link" href=3D"https://homeos.atlassian.net/jira/sof=
+tware/projects/HOM/boards" rel=3D"nofollow">HomeOS Team - Jira Project</a><=
+/p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=8E=AFObjective">=F0=9F=8E=
+=AF Objective</h2>
+<p>Build an AI-powered family management platform that serves as an intelli=
+gent family assistant, actively managing household operations through agent=
+ic AI with direct user interface control (A2UI). The platform consolidates =
+seven core aspects of family life=E2=80=94calendar &amp; scheduling, tasks =
+&amp; chores, shared lists, expense tracking, family feed, document vault, =
+and meal planning=E2=80=94into a unified, voice-controlled ecosystem.</p>
+<p><strong>Strategic Fit:</strong></p>
+<ul>
+<li>
+<p>Addresses the $2.3B family management software market growing at 23% CAG=
+R</p></li>
+<li>
+<p>Solves the fundamental problem of cognitive load on primary household ma=
+nagers (typically mothers)</p></li>
+<li>
+<p>Creates first-mover advantage with AI-native architecture where AI contr=
+ols the interface</p></li>
+<li>
+<p>Establishes category leadership by solving real problems vs. providing b=
+etter organizational tools</p></li>
+</ul>
+<p><strong>Key Differentiators:</strong></p>
+<ul>
+<li>
+<p><strong>Agent-to-UI (A2UI) Technology</strong>: AI navigates screens, hi=
+ghlights information, and executes actions within the app interface (MVP fe=
+ature)</p></li>
+<li>
+<p><strong>Multi-Agent Architecture</strong>: 7 specialized AI agents + orc=
+hestrator handling complex family scenarios</p></li>
+<li>
+<p><strong>Model Context Protocol (MCP)</strong>: Future-proof AI-tool inte=
+gration across 52 standardized tools (MVP feature)</p></li>
+<li>
+<p><strong>Privacy-First</strong>: On-device voice processing with zero aud=
+io transmitted to cloud</p></li>
+<li>
+<p><strong>Cost-Optimized</strong>: 85-90% AI cost reduction through advanc=
+ed caching ($0.38 per family/month)</p></li>
+</ul>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=93=8ASuccessmetrics">=F0=
+=9F=93=8A Success metrics</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-ProductSuccessMetrics(Month6Targ=
+ets)">Product Success Metrics (Month 6 Targets)</h3>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Goal</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Metric</strong></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>User Engagement</p></td>
+<td class=3D"confluenceTd">
+<p>65% Daily Active Users (DAU)</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>AI Adoption</p></td>
+<td class=3D"confluenceTd">
+<p>25+ voice interactions per family per week</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Task Efficiency</p></td>
+<td class=3D"confluenceTd">
+<p>78% task completion rate</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>User Retention</p></td>
+<td class=3D"confluenceTd">
+<p>75% monthly retention rate</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>User Satisfaction</p></td>
+<td class=3D"confluenceTd">
+<p>50+ Net Promoter Score (NPS)</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Family Participation</p></td>
+<td class=3D"confluenceTd">
+<p>2.8 average active family members per family</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id=3D"ProductRequirementsDocument(PRD)-BusinessMetrics">Business Metric=
+s</h3>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Goal</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Metric</strong></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Customer Acquisition</p></td>
+<td class=3D"confluenceTd">
+<p>CAC &lt;$25 by Month 12</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Lifetime Value</p></td>
+<td class=3D"confluenceTd">
+<p>LTV $300+ (30 months avg retention at $9.99/mo)</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Unit Economics</p></td>
+<td class=3D"confluenceTd">
+<p>LTV:CAC ratio 12:1 by Month 18</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Revenue Growth</p></td>
+<td class=3D"confluenceTd">
+<p>MRR $5K by Month 6, $50K by Month 12</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Conversion Rate</p></td>
+<td class=3D"confluenceTd">
+<p>25% free-to-paid conversion by Month 9</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=A4=94Assumptions">=F0=9F=
+=A4=94 Assumptions</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-UserAssumptions">User Assumption=
+s</h3>
+<ul>
+<li>
+<p>Primary household managers (71% mothers) spend 2-3 hours daily on coordi=
+nation tasks</p></li>
+<li>
+<p>83% of primary managers feel overwhelmed by mental load</p></li>
+<li>
+<p>Families currently use 10-15 different apps for household management</p>=
+</li>
+<li>
+<p>91% express frustration with app fragmentation</p></li>
+<li>
+<p>Users willing to pay $9.99/month for comprehensive solution that reduces=
+ cognitive burden</p></li>
+<li>
+<p>Target market: 50M+ dual-income families with children aged 5-18 in US</=
+p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-TechnicalAssumptions">Technical =
+Assumptions</h3>
+<ul>
+<li>
+<p>React Native New Architecture (v0.76+) is production-ready and stable</p=
+></li>
+<li>
+<p>Bun runtime provides 3x faster performance than Node.js for backend oper=
+ations</p></li>
+<li>
+<p>PostgreSQL Row-Level Security effectively isolates multi-tenant data</p>=
+</li>
+<li>
+<p>On-device voice processing (Expo Speech Recognition) provides adequate a=
+ccuracy for family use</p></li>
+<li>
+<p>Google Cloud Platform provides reliable AI infrastructure with 99.9% upt=
+ime</p></li>
+<li>
+<p>Gemini 2.0 Flash model sufficient for 85% of AI operations; Gemini 3.0 P=
+ro for complex reasoning</p></li>
+<li>
+<p><strong>MCP (Model Context Protocol)</strong> can be implemented within =
+10-week timeline</p></li>
+<li>
+<p><strong>A2UI (Agent-to-UI)</strong> can be delivered in phased approach =
+within MVP</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-BusinessAssumptions">Business As=
+sumptions</h3>
+<ul>
+<li>
+<p>Google Cloud Startup Credits ($200K) will be secured to offset initial i=
+nfrastructure costs</p></li>
+<li>
+<p>Self-hosted architecture achieves 90% cost savings vs. managed service a=
+lternatives</p></li>
+<li>
+<p>Operating costs at scale: $0.68 per family per month (infrastructure $15=
+7 + AI $190 for 500 families)</p></li>
+<li>
+<p>Product Hunt launch generates 1,000+ early adopters and validates produc=
+t-market fit</p></li>
+<li>
+<p>Beta testing with 20-30 families provides sufficient feedback for refine=
+ment</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-DevelopmentAssumptions">Developm=
+ent Assumptions</h3>
+<ul>
+<li>
+<p>3-person team (mobile, backend, web/admin) can deliver MVP in 10 weeks</=
+p></li>
+<li>
+<p>6-epic structure covers all critical MVP functionality including MCP and=
+ A2UI</p></li>
+<li>
+<p>Phased AI rollout (basic text =E2=86=92 MCP integration =E2=86=92 A2UI c=
+ontrol) manages technical complexity</p></li>
+<li>
+<p>Zero-downtime deployments achievable with proper architecture and CI/CD<=
+/p></li>
+</ul>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=E2=AD=90Milestones">=E2=AD=90 M=
+ilestones</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-10-WeekDevelopmentRoadmap">10-We=
+ek Development Roadmap</h3>
+<p><strong>Epic 1: Authentication &amp; Family Management</strong> (Week 1-=
+2)</p>
+<ul>
+<li>
+<p>Self-hosted authentication system using Better Auth</p></li>
+<li>
+<p>Family workspace creation and member management</p></li>
+<li>
+<p>Invitation system with email/SMS notifications</p></li>
+<li>
+<p>Role-based access control (admin, member, child)</p></li>
+</ul>
+<p><strong>Epic 2: Core Data Modules</strong> (Week 3-5)</p>
+<ul>
+<li>
+<p>Calendar &amp; Scheduling with AI-powered conflict detection</p></li>
+<li>
+<p>Tasks &amp; Chores with intelligent assignment logic</p></li>
+<li>
+<p>Shared Lists with categories and smart suggestions</p></li>
+<li>
+<p>Expense Tracking with split calculations and budget tracking</p></li>
+</ul>
+<p><strong>Epic 3: Communication &amp; Documents</strong> (Week 6)</p>
+<ul>
+<li>
+<p>Family Feed with chronological activity timeline</p></li>
+<li>
+<p>Document Vault with AES-256 encryption</p></li>
+<li>
+<p>OCR for receipts and document scanning (Google Vision API)</p></li>
+<li>
+<p>Photo and document sharing with comments</p></li>
+</ul>
+<p><strong>Epic 4: Meal Planning</strong> (Week 7)</p>
+<ul>
+<li>
+<p>Recipe database and weekly meal planner</p></li>
+<li>
+<p>Automatic grocery list generation from meal plans</p></li>
+<li>
+<p>Dietary restriction and allergy support</p></li>
+<li>
+<p>Meal rotation suggestions and nutrition tracking</p></li>
+</ul>
+<p><strong>Epic 5: AI Integration with MCP &amp; A2UI</strong> (Week 8)</p>
+<ul>
+<li>
+<p><strong>Model Context Protocol (MCP) Implementation</strong>: 52 standar=
+dized tools across 7 modules</p></li>
+<li>
+<p>Basic AI text responses via chat interface</p></li>
+<li>
+<p>Voice input/output with on-device processing</p></li>
+<li>
+<p>Orchestrator AI + 7 specialist agents (Task, Calendar, Finance, List, Fe=
+ed, Document, Meal)</p></li>
+<li>
+<p><strong>Agent-to-UI (A2UI) Foundation</strong>: AI navigation and compon=
+ent control system</p></li>
+<li>
+<p>90% context caching for cost optimization</p></li>
+</ul>
+<p><strong>Epic 6: Real-time Sync &amp; Polish</strong> (Week 9-10)</p>
+<ul>
+<li>
+<p>WebSocket implementation for real-time synchronization</p></li>
+<li>
+<p>Push notifications for critical events</p></li>
+<li>
+<p><strong>A2UI Enhancement</strong>: Screen navigation, component highligh=
+ting, action execution</p></li>
+<li>
+<p>UI/UX polish and accessibility improvements</p></li>
+<li>
+<p>Performance optimization and bug fixes</p></li>
+<li>
+<p>Beta testing with 20-30 early adopter families</p></li>
+</ul>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=93=9DRequirements">=F0=9F=
+=93=9D Requirements</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-CoreFunctionalRequirements">Core=
+ Functional Requirements</h3>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Requirement</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>User Story</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Importance</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Jira Issue</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Notes</strong></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Self-hosted Authentication</p></td>
+<td class=3D"confluenceTd">
+<p>As a family, I want to create an account without relying on third-party =
+auth providers for privacy</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Better Auth implementation</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Family Member Invitations</p></td>
+<td class=3D"confluenceTd">
+<p>As a family admin, I want to invite members via email/SMS so they can jo=
+in our workspace</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Supports email and SMS delivery</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Shared Calendar with AI Conflict Detection</p></td>
+<td class=3D"confluenceTd">
+<p>As Sarah, I want the AI to automatically detect scheduling conflicts acr=
+oss all family members</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Cross-member conflict analysis</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>AI-Powered Task Assignment</p></td>
+<td class=3D"confluenceTd">
+<p>As a parent, I want tasks automatically assigned fairly based on availab=
+ility, skills, and workload</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Fairness algorithm required</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Voice-First Interface</p></td>
+<td class=3D"confluenceTd">
+<p>As Mike, I want to interact with the app using voice commands while driv=
+ing or multitasking</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>On-device processing only</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Multi-Agent AI System with MCP</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want specialized AI agents using standardized tools for con=
+sistent behavior</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>8 agents + 52 MCP tools</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Agent-to-UI (A2UI) Control</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want AI to navigate screens and execute actions for me inst=
+ead of just telling me what to do</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Screen navigation, component manipulation</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Real-time Synchronization</p></td>
+<td class=3D"confluenceTd">
+<p>As a family member, I want changes to sync instantly across all family m=
+embers' devices</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>WebSocket implementation</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Cross-Platform Support</p></td>
+<td class=3D"confluenceTd">
+<p>As a family, we need the app to work seamlessly on iOS, Android, and Web=
+</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>React Native + Expo for mobile, web admin panel</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Grocery List Auto-Generation</p></td>
+<td class=3D"confluenceTd">
+<p>As Sarah, I want grocery items automatically added based on our weekly m=
+eal plans</p></td>
+<td class=3D"confluenceTd">
+<p>MEDIUM</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>AI-powered ingredient analysis</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Receipt OCR</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want to scan receipts to automatically track and categorize=
+ expenses</p></td>
+<td class=3D"confluenceTd">
+<p>MEDIUM</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Google Vision API integration</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Document Expiration Tracking</p></td>
+<td class=3D"confluenceTd">
+<p>As a parent, I want automatic reminders when passports, insurance, or ot=
+her documents expire</p></td>
+<td class=3D"confluenceTd">
+<p>MEDIUM</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Notification system with configurable lead times</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Budget Overspend Warnings</p></td>
+<td class=3D"confluenceTd">
+<p>As a family, I want real-time alerts when we're approaching or exceeding=
+ budget limits</p></td>
+<td class=3D"confluenceTd">
+<p>MEDIUM</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Proactive budget monitoring</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id=3D"ProductRequirementsDocument(PRD)-Non-FunctionalRequirements">Non-=
+Functional Requirements</h3>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Requirement</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>User Story</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Importance</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Jira Issue</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Notes</strong></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Sub-100ms UI Response Time</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want the app interface to feel instant and responsive</p></=
+td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>React Native performance optimization</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>99.9% Uptime SLA</p></td>
+<td class=3D"confluenceTd">
+<p>As a family, I need the app available 24/7 for critical household coordi=
+nation</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Self-hosted infrastructure with monitoring</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Bank-Level Encryption</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want my sensitive documents encrypted at rest and in transi=
+t</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>AES-256 encryption, TLS 1.3</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>GDPR &amp; CCPA Compliance</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want my data protected under international privacy regulati=
+ons</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Data privacy policies and consent flows</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Offline-First Capabilities</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I want basic functionality (view data, add items) when offlin=
+e</p></td>
+<td class=3D"confluenceTd">
+<p>MEDIUM</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Local-first architecture with sync</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>AI Cost Optimization</p></td>
+<td class=3D"confluenceTd">
+<p>As a business, I need sustainable AI operating costs under $0.40 per fam=
+ily/month</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>90% context caching + Redis query cache</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>MCP Tool Discoverability</p></td>
+<td class=3D"confluenceTd">
+<p>As AI system, I need automatic discovery of available tools and their ca=
+pabilities</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Standardized tool registration</p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>A2UI Response Time</p></td>
+<td class=3D"confluenceTd">
+<p>As a user, I need AI to navigate and control UI in &lt;500ms for natural=
+ feel</p></td>
+<td class=3D"confluenceTd">
+<p>HIGH</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+<td class=3D"confluenceTd">
+<p>Optimized component registry</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=A7=A0AIArchitectureDetail=
+s">=F0=9F=A7=A0 AI Architecture Details</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-ModelContextProtocol(MCP)Impleme=
+ntation">Model Context Protocol (MCP) Implementation</h3>
+<p><strong>What is MCP?</strong><br>
+MCP is Anthropic's open standard for AI-tool communication - think of it as=
+ USB for AI. It provides a universal protocol that allows any MCP-compatibl=
+e AI to discover and use our 52 tools without custom integration code.</p>
+<p><strong>MVP Implementation:</strong></p>
+<ul>
+<li>
+<p>52 standardized tools spanning 7 modules (Calendar, Tasks, Lists, Expens=
+es, Feed, Documents, Meals)</p></li>
+<li>
+<p>Automatic tool discovery and capability registration</p></li>
+<li>
+<p>Model-agnostic architecture (can switch from Gemini to GPT or Claude wit=
+hout code changes)</p></li>
+<li>
+<p>Standardized request/response format across all tools</p></li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>
+<p>Future-proof: Easy to add new AI models without rebuilding integrations<=
+/p></li>
+<li>
+<p>Maintainable: Single tool definition works across all AI agents</p></li>
+<li>
+<p>Industry standard: Growing ecosystem support from major AI providers</p>=
+</li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-Agent-to-UI(A2UI)Technology">Age=
+nt-to-UI (A2UI) Technology</h3>
+<p><strong>What is A2UI?</strong><br>
+A breakthrough capability where AI doesn't just respond with text=E2=80=94i=
+t directly controls the mobile application interface. When you ask "show me=
+ my tasks," the AI navigates to the tasks screen, highlights urgent items, =
+and displays actionable buttons.</p>
+<p><strong>MVP Implementation:</strong></p>
+<ul>
+<li>
+<p><strong>Component Registry</strong>: 15 key components (TaskList, Calend=
+ar, ExpenseChart, etc.)</p></li>
+<li>
+<p><strong>Navigation System</strong>: AI can switch between screens progra=
+mmatically</p></li>
+<li>
+<p><strong>Highlighting Mechanism</strong>: Draw user attention to specific=
+ UI elements</p></li>
+<li>
+<p><strong>State Manipulation</strong>: Update, refresh, filter components =
+on demand</p></li>
+<li>
+<p><strong>Action Execution</strong>: Mark tasks complete, add events, upda=
+te budgets</p></li>
+</ul>
+<p><strong>Phased Rollout:</strong></p>
+<ol start=3D"1">
+<li>
+<p><strong>Week 8</strong>: Foundation - Component registry, basic navigati=
+on</p></li>
+<li>
+<p><strong>Week 9-10</strong>: Enhancement - Highlighting, state manipulati=
+on, action execution</p></li>
+<li>
+<p><strong>Post-MVP</strong>: Advanced features - Contextual animations, co=
+mplex workflows</p></li>
+</ol>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=E2=9A=A0=EF=B8=8FOutofScope">=
+=E2=9A=A0=EF=B8=8F Out of Scope</h2>
+<p>Features intentionally excluded from MVP launch but may be revisited in =
+future releases:</p>
+<h3 id=3D"ProductRequirementsDocument(PRD)-Phase2Features(Post-MVP-Months4-=
+12)">Phase 2 Features (Post-MVP - Months 4-12)</h3>
+<ul>
+<li>
+<p><strong>Advanced Analytics Dashboard</strong>: Detailed insights into fa=
+mily patterns, productivity, and trends</p></li>
+<li>
+<p><strong>Third-Party Calendar Integrations</strong>: Google Calendar, App=
+le Calendar, Outlook bidirectional sync</p></li>
+<li>
+<p><strong>Bank Account Integration</strong>: Automatic expense import from=
+ financial institutions</p></li>
+<li>
+<p><strong>Smart Home Integration</strong>: IoT device control through fami=
+ly assistant (lights, thermostats, locks)</p></li>
+<li>
+<p><strong>Location-Based Services</strong>: Geofencing, location-aware rem=
+inders, arrival notifications</p></li>
+<li>
+<p><strong>Social Features</strong>: Family-to-family sharing, playdate coo=
+rdination, community events</p></li>
+<li>
+<p><strong>Advanced A2UI Features</strong>: Complex multi-step workflows, c=
+ontextual animations, predictive UI</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-FutureConsiderations(12+Months)"=
+>Future Considerations (12+ Months)</h3>
+<ul>
+<li>
+<p><strong>Pet Care Module</strong>: Vet appointments, medication tracking,=
+ feeding schedules, pet profiles</p></li>
+<li>
+<p><strong>Medication Tracking</strong>: Prescription reminders, refill not=
+ifications, pharmacy integration</p></li>
+<li>
+<p><strong>Educational Module</strong>: Homework tracking, assignment deadl=
+ines, parent-teacher communication</p></li>
+<li>
+<p><strong>Eldercare Features</strong>: Medical appointment coordination, c=
+aregiver scheduling, health monitoring</p></li>
+<li>
+<p><strong>Multi-Language Support</strong>: Full internationalization beyon=
+d English (Spanish, French, Mandarin)</p></li>
+<li>
+<p><strong>White-Label Platform</strong>: Enterprise B2B2C offering for emp=
+loyee assistance programs</p></li>
+<li>
+<p><strong>Developer API Access</strong>: Third-party integrations and cust=
+om automations</p></li>
+<li>
+<p><strong>MCP Marketplace</strong>: Allow users to add custom MCP tools fo=
+r specialized needs</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-TechnicalDebtIntentionallyDeferr=
+ed">Technical Debt Intentionally Deferred</h3>
+<ul>
+<li>
+<p>Advanced Redis caching strategies beyond basic query caching</p></li>
+<li>
+<p>Horizontal scaling and multi-region deployment (single region MVP)</p></=
+li>
+<li>
+<p>Advanced security features (biometric authentication, hardware security =
+keys)</p></li>
+<li>
+<p>Comprehensive APM and error tracking (basic monitoring only)</p></li>
+<li>
+<p>Advanced AI features (sentiment analysis, predictive modeling beyond cur=
+rent scope)</p></li>
+</ul>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=8E=A8Design">=F0=9F=8E=A8=
+ Design</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-DesignSystem">Design System</h3>
+<p><strong>Figma Files:</strong></p>
+<ul>
+<li>
+<p><a class=3D"external-link" href=3D"https://www.figma.com/design/dN933eYk=
+QKEuP05RbydIBV/Home-OS?node-id=3D0-1&amp;t=3DNYT9NQP5Sys0kLTx-1" rel=3D"nof=
+ollow">Home OS - Complete Design System</a></p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-DesignPrinciples">Design Princip=
+les</h3>
+<ol start=3D"1">
+<li>
+<p><strong>Voice-First, Touch-Second</strong>: Primary interaction through =
+voice with touch as intuitive fallback</p></li>
+<li>
+<p><strong>Contextual Simplicity</strong>: Show only what's relevant to cur=
+rent user context and task</p></li>
+<li>
+<p><strong>Family-Centric Design</strong>: Accommodates multiple users with=
+ varying ages and tech literacy levels</p></li>
+<li>
+<p><strong>Accessible by Default</strong>: WCAG 2.1 AA compliance minimum a=
+cross all interfaces</p></li>
+<li>
+<p><strong>Unified Experience</strong>: Consistent design language across m=
+obile (iOS/Android) and web admin panel</p></li>
+<li>
+<p><strong>AI-Driven UI</strong>: Interface adapts based on AI recommendati=
+ons and A2UI control</p></li>
+</ol>
+<h3 id=3D"ProductRequirementsDocument(PRD)-KeyScreens&amp;UserFlows">Key Sc=
+reens &amp; User Flows</h3>
+<ul>
+<li>
+<p><strong>Family Dashboard</strong>: Aggregate view of all family activity=
+, upcoming events, pending tasks</p></li>
+<li>
+<p><strong>Calendar View</strong>: Day/week/month views with AI conflict hi=
+ghlighting and suggestions</p></li>
+<li>
+<p><strong>Task Management</strong>: List view with filters, AI assignment =
+suggestions, completion tracking</p></li>
+<li>
+<p><strong>Grocery &amp; Shopping Lists</strong>: Categorized lists with lo=
+cation-aware notifications</p></li>
+<li>
+<p><strong>Expense Tracker</strong>: Transaction log with receipt scanning,=
+ split calculations, budget progress</p></li>
+<li>
+<p><strong>Family Feed</strong>: Chronological activity stream with photos,=
+ comments, reactions</p></li>
+<li>
+<p><strong>Document Vault</strong>: Secure storage with categories, OCR sea=
+rch, expiration tracking</p></li>
+<li>
+<p><strong>Meal Planner</strong>: Weekly calendar view with recipe cards, n=
+utritional info, grocery integration</p></li>
+<li>
+<p><strong>Voice Interface</strong>: Visual feedback with waveform, transcr=
+iption display, AI response bubbles</p></li>
+<li>
+<p><strong>AI Control Indicators</strong>: Visual cues when AI is navigatin=
+g or manipulating UI (A2UI in action)</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-DesignTokens">Design Tokens</h3>
+<ul>
+<li>
+<p><strong>Color Palette</strong>: Warm, inviting family-friendly colors (p=
+rimary blue, accent orange, neutral grays)</p></li>
+<li>
+<p><strong>Typography</strong>: Inter for UI elements, system fonts optimiz=
+ed for performance</p></li>
+<li>
+<p><strong>Spacing System</strong>: Consistent 8px grid system for all layo=
+ut spacing</p></li>
+<li>
+<p><strong>Iconography</strong>: Lucide React icon library for consistency =
+and performance</p></li>
+<li>
+<p><strong>Motion Design</strong>: Smooth 200-300ms transitions, purposeful=
+ animations only</p></li>
+<li>
+<p><strong>AI Highlights</strong>: Special color treatments for AI-controll=
+ed elements (subtle glow, border)</p></li>
+</ul>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=E2=9D=93Openquestions">=E2=9D=
+=93 Open questions</h2>
+<div class=3D"table-wrap">
+<table data-layout=3D"default" class=3D"confluenceTable">
+<tbody>
+<tr>
+<th class=3D"confluenceTh">
+<p><strong>Question</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Answer</strong></p></th>
+<th class=3D"confluenceTh">
+<p><strong>Date Answered</strong></p></th>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>What should the final application name be?</p></td>
+<td class=3D"confluenceTd">
+<p>Under consideration: Hearth, Otto, Maple, Nora (character-first names)</=
+p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How do we handle voice recognition accuracy for children ages 5-10?</p><=
+/td>
+<td class=3D"confluenceTd">
+<p>Test with beta families; may need age-specific models or text fallback</=
+p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Should we integrate existing calendars (Google/Apple) for MVP?</p></td>
+<td class=3D"confluenceTd">
+<p>Deferred to Phase 2 to reduce complexity and external dependencies</p></=
+td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How do we ensure data privacy for sensitive family documents?</p></td>
+<td class=3D"confluenceTd">
+<p>AES-256 encryption at rest, TLS 1.3 in transit, PostgreSQL RLS isolation=
+</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>What's our fallback if Google denies startup credits?</p></td>
+<td class=3D"confluenceTd">
+<p>Use GCP free tier, optimize costs further, or evaluate AWS/Azure alterna=
+tives</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How do we handle family member removal (divorce, estrangement)?</p></td>
+<td class=3D"confluenceTd">
+<p>Soft delete with 30-day retention, full data export option before remova=
+l</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Should we support non-traditional family structures?</p></td>
+<td class=3D"confluenceTd">
+<p>Yes - design for flexibility: multi-generational, single parent, extende=
+d family</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How do we measure "cognitive load reduction" quantitatively?</p></td>
+<td class=3D"confluenceTd">
+<p>Proxy metrics: time saved (surveys), AI usage frequency, task delegation=
+ balance</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>What's onboarding strategy for non-technical users (elderly, children)?<=
+/p></td>
+<td class=3D"confluenceTd">
+<p>Interactive tutorial, voice-guided setup, optional human onboarding for =
+Premium</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How do we prevent AI hallucinations affecting family coordination?</p></=
+td>
+<td class=3D"confluenceTd">
+<p>Confidence thresholds, human confirmation for critical actions, comprehe=
+nsive audit logs</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>How complex should initial A2UI interactions be?</p></td>
+<td class=3D"confluenceTd">
+<p>Start simple (navigation, highlighting), expand to complex workflows pos=
+t-MVP</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">
+<p>Can we deliver both MCP and A2UI in 10 weeks?</p></td>
+<td class=3D"confluenceTd">
+<p>Yes - MCP in Week 8, A2UI foundation in Week 8-10, iterate based on beta=
+ feedback</p></td>
+<td class=3D"confluenceTd">
+<p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=3D"ProductRequirementsDocument(PRD)-=F0=9F=97=83=EF=B8=8FReferenceLi=
+nks">=F0=9F=97=83=EF=B8=8F Reference Links</h2>
+<h3 id=3D"ProductRequirementsDocument(PRD)-KeyProjectDocuments">Key Project=
+ Documents</h3>
+<ul>
+<li>
+<p><a href=3D"https://homeos.atlassian.net/wiki/spaces/HD/pages/2064385/Pro=
+duct+Requirements+Document+PRD+-+AI-Powered+Family+Management+Platform" dat=
+a-linked-resource-id=3D"2064385" data-linked-resource-version=3D"4" data-li=
+nked-resource-type=3D"page">Product Requirements Document - Full Version</a=
+></p></li>
+<li>
+<p>Technical Architecture Document (coming soon)</p></li>
+<li>
+<p>API Specifications (coming soon)</p></li>
+<li>
+<p>Database Schema Design (coming soon)</p></li>
+<li>
+<p>MCP Tool Specifications (coming soon)</p></li>
+<li>
+<p>A2UI Component Registry (coming soon)</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-Research&amp;MarketAnalysis">Res=
+earch &amp; Market Analysis</h3>
+<ul>
+<li>
+<p>Target User Research Summary (150 families surveyed)</p></li>
+<li>
+<p>Market Opportunity Analysis: $2.3B market, 23% CAGR</p></li>
+<li>
+<p>Competitive Landscape: Cozi, OurHome, Picniic, FamCal, Organize, TimeTre=
+e</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-TechnicalStackDocumentation">Tec=
+hnical Stack Documentation</h3>
+<ul>
+<li>
+<p><a class=3D"external-link" href=3D"https://reactnative.dev/docs/the-new-=
+architecture/landing-page" rel=3D"nofollow">React Native New Architecture</=
+a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://bun.sh/docs" rel=3D"nofollow"=
+>Bun Runtime Documentation</a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://hono.dev/" rel=3D"nofollow">H=
+ono Framework Guide</a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://trpc.io/" rel=3D"nofollow">tR=
+PC Documentation</a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://www.postgresql.org/docs/curre=
+nt/ddl-rowsecurity.html" rel=3D"nofollow">PostgreSQL Row-Level Security</a>=
+</p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://www.better-auth.com/" rel=3D"=
+nofollow">Better Auth - Self-Hosted Authentication</a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://ai.google.dev/docs" rel=3D"no=
+follow">Google Gemini AI API</a></p></li>
+<li>
+<p><a class=3D"external-link" href=3D"https://modelcontextprotocol.io/" rel=
+=3D"nofollow">Model Context Protocol (MCP) Specification</a></p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-ProjectManagement">Project Manag=
+ement</h3>
+<ul>
+<li>
+<p><a class=3D"external-link" href=3D"https://homeos.atlassian.net/jira/sof=
+tware/projects/HOM/boards" rel=3D"nofollow">Jira Workspace: HomeOS Team</a>=
+</p></li>
+<li>
+<p><a href=3D"https://homeos.atlassian.net/wiki/spaces/HD">Confluence Docum=
+entation Space</a></p></li>
+<li>
+<p>Sprint Planning: Bi-weekly sprints starting Week 1</p></li>
+<li>
+<p>Daily Standups: 9:00 AM team timezone (async updates in Slack)</p></li>
+</ul>
+<h3 id=3D"ProductRequirementsDocument(PRD)-DesignResources">Design Resource=
+s</h3>
+<ul>
+<li>
+<p><a class=3D"external-link" href=3D"https://www.figma.com/design/dN933eYk=
+QKEuP05RbydIBV/Home-OS?node-id=3D0-1&amp;t=3DNYT9NQP5Sys0kLTx-1" rel=3D"nof=
+ollow">Figma Design System</a></p></li>
+<li>
+<p>Component Library (React Native + Expo)</p></li>
+<li>
+<p>User Flow Diagrams (Mermaid syntax)</p></li>
+<li>
+<p>Accessibility Guidelines (WCAG 2.1)</p></li>
+<li>
+<p>A2UI Interaction Patterns (coming soon)</p></li>
+</ul>
+    </div>
+</body>
+</html>
+------=_Part_62_1045254328.1773722033539--
