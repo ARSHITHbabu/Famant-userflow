@@ -1205,17 +1205,21 @@ function NotificationFeedScreen() {
 function ProfileScreen() {
   const settings = [
     { section: 'Account',  items: [
-      { icon: '🔒', label: 'Account & Security' },
-      { icon: '👨‍👩‍👧', label: 'Family Members', badge: '4' },
+      { icon: '🔒', label: 'Account & Security', sub: '' },
+      { icon: '👨‍👩‍👧', label: 'Family Members', badge: '4', sub: '' },
+    ]},
+    { section: 'Family', items: [
+      { icon: '🔑', label: 'Invite Code', sub: 'Tap to view & share code' },
+      { icon: '🔗', label: 'Share Family Link', sub: 'Send invite via WhatsApp / link' },
     ]},
     { section: 'Preferences', items: [
-      { icon: '🔔', label: 'Notification Preferences' },
-      { icon: '🕵️', label: 'Privacy Controls' },
-      { icon: '🎨', label: 'Appearance & Theme' },
+      { icon: '🔔', label: 'Notification Preferences', sub: '' },
+      { icon: '🕵️', label: 'Privacy Controls', sub: '' },
+      { icon: '🎨', label: 'Appearance & Theme', sub: '' },
     ]},
     { section: 'Support', items: [
-      { icon: '❓', label: 'Help & Support' },
-      { icon: '📋', label: 'Terms & Privacy' },
+      { icon: '❓', label: 'Help & Support', sub: '' },
+      { icon: '📋', label: 'Terms & Privacy', sub: '' },
     ]},
   ];
   return (
@@ -1467,16 +1471,44 @@ function MemberViewLegend() {
 
 // ── Calendar: Main Screen ─────────────────────────────────────────
 function CalendarMainScreen() {
+  const [isFamily, setIsFamily] = useState(true);
   return (
     <div className="h-full flex flex-col" style={{ minHeight: 280 }}>
       <div className="bg-purple-100 px-2 pt-2 pb-1 border-b border-purple-200">
-        <div className="text-[7px] font-bold text-purple-900">👨‍👩‍👧 Sharma Family  ▾</div>
-        <div className="flex gap-1 mt-1">
-          {['A', 'B', 'C', 'D'].map((m) => (
-            <div key={m} className="w-4 h-4 rounded-full bg-purple-400 flex items-center justify-center text-[5px] text-white font-bold">{m}</div>
-          ))}
-          <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+2</div>
+        <div className="flex items-center justify-between">
+          <div className="text-[7px] font-bold text-purple-900">👨‍👩‍👧 Sharma Family  ▾</div>
+          {/* Personal / Family toggle icon — top-right of calendar header */}
+          <button
+            onClick={() => setIsFamily(f => !f)}
+            title={isFamily ? 'Switch to Personal Calendar' : 'Switch to Family Calendar'}
+            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5px] font-bold transition-colors ${
+              isFamily
+                ? 'bg-purple-600 text-white border-purple-700'
+                : 'bg-white text-purple-700 border-purple-300'
+            }`}
+          >
+            {isFamily ? (
+              <span title="Family view">👥</span>
+            ) : (
+              <span title="Personal view">👤</span>
+            )}
+          </button>
         </div>
+        {/* Personal mode banner */}
+        {!isFamily && (
+          <div className="mt-1 bg-purple-50 border border-purple-200 rounded px-1.5 py-0.5 flex items-center justify-between">
+            <span className="text-[5px] text-purple-700 font-semibold">👤 Showing only your events</span>
+            <button onClick={() => setIsFamily(true)} className="text-[5px] text-purple-500 underline">Show all</button>
+          </div>
+        )}
+        {isFamily && (
+          <div className="flex gap-1 mt-1">
+            {['A', 'B', 'C', 'D'].map((m) => (
+              <div key={m} className="w-4 h-4 rounded-full bg-purple-400 flex items-center justify-center text-[5px] text-white font-bold">{m}</div>
+            ))}
+            <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+2</div>
+          </div>
+        )}
         <div className="flex gap-0.5 mt-1.5">
           {['M', 'W', 'D', '⊞'].map((v, i) => (
             <div key={v} className={`text-[6px] px-1.5 py-0.5 rounded font-semibold ${i === 0 ? 'bg-purple-600 text-white' : 'bg-white text-gray-500 border border-gray-200'}`}>{v}</div>
@@ -1564,7 +1596,7 @@ function CalZoneLegend() {
       <p className="text-xs font-bold text-gray-700 mb-2">Calendar Screen — Zone Legend</p>
       <div className="space-y-1">
         {[
-          { color:'bg-purple-200', label:'Zone 1 – Header', desc:'Family selector, member avatars, view switcher, share button' },
+          { color:'bg-purple-200', label:'Zone 1 – Header', desc:'Family selector, member avatars, view switcher, share button · Personal/Family toggle (top-right)' },
           { color:'bg-blue-200', label:'Zone 2 – Calendar Grid', desc:'Month/Week/Day grid with event dots and conflict indicators' },
           { color:'bg-green-200', label:'Zone 3 – Event Panel', desc:'Bottom sheet — event list for selected date, history carousel' },
           { color:'bg-indigo-200', label:'Zone 4 – FAB (+)', desc:'Quick create: New Event / Scan Image / Event History / Voice' },
@@ -1574,6 +1606,11 @@ function CalZoneLegend() {
             <div><span className="text-[10px] font-semibold text-gray-800">{z.label}</span><span className="text-[10px] text-gray-500"> — {z.desc}</span></div>
           </div>
         ))}
+      </div>
+      {/* Personal / Family toggle explanation */}
+      <div className="mt-3 bg-purple-50 border border-purple-200 rounded p-2">
+        <p className="text-[10px] font-bold text-purple-800 mb-1">👥 ↔ 👤  Personal / Family Toggle</p>
+        <p className="text-[9px] text-purple-700">Top-right icon in Calendar header. Default: <strong>Family</strong> (👥) — shows all members' events. Tap to switch to <strong>Personal</strong> (👤) — shows only your own events. A banner confirms the active mode. This toggle applies across Calendar, Tasks, Lists, and Expenses.</p>
       </div>
     </div>
   );
@@ -1607,7 +1644,16 @@ function CalFlowArrow({ label }: { label?: string }) {
 function CF1_CalendarGrid() {
   return (
     <div style={{minHeight:240}} className="flex flex-col">
-      <div className="bg-purple-600 px-2 py-1.5"><div className="text-[6px] text-purple-200">Sharma Family  ▾</div><div className="flex gap-0.5 mt-0.5">{['A','B','C','D'].map(m=><div key={m} className="w-3 h-3 rounded-full bg-purple-300 flex items-center justify-center text-[4px] text-purple-900">{m}</div>)}</div></div>
+      <div className="bg-purple-600 px-2 py-1.5">
+        <div className="flex items-center justify-between">
+          <div className="text-[6px] text-purple-200">Sharma Family  ▾</div>
+          {/* Family/Personal toggle icon */}
+          <div className="bg-purple-500 rounded-full px-1 py-0.5 flex items-center gap-0.5">
+            <span className="text-[7px]">👥</span>
+          </div>
+        </div>
+        <div className="flex gap-0.5 mt-0.5">{['A','B','C','D'].map(m=><div key={m} className="w-3 h-3 rounded-full bg-purple-300 flex items-center justify-center text-[4px] text-purple-900">{m}</div>)}</div>
+      </div>
       <div className="bg-blue-50 px-1.5 pt-1 flex-1"><div className="text-[6px] font-bold text-blue-800">March 2026</div><div className="grid grid-cols-7 gap-0.5 mt-0.5">{['S','M','T','W','T','F','S'].map((d,i)=><div key={i} className="text-[4px] text-center text-gray-400">{d}</div>)}{Array.from({length:28},(_,i)=><div key={i} className={`text-[4px] text-center rounded py-0.5 ${i===16?'bg-blue-600 text-white font-bold':'text-gray-600'}`}>{i+1}{[4,9,15,22].includes(i)&&<div className="w-0.5 h-0.5 rounded-full bg-red-400 mx-auto"/>}</div>)}</div></div>
       <div className="bg-gray-50 px-2 py-1 text-[6px] text-gray-400 border-t">Tap a date to see events →</div>
     </div>
