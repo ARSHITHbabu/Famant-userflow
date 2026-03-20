@@ -113,50 +113,43 @@ function Arrow({ label, direction = 'right' }: { label?: string; direction?: 'ri
 
 // ── ONBOARDING SCREENS ────────────────────────────────────────────
 
+// ── ONBOARDING SCREENS — dark-themed, card-based (reference: Perhe.app style) ──
+
 function LoginScreen() {
   return (
-    <div className="flex flex-col" style={{ minHeight: 280 }}>
-      <div className="bg-gray-900 px-3 pt-6 pb-4 flex flex-col items-center">
-        <div className="w-10 h-10 rounded-2xl bg-indigo-500 flex items-center justify-center mb-2 shadow-lg">
-          <span className="text-white text-[14px] font-black">F</span>
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      {/* Logo hero */}
+      <div className="flex-1 flex flex-col items-center justify-center px-4 pt-6 pb-3">
+        <div className="w-14 h-14 rounded-full bg-indigo-600 flex items-center justify-center mb-3 shadow-lg">
+          <span className="text-white text-[20px] font-black">F</span>
         </div>
-        <div className="text-[9px] font-bold text-white">Famant</div>
-        <div className="text-[6px] text-gray-400 mt-0.5">Your Family OS</div>
+        <div className="text-[13px] font-black text-white tracking-tight">Famant</div>
+        <div className="text-[6px] text-gray-400 mt-0.5 mb-1">Your Family OS</div>
+        <div className="text-[5px] text-gray-600 text-center">Calendar · Tasks · Expenses · Documents</div>
       </div>
-      <div className="bg-white flex-1 px-3 pt-4 pb-3 flex flex-col gap-3">
-        <div>
-          <div className="text-[9px] font-bold text-gray-900">Welcome back 👋</div>
-          <div className="text-[6px] text-gray-400 mt-0.5">Sign in to continue</div>
-        </div>
-        <div className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5">
-          <div className="text-[5px] text-gray-400 mb-0.5">PHONE NUMBER</div>
-          <div className="flex items-center gap-1">
-            <span className="text-[6px] text-gray-500 font-medium">+91</span>
-            <div className="w-0.5 h-3 bg-gray-300" />
-            <span className="text-[6px] text-gray-400">9876543210</span>
+      {/* Action cards */}
+      <div className="px-3 pb-4 space-y-2">
+        <div className="bg-white rounded-2xl px-3 py-2.5 flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center">
+            <span className="text-[11px]">📱</span>
           </div>
-        </div>
-        <div className="bg-gray-900 rounded-lg py-1.5 text-center">
-          <span className="text-[7px] font-bold text-white">Continue with Phone</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-[5px] text-gray-400">OR</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-        <div className="space-y-1.5">
-          <div className="border border-gray-200 rounded-lg py-1.5 px-2 flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-100 flex items-center justify-center text-[5px]">G</div>
-            <span className="text-[6px] text-gray-700 font-medium">Continue with Google</span>
+          <div className="flex-1">
+            <div className="text-[7px] font-bold text-indigo-700">Continue with Phone</div>
+            <div className="text-[5px] text-gray-400">+91 · OTP verification</div>
           </div>
-          <div className="border border-gray-200 rounded-lg py-1.5 px-2 flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-gray-900 flex items-center justify-center text-[5px] text-white">🍎</div>
-            <span className="text-[6px] text-gray-700 font-medium">Continue with Apple</span>
-          </div>
+          <div className="text-[9px] text-gray-400 font-bold">›</div>
         </div>
-        <div className="text-[5px] text-gray-400 text-center mt-auto">
-          By continuing you agree to our Terms & Privacy Policy
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl px-3 py-2 flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-xl bg-gray-800 flex items-center justify-center text-[9px] font-bold text-red-400">G</div>
+          <div className="text-[7px] text-gray-200 flex-1">Continue with Google</div>
+          <div className="text-[9px] text-gray-600 font-bold">›</div>
         </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl px-3 py-2 flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-xl bg-gray-800 flex items-center justify-center text-[10px]"></div>
+          <div className="text-[7px] text-gray-200 flex-1">Continue with Apple</div>
+          <div className="text-[9px] text-gray-600 font-bold">›</div>
+        </div>
+        <div className="text-[4px] text-gray-700 text-center mt-1">By continuing you agree to our Terms & Privacy Policy</div>
       </div>
     </div>
   );
@@ -164,26 +157,37 @@ function LoginScreen() {
 
 function JoinCreateScreen() {
   return (
-    <div className="flex flex-col" style={{ minHeight: 280 }}>
-      <div className="bg-indigo-600 px-3 py-3">
-        <div className="text-[8px] font-bold text-white">Set Up Your Family</div>
-        <div className="text-[5px] text-indigo-200 mt-0.5">Step 1 of 2</div>
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      <div className="flex-1 flex flex-col items-center justify-center px-3 pt-5 pb-2">
+        <div className="w-12 h-12 rounded-full bg-indigo-900 border border-indigo-700 flex items-center justify-center mb-3">
+          <span className="text-[18px]">🏠</span>
+        </div>
+        <div className="text-[11px] font-black text-white">Set up Famant</div>
+        <div className="text-[5px] text-gray-400 mt-0.5 text-center">Your family's own workspace</div>
       </div>
-      <div className="flex-1 bg-white px-3 pt-4 pb-3 flex flex-col gap-3">
-        <div className="text-[8px] font-bold text-gray-900">Are you starting a new family or joining one?</div>
-        <div className="border-2 border-indigo-400 rounded-xl p-2.5 bg-indigo-50 relative">
-          <div className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-indigo-500 flex items-center justify-center">
-            <span className="text-[5px] text-white font-bold">✓</span>
+      <div className="px-3 pb-4 space-y-2">
+        <div className="bg-white rounded-2xl px-3 py-2.5 flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center">
+            <span className="text-[13px]">🏠</span>
           </div>
-          <div className="text-[7px] font-bold text-indigo-900">🏠 Create a Family</div>
-          <div className="text-[5px] text-indigo-700 mt-0.5">Start fresh — set up your family workspace and invite members</div>
+          <div className="flex-1">
+            <div className="text-[7px] font-bold text-indigo-800">Create a Family</div>
+            <div className="text-[5px] text-gray-400">I'm the first from my family</div>
+          </div>
+          <div className="text-[9px] text-gray-400 font-bold">›</div>
         </div>
-        <div className="border-2 border-gray-200 rounded-xl p-2.5 bg-gray-50">
-          <div className="text-[7px] font-bold text-gray-700">🔗 Join a Family</div>
-          <div className="text-[5px] text-gray-500 mt-0.5">Enter an invite code shared by your family admin</div>
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl px-3 py-2.5 flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gray-800 flex items-center justify-center">
+            <span className="text-[13px]">👨‍👩‍👧</span>
+          </div>
+          <div className="flex-1">
+            <div className="text-[7px] font-bold text-gray-200">I have an invite</div>
+            <div className="text-[5px] text-gray-500">Someone invited me to their family</div>
+          </div>
+          <div className="text-[9px] text-gray-600 font-bold">›</div>
         </div>
-        <div className="bg-indigo-600 rounded-lg py-1.5 text-center mt-auto">
-          <span className="text-[7px] font-bold text-white">Continue →</span>
+        <div className="text-center pt-1">
+          <div className="text-[5px] text-gray-600 underline">Already have an account? Sign in</div>
         </div>
       </div>
     </div>
@@ -192,40 +196,24 @@ function JoinCreateScreen() {
 
 function CreateFamilyScreen() {
   return (
-    <div className="flex flex-col" style={{ minHeight: 280 }}>
-      <div className="bg-green-600 px-3 py-3">
-        <div className="text-[8px] font-bold text-white">Create Your Family</div>
-        <div className="text-[5px] text-green-200 mt-0.5">Step 2 of 2</div>
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      <div className="flex items-center gap-1.5 px-3 pt-3 pb-1">
+        <span className="text-[9px] text-gray-500">←</span>
+        <span className="text-[6px] text-gray-500">Back</span>
       </div>
-      <div className="flex-1 bg-white px-3 pt-3 pb-3 flex flex-col gap-2.5">
-        <div>
-          <div className="text-[5px] text-gray-400 mb-0.5 font-semibold">FAMILY NAME</div>
-          <div className="bg-gray-50 border-2 border-green-400 rounded-lg px-2 py-1.5">
-            <div className="text-[7px] text-gray-700 font-medium">Thaikaattu Family</div>
-          </div>
+      <div className="flex flex-col items-center px-3 pb-2">
+        <div className="w-11 h-11 rounded-full bg-indigo-900 border border-indigo-700 flex items-center justify-center mb-2">
+          <span className="text-[16px]">🏠</span>
         </div>
-        <div>
-          <div className="text-[5px] text-gray-400 mb-0.5 font-semibold">FAMILY PHOTO (OPTIONAL)</div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-green-100 border-2 border-dashed border-green-300 flex items-center justify-center">
-              <span className="text-[8px]">📷</span>
-            </div>
-            <span className="text-[5px] text-green-600 font-medium">Upload photo</span>
-          </div>
+        <div className="text-[10px] font-black text-white">Create your family</div>
+        <div className="text-[5px] text-gray-500 mt-0.5">Name it and invite members</div>
+      </div>
+      <div className="flex-1 px-3 pb-3 flex flex-col gap-2">
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl px-3 py-2.5">
+          <div className="text-[4px] text-gray-600 uppercase tracking-wide mb-0.5">Family Name</div>
+          <div className="text-[8px] font-semibold text-white">Thaikaattu Family</div>
         </div>
-        <div>
-          <div className="text-[5px] text-gray-400 mb-1 font-semibold">INVITE MEMBERS</div>
-          <div className="space-y-1">
-            {[['Mom', 'bg-pink-400'], ['John', 'bg-blue-400'], ['Dad', 'bg-orange-400']].map(([name, color]) => (
-              <div key={name} className="flex items-center gap-1.5 bg-gray-50 rounded-lg px-2 py-1 border border-gray-200">
-                <div className={`w-3 h-3 rounded-full flex items-center justify-center text-[4px] text-white font-bold ${color}`}>{name[0]}</div>
-                <span className="text-[6px] text-gray-700 flex-1">{name}</span>
-                <span className="text-[5px] text-green-500">✓ Invited</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="bg-green-600 rounded-lg py-1.5 text-center mt-auto">
+        <div className="mt-auto bg-indigo-600 rounded-2xl py-2 text-center">
           <span className="text-[7px] font-bold text-white">Create Family & Enter →</span>
         </div>
       </div>
@@ -235,33 +223,107 @@ function CreateFamilyScreen() {
 
 function JoinFamilyScreen() {
   return (
-    <div className="flex flex-col" style={{ minHeight: 280 }}>
-      <div className="bg-blue-600 px-3 py-3">
-        <div className="text-[8px] font-bold text-white">Join a Family</div>
-        <div className="text-[5px] text-blue-200 mt-0.5">Step 2 of 2</div>
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      <div className="flex items-center gap-1.5 px-3 pt-3 pb-1">
+        <span className="text-[9px] text-gray-500">←</span>
       </div>
-      <div className="flex-1 bg-white px-3 pt-5 pb-3 flex flex-col gap-3">
-        <div>
-          <div className="text-[8px] font-bold text-gray-900">Enter your invite code</div>
-          <div className="text-[5px] text-gray-400 mt-0.5">Ask your family admin for the 6-digit code</div>
+      <div className="flex flex-col items-center px-3 pb-2">
+        <div className="w-11 h-11 rounded-full bg-blue-900 border border-blue-700 flex items-center justify-center mb-2">
+          <span className="text-[16px]">👨‍👩‍👧</span>
         </div>
-        <div className="flex gap-1.5 justify-center mt-2">
-          {['T', 'H', 'A', '4', '2', '1'].map((c, i) => (
-            <div key={i} className={`w-5 h-6 rounded border-2 flex items-center justify-center text-[8px] font-bold uppercase ${i < 4 ? 'border-blue-500 bg-blue-50 text-blue-900' : 'border-gray-200 text-gray-300'}`}>{c}</div>
-          ))}
-        </div>
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-2 mt-1">
-          <div className="text-[5px] text-blue-600 font-semibold mb-1">FAMILY FOUND</div>
-          <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded-full bg-blue-200 flex items-center justify-center text-[7px]">🏠</div>
-            <div>
-              <div className="text-[7px] font-bold text-gray-800">Thaikaattu Family</div>
-              <div className="text-[5px] text-gray-500">3 members · Admin: Natasha</div>
-            </div>
+        <div className="text-[10px] font-black text-white">Join family</div>
+        <div className="text-[5px] text-gray-500 mt-0.5">Choose how to join</div>
+      </div>
+      <div className="px-3 pb-3 space-y-1.5">
+        <div className="text-[4px] text-gray-500 uppercase tracking-wide">I'm joining as…</div>
+        <div className="grid grid-cols-2 gap-1.5">
+          <div className="bg-blue-900 border-2 border-blue-500 rounded-2xl p-2 flex flex-col items-center gap-0.5">
+            <span className="text-[14px]">👩</span>
+            <div className="text-[5px] font-bold text-blue-300">An adult</div>
+            <div className="text-[4px] text-blue-500 text-center">Parent / guardian</div>
+            <div className="w-3.5 h-3.5 rounded-full bg-blue-500 flex items-center justify-center text-[5px] text-white mt-0.5">✓</div>
+          </div>
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-2 flex flex-col items-center gap-0.5">
+            <span className="text-[14px]">👦</span>
+            <div className="text-[5px] font-bold text-gray-300">A child</div>
+            <div className="text-[4px] text-gray-600 text-center">Young member</div>
           </div>
         </div>
-        <div className="bg-blue-600 rounded-lg py-1.5 text-center mt-auto">
-          <span className="text-[7px] font-bold text-white">Join Family & Enter →</span>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl px-2.5 py-2 flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-gray-800 flex items-center justify-center text-[10px]">⊞</div>
+          <div className="flex-1">
+            <div className="text-[6px] font-bold text-gray-200">Scan QR code</div>
+            <div className="text-[4px] text-gray-500">Fastest — scan from parent's phone</div>
+          </div>
+          <div className="text-[9px] text-gray-600 font-bold">›</div>
+        </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl px-2.5 py-2 flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-gray-800 flex items-center justify-center text-[8px] text-gray-400 font-bold">123</div>
+          <div className="flex-1">
+            <div className="text-[6px] font-bold text-gray-200">Enter invite code</div>
+            <div className="text-[4px] text-gray-500">6-character code from family</div>
+          </div>
+          <div className="text-[9px] text-gray-600 font-bold">›</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// New: Profile setup screen — who are you in the family + avatar picker
+function ProfileSetupScreen() {
+  const avatars = ['👩','👨','👴','👵','🧒','👧','👦','🧔','👩‍🦰','👩‍🦱','🧕','👱','🧑','👩‍🦳','👨‍🦳','👩‍🦲'];
+  return (
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      <div className="flex items-center gap-1.5 px-3 pt-3 pb-1">
+        <span className="text-[9px] text-gray-500">←</span>
+      </div>
+      <div className="flex flex-col items-center px-3 pb-2">
+        <div className="w-11 h-11 rounded-full bg-gray-800 border-2 border-teal-500 flex items-center justify-center mb-2">
+          <span className="text-[18px]">👩</span>
+        </div>
+        <div className="text-[10px] font-black text-white">Who are you in the family?</div>
+        <div className="text-[5px] text-gray-500 mt-0.5">Pick your avatar &amp; nickname</div>
+      </div>
+      <div className="flex-1 px-3 pb-3 space-y-2">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl px-2.5 py-1.5">
+          <div className="text-[4px] text-gray-600 uppercase mb-0.5">Nickname</div>
+          <div className="text-[7px] text-white">Natasha</div>
+        </div>
+        <div className="text-[4px] text-gray-500 uppercase tracking-wide">Select your character</div>
+        <div className="grid grid-cols-8 gap-1">
+          {avatars.map((a,i)=>(
+            <div key={i} className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] ${i===0?'bg-teal-900 border-2 border-teal-500':'bg-gray-900 border border-gray-800'}`}>{a}</div>
+          ))}
+        </div>
+        <div className="bg-teal-500 rounded-2xl py-2 text-center">
+          <span className="text-[7px] font-bold text-black">Next →</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// New: Waiting for admin approval (join flow)
+function WaitingApprovalScreen() {
+  return (
+    <div className="flex flex-col bg-black" style={{ minHeight: 280 }}>
+      <div className="flex-1 flex flex-col items-center justify-center px-4 text-center">
+        <div className="w-14 h-14 rounded-full bg-indigo-900 flex items-center justify-center mb-3">
+          <span className="text-[24px]">⏳</span>
+        </div>
+        <div className="text-[11px] font-black text-white mb-1.5">Waiting for approval</div>
+        <div className="text-[5px] text-gray-400 leading-relaxed mb-2">
+          Your request to join <span className="text-white font-bold">Thaikaattu Family</span> is waiting for approval from an admin.
+        </div>
+        <div className="text-[5px] text-gray-500">You'll be notified when your request is processed.</div>
+        <div className="w-24 h-1 bg-gray-800 rounded-full mt-4 overflow-hidden">
+          <div className="w-1/3 h-full bg-indigo-500 rounded-full"/>
+        </div>
+      </div>
+      <div className="px-3 pb-4">
+        <div className="border border-red-900 rounded-2xl py-2 text-center">
+          <span className="text-[6px] font-medium text-red-500">Cancel and delete account</span>
         </div>
       </div>
     </div>
@@ -5287,49 +5349,65 @@ export function PhoneLayoutDiagram() {
 
       {/* ── SECTION 1: Onboarding ──────────────────────────────── */}
       <div id="section-1">
-        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Section 1 — Authentication & Onboarding</p>
-        <div className="flex flex-wrap justify-center items-start gap-2">
-          <PhoneShell label="1. Login" sublabel="Phone / Google / Apple" highlight showScan={false}>
+        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Section 1 — Authentication &amp; Onboarding</p>
+
+        {/* Row 1: Login → Join/Create */}
+        <div className="flex flex-wrap justify-center items-start gap-2 mb-6">
+          <PhoneShell label="1. Splash / Login" sublabel="Phone · Google · Apple" highlight showScan={false}>
             <LoginScreen />
           </PhoneShell>
           <Arrow label="Continue →" />
-          <PhoneShell label="2. Join or Create?" sublabel="User chooses path" showScan={false}>
+          <PhoneShell label="2. Create or Join?" sublabel="Choose your path" showScan={false}>
             <JoinCreateScreen />
           </PhoneShell>
         </div>
 
-        {/* Branch */}
-        <div className="flex flex-wrap justify-center items-start gap-8 mt-6">
+        {/* Branch paths */}
+        <div className="flex flex-wrap justify-center items-start gap-10 mt-2">
+
+          {/* PATH A */}
           <div className="flex flex-col items-center gap-2">
-            <div className="bg-green-50 border border-green-200 rounded-full px-3 py-1">
-              <span className="text-[10px] font-bold text-green-700">PATH A — Create Family</span>
+            <div className="bg-indigo-50 border border-indigo-200 rounded-full px-3 py-1">
+              <span className="text-[10px] font-bold text-indigo-700">PATH A — Create Family</span>
             </div>
             <Arrow direction="down" label="taps Create" />
-            <PhoneShell label="3a. Create Family" sublabel="Name · Photo · Invite" accent="border-green-500" showScan={false}>
+            <PhoneShell label="3a. Create Family" sublabel="Family name" accent="border-indigo-500" showScan={false}>
               <CreateFamilyScreen />
             </PhoneShell>
+            <Arrow direction="down" label="Family created" />
+            <PhoneShell label="4a. Your Profile" sublabel="Avatar · Nickname" accent="border-teal-500" showScan={false}>
+              <ProfileSetupScreen />
+            </PhoneShell>
           </div>
-          <div className="flex items-center self-center px-4">
+
+          {/* Divider */}
+          <div className="flex items-center self-center px-2">
             <div className="flex flex-col items-center gap-1">
-              <div className="h-16 border-l-2 border-dashed border-gray-200" />
+              <div className="h-24 border-l-2 border-dashed border-gray-200" />
               <span className="text-[10px] font-bold text-gray-400 bg-white px-2">OR</span>
-              <div className="h-16 border-l-2 border-dashed border-gray-200" />
+              <div className="h-24 border-l-2 border-dashed border-gray-200" />
             </div>
           </div>
+
+          {/* PATH B */}
           <div className="flex flex-col items-center gap-2">
             <div className="bg-blue-50 border border-blue-200 rounded-full px-3 py-1">
               <span className="text-[10px] font-bold text-blue-700">PATH B — Join Family</span>
             </div>
             <Arrow direction="down" label="taps Join" />
-            <PhoneShell label="3b. Enter Invite Code" sublabel="6-digit family code" accent="border-blue-500" showScan={false}>
+            <PhoneShell label="3b. Join Family" sublabel="Role · QR · Code" accent="border-blue-500" showScan={false}>
               <JoinFamilyScreen />
+            </PhoneShell>
+            <Arrow direction="down" label="Request sent" />
+            <PhoneShell label="4b. Waiting Approval" sublabel="Admin must approve" accent="border-indigo-400" showScan={false}>
+              <WaitingApprovalScreen />
             </PhoneShell>
           </div>
         </div>
       </div>
 
       {/* Converge */}
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-2">
         <div className="flex items-center gap-3">
           <div className="text-gray-300 text-2xl">↘</div>
           <div className="bg-indigo-600 text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow">Both paths → Dashboard</div>
