@@ -3782,11 +3782,14 @@ function ListScreenFlows() {
 function TaskMainScreen() {
   return (
     <div className="h-full flex flex-col" style={{ minHeight: 290 }}>
+      {/* View-switcher icon — sits next to the PhoneShell scan icon at top-right */}
+      <div className="absolute top-1 right-[18px] z-10 bg-gray-900/80 rounded-md p-0.5">
+        <svg width={9} height={9} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2.5"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+        </svg>
+      </div>
       <div className="bg-emerald-600 px-2 pt-2 pb-1.5">
-        <div className="flex gap-0.5 mb-1">
-          <div className="text-[6px] bg-white text-emerald-700 rounded px-1.5 py-0.5 font-bold">Personal</div>
-          <div className="text-[6px] bg-emerald-400 text-white rounded px-1.5 py-0.5 font-bold">Family</div>
-        </div>
         <div className="flex gap-1 mb-1">
           {['A','B','C','D'].map(m=>(
             <div key={m} className="w-4 h-4 rounded-full bg-emerald-300 flex items-center justify-center text-[5px] text-emerald-900 font-bold">{m}</div>
@@ -3885,21 +3888,111 @@ function TaskDetailScreen() {
   );
 }
 
-// ── Task: Add Task Screen ─────────────────────────────────────────
+// ── Task: Add Task Screen — Toggle OFF (personal, one-time) ───────
 function AddTaskScreen() {
   return (
-    <div className="flex flex-col" style={{ minHeight: 290 }}>
+    <div className="flex flex-col" style={{ minHeight: 400 }}>
       <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
         <div className="text-white text-[8px]">←</div>
         <div className="text-[7px] font-bold text-white">Add Task</div>
       </div>
       <div className="flex-1 p-2 space-y-1.5 bg-white">
+        {/* Task Title */}
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">TASK TITLE</div>
+          <div className="bg-gray-100 rounded px-1.5 py-1 border border-gray-200">
+            <div className="text-[6px] text-gray-700">Buy groceries</div>
+          </div>
+        </div>
+        {/* Priority + Due Date */}
+        <div className="grid grid-cols-2 gap-1">
+          <div>
+            <div className="text-[6px] text-gray-400 mb-0.5">PRIORITY</div>
+            <div className="bg-amber-50 rounded px-1 py-1 text-[6px] text-amber-700 border border-amber-200 font-medium">🟡 Medium</div>
+          </div>
+          <div>
+            <div className="text-[6px] text-gray-400 mb-0.5">DUE DATE</div>
+            <div className="bg-gray-100 rounded px-1 py-1 text-[6px] text-gray-700 border border-gray-200">Today 6pm</div>
+          </div>
+        </div>
+        {/* Assign To — OFF */}
+        <div className="border border-gray-200 rounded p-1.5 bg-gray-50">
+          <div className="flex items-center justify-between">
+            <div className="text-[6px] font-semibold text-gray-500">👤 Assign to someone</div>
+            <div className="w-6 h-3 bg-gray-300 rounded-full flex items-center pl-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm border border-gray-300" />
+            </div>
+          </div>
+          <div className="text-[5px] text-gray-400 mt-0.5">Off — just for me</div>
+        </div>
+        {/* Recurring — OFF */}
+        <div className="border border-gray-200 rounded p-1.5 bg-gray-50">
+          <div className="flex items-center justify-between">
+            <div className="text-[6px] font-semibold text-gray-500">🔁 Recurring Task</div>
+            <div className="w-6 h-3 bg-gray-300 rounded-full flex items-center pl-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm border border-gray-300" />
+            </div>
+          </div>
+          <div className="text-[5px] text-gray-400 mt-0.5">Off — one-time task</div>
+        </div>
+        {/* AI Suggestion */}
+        <div className="bg-violet-50 border border-violet-200 rounded p-1.5">
+          <div className="flex items-start gap-1">
+            <span className="text-[8px] leading-none mt-0.5">✨</span>
+            <div>
+              <div className="text-[5.5px] font-bold text-violet-800 mb-0.5">AI Suggestion</div>
+              <div className="text-[5px] text-violet-700 leading-tight">
+                For <span className="font-semibold">"Buy groceries"</span> — connect with{' '}
+                <span className="font-semibold">Shopping List</span> &{' '}
+                <span className="font-semibold">Expense</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Connect with Modules */}
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">CONNECT WITH</div>
+          <div className="flex flex-wrap gap-0.5">
+            {[
+              { label:'List', icon:'📝', active:true },
+              { label:'Expense', icon:'💰', active:true },
+              { label:'Calendar', icon:'📅', active:false },
+              { label:'Docs', icon:'📁', active:false },
+            ].map(({label,icon,active})=>(
+              <div key={label} className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5.5px] font-medium ${active?'bg-violet-100 border-violet-400 text-violet-800':'bg-gray-50 border-gray-200 text-gray-400'}`}>
+                <span className="text-[7px] leading-none">{icon}</span>
+                {label}
+                {active && <span className="text-violet-500 font-bold leading-none">✓</span>}
+              </div>
+            ))}
+          </div>
+          <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
+        </div>
+      </div>
+      <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
+        <div className="bg-emerald-600 text-white text-[7px] font-bold text-center rounded py-1.5">SAVE TASK</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Task: Add Task Screen — Toggle ON (assigned + recurring) ──────
+function AddTaskScreenExpanded() {
+  return (
+    <div className="flex flex-col" style={{ minHeight: 400 }}>
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[8px]">←</div>
+        <div className="text-[7px] font-bold text-white">Add Task</div>
+      </div>
+      <div className="flex-1 p-2 space-y-1.5 bg-white">
+        {/* Task Title */}
         <div>
           <div className="text-[6px] text-gray-400 mb-0.5">TASK TITLE</div>
           <div className="bg-gray-100 rounded px-1.5 py-1 border border-gray-200">
             <div className="text-[6px] text-gray-700">Clean the kitchen</div>
           </div>
         </div>
+        {/* Priority + Due Date */}
         <div className="grid grid-cols-2 gap-1">
           <div>
             <div className="text-[6px] text-gray-400 mb-0.5">PRIORITY</div>
@@ -3910,22 +4003,68 @@ function AddTaskScreen() {
             <div className="bg-gray-100 rounded px-1 py-1 text-[6px] text-gray-700 border border-gray-200">Today 6pm</div>
           </div>
         </div>
-        <div>
-          <div className="text-[6px] text-gray-400 mb-0.5">ASSIGN TO</div>
+        {/* Assign To — ON + expanded */}
+        <div className="border border-emerald-300 rounded p-1.5 bg-emerald-50">
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-[6px] font-semibold text-emerald-800">👤 Assign to someone</div>
+            <div className="w-6 h-3 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
+            </div>
+          </div>
           <div className="flex gap-0.5">
             {['A','B','C'].map(m=>(
-              <div key={m} className={`w-4 h-4 rounded-full ${m==='B'?'bg-emerald-500 ring-1 ring-emerald-400':'bg-gray-300'} flex items-center justify-center text-[5px] text-white`}>{m}</div>
+              <div key={m} className={`w-4 h-4 rounded-full ${m==='B'?'bg-emerald-500 ring-1 ring-emerald-400':'bg-gray-300'} flex items-center justify-center text-[5px] text-white font-bold`}>{m}</div>
             ))}
+            <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[5px] text-gray-400 border border-gray-300">+</div>
           </div>
         </div>
-        <div className="bg-emerald-50 border border-emerald-200 rounded p-1.5">
-          <div className="text-[6px] font-bold text-emerald-800 mb-1">🔁 Recurring Task</div>
-          <div className="flex gap-0.5">
+        {/* Recurring — ON + expanded */}
+        <div className="border border-emerald-300 rounded p-1.5 bg-emerald-50">
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-[6px] font-semibold text-emerald-800">🔁 Recurring Task</div>
+            <div className="w-6 h-3 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
+            </div>
+          </div>
+          <div className="flex gap-0.5 mb-0.5">
             {['Daily','Weekly','Monthly','Custom'].map((f,i)=>(
               <div key={f} className={`text-[5px] px-1 py-0.5 rounded ${i===1?'bg-emerald-500 text-white':'bg-white text-gray-400 border border-gray-200'}`}>{f}</div>
             ))}
           </div>
-          <div className="text-[5px] text-emerald-600 mt-0.5">Rotation: Dad → Mom → Dad (auto)</div>
+          <div className="text-[5px] text-emerald-600">Rotation: Dad → Mom → Dad (auto)</div>
+        </div>
+        {/* AI Suggestion */}
+        <div className="bg-violet-50 border border-violet-200 rounded p-1.5">
+          <div className="flex items-start gap-1">
+            <span className="text-[8px] leading-none mt-0.5">✨</span>
+            <div>
+              <div className="text-[5.5px] font-bold text-violet-800 mb-0.5">AI Suggestion</div>
+              <div className="text-[5px] text-violet-700 leading-tight">
+                For <span className="font-semibold">"Clean the kitchen"</span> — connect with{' '}
+                <span className="font-semibold">Shopping List</span> &{' '}
+                <span className="font-semibold">Calendar</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Connect with Modules */}
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">CONNECT WITH</div>
+          <div className="flex flex-wrap gap-0.5">
+            {[
+              { label:'List', icon:'📝', active:true },
+              { label:'Calendar', icon:'📅', active:true },
+              { label:'Expense', icon:'💰', active:false },
+              { label:'Docs', icon:'📁', active:false },
+            ].map(({label,icon,active})=>(
+              <div key={label} className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5.5px] font-medium ${active?'bg-violet-100 border-violet-400 text-violet-800':'bg-gray-50 border-gray-200 text-gray-400'}`}>
+                <span className="text-[7px] leading-none">{icon}</span>
+                {label}
+                {active && <span className="text-violet-500 font-bold leading-none">✓</span>}
+              </div>
+            ))}
+          </div>
+          <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
         </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
@@ -4020,7 +4159,7 @@ function TF1_TaskDetail() {
           <div className="text-[5px] text-gray-400">Due: Yesterday</div>
           <div className="text-[5px] text-gray-400">🔁 Rotates weekly</div>
         </div>
-        <div className="bg-gray-50 rounded border border-gray-200 p-1 text-[5px] text-gray-600">Subtasks: Collect bins · Take to street</div>
+        <div className="bg-gray-50 rounded border border-gray-200 p-1 text-[5px] text-gray-600">Notes: Take bins to curb before 7am</div>
       </div>
       <div className="px-1.5 pb-1 bg-white border-t border-gray-100">
         <div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">MARK COMPLETE</div>
@@ -4046,69 +4185,87 @@ function TF1_Completed() {
   );
 }
 
-function TF2_MainScreen() {
+// ── Task Flow 2 (NEW): Conflict Detection while Assigning ─────────
+function TF_CX1_AssignForm() {
   return (
     <div style={{minHeight:240}} className="flex flex-col">
-      <div className="bg-emerald-600 px-2 py-1.5">
-        <div className="text-[6px] text-white font-bold">Tasks · Today</div>
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="text-[6px] text-white font-bold">Assign Task</div>
       </div>
-      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
-        {['Pay electricity bill','School meeting prep'].map(t=>(
-          <div key={t} className="bg-white rounded border border-gray-200 px-1 py-0.5 flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-amber-400"/>
-            <div className="text-[5px] font-medium text-gray-800 flex-1">{t}</div>
-            <div className="w-3 h-3 rounded border border-gray-300"/>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="text-[5px] text-gray-400 uppercase tracking-wide">TASK</div>
+        <div className="bg-gray-100 rounded px-1.5 py-1 text-[6px] font-semibold text-gray-800">School pickup</div>
+        <div className="grid grid-cols-2 gap-1">
+          <div>
+            <div className="text-[4.5px] text-gray-400 uppercase mb-0.5">DATE</div>
+            <div className="bg-gray-100 rounded px-1.5 py-0.5 text-[5px] text-gray-700">Friday, Apr 5</div>
           </div>
-        ))}
-      </div>
-      <div className="relative bg-white h-8 border-t border-gray-100">
-        <div className="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">+</div>
-        <div className="absolute bottom-2 left-2 text-[5px] text-gray-400">← Tap + to add task</div>
+          <div>
+            <div className="text-[4.5px] text-gray-400 uppercase mb-0.5">TIME</div>
+            <div className="bg-gray-100 rounded px-1.5 py-0.5 text-[5px] text-gray-700">3:00 PM</div>
+          </div>
+        </div>
+        <div className="text-[4.5px] text-gray-400 uppercase tracking-wide">ASSIGN TO</div>
+        <div className="flex gap-1">
+          {[{l:'A',c:'bg-emerald-500 text-white ring-1 ring-emerald-600'},{l:'B',c:'bg-emerald-200 text-emerald-800'},{l:'C',c:'bg-emerald-200 text-emerald-800'},{l:'D',c:'bg-emerald-200 text-emerald-800'}].map(m=>(
+            <div key={m.l} className={`w-4 h-4 rounded-full flex items-center justify-center text-[5px] font-bold ${m.c}`}>{m.l}</div>
+          ))}
+        </div>
+        <div className="bg-emerald-600 text-white text-[5.5px] font-bold text-center rounded py-0.5 mt-1">ASSIGN TASK →</div>
       </div>
     </div>
   );
 }
 
-function TF2_QuickForm() {
+function TF_CX2_ConflictAlert() {
   return (
     <div style={{minHeight:240}} className="flex flex-col">
-      <div className="bg-gray-100 flex-1 relative">
-        <div className="absolute inset-x-0 bottom-0 bg-white rounded-t-xl shadow-2xl p-2 space-y-1.5">
-          <div className="text-[7px] font-bold text-gray-800">Quick Add Task</div>
-          <div className="bg-gray-100 rounded px-1.5 py-1 text-[6px] text-gray-700 border border-gray-200">Clean kitchen counter</div>
-          <div className="grid grid-cols-3 gap-1">
-            <div className="bg-red-50 rounded px-1 py-0.5 text-[5px] text-red-700 text-center border border-red-200">🔴 High</div>
-            <div className="bg-gray-100 rounded px-1 py-0.5 text-[5px] text-gray-500 text-center">Today</div>
-            <div className="flex items-center justify-center">
-              <div className="w-4 h-4 rounded-full bg-emerald-400 flex items-center justify-center text-[5px] text-white">M</div>
-            </div>
+      <div className="bg-red-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-[6px] text-white font-bold">⚠ Conflict Detected</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-red-50 border border-red-300 rounded p-1">
+          <div className="text-[5.5px] font-bold text-red-700">Dad — Friday Apr 5 · 3:00 PM</div>
+          <div className="text-[4.5px] text-red-600 mt-0.5">Already has a calendar event:</div>
+          <div className="mt-0.5 bg-red-100 rounded px-1 py-0.5">
+            <div className="text-[5.5px] font-bold text-red-800">🏥 Doctor Appointment</div>
+            <div className="text-[4.5px] text-red-500">3:00 – 4:30 PM · Confirmed</div>
           </div>
-          <div className="flex gap-1">
-            <div className="text-[5px] text-gray-400 border border-gray-200 rounded px-1 py-0.5">🔁 Repeat</div>
-            <div className="text-[5px] text-gray-400 border border-gray-200 rounded px-1 py-0.5">🎤 Voice</div>
-          </div>
-          <div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">ADD TASK</div>
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5">
+          <div className="text-[5px] text-amber-700">Dad's load this week: 5 tasks (High)</div>
+        </div>
+        <div className="text-[5px] text-gray-500 font-semibold">AI Suggestions:</div>
+        <div className="space-y-0.5">
+          <div className="bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5 text-[5px] text-blue-700">👤 Reassign → Mom (2 tasks, free slot)</div>
+          <div className="bg-gray-50 border border-gray-200 rounded px-1.5 py-0.5 text-[5px] text-gray-600">🕐 Keep Dad, change time → 5:00 PM</div>
         </div>
       </div>
     </div>
   );
 }
 
-function TF2_Saved() {
+function TF_CX3_Resolved() {
   return (
     <div style={{minHeight:240}} className="flex flex-col">
       <div className="bg-emerald-600 px-2 py-1.5">
-        <div className="text-[6px] text-white font-bold">Tasks · Today</div>
+        <div className="text-[6px] text-white font-bold">Task Assigned ✓</div>
       </div>
-      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
-        {['Pay electricity bill','School meeting prep','Clean kitchen counter'].map((t,i)=>(
-          <div key={t} className={`bg-white rounded border border-gray-200 px-1 py-0.5 flex items-center gap-1 ${i===2?'ring-1 ring-emerald-400 border-emerald-200':''}`}>
-            <div className={`w-1.5 h-1.5 rounded-full ${i===2?'bg-red-400':'bg-amber-400'}`}/>
-            <div className={`text-[5px] font-medium flex-1 ${i===2?'text-emerald-700':'text-gray-800'}`}>{t}</div>
-            <div className="w-3 h-3 rounded border border-gray-300"/>
-          </div>
-        ))}
-        <div className="bg-emerald-50 border border-emerald-200 rounded p-1 text-[5px] text-emerald-700">✓ Task saved · Mom notified</div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-emerald-50 rounded border-l-2 border-emerald-500 px-1.5 py-1">
+          <div className="text-[6px] font-bold text-emerald-800">School pickup</div>
+          <div className="text-[5px] text-gray-500">Mom · Fri Apr 5 · 3:00 PM</div>
+          <div className="text-[4.5px] text-blue-600">↻ Reassigned (conflict resolved)</div>
+        </div>
+        <div className="space-y-0.5">
+          {['Reassigned to Mom — no conflict','Mom notified via push','Calendar updated for Mom','Dad\'s Doctor Appt preserved'].map(a=>(
+            <div key={a} className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"/>
+              <div className="text-[5px] text-gray-700">{a}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -4250,6 +4407,370 @@ function TF4_TaskCreated() {
   );
 }
 
+// ── Task Flow 5: Calendar ↔ Task Integration ──────────────────────
+function TF_CA1_TaskDue() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="text-[6px] text-white font-bold">Task Detail</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1">
+          <div className="w-3.5 h-3.5 rounded border-2 border-emerald-400 flex-shrink-0"/>
+          <div className="text-[7px] font-bold text-gray-800">Submit tax returns</div>
+        </div>
+        <div className="flex gap-0.5">
+          <div className="text-[4.5px] bg-red-100 text-red-700 rounded px-1 py-0.5 font-medium">🔴 Urgent</div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 uppercase mb-0.5">DUE DATE</div>
+          <div className="bg-orange-50 border border-orange-200 rounded px-1.5 py-0.5 text-[5.5px] font-bold text-orange-700">Apr 15 · 11:59 PM</div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 uppercase mb-0.5">ASSIGNEE</div>
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 flex items-center justify-center text-[4.5px] text-white font-bold">D</div>
+            <div className="text-[5.5px] text-gray-700">Dad</div>
+          </div>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-1">
+          <div className="text-[5px] text-blue-700">📅 Due date synced → Calendar</div>
+          <div className="text-[4.5px] text-blue-500">Appears in Calendar & Agenda views</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF_CA2_CalView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-blue-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Calendar · April</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="grid grid-cols-7 gap-0.5 text-center mb-0.5">
+          {['M','T','W','T','F','S','S'].map((d,i)=><div key={i} className="text-[4px] text-gray-400">{d}</div>)}
+          {Array.from({length:21},(_,i)=>i+1).map(d=>(
+            <div key={d} className={`text-[4.5px] rounded-full w-3.5 h-3.5 flex items-center justify-center mx-auto font-medium
+              ${d===15?'bg-red-500 text-white':d===5?'bg-blue-400 text-white':d===10?'bg-emerald-400 text-white':'text-gray-600'}`}>{d}</div>
+          ))}
+        </div>
+        <div className="space-y-0.5">
+          <div className="text-[5px] text-gray-400 font-semibold uppercase tracking-wide">Apr 15 — Task Due</div>
+          <div className="bg-red-50 border-l-2 border-red-500 px-1.5 py-0.5 rounded-r">
+            <div className="text-[5.5px] font-bold text-red-700">📋 Submit tax returns</div>
+            <div className="text-[4.5px] text-red-500">Due 11:59 PM · Dad · Urgent</div>
+          </div>
+          <div className="bg-blue-50 border-l-2 border-blue-400 px-1.5 py-0.5 rounded-r">
+            <div className="text-[5px] text-blue-700">📅 CA Meeting · 3:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF_CA3_DayView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-blue-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Apr 15 · Day View</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {[
+          {time:'9:00',label:'Team standup',dot:'bg-blue-400',task:false},
+          {time:'12:00',label:'Lunch break',dot:'bg-gray-300',task:false},
+          {time:'3:00',label:'CA meeting',dot:'bg-purple-400',task:false},
+          {time:'23:59',label:'Submit tax returns',dot:'bg-red-500',task:true},
+        ].map(e=>(
+          <div key={e.time} className="flex items-center gap-1">
+            <div className="text-[4px] text-gray-400 w-5 shrink-0">{e.time}</div>
+            <div className={`flex-1 rounded px-1 py-0.5 flex items-center gap-0.5 ${e.task?'bg-red-50 border border-red-200':'bg-blue-50'}`}>
+              <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${e.dot}`}/>
+              <div className={`text-[5px] flex-1 ${e.task?'text-red-700 font-bold':'text-gray-700'}`}>{e.label}</div>
+              {e.task&&<div className="text-[4px] bg-red-100 text-red-600 px-0.5 rounded shrink-0">TASK</div>}
+            </div>
+          </div>
+        ))}
+        <div className="mt-0.5 bg-blue-50 border border-blue-200 rounded p-0.5">
+          <div className="text-[5px] text-blue-700">✓ Tasks & events unified in day view</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Task Flow 6: Expense ↔ Task Integration ───────────────────────
+function TF_EX1_TaskBudget() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="text-[6px] text-white font-bold">Task Detail</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1">
+          <div className="w-3.5 h-3.5 rounded border-2 border-emerald-400 flex-shrink-0"/>
+          <div className="text-[7px] font-bold text-gray-800">Buy school supplies</div>
+        </div>
+        <div className="flex gap-0.5">
+          <div className="text-[4.5px] bg-amber-100 text-amber-700 rounded px-1 py-0.5">🟡 Medium</div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 uppercase mb-0.5">ASSIGNEE</div>
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-amber-400 flex items-center justify-center text-[4.5px] text-white font-bold">M</div>
+            <div className="text-[5.5px] text-gray-700">Mom</div>
+          </div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 uppercase mb-0.5">DUE DATE</div>
+          <div className="text-[5.5px] text-gray-700">Apr 10 · 6:00 PM</div>
+        </div>
+        <div className="bg-rose-50 border border-rose-200 rounded p-1">
+          <div className="text-[4.5px] text-gray-400 font-semibold uppercase mb-0.5">BUDGET TAG</div>
+          <div className="text-[6px] font-bold text-rose-700">₹ 3,500 · Education</div>
+          <div className="text-[4.5px] text-gray-400">Expense auto-logs on completion</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF_EX2_MarkDone() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Task Complete ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1">
+          <div className="w-3.5 h-3.5 rounded border-2 border-emerald-500 bg-emerald-100 flex items-center justify-center text-[7px] text-emerald-600 flex-shrink-0">✓</div>
+          <div className="text-[6px] text-gray-400 line-through">Buy school supplies</div>
+        </div>
+        <div className="bg-emerald-50 border border-emerald-200 rounded p-1">
+          <div className="text-[6px] font-bold text-emerald-800">Task marked complete!</div>
+          <div className="text-[5px] text-emerald-700">Budget tagged: ₹3,500 · Education</div>
+        </div>
+        <div className="text-[5px] text-gray-600 font-semibold">Log actual spend?</div>
+        <div className="bg-gray-100 rounded px-1.5 py-0.5 text-[5.5px] text-gray-700 border border-gray-200">₹ 3,200 (actual spend)</div>
+        <div className="flex gap-1">
+          <div className="flex-1 bg-rose-500 text-white text-[5px] font-bold text-center rounded py-0.5">LOG EXPENSE</div>
+          <div className="bg-gray-200 text-gray-600 text-[5px] px-1.5 rounded py-0.5">Skip</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF_EX3_ExpenseLogged() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-rose-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Expense Logged ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-rose-50 rounded border-l-2 border-rose-500 px-1.5 py-1">
+          <div className="text-[6px] font-bold text-rose-800">School Supplies</div>
+          <div className="text-[5px] text-gray-500">₹3,200 · Education · Mom · Apr 10</div>
+          <div className="text-[5px] text-blue-600">🔗 Linked from task</div>
+        </div>
+        <div className="space-y-0.5">
+          {['Expense added to Apr budget','Education category updated','Budget used: ₹3,200 of ₹5,000','Task & expense linked for audit'].map(a=>(
+            <div key={a} className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0"/>
+              <div className="text-[5px] text-gray-700">{a}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Task Flow 7: Overdue Escalation & Smart Reassignment ──────────
+function TF7_OverdueNotif() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-red-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">⚠ Overdue Tasks</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="text-[5px] text-gray-400 uppercase font-semibold tracking-wide">2 tasks overdue</div>
+        {[
+          {title:'Pay electricity bill',days:'3 days overdue',assignee:'Dad',color:'border-l-red-500'},
+          {title:'Book dentist appointment',days:'1 day overdue',assignee:'Mom',color:'border-l-orange-400'},
+        ].map(t=>(
+          <div key={t.title} className={`bg-red-50 border-l-2 ${t.color} rounded-r px-1.5 py-1`}>
+            <div className="text-[5.5px] font-bold text-red-800">{t.title}</div>
+            <div className="text-[4.5px] text-red-500">{t.days} · {t.assignee}</div>
+          </div>
+        ))}
+        <div className="bg-red-100 border border-red-200 rounded p-1 mt-1">
+          <div className="text-[5px] text-red-700 font-semibold">✨ AI: Tap to reassign or reschedule</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF7_AIReassign() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-purple-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">✨ AI · Reassign Suggestion</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="text-[5px] text-gray-500">Pay electricity bill — 3 days overdue</div>
+        <div className="text-[5px] text-gray-400 font-semibold uppercase tracking-wide">AI recommends</div>
+        {[
+          {name:'Mom', load:'2 tasks this week', score:'Best match', dot:'bg-emerald-400', badge:'bg-emerald-100 text-emerald-700'},
+          {name:'Sarah', load:'4 tasks this week', score:'Available', dot:'bg-amber-400', badge:'bg-amber-100 text-amber-700'},
+          {name:'Dad', load:'7 tasks this week', score:'Overloaded', dot:'bg-red-400', badge:'bg-red-100 text-red-600'},
+        ].map(m=>(
+          <div key={m.name} className={`flex items-center gap-1 rounded border px-1 py-0.5 ${m.name==='Mom'?'border-emerald-300 bg-emerald-50':'border-gray-200'}`}>
+            <div className={`w-3 h-3 rounded-full ${m.dot} flex items-center justify-center text-[4px] text-white font-bold flex-shrink-0`}>{m.name[0]}</div>
+            <div className="flex-1">
+              <div className="text-[5.5px] font-semibold text-gray-800">{m.name}</div>
+              <div className="text-[4.5px] text-gray-400">{m.load}</div>
+            </div>
+            <div className={`text-[4.5px] px-1 py-0.5 rounded font-medium ${m.badge}`}>{m.score}</div>
+          </div>
+        ))}
+        <div className="text-[4.5px] text-gray-400">+ Set new due date: Today by 8 PM</div>
+      </div>
+    </div>
+  );
+}
+
+function TF7_Reassigned() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Reassigned ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-emerald-50 rounded border-l-2 border-emerald-500 px-1.5 py-1">
+          <div className="text-[6px] font-bold text-emerald-800">Pay electricity bill</div>
+          <div className="text-[5px] text-gray-500">Reassigned → Mom · Due today 8 PM</div>
+        </div>
+        {['Task reassigned to Mom','Mom notified via push','Dad removed from task','Due date updated to today','Overdue flag cleared'].map(a=>(
+          <div key={a} className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"/>
+            <div className="text-[5px] text-gray-700">{a}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Task Flow 8: Workload Balance & Fairness Alert ────────────────
+function TF9_AssignTap() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="text-[6px] text-white font-bold">Add Task</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-gray-100 rounded px-1.5 py-1 border border-gray-200">
+          <div className="text-[6px] text-gray-700">Fix leaking tap</div>
+        </div>
+        <div className="text-[5px] text-gray-400 uppercase font-semibold">ASSIGN TO</div>
+        <div className="flex gap-1">
+          {[
+            {name:'Dad',active:false,dot:'bg-gray-300'},
+            {name:'Sarah',active:true,dot:'bg-red-400'},
+            {name:'Mom',active:false,dot:'bg-gray-300'},
+          ].map(m=>(
+            <div key={m.name} className="flex flex-col items-center gap-0.5">
+              <div className={`w-5 h-5 rounded-full ${m.dot} ${m.active?'ring-2 ring-red-400':''} flex items-center justify-center text-[5px] text-white font-bold`}>{m.name[0]}</div>
+              <div className={`text-[4.5px] ${m.active?'text-red-600 font-bold':'text-gray-400'}`}>{m.name}</div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded p-1">
+          <div className="text-[5px] text-amber-700 font-semibold">⚡ Checking Sarah's workload...</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF9_WorkloadWarning() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-amber-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">⚠ Workload Alert</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-amber-50 border border-amber-300 rounded p-1">
+          <div className="text-[5.5px] font-bold text-amber-800">Sarah already has 7 tasks this week</div>
+          <div className="flex items-center gap-1 mt-0.5">
+            <div className="flex-1 h-1.5 bg-gray-200 rounded-full">
+              <div className="w-full h-1.5 bg-red-400 rounded-full"/>
+            </div>
+            <div className="text-[4.5px] text-red-600 shrink-0">Full</div>
+          </div>
+        </div>
+        <div className="text-[5px] text-gray-500 font-semibold">✨ AI suggests instead:</div>
+        {[
+          {name:'Dad',tasks:'3 tasks',score:'92',dot:'bg-emerald-400',highlight:true},
+          {name:'Mom',tasks:'5 tasks',score:'74',dot:'bg-blue-400',highlight:false},
+        ].map(m=>(
+          <div key={m.name} className={`flex items-center gap-1 rounded border px-1 py-0.5 ${m.highlight?'border-emerald-300 bg-emerald-50':'border-gray-200'}`}>
+            <div className={`w-3.5 h-3.5 rounded-full ${m.dot} flex items-center justify-center text-[4.5px] text-white font-bold flex-shrink-0`}>{m.name[0]}</div>
+            <div className="flex-1">
+              <div className="text-[5.5px] font-semibold text-gray-800">{m.name} · {m.tasks}</div>
+            </div>
+            <div className={`text-[4.5px] px-1 py-0.5 rounded font-bold ${m.highlight?'bg-emerald-100 text-emerald-700':'bg-gray-100 text-gray-500'}`}>Fair score {m.score}</div>
+          </div>
+        ))}
+        <div className="text-[4.5px] text-gray-400">Fairness score based on weekly task count + history</div>
+      </div>
+    </div>
+  );
+}
+
+function TF9_BalancedResult() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Balanced Assignment ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-emerald-50 rounded border-l-2 border-emerald-500 px-1.5 py-1">
+          <div className="text-[6px] font-bold text-emerald-800">Fix leaking tap</div>
+          <div className="text-[5px] text-gray-500">Assigned → Dad · Due tomorrow</div>
+        </div>
+        <div className="text-[5px] text-gray-500 font-semibold">Household Fairness Score</div>
+        {[
+          {name:'Dad',pct:'w-3/4',tasks:4,color:'bg-emerald-400'},
+          {name:'Mom',pct:'w-3/5',tasks:5,color:'bg-blue-400'},
+          {name:'Sarah',pct:'w-full',tasks:7,color:'bg-red-400'},
+        ].map(m=>(
+          <div key={m.name} className="flex items-center gap-1">
+            <div className="text-[5px] text-gray-600 w-6 shrink-0">{m.name}</div>
+            <div className="flex-1 h-1.5 bg-gray-100 rounded-full">
+              <div className={`${m.pct} h-1.5 ${m.color} rounded-full`}/>
+            </div>
+            <div className="text-[4.5px] text-gray-400 shrink-0">{m.tasks}t</div>
+          </div>
+        ))}
+        {["Dad notified via push","Task logged to fairness history","Sarah's load unchanged","Rotation updated"].map(a=>(
+          <div key={a} className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"/>
+            <div className="text-[5px] text-gray-700">{a}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const TSK_FLOWS = [
   {
     id:'flow1', title:'Flow 1 — Task List → Detail → Complete',
@@ -4261,12 +4782,12 @@ const TSK_FLOWS = [
     ],
   },
   {
-    id:'flow2', title:'Flow 2 — FAB Quick Add Task',
-    description:'User taps the FAB (+) to quickly add a new task via the inline form.',
+    id:'flow2', title:'Flow 2 — Conflict Detection on Assignment',
+    description:'User tries to assign a task to a family member who has a calendar conflict or heavy workload. AI detects the clash and suggests a resolution.',
     screens:[
-      {component:TF2_MainScreen, label:'Task List (FAB visible)', type:'user' as const, arrow:'Tap +'},
-      {component:TF2_QuickForm, label:'Quick Add Form', type:'system' as const, arrow:'Fill & tap Add'},
-      {component:TF2_Saved, label:'Task Saved + Notified', type:'success' as const, arrow:null},
+      {component:TF_CX1_AssignForm, label:'Assign Task Form', type:'user' as const, arrow:'Tap Assign'},
+      {component:TF_CX2_ConflictAlert, label:'Conflict Detected', type:'warning' as const, arrow:'Pick suggestion'},
+      {component:TF_CX3_Resolved, label:'Reassigned & Resolved', type:'success' as const, arrow:null},
     ],
   },
   {
@@ -4285,6 +4806,42 @@ const TSK_FLOWS = [
       {component:TF4_DocUpload, label:'Document Uploaded', type:'user' as const, arrow:'AI extracts'},
       {component:TF4_AIExtract, label:'AI Extraction', type:'system' as const, arrow:'Auto-create'},
       {component:TF4_TaskCreated, label:'Task Auto-Created', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow5', title:'Flow 5 — Calendar ↔ Task Integration',
+    description:'Task with a due date automatically syncs to the Calendar module — visible in month view as a badge and in day view alongside events.',
+    screens:[
+      {component:TF_CA1_TaskDue, label:'Task with Due Date', type:'user' as const, arrow:'Auto-syncs'},
+      {component:TF_CA2_CalView, label:'Calendar Month View', type:'system' as const, arrow:'Tap date'},
+      {component:TF_CA3_DayView, label:'Day View — Unified', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow6', title:'Flow 6 — Expense ↔ Task Integration',
+    description:'A task tagged with a budget amount auto-logs an expense entry when marked complete, keeping the Expenses module in sync without manual entry.',
+    screens:[
+      {component:TF_EX1_TaskBudget, label:'Task with Budget Tag', type:'user' as const, arrow:'Mark complete'},
+      {component:TF_EX2_MarkDone, label:'Completion + Log Prompt', type:'system' as const, arrow:'Log Expense'},
+      {component:TF_EX3_ExpenseLogged, label:'Expense Auto-Logged', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow7', title:'Flow 7 — Overdue Task Escalation & Smart Reassignment',
+    description:'An overdue task triggers an AI escalation alert. AI analyses workload across family members and recommends the best person to reassign to, with a new due date.',
+    screens:[
+      {component:TF7_OverdueNotif, label:'Overdue Alert', type:'warning' as const, arrow:'Tap to fix'},
+      {component:TF7_AIReassign, label:'AI Reassign Options', type:'system' as const, arrow:'Pick Mom'},
+      {component:TF7_Reassigned, label:'Reassigned & Resolved', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow8', title:'Flow 8 — Workload Balance & Fairness Alert',
+    description:'User assigns a task to an overloaded family member. AI surfaces a workload warning and recommends a fairer alternative based on task count, availability, and fairness history.',
+    screens:[
+      {component:TF9_AssignTap, label:'Assign — Overloaded Member', type:'user' as const, arrow:'AI checks load'},
+      {component:TF9_WorkloadWarning, label:'Workload Warning + AI Pick', type:'warning' as const, arrow:'Assign to Dad'},
+      {component:TF9_BalancedResult, label:'Balanced Assignment', type:'success' as const, arrow:null},
     ],
   },
 ];
@@ -4372,7 +4929,7 @@ function TaskAILayer() {
     { id:'interactive', label:'Layer 2 — Interactive AI (Chat / Voice)', icon:MessageSquare, color:'bg-pink-50 border-pink-300', hColor:'bg-pink-600', desc:'User directly asks the AI to perform task actions through the AI chat tab using text or voice.', examples:['"Assign kitchen cleaning to Dad every Sunday"','"What tasks are pending for Mom this week?"','"Mark the grocery task as done"','"Who hasn\'t done their chores this week?"','"Break down the house renovation task into steps"'], trigger:'Task Agent processes intent → uses A2UI to navigate, prefill task form, and confirm in app.' },
     { id:'inline', label:'Layer 3 — Inline AI (Inside Task Module)', icon:Zap, color:'bg-purple-50 border-purple-300', hColor:'bg-purple-600', desc:'AI assists the user while they are already inside the Task module — embedded intelligence.', examples:['Suggest best assignee based on workload when form is open','Auto-suggest due date from natural language ("this weekend")','Warn: "Mom already has 5 tasks due this week — consider reassigning"','AI "Break into subtasks" button on any task','Upload doc → AI extracts action and due date into task form'], trigger:'Triggered by task form open, assignment selection, document upload, or voice input with detected intent.' },
   ];
-  const caps = ['Task creation from voice or natural language text','AI-powered fair assignment (workload + availability + history)','Subtask generation from a high-level task description','Schedule queries ("What\'s pending for Sarah today?")','Recurring task setup with natural language intervals','A2UI: Navigate screens, prefill task form fields, highlight overdue','Document OCR extraction → task auto-creation with due date','Fairness check and rotation suggestion across household'];
+  const caps = ['Task creation from voice or natural language text','AI-powered fair assignment (workload + availability + history)','Schedule queries ("What\'s pending for Sarah today?")','Recurring task setup with natural language intervals','A2UI: Navigate screens, prefill task form fields, highlight overdue','Document OCR extraction → task auto-creation with due date','Fairness check and rotation suggestion across household'];
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
@@ -4454,7 +5011,7 @@ function TaskModuleConns() {
   const conns = [
     { id:'calendar', title:'Calendar Module', icon:Calendar, color:'bg-blue-50 border-blue-200', items:['Tasks with due dates appear as time-block events in Calendar day view','Completing calendar-linked task checks it off in Tasks module','Calendar event creation can auto-generate prep tasks (e.g. "Pack bags" for travel)','Bi-directional: task due date ↔ calendar event date stay in sync'] },
     { id:'notifications', title:'Notifications', icon:Bell, color:'bg-yellow-50 border-yellow-200', items:['Due date reminders (30 min, 2 hrs, 1 day before)','Task assignment alert when task is delegated to you','Overdue task escalation notification','Deep-link directly to task detail screen'] },
-    { id:'ai-assistant', title:'AI Assistant', icon:Sparkles, color:'bg-pink-50 border-pink-200', items:['AI-powered fair assignment based on workload, availability, and history','Voice parsing: "Assign trash to Dad every Monday"','Subtask generation: AI breaks large tasks into steps','A2UI: navigate to task screen, prefill form, highlight overdue','Task Agent: creation, delegation, completion, recurrence setup'] },
+    { id:'ai-assistant', title:'AI Assistant', icon:Sparkles, color:'bg-pink-50 border-pink-200', items:['AI-powered fair assignment based on workload, availability, and history','Voice parsing: "Assign trash to Dad every Monday"','A2UI: navigate to task screen, prefill form, highlight overdue','Task Agent: creation, delegation, completion, recurrence setup'] },
     { id:'documents', title:'Document Vault', icon:FolderOpen, color:'bg-purple-50 border-purple-200', items:['Upload bill/invoice → AI extracts due date → auto-creates payment task','Attach documents to tasks (receipts, forms, manuals)','Insurance doc → "Pay premium" task with deadline','Task detail screen shows linked document inline'] },
     { id:'family-feed', title:'Family Feed', icon:Activity, color:'bg-orange-50 border-orange-200', items:['Task assigned → "Dad assigned kitchen cleaning to Mom" in feed','Task completed → completion event in household activity stream','Overdue task → visibility alert in feed for awareness','Reduces "I didn\'t know it was my turn" friction'] },
     { id:'shared-lists', title:'Shared Lists', icon:ShoppingCart, color:'bg-teal-50 border-teal-200', items:['Task "Buy groceries" can spawn a linked shopping list','Template tasks come with pre-built linked lists','Home maintenance task → purchase checklist','Real-time list sync across family when task is active'] },
@@ -4520,7 +5077,7 @@ function TaskScreenZones() {
   const zones = [
     { id:'header', title:'Zone 1 — Header', icon:SlidersHorizontal, color:'bg-emerald-100 border-emerald-300', items:['Personal / Family toggle (segmented control)','Horizontal member avatar strip (filter by member)','View switcher: All / Today / Upcoming / Given to Others','Sort & Filter icon (priority, due date, assignee)'] },
     { id:'task-list', title:'Zone 2 — Task List', icon:LayoutList, color:'bg-blue-100 border-blue-300', items:['Task cards: checkbox, title, priority badge, due date','Status indicator: Not Started / In Progress / Completed','Assignee avatar on each task','Overdue tasks highlighted in red','Section grouping: Today / Upcoming / Someday'] },
-    { id:'task-detail', title:'Zone 3 — Task Detail Panel', icon:CheckSquare, color:'bg-purple-100 border-purple-300', items:['Opens on task tap (bottom sheet / slide-in)','Shows subtasks, notes, attachments, linked items','Edit, reassign, reschedule, duplicate, delete'] },
+    { id:'task-detail', title:'Zone 3 — Task Detail Panel', icon:CheckSquare, color:'bg-purple-100 border-purple-300', items:['Opens on task tap (bottom sheet / slide-in)','Shows notes, attachments, linked items','Edit, reassign, reschedule, duplicate, delete'] },
     { id:'fab', title:'Zone 4 — FAB (+)', icon:PlusCircle, color:'bg-orange-100 border-orange-300', items:['Bottom-right floating action button','Quick Add Task (inline form)','Voice Capture (speech-to-task)','Select from Template'] },
   ];
   return (
@@ -4552,7 +5109,7 @@ function TaskScreenFlows() {
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-emerald-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">4 Interactive Screen Flows</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">8 Interactive Screen Flows</h2>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
         {TSK_FLOWS.map(f=>(
@@ -4573,6 +5130,74 @@ function TaskScreenFlows() {
             <h3 className="font-bold text-emerald-900 text-sm">{current.title}</h3>
             <p className="text-xs text-emerald-700 mt-0.5">{current.description}</p>
           </div>
+
+          {active === 'flow8' && (
+            <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0"/>
+                <p className="text-xs font-bold text-amber-900 uppercase tracking-wide">How the Fairness Score is Calculated</p>
+              </div>
+              <p className="text-xs text-amber-800 leading-relaxed">
+                The score runs from <strong>0 to 100</strong> — higher means the person has more capacity and is a fairer choice to assign to. It is calculated as:
+              </p>
+              <div className="bg-white border border-amber-200 rounded-md px-3 py-2 text-xs font-mono text-gray-700 leading-relaxed">
+                Score = 100<br/>
+                &nbsp;&nbsp;− (tasks this week × 8)<br/>
+                &nbsp;&nbsp;− (overdue tasks × 15)<br/>
+                &nbsp;&nbsp;− (tasks completed last 7 days × 3)<br/>
+                &nbsp;&nbsp;+ (days since last assigned × 5)
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-amber-100">
+                      <th className="text-left px-2 py-1 text-amber-800 font-semibold border border-amber-200">Member</th>
+                      <th className="text-center px-2 py-1 text-amber-800 font-semibold border border-amber-200">Tasks this week</th>
+                      <th className="text-center px-2 py-1 text-amber-800 font-semibold border border-amber-200">Overdue</th>
+                      <th className="text-center px-2 py-1 text-amber-800 font-semibold border border-amber-200">Last assigned</th>
+                      <th className="text-center px-2 py-1 text-amber-800 font-semibold border border-amber-200">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      {name:'Dad', tasks:3, overdue:0, last:'4 days ago', score:'~92', highlight:true},
+                      {name:'Mom', tasks:5, overdue:0, last:'2 days ago', score:'~74', highlight:false},
+                      {name:'Sarah', tasks:7, overdue:1, last:'yesterday', score:'~20', highlight:false},
+                    ].map(r=>(
+                      <tr key={r.name} className={r.highlight ? 'bg-emerald-50' : 'bg-white'}>
+                        <td className={`px-2 py-1 border border-amber-200 font-medium ${r.highlight?'text-emerald-700':'text-gray-700'}`}>{r.name}</td>
+                        <td className="px-2 py-1 border border-amber-200 text-center text-gray-600">{r.tasks}</td>
+                        <td className="px-2 py-1 border border-amber-200 text-center text-gray-600">{r.overdue}</td>
+                        <td className="px-2 py-1 border border-amber-200 text-center text-gray-600">{r.last}</td>
+                        <td className={`px-2 py-1 border border-amber-200 text-center font-bold ${r.highlight?'text-emerald-700':r.score==='~20'?'text-red-500':'text-gray-700'}`}>{r.score}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="bg-white border border-amber-200 rounded-md px-3 py-2 space-y-1">
+                <p className="text-xs font-semibold text-amber-900 mb-2">⚠ Note — This formula is a design sketch, not a validated algorithm. The weights (×8, ×15 etc.) are placeholders. Final values need to be tuned during development based on real family usage patterns.</p>
+              </div>
+              <div className="bg-amber-100 border border-amber-300 rounded-md px-3 py-2 space-y-2">
+                <p className="text-xs font-semibold text-amber-900">3 open design decisions before dev:</p>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-xs font-semibold text-amber-900">1. Should monthly history count — not just this week?</p>
+                    <p className="text-xs text-amber-800 leading-relaxed">Right now the formula only looks at tasks from the current week. So if Dad did all the chores for the past month but happens to have a light week today, he still gets a high score and keeps getting picked. If monthly history is included, the app remembers that he already did a lot recently and gives others a turn.</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-amber-900">2. Should a High-priority task count more than a Low one?</p>
+                    <p className="text-xs text-amber-800 leading-relaxed">Currently, "Pay rent" and "Buy milk" both count as 1 task each. But paying rent takes more mental load. If priority is factored in, a High task could count as 2 and Low as 0.5 — so someone with 3 High tasks is treated as more loaded than someone with 3 Low tasks.</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-amber-900">3. Should the score be split by category — outdoor vs indoor vs finance?</p>
+                    <p className="text-xs text-amber-800 leading-relaxed">Right now it is one score per person for everything. But if Dad always handles outdoor work and Mom handles cooking, a single score mixes those together unfairly. A per-category score would mean: when assigning an outdoor task, only Dad's outdoor load is checked — not the fact that Mom has been doing a lot of cooking this week.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-wrap items-start justify-center gap-2 overflow-x-auto pb-2">
             {current.screens.map((s,i)=>(
               <div key={i} className="flex items-center gap-2">
@@ -6130,7 +6755,7 @@ export function PhoneLayoutDiagram() {
             <TaskMainScreen />
           </PhoneShell>
           <Arrow label="Tap task item" />
-          <PhoneShell label="Task Detail Panel" sublabel="Subtasks, links, actions" accent="border-teal-500">
+          <PhoneShell label="Task Detail Panel" sublabel="Notes, links, actions" accent="border-teal-500">
             <TaskDetailScreen />
           </PhoneShell>
         </div>
@@ -6142,10 +6767,23 @@ export function PhoneLayoutDiagram() {
             <div className="text-gray-400 text-xl">↓</div>
           </div>
         </div>
-        <div className="flex justify-center mb-6">
-          <PhoneShell label="Add Task Form" sublabel="Quick or full form + recurring" accent="border-emerald-600">
-            <AddTaskScreen />
-          </PhoneShell>
+        {/* Add Task — two states side by side */}
+        <div className="flex flex-wrap justify-center items-start gap-4 mb-6">
+          <div className="flex flex-col items-center gap-1">
+            <div className="text-[9px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">Toggles OFF — Personal task</div>
+            <div className="text-gray-400 text-sm">↓</div>
+            <PhoneShell label="Add Task — Personal" sublabel="No assign · one-time" accent="border-gray-400">
+              <AddTaskScreen />
+            </PhoneShell>
+          </div>
+          <div className="flex flex-col items-center justify-center self-center text-gray-300 text-2xl font-light px-1">vs</div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Toggles ON — Assigned + Recurring</div>
+            <div className="text-gray-400 text-sm">↓</div>
+            <PhoneShell label="Add Task — Family" sublabel="Assigned · recurring" accent="border-emerald-600">
+              <AddTaskScreenExpanded />
+            </PhoneShell>
+          </div>
         </div>
 
         {/* ── Tasks: Screen Zones ── */}
