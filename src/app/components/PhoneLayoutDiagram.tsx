@@ -4003,35 +4003,60 @@ function AddTaskScreenExpanded() {
             <div className="bg-gray-100 rounded px-1 py-1 text-[6px] text-gray-700 border border-gray-200">Today 6pm</div>
           </div>
         </div>
-        {/* Assign To — ON + expanded */}
-        <div className="border border-emerald-300 rounded p-1.5 bg-emerald-50">
-          <div className="flex items-center justify-between mb-1">
-            <div className="text-[6px] font-semibold text-emerald-800">👤 Assign to someone</div>
-            <div className="w-6 h-3 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5">
-              <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
+        {/* Assign To — disabled since rotation handles it */}
+        <div className="border border-gray-200 rounded p-1.5 bg-gray-50 opacity-60">
+          <div className="flex items-center justify-between">
+            <div className="text-[6px] font-semibold text-gray-400">👤 Assign to someone</div>
+            <div className="w-6 h-3 bg-gray-200 rounded-full flex items-center pl-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm border border-gray-300" />
             </div>
           </div>
-          <div className="flex gap-0.5">
-            {['A','B','C'].map(m=>(
-              <div key={m} className={`w-4 h-4 rounded-full ${m==='B'?'bg-emerald-500 ring-1 ring-emerald-400':'bg-gray-300'} flex items-center justify-center text-[5px] text-white font-bold`}>{m}</div>
-            ))}
-            <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[5px] text-gray-400 border border-gray-300">+</div>
-          </div>
+          <div className="text-[5px] text-gray-400 mt-0.5">Handled by rotation below</div>
         </div>
-        {/* Recurring — ON + expanded */}
-        <div className="border border-emerald-300 rounded p-1.5 bg-emerald-50">
-          <div className="flex items-center justify-between mb-1">
+        {/* Recurring — ON + expanded + rotation */}
+        <div className="border border-emerald-300 rounded p-1.5 bg-emerald-50 space-y-1.5">
+          {/* Recurring header */}
+          <div className="flex items-center justify-between">
             <div className="text-[6px] font-semibold text-emerald-800">🔁 Recurring Task</div>
             <div className="w-6 h-3 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5">
               <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
             </div>
           </div>
-          <div className="flex gap-0.5 mb-0.5">
+          {/* Frequency chips */}
+          <div className="flex gap-0.5">
             {['Daily','Weekly','Monthly','Custom'].map((f,i)=>(
               <div key={f} className={`text-[5px] px-1 py-0.5 rounded ${i===1?'bg-emerald-500 text-white':'bg-white text-gray-400 border border-gray-200'}`}>{f}</div>
             ))}
           </div>
-          <div className="text-[5px] text-emerald-600">Rotation: Dad → Mom → Dad (auto)</div>
+          {/* Divider */}
+          <div className="border-t border-emerald-200"/>
+          {/* Rotate with family — sub-option */}
+          <div className="flex items-center justify-between">
+            <div className="text-[6px] font-semibold text-emerald-800">🔄 Rotate with family</div>
+            <div className="w-6 h-3 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5">
+              <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
+            </div>
+          </div>
+          <div className="text-[5px] text-emerald-700 leading-tight">Select who takes turns — each time one completes it, the next person gets it.</div>
+          {/* Member selector */}
+          <div className="flex gap-0.5 items-center">
+            {[
+              {label:'D', name:'Dad', on:true},
+              {label:'M', name:'Mom', on:true},
+              {label:'S', name:'Sarah', on:false},
+            ].map(m=>(
+              <div key={m.label} className="flex flex-col items-center gap-0.5">
+                <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[5px] font-bold text-white ${m.on?'bg-emerald-500 ring-1 ring-emerald-400':'bg-gray-300'}`}>{m.label}</div>
+                <div className={`text-[4px] ${m.on?'text-emerald-700':'text-gray-400'}`}>{m.name}</div>
+              </div>
+            ))}
+            <div className="w-4 h-4 rounded-full bg-white border border-gray-300 flex items-center justify-center text-[5px] text-gray-400 ml-0.5">+</div>
+          </div>
+          {/* Rotation order preview */}
+          <div className="bg-white border border-emerald-200 rounded px-1.5 py-1">
+            <div className="text-[4.5px] text-gray-400 mb-0.5">ROTATION ORDER</div>
+            <div className="text-[5px] text-emerald-700 font-semibold">Dad → Mom → Dad → Mom … (loops)</div>
+          </div>
         </div>
         {/* AI Suggestion */}
         <div className="bg-violet-50 border border-violet-200 rounded p-1.5">
@@ -4667,6 +4692,125 @@ function TF7_Reassigned() {
   );
 }
 
+// ── Task Flow 9: Edit Existing Task (Full Form) ───────────────────
+function TF9_SimpleTask() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">My Tasks · Today</div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="text-[5px] text-gray-400 font-semibold uppercase tracking-wide">Today · 3 tasks</div>
+        {[
+          {title:'Buy groceries', tag:'Personal · one-time', p:'bg-amber-400', tap:false},
+          {title:'Clean the kitchen', tag:'Personal · one-time', p:'bg-red-400', tap:true},
+          {title:'Call electrician', tag:'Personal · one-time', p:'bg-green-400', tap:false},
+        ].map(t=>(
+          <div key={t.title} className={`bg-white rounded border px-1 py-0.5 flex items-center gap-1 shadow-sm ${t.tap?'border-emerald-400 ring-1 ring-emerald-200':''}`}>
+            <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${t.p}`}/>
+            <div className="flex-1">
+              <div className="text-[5.5px] font-medium text-gray-800">{t.title}</div>
+              <div className="text-[4.5px] text-gray-400">{t.tag}</div>
+            </div>
+            {t.tap && <div className="text-[4.5px] text-emerald-600 font-bold">Tap →</div>}
+          </div>
+        ))}
+        <div className="text-[5px] text-gray-400 italic mt-1">Tap any task to open & edit</div>
+      </div>
+    </div>
+  );
+}
+
+function TF9_EditForm() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="text-[6px] text-white font-bold">Edit Task</div>
+        <div className="ml-auto text-[5px] bg-white text-emerald-700 rounded px-1 py-0.5 font-bold">EDIT</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1 overflow-hidden">
+        {/* Title */}
+        <div className="bg-gray-100 rounded px-1.5 py-0.5 border border-emerald-300">
+          <div className="text-[6px] text-gray-700">Clean the kitchen</div>
+        </div>
+        {/* Priority + Due */}
+        <div className="grid grid-cols-2 gap-0.5">
+          <div className="bg-red-50 rounded px-1 py-0.5 text-[5.5px] text-red-700 border border-red-200 font-medium">🔴 High</div>
+          <div className="bg-gray-100 rounded px-1 py-0.5 text-[5.5px] text-gray-700 border border-gray-200">Today 6pm</div>
+        </div>
+        {/* Assign — disabled by rotation */}
+        <div className="border border-gray-200 rounded px-1 py-0.5 bg-gray-50 opacity-60">
+          <div className="flex items-center justify-between">
+            <div className="text-[5.5px] text-gray-400">👤 Assign to someone</div>
+            <div className="w-5 h-2.5 bg-gray-200 rounded-full flex items-center pl-0.5"><div className="w-2 h-2 bg-white rounded-full border border-gray-300"/></div>
+          </div>
+          <div className="text-[4.5px] text-gray-400">Handled by rotation</div>
+        </div>
+        {/* Recurring ON with rotation */}
+        <div className="border border-emerald-300 rounded p-1 bg-emerald-50 space-y-1">
+          <div className="flex items-center justify-between">
+            <div className="text-[5.5px] font-semibold text-emerald-800">🔁 Recurring</div>
+            <div className="w-5 h-2.5 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5"><div className="w-2 h-2 bg-white rounded-full"/></div>
+          </div>
+          <div className="flex gap-0.5">
+            {['Daily','Weekly','Monthly','Custom'].map((f,i)=>(
+              <div key={f} className={`text-[4.5px] px-0.5 py-0.5 rounded ${i===1?'bg-emerald-500 text-white':'bg-white text-gray-400 border border-gray-200'}`}>{f}</div>
+            ))}
+          </div>
+          <div className="border-t border-emerald-200 pt-1">
+            <div className="flex items-center justify-between mb-0.5">
+              <div className="text-[5.5px] font-semibold text-emerald-800">🔄 Rotate with family</div>
+              <div className="w-5 h-2.5 bg-emerald-500 rounded-full flex items-center justify-end pr-0.5"><div className="w-2 h-2 bg-white rounded-full"/></div>
+            </div>
+            <div className="flex gap-0.5 mb-0.5">
+              {[{l:'D',on:true},{l:'M',on:true},{l:'S',on:false}].map(m=>(
+                <div key={m.l} className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[4.5px] font-bold text-white ${m.on?'bg-emerald-500':'bg-gray-300'}`}>{m.l}</div>
+              ))}
+            </div>
+            <div className="bg-white rounded px-1 py-0.5 border border-emerald-200">
+              <div className="text-[4.5px] text-emerald-700 font-semibold">Dad → Mom → Dad … (loops)</div>
+            </div>
+          </div>
+        </div>
+        {/* Save */}
+        <div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">SAVE CHANGES</div>
+      </div>
+    </div>
+  );
+}
+
+function TF9_TaskUpdated() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Task Updated ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="bg-emerald-50 rounded border-l-2 border-emerald-500 px-1.5 py-1">
+          <div className="text-[6px] font-bold text-emerald-800">Clean the kitchen</div>
+          <div className="text-[5px] text-gray-500">Weekly · Rotation active · Dad first</div>
+        </div>
+        {[
+          'Recurring set to every week',
+          'Rotation: Dad → Mom → Dad (loops)',
+          'Dad notified — it is his turn first',
+          'Calendar marked every week',
+          'Task auto-reassigns on each completion',
+        ].map(a=>(
+          <div key={a} className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"/>
+            <div className="text-[5px] text-gray-700">{a}</div>
+          </div>
+        ))}
+        <div className="bg-blue-50 border border-blue-200 rounded p-1 mt-0.5">
+          <div className="text-[5px] text-blue-700">📅 Synced to Calendar — appears every week</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Task Flow 8: Workload Balance & Fairness Alert ────────────────
 function TF9_AssignTap() {
   return (
@@ -4833,6 +4977,15 @@ const TSK_FLOWS = [
       {component:TF7_OverdueNotif, label:'Overdue Alert', type:'warning' as const, arrow:'Tap to fix'},
       {component:TF7_AIReassign, label:'AI Reassign Options', type:'system' as const, arrow:'Pick Mom'},
       {component:TF7_Reassigned, label:'Reassigned & Resolved', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow9', title:'Flow 9 — Edit Task · Add Rotation After Creation',
+    description:'User taps an existing simple task to open it in full edit mode — same form as Add Task. They can turn on recurring, select family members for rotation, and save. The task is updated live without recreating it.',
+    screens:[
+      {component:TF9_SimpleTask, label:'Task List — Tap to Edit', type:'user' as const, arrow:'Tap task'},
+      {component:TF9_EditForm, label:'Edit Task — Full Form', type:'system' as const, arrow:'Save Changes'},
+      {component:TF9_TaskUpdated, label:'Task Updated with Rotation', type:'success' as const, arrow:null},
     ],
   },
   {
@@ -5109,7 +5262,7 @@ function TaskScreenFlows() {
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-emerald-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">8 Interactive Screen Flows</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">9 Interactive Screen Flows</h2>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
         {TSK_FLOWS.map(f=>(
