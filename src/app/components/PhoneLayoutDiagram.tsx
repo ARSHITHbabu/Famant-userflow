@@ -4980,21 +4980,21 @@ const TSK_FLOWS = [
     ],
   },
   {
-    id:'flow9', title:'Flow 9 — Edit Task · Add Rotation After Creation',
-    description:'User taps an existing simple task to open it in full edit mode — same form as Add Task. They can turn on recurring, select family members for rotation, and save. The task is updated live without recreating it.',
-    screens:[
-      {component:TF9_SimpleTask, label:'Task List — Tap to Edit', type:'user' as const, arrow:'Tap task'},
-      {component:TF9_EditForm, label:'Edit Task — Full Form', type:'system' as const, arrow:'Save Changes'},
-      {component:TF9_TaskUpdated, label:'Task Updated with Rotation', type:'success' as const, arrow:null},
-    ],
-  },
-  {
     id:'flow8', title:'Flow 8 — Workload Balance & Fairness Alert',
     description:'User assigns a task to an overloaded family member. AI surfaces a workload warning and recommends a fairer alternative based on task count, availability, and fairness history.',
     screens:[
       {component:TF9_AssignTap, label:'Assign — Overloaded Member', type:'user' as const, arrow:'AI checks load'},
       {component:TF9_WorkloadWarning, label:'Workload Warning + AI Pick', type:'warning' as const, arrow:'Assign to Dad'},
       {component:TF9_BalancedResult, label:'Balanced Assignment', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow9', title:'Flow 9 — Edit Task · Add Rotation After Creation',
+    description:'User taps an existing simple task to open it in full edit mode — same form as Add Task. They can turn on recurring, select family members for rotation, and save. The task is updated live without recreating it.',
+    screens:[
+      {component:TF9_SimpleTask, label:'Task List — Tap to Edit', type:'user' as const, arrow:'Tap task'},
+      {component:TF9_EditForm, label:'Edit Task — Full Form', type:'system' as const, arrow:'Save Changes'},
+      {component:TF9_TaskUpdated, label:'Task Updated with Rotation', type:'success' as const, arrow:null},
     ],
   },
 ];
