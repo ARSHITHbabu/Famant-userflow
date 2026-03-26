@@ -3789,55 +3789,124 @@ function ListScreenFlows() {
 
 // ── Task: Main Screen ─────────────────────────────────────────────
 function TaskMainScreen() {
+  const tasks = [
+    { title:'Take out trash',         a:'Dad',  aColor:'bg-orange-400', p:'bg-red-400',   over:true,  est:'30m' },
+    { title:'Buy milk & eggs',        a:'Mom',  aColor:'bg-pink-400',   p:'bg-amber-400', over:false, est:'45m' },
+    { title:'Help kids with homework',a:'John', aColor:'bg-blue-400',   p:'bg-green-400', over:false, est:'1h'  },
+  ];
+  const templates = [
+    { icon:'🧹', label:'Weekly Cleaning',  color:'bg-emerald-50 border-emerald-200 text-emerald-700' },
+    { icon:'☀️', label:'Morning Routine',  color:'bg-amber-50 border-amber-200 text-amber-700'       },
+    { icon:'🛒', label:'Grocery Run',      color:'bg-blue-50 border-blue-200 text-blue-700'           },
+    { icon:'📚', label:'Kids Homework',    color:'bg-purple-50 border-purple-200 text-purple-700'     },
+  ];
   return (
-    <div className="h-full flex flex-col" style={{ minHeight: 290 }}>
-      {/* View-switcher icon — sits next to the PhoneShell scan icon at top-right */}
-      <div className="absolute top-1 right-[18px] z-10 bg-gray-900/80 rounded-md p-0.5">
-        <svg width={9} height={9} viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2.5"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-        </svg>
-      </div>
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      {/* ── Header ── */}
       <div className="bg-emerald-600 px-2 pt-2 pb-1.5">
-        <div className="flex gap-1 mb-1">
-          {['A','B','C','D'].map(m=>(
-            <div key={m} className="w-4 h-4 rounded-full bg-emerald-300 flex items-center justify-center text-[5px] text-emerald-900 font-bold">{m}</div>
-          ))}
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+            <span className="text-[5px] text-emerald-200">▾</span>
+          </div>
+          <div className="flex items-center gap-0.5">
+            <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[7px] text-white">🔍</div>
+            <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[7px] text-white">⋮</div>
+          </div>
         </div>
+        {/* Member avatars with sectograph rings — same as dashboard */}
+        <div className="flex gap-1.5 items-center mb-1.5">
+          <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[5px]">🤖</div>
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false} />)}
+          <div className="text-[4.5px] text-emerald-200 ml-0.5">Tap to filter</div>
+        </div>
+        {/* Tabs */}
         <div className="flex gap-0.5">
           {['All','Today','Upcoming','Given'].map((v,i)=>(
-            <div key={v} className={`text-[5px] px-1 py-0.5 rounded font-semibold ${i===1?'bg-white text-emerald-700':'bg-emerald-500 text-white'}`}>{v}</div>
+            <div key={v} className={`text-[5px] px-1.5 py-0.5 rounded-full font-semibold ${i===1?'bg-white text-emerald-700':'bg-emerald-500/60 text-white'}`}>{v}</div>
           ))}
         </div>
       </div>
-      <div className="bg-gray-50 px-1.5 py-1 flex-1 space-y-1">
-        <div className="text-[6px] font-bold text-gray-500 uppercase tracking-wide">Today · 3 tasks</div>
-        {[
-          { title:'Take out trash', a:'Dad', p:'bg-red-400', over:true },
-          { title:'Buy milk & eggs', a:'Mom', p:'bg-amber-400', over:false },
-          { title:'Help kids with homework', a:'Dad', p:'bg-green-400', over:false },
-        ].map(t=>(
-          <div key={t.title} className={`bg-white rounded border border-gray-200 px-1 py-0.5 flex items-center gap-1 shadow-sm ${t.over?'border-l-2 border-l-red-400':''}`}>
-            <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${t.p}`}/>
-            <div className="flex-1">
-              <div className={`text-[6px] font-medium ${t.over?'text-red-600':'text-gray-800'}`}>{t.title}</div>
-              <div className="text-[5px] text-gray-400">{t.a}{t.over?' · ⚠ Overdue':''}</div>
+
+      {/* ── Body ── */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-1.5 space-y-2 overflow-hidden">
+
+        {/* Today tasks */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Today · 3 tasks</span>
+            <span className="text-[4.5px] text-emerald-600 font-semibold">See all ›</span>
+          </div>
+          <div className="space-y-1">
+            {tasks.map(t=>(
+              <div key={t.title} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${t.over?'border-l-2 border-l-red-400 border-red-100':'border-gray-100'}`}>
+                <div className={`w-3 h-3 rounded border-2 flex-shrink-0 ${t.over?'border-red-300':'border-gray-300'}`}/>
+                <div className="flex-1 min-w-0">
+                  <div className={`text-[5.5px] font-semibold truncate ${t.over?'text-red-600':'text-gray-800'}`}>{t.title}</div>
+                  <div className="flex items-center gap-0.5 mt-0.5">
+                    <div className={`w-2.5 h-2.5 rounded-full ${t.aColor} flex items-center justify-center text-[3.5px] text-white font-bold flex-shrink-0`}>{t.a[0]}</div>
+                    <span className="text-[4px] text-gray-400">{t.a}</span>
+                    {t.over && <span className="text-[4px] bg-red-100 text-red-500 rounded px-0.5 font-bold">Overdue</span>}
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
+                  <div className={`w-1.5 h-1.5 rounded-full ${t.p}`}/>
+                  <span className="text-[4px] text-gray-400">{t.est}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Upcoming */}
+        <div>
+          <div className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide mb-1">Upcoming</div>
+          <div className="bg-white rounded-lg border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5.5px] font-semibold text-gray-800">Clean garage</div>
+              <div className="flex items-center gap-0.5 mt-0.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-pink-400 flex items-center justify-center text-[3.5px] text-white font-bold">M</div>
+                <span className="text-[4px] text-gray-400">Mom · Sat</span>
+              </div>
             </div>
-            <div className={`w-3 h-3 rounded border ${t.over?'border-red-300':'border-gray-300'}`}/>
+            <span className="text-[4px] text-gray-400 flex-shrink-0">2h</span>
           </div>
-        ))}
-        <div className="text-[6px] font-bold text-gray-500 uppercase tracking-wide mt-1.5">Upcoming</div>
-        <div className="bg-white rounded border border-gray-200 px-1 py-0.5 flex items-center gap-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"/>
-          <div className="flex-1">
-            <div className="text-[6px] font-medium text-gray-800">Clean garage</div>
-            <div className="text-[5px] text-gray-400">Mom · Sat</div>
+        </div>
+
+        {/* ── Templates ── */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
+            <span className="text-[4.5px] text-emerald-600 font-semibold">All templates ›</span>
           </div>
-          <div className="w-3 h-3 rounded border border-gray-300"/>
+          <div className="flex gap-1 overflow-x-auto pb-0.5">
+            {templates.map(t=>(
+              <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
+                <span className="text-[9px] leading-none">{t.icon}</span>
+                <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
+              </div>
+            ))}
+            {/* Create new template */}
+            <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-gray-300 rounded-lg px-1.5 py-1 text-center bg-white">
+              <span className="text-[9px] leading-none text-gray-400">＋</span>
+              <span className="text-[4px] text-gray-400 font-semibold leading-tight max-w-[28px]">My Template</span>
+            </div>
+          </div>
+          <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled task form instantly</div>
         </div>
       </div>
-      <div className="relative bg-white h-7 border-t border-gray-100">
-        <div className="absolute bottom-1 right-1.5 w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">+</div>
+
+      {/* ── FAB row ── */}
+      <div className="relative bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+            <span className="text-[5px]">📋</span>
+            <span className="text-[4.5px] text-gray-600 font-semibold">Save as Template</span>
+          </div>
+        </div>
+        <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
       </div>
     </div>
   );
@@ -7313,7 +7382,7 @@ export function PhoneLayoutDiagram() {
             <span className="text-[9px] font-bold bg-emerald-50 border border-emerald-300 text-emerald-700 px-2 py-0.5 rounded-full">Tap Tasks</span>
             <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
           </div>
-          <PhoneShell label="Task Main Screen" sublabel="Today / Upcoming / Given views" accent="border-emerald-500" highlight>
+          <PhoneShell label="Task Main Screen" sublabel="Avatars · Tasks · Templates" accent="border-emerald-500" highlight>
             <TaskMainScreen />
           </PhoneShell>
           <Arrow label="Tap task item" />
