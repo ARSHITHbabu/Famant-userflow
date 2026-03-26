@@ -3811,7 +3811,6 @@ function TaskMainScreen() {
             <span className="text-[5px] text-emerald-200">▾</span>
           </div>
           <div className="flex items-center gap-0.5">
-            <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[7px] text-white">🔍</div>
             {/* Personal / Family toggle icon */}
             <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center" title="Toggle Personal / Family">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
