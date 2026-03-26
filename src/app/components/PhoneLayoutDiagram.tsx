@@ -2992,39 +2992,122 @@ function ExpenseScreenFlows() {
 
 // ── List: Main Screen ─────────────────────────────────────────────
 function ListMainScreen() {
+  const items = [
+    { name:'Milk',        store:'Safeway', addedBy:'Mom',  addedColor:'bg-pink-400',   done:false },
+    { name:'Eggs (dozen)',store:'Costco',  addedBy:'Dad',  addedColor:'bg-orange-400', done:false },
+    { name:'Bread',       store:'',        addedBy:'Me',   addedColor:'bg-emerald-400',done:true  },
+    { name:'Butter',      store:'Costco',  addedBy:'Mom',  addedColor:'bg-pink-400',   done:false },
+    { name:'Vegetables',  store:'Local',   addedBy:'Me',   addedColor:'bg-emerald-400',done:false },
+  ];
+  const listTabs = [
+    { label:'Groceries', count:6,  active:true  },
+    { label:'School',    count:4,  active:false },
+    { label:'Party',     count:12, active:false },
+    { label:'Packing',   count:8,  active:false },
+  ];
+  const templates = [
+    { icon:'🛒', label:'Groceries',  color:'bg-orange-50 border-orange-200 text-orange-700' },
+    { icon:'🎒', label:'Vacation',   color:'bg-blue-50 border-blue-200 text-blue-700'       },
+    { icon:'🧹', label:'Cleaning',   color:'bg-emerald-50 border-emerald-200 text-emerald-700' },
+    { icon:'🎉', label:'Party',      color:'bg-purple-50 border-purple-200 text-purple-700' },
+  ];
   return (
-    <div className="h-full flex flex-col" style={{ minHeight: 290 }}>
+    <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
+      {/* ── Header ── */}
       <div className="bg-orange-500 px-2 pt-2 pb-1.5">
-        <div className="flex gap-0.5 mb-1">
-          <div className="text-[6px] bg-white text-orange-700 rounded px-1.5 py-0.5 font-bold">Personal</div>
-          <div className="text-[6px] bg-orange-300 text-white rounded px-1.5 py-0.5 font-bold">Family</div>
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+            <span className="text-[5px] text-orange-200">▾</span>
+          </div>
+          {/* Personal / Family toggle icon */}
+          <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
+              <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+              <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
+              <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
+            </svg>
+          </div>
         </div>
+        {/* Member avatars with sectograph rings */}
+        <div className="flex gap-1.5 items-center mb-1.5">
+          <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[5px]">🤖</div>
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false} />)}
+          <div className="text-[4px] text-orange-200 ml-0.5 leading-tight">Tap filter<br/>Drag assign</div>
+        </div>
+        {/* List tabs */}
         <div className="flex gap-0.5 overflow-hidden">
-          {['Groceries','School','Party','Packing'].map((tab,i)=>(
-            <div key={tab} className={`text-[5px] px-1 py-0.5 rounded-full font-semibold whitespace-nowrap ${i===0?'bg-white text-orange-700':'bg-orange-400 text-white'}`}>{tab}</div>
+          {listTabs.map(t=>(
+            <div key={t.label} className={`flex items-center gap-0.5 text-[5px] px-1.5 py-0.5 rounded-full font-semibold whitespace-nowrap ${t.active?'bg-white text-orange-700':'bg-orange-400/60 text-white'}`}>
+              {t.label}
+              <span className={`text-[4px] rounded-full px-0.5 ${t.active?'bg-orange-100 text-orange-600':'bg-orange-300/60 text-white'}`}>{t.count}</span>
+            </div>
           ))}
         </div>
       </div>
-      <div className="bg-white flex-1 px-1.5 py-1 space-y-0.5 overflow-hidden">
-        <div className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">Groceries · 6 items</div>
-        {[{name:'Milk',store:'Safeway',done:false},{name:'Eggs (dozen)',store:'Costco',done:false},{name:'Bread',store:'',done:true},{name:'Butter',store:'Costco',done:false},{name:'Vegetables',store:'Local',done:false}].map(item=>(
-          <div key={item.name} className="flex items-center gap-1 py-0.5">
-            <div className={`w-3 h-3 rounded border ${item.done?'bg-orange-400 border-orange-400':'border-gray-300'} flex items-center justify-center flex-shrink-0`}>
-              {item.done&&<span className="text-white text-[6px]">✓</span>}
-            </div>
-            <span className={`text-[6px] flex-1 ${item.done?'line-through text-gray-400':'text-gray-800'}`}>{item.name}</span>
-            {item.store&&<span className="text-[4px] bg-blue-100 text-blue-600 rounded px-0.5">{item.store}</span>}
+
+      {/* ── Body ── */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-1.5 space-y-2 overflow-hidden">
+
+        {/* Active list items */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Groceries · 6 items</span>
+            <span className="text-[4.5px] text-orange-600 font-semibold">See all ›</span>
           </div>
-        ))}
-      </div>
-      <div className="bg-gray-50 px-1.5 py-1 border-t border-gray-200">
-        <div className="flex items-center gap-1 bg-white rounded border border-gray-200 px-1 py-0.5">
-          <span className="text-[5px] text-gray-400 flex-1">Add item…</span>
-          <span className="text-[5px] text-blue-500">🏪</span>
+          <div className="space-y-0.5">
+            {items.map(item=>(
+              <div key={item.name} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${item.done?'opacity-60':'border-gray-100'}`}>
+                <div className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center flex-shrink-0 ${item.done?'bg-orange-400 border-orange-400':'border-gray-300'}`}>
+                  {item.done && <span className="text-white text-[6px] font-bold">✓</span>}
+                </div>
+                <span className={`text-[5.5px] flex-1 ${item.done?'line-through text-gray-400':'text-gray-800 font-medium'}`}>{item.name}</span>
+                <div className="flex items-center gap-0.5 flex-shrink-0">
+                  {item.store && <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5">{item.store}</span>}
+                  <div className={`w-2.5 h-2.5 rounded-full ${item.addedColor} flex items-center justify-center text-[3.5px] text-white font-bold`}>{item.addedBy[0]}</div>
+                </div>
+              </div>
+            ))}
+            {/* Inline quick-add */}
+            <div className="bg-white rounded-lg border border-dashed border-gray-300 px-1.5 py-1 flex items-center gap-1">
+              <div className="w-3.5 h-3.5 rounded border-2 border-gray-200 flex-shrink-0"/>
+              <span className="text-[5px] text-gray-400 flex-1">Add item…</span>
+              <span className="text-[5px] text-orange-400">🏪</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Templates */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
+            <span className="text-[4.5px] text-orange-600 font-semibold">All templates ›</span>
+          </div>
+          <div className="flex gap-1 overflow-x-auto pb-0.5">
+            {templates.map(t=>(
+              <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
+                <span className="text-[9px] leading-none">{t.icon}</span>
+                <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
+              </div>
+            ))}
+            <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-gray-300 rounded-lg px-1.5 py-1 text-center bg-white">
+              <span className="text-[9px] leading-none text-gray-400">＋</span>
+              <span className="text-[4px] text-gray-400 font-semibold leading-tight max-w-[28px]">My List</span>
+            </div>
+          </div>
+          <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled list instantly</div>
         </div>
       </div>
-      <div className="relative bg-white h-6 border-t border-gray-100">
-        <div className="absolute bottom-1 right-1.5 w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center text-white text-[8px] font-bold shadow">+</div>
+
+      {/* ── Bottom bar ── */}
+      <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+          <span className="text-[5px]">📋</span>
+          <span className="text-[4.5px] text-gray-600 font-semibold">Save as Template</span>
+        </div>
+        <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
       </div>
     </div>
   );
@@ -3473,7 +3556,458 @@ const LST_FLOWS = [
       {component:LF5_ListReady, label:'List Ready to Use', type:'success' as const, arrow:null},
     ],
   },
+  {
+    id:'flow6', title:'Flow 6 — Edit Item / Swipe to Delete',
+    description:'User swipes left on an item to reveal Edit and Delete actions. Tapping Edit opens an inline form to change the name, store tag, quantity, or notes. Tapping Delete shows a quick confirmation before removing.',
+    screens:[
+      {component:LF6_SwipeReveal, label:'Swipe Left → Actions', type:'user' as const, arrow:'Tap Edit'},
+      {component:LF6_EditForm, label:'Inline Edit Form', type:'system' as const, arrow:'Save'},
+      {component:LF6_ItemUpdated, label:'Item Updated + Synced', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow7', title:'Flow 7 — Shop by Store (Multi-Store View)',
+    description:'User switches to "By Store" view — items group into Costco, Safeway, and Local sections. They shop store-by-store checking items off. When all items are checked the app shows a "Shopping trip complete!" summary.',
+    screens:[
+      {component:LF7_StoreGrouped, label:'Items Grouped by Store', type:'user' as const, arrow:'Shop Costco first'},
+      {component:LF7_ShoppingProgress, label:'Costco Done · Safeway Next', type:'normal' as const, arrow:'Finish all'},
+      {component:LF7_TripComplete, label:'Shopping Trip Complete', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow8', title:'Flow 8 — Real-Time Collaborative Sync',
+    description:'Two family members have the same list open. When Mom adds "Cheese" on her phone, the item appears on Dad\'s screen instantly without a refresh — with a brief highlight showing who added it.',
+    screens:[
+      {component:LF8_DadView, label:'Dad\'s List (before)', type:'user' as const, arrow:'Mom adds item'},
+      {component:LF8_LiveUpdate, label:'Cheese Appears Live', type:'system' as const, arrow:'Both in sync'},
+      {component:LF8_Synced, label:'Both Views Match', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow9', title:'Flow 9 — Clear Completed + Purchase History',
+    description:'After a shopping trip all items are checked. User taps "Clear completed" — a confirmation sheet appears. After confirming, the list resets and a purchase history entry is saved for re-adding items or smart suggestions.',
+    screens:[
+      {component:LF9_AllChecked, label:'All Items Checked', type:'user' as const, arrow:'Tap Clear completed'},
+      {component:LF9_ClearConfirm, label:'Confirmation Sheet', type:'warning' as const, arrow:'Confirm'},
+      {component:LF9_HistorySaved, label:'List Reset + History Saved', type:'success' as const, arrow:null},
+    ],
+  },
 ];
+
+// ── List Flow 6: Edit Item / Swipe to Delete ──────────────────────
+function LF6_SwipeReveal() {
+  const items = [
+    { name:'Milk',         store:'Safeway', swipe:false },
+    { name:'Eggs (dozen)', store:'Costco',  swipe:true  },
+    { name:'Bread',        store:'',        swipe:false },
+    { name:'Butter',       store:'Costco',  swipe:false },
+  ];
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries</div>
+        <div className="text-[5px] text-orange-200">Family · 6 items</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        <div className="text-[4.5px] text-gray-400 italic mb-0.5">← Swipe left on any item</div>
+        {items.map(item=>(
+          item.swipe ? (
+            <div key={item.name} className="flex rounded-lg overflow-hidden shadow-sm">
+              <div className="flex-1 bg-orange-50 border border-orange-200 px-1.5 py-1 flex items-center gap-1">
+                <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+                <span className="text-[5.5px] font-semibold text-gray-800">{item.name}</span>
+                {item.store && <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5 ml-auto">{item.store}</span>}
+              </div>
+              <div className="flex">
+                <div className="bg-blue-500 flex items-center justify-center px-1.5">
+                  <div className="text-[5px] text-white font-bold">✏️</div>
+                </div>
+                <div className="bg-red-500 flex items-center justify-center px-1.5 rounded-r-lg">
+                  <div className="text-[5px] text-white font-bold">🗑</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div key={item.name} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+              <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+              <span className="text-[5.5px] text-gray-800">{item.name}</span>
+              {item.store && <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5 ml-auto">{item.store}</span>}
+            </div>
+          )
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LF6_EditForm() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Edit Item</div>
+        <div className="text-[5px] text-orange-200">Groceries list</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">ITEM NAME</div>
+          <div className="bg-orange-50 rounded border border-orange-300 px-1.5 py-1 text-[6px] text-gray-800">Eggs (dozen)</div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">QUANTITY</div>
+          <div className="flex gap-0.5 items-center">
+            <div className="w-5 h-4 bg-gray-100 rounded flex items-center justify-center text-[8px] text-gray-500 border border-gray-200">−</div>
+            <div className="text-[6px] font-bold text-gray-800 w-4 text-center">2</div>
+            <div className="w-5 h-4 bg-orange-100 rounded flex items-center justify-center text-[8px] text-orange-600 border border-orange-200">+</div>
+          </div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">STORE</div>
+          <div className="flex gap-0.5">
+            {['Costco','Safeway','Local','Any'].map((s,i)=>(
+              <div key={s} className={`text-[4.5px] px-1 py-0.5 rounded-full border font-medium ${i===0?'bg-orange-500 text-white border-orange-500':'bg-gray-50 text-gray-400 border-gray-200'}`}>{s}</div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">NOTES</div>
+          <div className="bg-gray-50 rounded border border-gray-200 px-1.5 py-0.5 text-[5px] text-gray-500">Free-range if available</div>
+        </div>
+        <div className="flex gap-1 pt-0.5">
+          <div className="flex-shrink-0 border border-red-300 bg-red-50 rounded py-1 px-1.5 flex items-center gap-0.5">
+            <span className="text-[4.5px] text-red-600 font-bold">🗑 Delete</span>
+          </div>
+          <div className="flex-1 bg-orange-500 text-white text-[6px] font-bold text-center rounded py-1">SAVE ITEM</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF6_ItemUpdated() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries</div>
+        <div className="text-[5px] text-orange-200">Family · 6 items</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Milk','Butter','Bread'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        <div className="bg-orange-50 border border-orange-300 rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+          <span className="text-[5.5px] font-semibold text-orange-700">Eggs (×2)</span>
+          <span className="text-[4px] bg-orange-100 text-orange-600 rounded px-0.5 ml-1">updated</span>
+          <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5 ml-auto">Costco</span>
+        </div>
+        <div className="bg-green-50 border border-green-200 rounded p-1 mt-1">
+          <div className="text-[5px] text-green-700">✓ Updated · Synced to 3 family devices</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 7: Shop by Store ────────────────────────────────────
+function LF7_StoreGrouped() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <div className="text-[4.5px] bg-white text-orange-700 rounded px-1 py-0.5 font-bold">By Store</div>
+          <div className="text-[4.5px] bg-orange-400/60 text-white rounded px-1 py-0.5">By Category</div>
+        </div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        {[
+          { store:'Costco',  color:'bg-blue-500',   items:['Eggs (×2)','Butter','Yogurt'] },
+          { store:'Safeway', color:'bg-red-500',    items:['Milk','Bread'] },
+          { store:'Local',   color:'bg-green-500',  items:['Vegetables'] },
+        ].map(g=>(
+          <div key={g.store}>
+            <div className={`flex items-center gap-1 mb-0.5`}>
+              <div className={`w-2 h-2 rounded-full ${g.color}`}/>
+              <span className="text-[5px] font-bold text-gray-600 uppercase tracking-wide">{g.store} · {g.items.length} items</span>
+            </div>
+            {g.items.map(i=>(
+              <div key={i} className="ml-3 bg-gray-50 border border-gray-100 rounded px-1 py-0.5 flex items-center gap-1 mb-0.5">
+                <div className="w-2.5 h-2.5 rounded border-2 border-gray-300 flex-shrink-0"/>
+                <span className="text-[5px] text-gray-700">{i}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LF7_ShoppingProgress() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · Shopping</div>
+        <div className="text-[5px] text-orange-200">4 of 6 checked</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        {/* Costco — done */}
+        <div>
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="w-2 h-2 rounded-full bg-blue-500"/>
+            <span className="text-[5px] font-bold text-gray-400 uppercase tracking-wide line-through">Costco ✓ done</span>
+          </div>
+          {['Eggs (×2)','Butter','Yogurt'].map(i=>(
+            <div key={i} className="ml-3 bg-gray-50 border border-gray-100 rounded px-1 py-0.5 flex items-center gap-1 mb-0.5 opacity-50">
+              <div className="w-2.5 h-2.5 rounded bg-orange-400 border-orange-400 flex items-center justify-center flex-shrink-0">
+                <span className="text-[4px] text-white font-bold">✓</span>
+              </div>
+              <span className="text-[5px] text-gray-400 line-through">{i}</span>
+            </div>
+          ))}
+        </div>
+        {/* Safeway — in progress */}
+        <div>
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="w-2 h-2 rounded-full bg-red-500"/>
+            <span className="text-[5px] font-bold text-red-600 uppercase tracking-wide">Safeway · now</span>
+          </div>
+          {[{i:'Milk',done:true},{i:'Bread',done:false}].map(({i,done})=>(
+            <div key={i} className={`ml-3 border rounded px-1 py-0.5 flex items-center gap-1 mb-0.5 ${done?'bg-gray-50 border-gray-100 opacity-50':'bg-red-50 border-red-200'}`}>
+              <div className={`w-2.5 h-2.5 rounded border-2 flex-shrink-0 ${done?'bg-orange-400 border-orange-400 flex items-center justify-center':'border-gray-300'}`}>
+                {done && <span className="text-[4px] text-white font-bold">✓</span>}
+              </div>
+              <span className={`text-[5px] ${done?'text-gray-400 line-through':'text-red-700 font-semibold'}`}>{i}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF7_TripComplete() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-green-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">🛒 Shopping Complete!</div>
+      </div>
+      <div className="flex-1 px-1.5 py-2 flex flex-col items-center justify-center space-y-1.5">
+        <div className="text-[20px]">🛍️</div>
+        <div className="text-[7px] font-bold text-green-700 text-center">All 6 items checked</div>
+        <div className="text-[5px] text-gray-500 text-center">Groceries · 18 Mar</div>
+        <div className="w-full space-y-0.5">
+          {[
+            {store:'Costco',  n:3, color:'bg-blue-100 text-blue-700'},
+            {store:'Safeway', n:2, color:'bg-red-100 text-red-700'},
+            {store:'Local',   n:1, color:'bg-green-100 text-green-700'},
+          ].map(s=>(
+            <div key={s.store} className={`rounded px-1.5 py-0.5 flex items-center justify-between ${s.color}`}>
+              <span className="text-[5px] font-semibold">{s.store}</span>
+              <span className="text-[5px]">{s.n} items ✓</span>
+            </div>
+          ))}
+        </div>
+        <div className="bg-orange-50 border border-orange-200 rounded px-1.5 py-1 text-center w-full">
+          <div className="text-[4.5px] text-orange-700 font-semibold">Purchase logged · History saved · Family notified</div>
+          <div className="text-[4px] text-orange-500">Tap "Clear completed" to reset list</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 8: Real-Time Collaborative Sync ─────────────────────
+function LF8_DadView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-orange-300 flex items-center justify-center text-[3.5px] text-white font-bold">D</div>
+          <span className="text-[4.5px] text-orange-200">Dad's view · live</span>
+          <div className="ml-auto flex items-center gap-0.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse"/>
+            <span className="text-[4px] text-orange-200">Synced</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs','Bread','Butter'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        <div className="text-[4.5px] text-gray-400 text-center mt-1 italic">Mom is also viewing this list…</div>
+      </div>
+    </div>
+  );
+}
+
+function LF8_LiveUpdate() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-orange-300 flex items-center justify-center text-[3.5px] text-white font-bold">D</div>
+          <span className="text-[4.5px] text-orange-200">Dad's view</span>
+          <div className="ml-auto flex items-center gap-0.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-300"/>
+            <span className="text-[4px] text-orange-200">Live</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs','Bread','Butter'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        {/* New item appearing live */}
+        <div className="bg-pink-50 border-2 border-pink-300 border-dashed rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-pink-300 flex-shrink-0"/>
+          <span className="text-[5.5px] font-bold text-pink-700">Cheese</span>
+          <div className="ml-auto flex items-center gap-0.5 flex-shrink-0">
+            <div className="w-2.5 h-2.5 rounded-full bg-pink-400 flex items-center justify-center text-[3.5px] text-white font-bold">M</div>
+            <span className="text-[4px] text-pink-500 font-semibold">Mom · just now</span>
+          </div>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-0.5">
+          <div className="text-[4.5px] text-blue-700">📡 Item added by Mom — no refresh needed</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF8_Synced() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <span className="text-[4.5px] text-orange-200">Both views match</span>
+          <div className="ml-auto flex items-center gap-0.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-pink-300 flex items-center justify-center text-[3.5px] text-white font-bold">M</div>
+            <div className="w-2.5 h-2.5 rounded-full bg-orange-300 flex items-center justify-center text-[3.5px] text-white font-bold">D</div>
+            <span className="text-[4px] text-green-300 font-bold">✓ Synced</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs','Bread','Butter','Cheese'].map((i,idx)=>(
+          <div key={i} className={`border rounded-lg px-1.5 py-1 flex items-center gap-1 ${idx===4?'bg-green-50 border-green-200':'bg-white border-gray-100'}`}>
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className={`text-[5.5px] ${idx===4?'font-bold text-green-700':'text-gray-800'}`}>{i}</span>
+            {idx===4 && <span className="text-[4px] text-green-500 ml-auto">✓ synced</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 9: Clear Completed + Purchase History ───────────────
+function LF9_AllChecked() {
+  const items = ['Milk','Eggs','Bread','Butter','Cheese','Vegetables'];
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 6/6 ✓</div>
+        <div className="text-[4.5px] text-orange-200">All items checked</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {items.map(i=>(
+          <div key={i} className="bg-gray-50 border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1 opacity-60">
+            <div className="w-3 h-3 rounded bg-orange-400 border-orange-400 border-2 flex items-center justify-center flex-shrink-0">
+              <span className="text-[5px] text-white font-bold">✓</span>
+            </div>
+            <span className="text-[5.5px] text-gray-400 line-through">{i}</span>
+          </div>
+        ))}
+        <div className="bg-orange-50 border border-orange-200 rounded-lg px-1.5 py-1 flex items-center justify-between mt-1">
+          <span className="text-[5px] text-orange-700 font-semibold">🗑 Clear completed</span>
+          <span className="text-[4px] text-orange-500">Tap to reset list</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF9_ClearConfirm() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      <div className="bg-orange-500 px-2 py-1.5 opacity-40">
+        <div className="text-[6px] text-white font-bold">Groceries · 6/6 ✓</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5 opacity-25">
+        {['Milk','Eggs','Bread'].map(i=>(
+          <div key={i} className="bg-gray-50 border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-orange-400 border-2 border-orange-400 flex items-center justify-center flex-shrink-0">
+              <span className="text-[5px] text-white">✓</span>
+            </div>
+            <span className="text-[5.5px] text-gray-400 line-through">{i}</span>
+          </div>
+        ))}
+      </div>
+      {/* Bottom sheet */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1"/>
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 text-[10px]">🗑</div>
+          <div>
+            <div className="text-[6px] font-bold text-gray-900">Clear all completed?</div>
+            <div className="text-[4.5px] text-gray-500 leading-tight">6 checked items will be hidden. Purchase history will be saved.</div>
+          </div>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-1">
+          <div className="text-[4.5px] text-blue-700">💾 Items are saved to history — you can re-add them anytime or use them for smart suggestions.</div>
+        </div>
+        <div className="flex gap-1">
+          <div className="flex-1 border border-gray-300 text-gray-600 text-[5.5px] font-semibold text-center rounded py-1">Cancel</div>
+          <div className="flex-1 bg-orange-500 text-white text-[5.5px] font-bold text-center rounded py-1">Clear Completed</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF9_HistorySaved() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 0 items</div>
+        <div className="text-[4.5px] text-orange-200">List reset · ready for next trip</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-1">
+        <div className="flex flex-col items-center py-1 gap-0.5">
+          <div className="text-[14px]">🛒</div>
+          <div className="text-[6px] font-bold text-gray-600">List is clear</div>
+          <div className="text-[4.5px] text-gray-400">Add items for your next trip</div>
+        </div>
+        <div className="bg-emerald-50 border border-emerald-200 rounded p-1 space-y-0.5">
+          <div className="text-[5px] font-semibold text-emerald-800">📋 Purchase history saved</div>
+          <div className="text-[4.5px] text-emerald-700">18 Mar · Groceries · 6 items</div>
+          <div className="text-[4px] text-emerald-600">Used for smart suggestions on your next list</div>
+        </div>
+        <div className="bg-violet-50 border border-violet-200 rounded p-1">
+          <div className="text-[4.5px] text-violet-700">✨ Next time you open Groceries, AI will suggest these 6 items to re-add in one tap.</div>
+        </div>
+        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-gray-200 flex-shrink-0"/>
+          <span className="text-[5px] text-gray-400">Add item…</span>
+          <span className="text-[5px] text-orange-400 ml-auto">🏪</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ── List: Feature Map ──────────────────────────────────────────────
 function ListFeatureMap() {
@@ -3718,7 +4252,7 @@ function ListSysProcesses() {
 // ── List: Screen Zones ─────────────────────────────────────────────
 function ListScreenZones() {
   const zones = [
-    { id:'header', title:'Zone 1 — Header', icon:SlidersHorizontal, color:'bg-orange-100 border-orange-300', items:['Personal / Family toggle (segmented control)','Horizontal member avatar strip (filter by member)','List selector tabs: Groceries / School Supplies / Party Prep / etc.','Search icon (search items within current list)','Settings / manage permissions icon'] },
+    { id:'header', title:'Zone 1 — Header', icon:SlidersHorizontal, color:'bg-orange-100 border-orange-300', items:['Personal / Family toggle icon (two-person SVG — 3-state: All / Personal / Family)','Horizontal member avatar strip with sectograph rings (tap to filter by member)','List selector tabs with item counts: Groceries / School / Party / Packing','Family name + household selector dropdown'] },
     { id:'list-items', title:'Zone 2 — List Items', icon:LayoutList, color:'bg-amber-100 border-amber-300', items:['Scrollable checklist of items','Each item: checkbox, name, store tag badge','Completed items: struck-through, lower opacity','Long-press to reorder via drag-and-drop','Swipe left for delete/edit options'] },
     { id:'quick-add', title:'Zone 3 — Quick Add Field', icon:Type, color:'bg-yellow-100 border-yellow-300', items:['Sticky text input at bottom: "Add item…"','Store tag button (Costco / Safeway / Local)','Press Enter or tap Add button to add item instantly','Item syncs to all family devices in real-time'] },
     { id:'fab', title:'Zone 4 — FAB Menu', icon:PlusCircle, color:'bg-red-100 border-red-300', items:['Bottom-right floating action button','Create new list','Share list (external link or family member)','Manage permissions','Use template (Groceries, Cleaning, Packing)'] },
@@ -3744,7 +4278,7 @@ function ListScreenZones() {
   );
 }
 
-// ── List: 5-Flow Screen Diagram ────────────────────────────────────
+// ── List: 9-Flow Screen Diagram ────────────────────────────────────
 function ListScreenFlows() {
   const [active, setActive] = useState('flow1');
   const current = LST_FLOWS.find(f=>f.id===active)!;
@@ -3752,7 +4286,7 @@ function ListScreenFlows() {
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-orange-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">5 Interactive Screen Flows</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">9 Interactive Screen Flows</h2>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
         {LST_FLOWS.map(f=>(
@@ -5945,12 +6479,14 @@ function TaskFeatureMap() {
     { id:'rotation', title:'Automated Rotation & Fairness', icon:RotateCcw, color:'bg-yellow-100 border-yellow-300', subs:['Chore rotation between 2+ family members','Auto-assigns to next member on completion','Fairness history: "who did it how many times"','Solves one-person-always-does-everything problem','Custom rotation interval (weekly, bi-weekly)'] },
     { id:'templates', title:'Pre-built Task Templates', icon:FileText, color:'bg-pink-100 border-pink-300', subs:['Kitchen routine checklist','Weekly household reset template','Cleaning checklist','Import and customize templates','Save custom lists as reusable templates'] },
     { id:'voice', title:'Voice Task Delegation', icon:Mic, color:'bg-indigo-100 border-indigo-300', subs:['"Assign kitchen cleaning to Dad every Sunday"','Create tasks by speaking naturally','Mark tasks complete via voice','AI parses name, date, assignee, recurrence from speech','On-device voice processing (privacy-first)'] },
+    { id:'workload', title:'Hourly Workload Model', icon:Scale, color:'bg-cyan-100 border-cyan-300', subs:['Each task has an estimated time (15m / 30m / 1h / 2h / 3h+) set at creation','Workload window auto-selected: day (if due today) or week (if due later)','Assignment screen shows each member\'s current workload hours','AI warns when assigning to an overloaded member and suggests alternatives','Actual time logged at completion → AI improves future estimates category by category'] },
+    { id:'delete-task', title:'Delete Task', icon:Inbox, color:'bg-rose-100 border-rose-300', subs:['Trash icon accessible in Task Detail header and Edit Task header','Confirmation bottom sheet prevents accidental deletion','Warning shown if task has a rotation schedule (rotation will be removed)','Permanent delete: task removed from all member views and workload tallies','Also accessible via DELETE button in the Edit Task form'] },
   ];
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-emerald-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">Feature Map — 9 Features</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">Feature Map — 11 Features</h2>
       </div>
       <div className="space-y-2">
         {features.map(f=>{
@@ -6187,7 +6723,7 @@ function TaskScreenZones() {
   );
 }
 
-// ── Task: 4-Flow Screen Diagram ────────────────────────────────────
+// ── Task: 15-Flow Screen Diagram ────────────────────────────────────
 function TaskScreenFlows() {
   const [active, setActive] = useState('flow1');
   const current = TSK_FLOWS.find(f=>f.id===active)!;
@@ -6195,7 +6731,7 @@ function TaskScreenFlows() {
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-emerald-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">9 Interactive Screen Flows</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">15 Interactive Screen Flows</h2>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
         {TSK_FLOWS.map(f=>(
@@ -7738,7 +8274,7 @@ export function PhoneLayoutDiagram() {
             <span className="text-[9px] font-bold bg-orange-50 border border-orange-300 text-orange-700 px-2 py-0.5 rounded-full">Tap Lists</span>
             <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
           </div>
-          <PhoneShell label="List Main Screen" sublabel="Tabs + checklist + quick add" accent="border-orange-500" highlight>
+          <PhoneShell label="List Main Screen" sublabel="Avatars · Lists · Templates" accent="border-orange-500" highlight>
             <ListMainScreen />
           </PhoneShell>
           <Arrow label="Tap quick add field" />
