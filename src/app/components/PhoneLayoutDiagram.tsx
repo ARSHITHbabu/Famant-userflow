@@ -3812,14 +3812,22 @@ function TaskMainScreen() {
           </div>
           <div className="flex items-center gap-0.5">
             <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[7px] text-white">🔍</div>
-            <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[7px] text-white">⋮</div>
+            {/* Personal / Family toggle icon */}
+            <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center" title="Toggle Personal / Family">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
+                <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
+                <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
+              </svg>
+            </div>
           </div>
         </div>
         {/* Member avatars with sectograph rings — same as dashboard */}
         <div className="flex gap-1.5 items-center mb-1.5">
           <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[5px]">🤖</div>
           {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false} />)}
-          <div className="text-[4.5px] text-emerald-200 ml-0.5">Tap to filter</div>
+          <div className="text-[4px] text-emerald-200 ml-0.5 leading-tight">Tap filter<br/>Drag assign</div>
         </div>
         {/* Tabs */}
         <div className="flex gap-0.5">
@@ -5373,6 +5381,279 @@ function TF9_BalancedResult() {
   );
 }
 
+// ── Task Flow 13: Drag & Drop to Assign ──────────────────────────
+function TF13_DragStart() {
+  const tasks = [
+    { title:'Take out trash',   a:'Dad',  aColor:'bg-orange-400', p:'bg-red-400',   over:true,  est:'30m', drag:false },
+    { title:'Buy milk & eggs',  a:'Me',   aColor:'bg-emerald-400',p:'bg-amber-400', over:false, est:'45m', drag:true  },
+    { title:'Help kids w/ hw',  a:'John', aColor:'bg-blue-400',   p:'bg-green-400', over:false, est:'1h',  drag:false },
+  ];
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] font-bold text-white mb-1">Thaikaattu Family</div>
+        {/* Avatar row — highlighted as drop zone */}
+        <div className="flex gap-1.5 items-center bg-white/10 rounded-lg px-1 py-0.5">
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false} />)}
+          <div className="text-[4px] text-white/80 ml-0.5 leading-tight">↑ Drop here<br/>to assign</div>
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">Today · 3 tasks</div>
+        {tasks.map(t=>(
+          <div key={t.title} className={`rounded-lg border px-1.5 py-1 flex items-center gap-1 ${
+            t.drag
+              ? 'bg-amber-50 border-amber-400 border-dashed shadow-lg ring-1 ring-amber-300 scale-[1.02]'
+              : t.over ? 'bg-white border-l-2 border-l-red-400 border-red-100' : 'bg-white border-gray-100'
+          }`}>
+            <div className={`w-3 h-3 rounded border-2 flex-shrink-0 ${t.over?'border-red-300':'border-gray-300'}`}/>
+            <div className="flex-1 min-w-0">
+              <div className={`text-[5.5px] font-semibold truncate ${t.over?'text-red-600':t.drag?'text-amber-700':'text-gray-800'}`}>{t.title}</div>
+              <div className="flex items-center gap-0.5 mt-0.5">
+                <div className={`w-2.5 h-2.5 rounded-full ${t.aColor} flex items-center justify-center text-[3.5px] text-white font-bold`}>{t.a[0]}</div>
+                <span className="text-[4px] text-gray-400">{t.a}</span>
+              </div>
+            </div>
+            {t.drag
+              ? <div className="text-[4px] text-amber-600 font-bold flex-shrink-0">Hold & drag ☝</div>
+              : <div className={`w-1.5 h-1.5 rounded-full ${t.p} flex-shrink-0`}/>
+            }
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TF13_DragOver() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] font-bold text-white mb-1">Thaikaattu Family</div>
+        {/* Avatar row — Dad highlighted with warning, Mom highlighted as valid drop */}
+        <div className="flex gap-1.5 items-center bg-white/10 rounded-lg px-1 py-0.5">
+          {MEMBERS.map((m,i)=>(
+            <div key={m.name} className="flex flex-col items-center gap-0.5 relative">
+              <div className={`relative rounded-full p-0.5 ${i===0?'ring-2 ring-orange-400 bg-orange-100/30':i===2?'ring-2 ring-red-400 bg-red-100/30':''}`}>
+                <MemberAvatar {...m} active={false} />
+                {i===0 && <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-orange-400 rounded-full flex items-center justify-center text-[4px] text-white font-bold">!</div>}
+                {i===2 && <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full flex items-center justify-center text-[4px] text-white font-bold">✕</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        {/* Floating dragged task */}
+        <div className="bg-amber-50 border border-amber-400 border-dashed rounded-lg px-1.5 py-1 flex items-center gap-1 shadow-md opacity-80">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400 flex-shrink-0"/>
+          <span className="text-[5px] font-semibold text-amber-700">Buy milk & eggs · 45m</span>
+        </div>
+        {/* Workload warning for Dad (overloaded hover) */}
+        <div className="bg-orange-50 border border-orange-300 rounded-lg p-1.5 space-y-0.5">
+          <div className="text-[5px] font-bold text-orange-700">⚠ Dad is overloaded today</div>
+          <div className="flex items-center gap-1">
+            <div className="w-2.5 h-2.5 rounded-full bg-orange-400 flex items-center justify-center text-[3.5px] text-white font-bold">D</div>
+            <div className="flex-1 h-1 bg-gray-200 rounded-full">
+              <div className="w-full h-1 bg-orange-400 rounded-full"/>
+            </div>
+            <span className="text-[4px] text-orange-600 font-bold">4.5h today</span>
+          </div>
+          <div className="text-[4px] text-orange-600">Drop here to override · or drag to another member</div>
+        </div>
+        {/* Mom — valid drop hint */}
+        <div className="bg-emerald-50 border border-emerald-300 rounded-lg p-1 flex items-center gap-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-pink-400 flex items-center justify-center text-[3.5px] text-white font-bold">M</div>
+          <span className="text-[5px] text-emerald-700 font-semibold">Mom · 2.0h today ✓ Available</span>
+          <span className="text-[4px] text-emerald-500 ml-auto">Best pick</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF13_DropConfirmed() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="text-[6px] font-bold text-white mb-1">Thaikaattu Family</div>
+        <div className="flex gap-1.5 items-center">
+          {MEMBERS.map((m,i)=><MemberAvatar key={m.name} {...m} active={i===0} activeRingColor="ring-pink-400" />)}
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="bg-emerald-50 border border-emerald-300 rounded-lg p-1.5 space-y-0.5">
+          <div className="text-[5.5px] font-bold text-emerald-800">✓ Assigned to Mom</div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-full bg-pink-400 flex items-center justify-center text-[4px] text-white font-bold">M</div>
+            <span className="text-[5px] text-gray-700">Buy milk & eggs · 45m</span>
+          </div>
+        </div>
+        {/* Updated workload bar for Mom */}
+        <div className="bg-white border border-gray-100 rounded-lg p-1 space-y-0.5">
+          <div className="text-[4.5px] text-gray-500 font-semibold uppercase">Mom's updated day workload</div>
+          <div className="flex items-center gap-1">
+            <div className="flex-1 h-1.5 bg-gray-100 rounded-full">
+              <div className="w-3/5 h-1.5 bg-pink-400 rounded-full"/>
+            </div>
+            <span className="text-[4.5px] text-gray-500">2.75h today ↑</span>
+          </div>
+        </div>
+        {['Mom notified via push','Task added to Mom\'s list','Workload recalculated','Your list updated'].map(a=>(
+          <div key={a} className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"/>
+            <div className="text-[5px] text-gray-700">{a}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Task Flow 14: Personal / Family View Toggle ───────────────────
+function TF14_AllView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+          <div className="flex items-center gap-0.5 bg-white/20 rounded-md px-1 py-0.5">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
+              <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+              <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
+              <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
+            </svg>
+            <span className="text-[4px] text-white font-bold">All</span>
+          </div>
+        </div>
+        <div className="flex gap-0.5">
+          {['All','Today','Upcoming','Given'].map((v,i)=>(
+            <div key={v} className={`text-[5px] px-1.5 py-0.5 rounded-full font-semibold ${i===1?'bg-white text-emerald-700':'bg-emerald-500/60 text-white'}`}>{v}</div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">Today — All tasks</div>
+        {[
+          {title:'Take out trash',  source:'Mine',   aColor:'bg-emerald-400', badge:'bg-emerald-100 text-emerald-700'},
+          {title:'Buy milk & eggs', source:'By Mom', aColor:'bg-pink-400',    badge:'bg-pink-100 text-pink-700'     },
+          {title:'Pay electricity', source:'Mine',   aColor:'bg-emerald-400', badge:'bg-emerald-100 text-emerald-700'},
+          {title:'Fix leaking tap', source:'By Dad', aColor:'bg-orange-400',  badge:'bg-orange-100 text-orange-700' },
+        ].map(t=>(
+          <div key={t.title} className="bg-white rounded-lg border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5.5px] font-semibold text-gray-800 truncate">{t.title}</div>
+            </div>
+            <div className={`text-[4px] px-1 py-0.5 rounded font-semibold flex-shrink-0 ${t.badge}`}>{t.source}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TF14_PersonalView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-emerald-600 px-2 py-1.5">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[6.5px] font-bold text-white">My Tasks</span>
+          <div className="flex items-center gap-0.5 bg-white rounded-md px-1 py-0.5">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="7" r="4" stroke="#059669" strokeWidth="2.2"/>
+              <path d="M4 19c0-4 3.6-6 8-6s8 2 8 6" stroke="#059669" strokeWidth="2.2" strokeLinecap="round"/>
+            </svg>
+            <span className="text-[4px] text-emerald-700 font-bold">Personal</span>
+          </div>
+        </div>
+        <div className="flex gap-0.5">
+          {['All','Today','Upcoming','Given'].map((v,i)=>(
+            <div key={v} className={`text-[5px] px-1.5 py-0.5 rounded-full font-semibold ${i===1?'bg-white text-emerald-700':'bg-emerald-500/60 text-white'}`}>{v}</div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1 mb-0.5">
+          <div className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">Today — My tasks only</div>
+          <div className="text-[4px] bg-emerald-100 text-emerald-700 rounded px-0.5 font-bold">2</div>
+        </div>
+        <div className="text-[4px] text-gray-400 italic">Family-assigned tasks hidden</div>
+        {[
+          {title:'Take out trash',   est:'30m', p:'bg-red-400'},
+          {title:'Pay electricity',  est:'20m', p:'bg-amber-400'},
+        ].map(t=>(
+          <div key={t.title} className="bg-white rounded-lg border border-emerald-100 border-l-2 border-l-emerald-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5.5px] font-semibold text-gray-800 truncate">{t.title}</div>
+              <div className="text-[4px] text-gray-400">Mine · {t.est}</div>
+            </div>
+            <div className={`w-1.5 h-1.5 rounded-full ${t.p} flex-shrink-0`}/>
+          </div>
+        ))}
+        <div className="bg-gray-100 rounded p-1 text-center">
+          <div className="text-[4.5px] text-gray-400">2 family-assigned tasks hidden</div>
+          <div className="text-[4px] text-emerald-600 font-semibold">Tap icon again to show all</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF14_FamilyView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col bg-white">
+      <div className="bg-indigo-600 px-2 py-1.5">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[6.5px] font-bold text-white">Family Tasks</span>
+          <div className="flex items-center gap-0.5 bg-white rounded-md px-1 py-0.5">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="7" r="3" stroke="#4f46e5" strokeWidth="2.2"/>
+              <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="#4f46e5" strokeWidth="2.2" strokeLinecap="round"/>
+              <circle cx="17" cy="7" r="3" stroke="#4f46e5" strokeWidth="2.2"/>
+              <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="#4f46e5" strokeWidth="2.2" strokeLinecap="round"/>
+            </svg>
+            <span className="text-[4px] text-indigo-700 font-bold">Family</span>
+          </div>
+        </div>
+        <div className="flex gap-0.5">
+          {['All','Today','Upcoming','Given'].map((v,i)=>(
+            <div key={v} className={`text-[5px] px-1.5 py-0.5 rounded-full font-semibold ${i===1?'bg-white text-indigo-700':'bg-indigo-500/60 text-white'}`}>{v}</div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1 mb-0.5">
+          <div className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">From family — Today</div>
+          <div className="text-[4px] bg-indigo-100 text-indigo-700 rounded px-0.5 font-bold">2</div>
+        </div>
+        {[
+          {title:'Buy milk & eggs', from:'Mom',  fromColor:'bg-pink-400',   est:'45m', p:'bg-amber-400'},
+          {title:'Fix leaking tap', from:'Dad',  fromColor:'bg-orange-400', est:'1h',  p:'bg-red-400'  },
+        ].map(t=>(
+          <div key={t.title} className="bg-white rounded-lg border border-indigo-100 border-l-2 border-l-indigo-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5.5px] font-semibold text-gray-800 truncate">{t.title}</div>
+              <div className="flex items-center gap-0.5 mt-0.5">
+                <div className={`w-2.5 h-2.5 rounded-full ${t.fromColor} flex items-center justify-center text-[3.5px] text-white font-bold`}>{t.from[0]}</div>
+                <span className="text-[4px] text-gray-400">By {t.from} · {t.est}</span>
+              </div>
+            </div>
+            <div className={`w-1.5 h-1.5 rounded-full ${t.p} flex-shrink-0`}/>
+          </div>
+        ))}
+        <div className="bg-indigo-50 border border-indigo-200 rounded p-1 text-center">
+          <div className="text-[4.5px] text-indigo-600">Your personal tasks are hidden</div>
+          <div className="text-[4px] text-indigo-500 font-semibold">Tap icon again → show all</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const TSK_FLOWS = [
   {
     id:'flow1', title:'Flow 1 — Task List → Detail → Complete',
@@ -5480,6 +5761,24 @@ const TSK_FLOWS = [
       {component:TF12_AssignOpen, label:'Assign Toggle ON + Workload Btn', type:'user' as const, arrow:'Tap Workload'},
       {component:TF12_WorkloadPanel, label:'Workload Panel — All Members', type:'system' as const, arrow:'Tap Dad'},
       {component:TF12_AssignConfirmed, label:'Assigned + Load Updated', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow13', title:'Flow 13 — Drag & Drop to Assign',
+    description:'User long-presses a task and drags it to a member\'s avatar in the header. If the member is overloaded the system shows a workload warning inline. Dropping on an available member assigns instantly and updates their workload.',
+    screens:[
+      {component:TF13_DragStart, label:'Long-press → Drag Mode', type:'user' as const, arrow:'Drag to avatar row'},
+      {component:TF13_DragOver, label:'Hover Avatar — Warning Shown', type:'warning' as const, arrow:'Drop on Mom'},
+      {component:TF13_DropConfirmed, label:'Dropped — Assigned to Mom', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow14', title:'Flow 14 — Personal / Family View Toggle',
+    description:'The two-person icon in the header is a 3-state toggle. First tap → Personal only (tasks you created yourself). Second tap → Family only (tasks assigned to you by family members). Third tap → back to All.',
+    screens:[
+      {component:TF14_AllView, label:'Default — All Tasks', type:'user' as const, arrow:'Tap toggle once'},
+      {component:TF14_PersonalView, label:'Personal Only (my tasks)', type:'normal' as const, arrow:'Tap toggle again'},
+      {component:TF14_FamilyView, label:'Family Only (from others)', type:'system' as const, arrow:null},
     ],
   },
 ];
