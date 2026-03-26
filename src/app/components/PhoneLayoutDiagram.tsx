@@ -4283,9 +4283,17 @@ function TF1_TaskList() {
 function TF1_TaskDetail() {
   return (
     <div style={{minHeight:240}} className="flex flex-col">
-      <div className="bg-emerald-600 px-2 py-1.5">
-        <div className="text-[6px] text-white font-bold">Task Detail</div>
-        <div className="text-[5px] text-emerald-200">Take out trash</div>
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="flex-1">
+          <div className="text-[6px] text-white font-bold">Task Detail</div>
+          <div className="text-[5px] text-emerald-200">Take out trash</div>
+        </div>
+        <div className="w-5 h-5 rounded-md bg-red-500/80 flex items-center justify-center flex-shrink-0">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
       </div>
       <div className="flex-1 px-1.5 py-1 space-y-1">
         <div className="flex items-center gap-1">
@@ -4859,7 +4867,14 @@ function TF9_EditForm() {
       <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
         <div className="text-white text-[7px]">←</div>
         <div className="text-[6px] text-white font-bold">Edit Task</div>
-        <div className="ml-auto text-[5px] bg-white text-emerald-700 rounded px-1 py-0.5 font-bold">EDIT</div>
+        <div className="ml-auto flex items-center gap-1">
+          {/* Delete icon in header */}
+          <div className="w-5 h-5 rounded-md bg-red-500/80 flex items-center justify-center" title="Delete task">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
       <div className="flex-1 bg-white px-1.5 py-1 space-y-1 overflow-hidden">
         {/* Title */}
@@ -4914,8 +4929,16 @@ function TF9_EditForm() {
             </div>
           </div>
         </div>
-        {/* Save */}
-        <div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">SAVE CHANGES</div>
+        {/* Action row — Delete + Save */}
+        <div className="flex gap-1 pt-0.5">
+          <div className="flex items-center justify-center gap-0.5 border border-red-300 bg-red-50 rounded py-1 px-1.5 flex-shrink-0">
+            <svg width="7" height="7" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div className="text-[5.5px] text-red-600 font-bold">DELETE</div>
+          </div>
+          <div className="flex-1 bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">SAVE CHANGES</div>
+        </div>
       </div>
     </div>
   );
@@ -5381,6 +5404,124 @@ function TF9_BalancedResult() {
   );
 }
 
+// ── Task Flow 15: Delete Task with Confirmation ───────────────────
+function TF15_DetailWithDelete() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[7px]">←</div>
+        <div className="flex-1">
+          <div className="text-[6px] text-white font-bold">Task Detail</div>
+          <div className="text-[5px] text-emerald-200">Take out trash</div>
+        </div>
+        {/* Delete icon — highlighted to draw attention */}
+        <div className="w-5 h-5 rounded-md bg-red-500 flex items-center justify-center flex-shrink-0 ring-2 ring-white/60">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1">
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-emerald-400"/>
+          <div className="text-[6px] font-bold text-gray-800">Take out trash</div>
+        </div>
+        <div className="flex gap-0.5">
+          <div className="text-[5px] bg-red-100 text-red-700 rounded px-1 py-0.5">🔴 High</div>
+          <div className="text-[5px] bg-orange-100 text-orange-700 rounded px-1 py-0.5">⚠ Overdue</div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400">Assigned to: Dad</div>
+          <div className="text-[5px] text-gray-400">Due: Yesterday · 🔁 Rotates weekly</div>
+          <div className="text-[5px] text-gray-400">⏱ Est. time: <span className="font-semibold text-gray-600">30 min</span></div>
+        </div>
+        <div className="bg-gray-50 rounded border border-gray-200 p-1 text-[5px] text-gray-600">Notes: Take bins to curb before 7am</div>
+        {/* Callout pointing to delete icon */}
+        <div className="flex items-center gap-1 bg-red-50 border border-red-200 rounded p-1">
+          <svg width="7" height="7" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <div className="text-[4.5px] text-red-600">Tap the trash icon to delete this task</div>
+        </div>
+      </div>
+      <div className="px-1.5 pb-1 bg-white border-t border-gray-100">
+        <div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1">MARK COMPLETE</div>
+      </div>
+    </div>
+  );
+}
+
+function TF15_DeleteConfirm() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      {/* Dimmed background — the detail screen */}
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1 opacity-40">
+        <div className="text-white text-[7px]">←</div>
+        <div className="flex-1">
+          <div className="text-[6px] text-white font-bold">Task Detail</div>
+          <div className="text-[5px] text-emerald-200">Take out trash</div>
+        </div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1 opacity-30">
+        <div className="text-[6px] font-bold text-gray-800">Take out trash</div>
+        <div className="text-[5px] text-gray-400">High · Overdue · Dad</div>
+      </div>
+      {/* Confirmation bottom sheet */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1"/>
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div className="text-[6px] font-bold text-gray-900">Delete this task?</div>
+            <div className="text-[4.5px] text-gray-500 leading-tight">This will permanently remove "Take out trash" and cannot be undone.</div>
+          </div>
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded p-1">
+          <div className="text-[4.5px] text-amber-700">⚠ This task has a rotation set up. Deleting it will also remove the recurring rotation for Dad → Mom.</div>
+        </div>
+        <div className="flex gap-1 pt-0.5">
+          <div className="flex-1 border border-gray-300 text-gray-600 text-[5.5px] font-semibold text-center rounded py-1">Cancel</div>
+          <div className="flex-1 bg-red-500 text-white text-[5.5px] font-bold text-center rounded py-1">Yes, Delete</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TF15_Deleted() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-gray-700 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Task Deleted</div>
+      </div>
+      <div className="flex-1 px-1.5 py-2 flex flex-col items-center justify-center space-y-1.5">
+        <div className="w-8 h-8 rounded-full bg-red-100 border-2 border-red-400 flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <div className="text-[7px] font-bold text-gray-700 text-center">Task Deleted</div>
+        <div className="text-[5px] text-gray-500 text-center">"Take out trash" has been removed</div>
+        <div className="space-y-0.5 w-full">
+          {['Removed from Dad\'s task list','Rotation cancelled for this task','Workload recalculated for Dad','Family feed updated'].map(a=>(
+            <div key={a} className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"/>
+              <div className="text-[4.5px] text-gray-500">{a}</div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-center mt-1">
+          <div className="text-[4.5px] text-gray-500">Returning to task list…</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Task Flow 13: Drag & Drop to Assign ──────────────────────────
 function TF13_DragStart() {
   const tasks = [
@@ -5779,6 +5920,15 @@ const TSK_FLOWS = [
       {component:TF14_AllView, label:'Default — All Tasks', type:'user' as const, arrow:'Tap toggle once'},
       {component:TF14_PersonalView, label:'Personal Only (my tasks)', type:'normal' as const, arrow:'Tap toggle again'},
       {component:TF14_FamilyView, label:'Family Only (from others)', type:'system' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow15', title:'Flow 15 — Delete Task with Confirmation',
+    description:'User taps the trash icon on the Task Detail screen. A bottom sheet slides up asking for confirmation with a warning if the task has a rotation. Confirming permanently deletes the task and updates all related data.',
+    screens:[
+      {component:TF15_DetailWithDelete, label:'Task Detail — Tap Delete', type:'user' as const, arrow:'Tap trash icon'},
+      {component:TF15_DeleteConfirm, label:'Confirmation Bottom Sheet', type:'warning' as const, arrow:'Tap Yes, Delete'},
+      {component:TF15_Deleted, label:'Task Deleted', type:'success' as const, arrow:null},
     ],
   },
 ];
