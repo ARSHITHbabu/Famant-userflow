@@ -2990,7 +2990,112 @@ function ExpenseScreenFlows() {
   );
 }
 
-// ── List: Main Screen ─────────────────────────────────────────────
+// ── List: Overview Screen (all lists) ─────────────────────────────
+function ListsOverviewScreen() {
+  const lists = [
+    { icon:'🛒', name:'Groceries',      count:6,  members:['M','D','N'], color:'bg-orange-50 border-orange-200', iconBg:'bg-orange-100', label:'Weekly shopping', updated:'2h ago' },
+    { icon:'🏫', name:'School Supplies',count:4,  members:['M','J'],     color:'bg-blue-50 border-blue-200',    iconBg:'bg-blue-100',   label:'Back to school',  updated:'1d ago' },
+    { icon:'🎉', name:'Party Prep',     count:12, members:['M','D','J','N'], color:'bg-purple-50 border-purple-200', iconBg:'bg-purple-100', label:'Birthday party', updated:'3h ago' },
+    { icon:'🎒', name:'Packing List',   count:8,  members:['M','D'],     color:'bg-teal-50 border-teal-200',    iconBg:'bg-teal-100',   label:'Family vacation', updated:'5d ago' },
+  ];
+  const memberColors = ['bg-pink-400','bg-orange-400','bg-blue-400','bg-emerald-400'];
+  const templates = [
+    { icon:'🛒', label:'Groceries', color:'bg-orange-50 border-orange-200 text-orange-700' },
+    { icon:'🎒', label:'Vacation',  color:'bg-blue-50 border-blue-200 text-blue-700' },
+    { icon:'🧹', label:'Cleaning',  color:'bg-emerald-50 border-emerald-200 text-emerald-700' },
+    { icon:'🎉', label:'Party',     color:'bg-purple-50 border-purple-200 text-purple-700' },
+  ];
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
+      {/* Header */}
+      <div className="bg-orange-500 px-2 pt-2 pb-1.5">
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+            <span className="text-[5px] text-orange-200">▾</span>
+          </div>
+          <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
+              <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+              <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
+              <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
+            </svg>
+          </div>
+        </div>
+        <div className="flex gap-1.5 items-center">
+          <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[5px]">🤖</div>
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false} />)}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-1.5 space-y-2 overflow-hidden">
+
+        {/* My Lists */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">My Lists · 4</span>
+            <span className="text-[4.5px] text-orange-600 font-semibold">+ New List</span>
+          </div>
+          <div className="space-y-0.5">
+            {lists.map((lst,i)=>(
+              <div key={lst.name} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${lst.color}`}>
+                <div className={`w-5 h-5 rounded-lg ${lst.iconBg} flex items-center justify-center text-[9px] flex-shrink-0`}>{lst.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[5.5px] font-bold text-gray-800 truncate">{lst.name}</span>
+                    <span className="text-[4px] bg-gray-100 text-gray-500 rounded px-0.5">{lst.count}</span>
+                  </div>
+                  <div className="text-[4px] text-gray-400">{lst.label} · {lst.updated}</div>
+                </div>
+                <div className="flex items-center gap-0 flex-shrink-0">
+                  {lst.members.slice(0,3).map((m,j)=>(
+                    <div key={j} className={`w-2.5 h-2.5 rounded-full ${memberColors[(i+j)%4]} border border-white flex items-center justify-center text-[3px] text-white font-bold -ml-0.5`}>{m}</div>
+                  ))}
+                  <span className="text-[5px] text-gray-400 ml-0.5">›</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Templates */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
+            <span className="text-[4.5px] text-orange-600 font-semibold">All templates ›</span>
+          </div>
+          <div className="flex gap-1 overflow-hidden pb-0.5">
+            {templates.map(t=>(
+              <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
+                <span className="text-[9px] leading-none">{t.icon}</span>
+                <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
+              </div>
+            ))}
+            <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-orange-300 rounded-lg px-1.5 py-1 text-center bg-orange-50">
+              <span className="text-[9px] leading-none text-orange-400">＋</span>
+              <span className="text-[4px] text-orange-500 font-semibold leading-tight max-w-[32px]">New Template</span>
+            </div>
+          </div>
+          <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled list instantly</div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+          <span className="text-[5px]">📋</span>
+          <span className="text-[4.5px] text-gray-600 font-semibold">Save as Template</span>
+        </div>
+        <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
+      </div>
+    </div>
+  );
+}
+
+// ── List: Main Screen (Grocery Detail) ────────────────────────────
 function ListMainScreen() {
   const items = [
     { name:'Milk',        store:'Safeway', addedBy:'Mom',  addedColor:'bg-pink-400',   done:false },
@@ -3004,12 +3109,6 @@ function ListMainScreen() {
     { label:'School',    count:4,  active:false },
     { label:'Party',     count:12, active:false },
     { label:'Packing',   count:8,  active:false },
-  ];
-  const templates = [
-    { icon:'🛒', label:'Groceries',  color:'bg-orange-50 border-orange-200 text-orange-700' },
-    { icon:'🎒', label:'Vacation',   color:'bg-blue-50 border-blue-200 text-blue-700'       },
-    { icon:'🧹', label:'Cleaning',   color:'bg-emerald-50 border-emerald-200 text-emerald-700' },
-    { icon:'🎉', label:'Party',      color:'bg-purple-50 border-purple-200 text-purple-700' },
   ];
   return (
     <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
@@ -3079,34 +3178,10 @@ function ListMainScreen() {
           </div>
         </div>
 
-        {/* Quick Templates */}
-        <div>
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
-            <span className="text-[4.5px] text-orange-600 font-semibold">All templates ›</span>
-          </div>
-          <div className="flex gap-1 overflow-x-auto pb-0.5">
-            {templates.map(t=>(
-              <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
-                <span className="text-[9px] leading-none">{t.icon}</span>
-                <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
-              </div>
-            ))}
-            <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-gray-300 rounded-lg px-1.5 py-1 text-center bg-white">
-              <span className="text-[9px] leading-none text-gray-400">＋</span>
-              <span className="text-[4px] text-gray-400 font-semibold leading-tight max-w-[28px]">My List</span>
-            </div>
-          </div>
-          <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled list instantly</div>
-        </div>
       </div>
 
       {/* ── Bottom bar ── */}
-      <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
-        <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
-          <span className="text-[5px]">📋</span>
-          <span className="text-[4.5px] text-gray-600 font-semibold">Save as Template</span>
-        </div>
+      <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-end">
         <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
       </div>
     </div>
@@ -8265,7 +8340,7 @@ export function PhoneLayoutDiagram() {
           Everything below is ported from the list-map blueprint — phone layouts, 5 screen flows, 13 features, AI layers, module connections, and system processes.
         </p>
 
-        {/* Navigation flow: More → List Main */}
+        {/* Navigation flow: More → Lists Overview → Grocery Detail → Add Item */}
         <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
           <PhoneShell label="More Screen" sublabel="Tap Lists" accent="border-orange-500">
             <MoreScreen />
@@ -8274,7 +8349,14 @@ export function PhoneLayoutDiagram() {
             <span className="text-[9px] font-bold bg-orange-50 border border-orange-300 text-orange-700 px-2 py-0.5 rounded-full">Tap Lists</span>
             <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
           </div>
-          <PhoneShell label="List Main Screen" sublabel="Avatars · Lists · Templates" accent="border-orange-500" highlight>
+          <PhoneShell label="Lists Home" sublabel="All lists · Templates · Create" accent="border-orange-500" highlight>
+            <ListsOverviewScreen />
+          </PhoneShell>
+          <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+            <span className="text-[9px] font-bold bg-orange-50 border border-orange-300 text-orange-700 px-2 py-0.5 rounded-full">Tap Groceries</span>
+            <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+          </div>
+          <PhoneShell label="Grocery List" sublabel="Items · Quick add · Members" accent="border-orange-500">
             <ListMainScreen />
           </PhoneShell>
           <Arrow label="Tap quick add field" />
