@@ -3667,6 +3667,60 @@ const LST_FLOWS = [
       {component:LF9_HistorySaved, label:'List Reset + History Saved', type:'success' as const, arrow:null},
     ],
   },
+  {
+    id:'flow10', title:'Flow 10 — Share List as External Link',
+    description:'User generates a share link for the Groceries list. Non-app family or friends receive the link and can view the list in a browser read-only — no app install needed. Link can be revoked at any time.',
+    screens:[
+      {component:LF10_ShareMenu, label:'Share Options Sheet', type:'user' as const, arrow:'Tap Generate Link'},
+      {component:LF10_LinkGenerated, label:'Link Generated', type:'system' as const, arrow:'Share via WhatsApp'},
+      {component:LF10_RecipientView, label:'Recipient Web View (read-only)', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow11', title:'Flow 11 — Item Reordering (Long Press + Drag)',
+    description:'User long-presses any item to enter reorder mode. Drag handles appear on all rows. User drags "Butter" above "Eggs". On release the new order is saved and synced to all family members instantly.',
+    screens:[
+      {component:LF11_NormalList, label:'Normal List View', type:'user' as const, arrow:'Long press item'},
+      {component:LF11_DragMode, label:'Reorder Mode — Drag Active', type:'system' as const, arrow:'Drop to position'},
+      {component:LF11_ReorderSaved, label:'New Order Saved + Synced', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow12', title:'Flow 12 — Quantity & Notes on Item',
+    description:'User taps an item to open its detail sheet. They set quantity to 2 and add a prep note. On save the item row shows the quantity badge and a note indicator inline.',
+    screens:[
+      {component:LF12_ItemRow, label:'Item Row — Tap to Edit', type:'user' as const, arrow:'Tap item'},
+      {component:LF12_DetailSheet, label:'Item Detail Sheet', type:'system' as const, arrow:'Save'},
+      {component:LF12_ItemWithMeta, label:'Item Shows Qty + Note', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow13', title:'Flow 13 — Archive Completed Items',
+    description:'After shopping, checked items pile up. User taps "Archive completed" — a sheet confirms. Archived items leave the active list but are saved in a searchable archive. The list resets to a clean slate for next time.',
+    screens:[
+      {component:LF13_CheckedItems, label:'Items Checked — Archive Prompt', type:'user' as const, arrow:'Tap Archive'},
+      {component:LF13_ArchiveSheet, label:'Archive Confirmation Sheet', type:'warning' as const, arrow:'Confirm'},
+      {component:LF13_Archived, label:'Archived · List Clean', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow14', title:'Flow 14 — Voice Add Item',
+    description:'User taps the mic icon and says "Add eggs and milk to groceries." AI parses the utterance, identifies 2 items, previews them for confirmation, and adds both on a single tap.',
+    screens:[
+      {component:LF14_MicOpen, label:'Voice Input Active', type:'user' as const, arrow:'AI parses'},
+      {component:LF14_AIParsed, label:'AI Preview — 2 Items', type:'system' as const, arrow:'Tap Add All'},
+      {component:LF14_ItemsAdded, label:'Both Items Added', type:'success' as const, arrow:null},
+    ],
+  },
+  {
+    id:'flow15', title:'Flow 15 — AI Calendar Event → Auto-Create List',
+    description:'User creates a "Birthday Party" event in the Calendar. The AI detects it is a party-type event and suggests generating a Party Prep list with pre-filled items. One tap creates the linked list.',
+    screens:[
+      {component:LF15_CalendarEvent, label:'Calendar Event Created', type:'user' as const, arrow:'AI detects'},
+      {component:LF15_AISuggestion, label:'AI Prompt — Create List?', type:'system' as const, arrow:'Tap Create List'},
+      {component:LF15_ListCreated, label:'Party Prep List Ready', type:'success' as const, arrow:null},
+    ],
+  },
 ];
 
 // ── List Flow 6: Edit Item / Swipe to Delete ──────────────────────
@@ -4084,6 +4138,610 @@ function LF9_HistorySaved() {
   );
 }
 
+// ── List Flow 10: Share as External Link ──────────────────────────
+function LF10_ShareMenu() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      <div className="bg-orange-500 px-2 py-1.5 opacity-40">
+        <div className="text-[6px] text-white font-bold">Groceries · 6 items</div>
+      </div>
+      <div className="flex-1 bg-white opacity-25 px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs','Bread'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1"/>
+        <div className="text-[6px] font-bold text-gray-900">Share this list</div>
+        <div className="text-[4.5px] text-gray-500">Anyone with the link can view (read-only)</div>
+        <div className="space-y-0.5">
+          {[
+            {icon:'🔗', label:'Generate share link', color:'bg-orange-50 border-orange-200 text-orange-700'},
+            {icon:'📋', label:'Copy to clipboard', color:'bg-gray-50 border-gray-200 text-gray-700'},
+            {icon:'💬', label:'Share via WhatsApp', color:'bg-green-50 border-green-200 text-green-700'},
+            {icon:'📧', label:'Share via Email', color:'bg-blue-50 border-blue-200 text-blue-700'},
+          ].map(o=>(
+            <div key={o.label} className={`flex items-center gap-1.5 border rounded px-1.5 py-0.5 ${o.color}`}>
+              <span className="text-[8px]">{o.icon}</span>
+              <span className="text-[5px] font-semibold">{o.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF10_LinkGenerated() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Share Link Ready</div>
+        <div className="text-[4.5px] text-orange-200">Groceries list</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1.5 space-y-1.5">
+        <div className="bg-gray-50 border border-gray-200 rounded px-1.5 py-1">
+          <div className="text-[4px] text-gray-400 mb-0.5">SHARE LINK</div>
+          <div className="text-[4.5px] text-blue-600 font-mono truncate">famant.app/list/groc-xk29q</div>
+        </div>
+        <div className="flex gap-1">
+          <div className="flex-1 bg-green-500 text-white text-[5px] font-bold text-center rounded py-1 flex items-center justify-center gap-0.5">
+            <span>💬</span><span>WhatsApp</span>
+          </div>
+          <div className="flex-1 bg-blue-500 text-white text-[5px] font-bold text-center rounded py-1 flex items-center justify-center gap-0.5">
+            <span>📧</span><span>Email</span>
+          </div>
+          <div className="flex-1 bg-gray-100 text-gray-700 text-[5px] font-bold text-center rounded py-1 flex items-center justify-center gap-0.5">
+            <span>📋</span><span>Copy</span>
+          </div>
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded p-1">
+          <div className="text-[4.5px] text-amber-700 font-semibold">Link permissions</div>
+          <div className="text-[4px] text-amber-600">View only · Expires never · Revoke anytime</div>
+        </div>
+        <div className="border border-dashed border-red-300 rounded px-1.5 py-1 flex items-center gap-1">
+          <span className="text-[8px]">🚫</span>
+          <span className="text-[4.5px] text-red-600 font-semibold">Revoke link</span>
+          <span className="text-[4px] text-red-400 ml-auto">Tap to disable</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF10_RecipientView() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-gray-800 px-2 py-1.5">
+        <div className="text-[4px] text-gray-400 font-mono">famant.app/list/groc-xk29q</div>
+        <div className="text-[6px] text-white font-bold mt-0.5">🛒 Groceries</div>
+        <div className="text-[4.5px] text-gray-400">Thaikaattu Family · shared · view only</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        <div className="bg-blue-50 border border-blue-200 rounded p-0.5 mb-1">
+          <div className="text-[4px] text-blue-700">👁 Read-only — you can view but not edit this list</div>
+        </div>
+        {['Milk','Eggs (×2)','Bread','Butter','Vegetables'].map((i,idx)=>(
+          <div key={i} className={`border rounded-lg px-1.5 py-0.5 flex items-center gap-1 ${idx===1?'bg-orange-50 border-orange-200':'bg-white border-gray-100'}`}>
+            <div className={`w-3 h-3 rounded border-2 flex-shrink-0 ${idx===2?'bg-orange-400 border-orange-400':'border-gray-200'}`}>
+              {idx===2 && <span className="text-white text-[5px] font-bold flex items-center justify-center w-full h-full">✓</span>}
+            </div>
+            <span className={`text-[5px] ${idx===2?'line-through text-gray-400':'text-gray-800'}`}>{i}</span>
+            {idx===1 && <span className="text-[4px] bg-orange-100 text-orange-600 rounded px-0.5 ml-auto">×2</span>}
+          </div>
+        ))}
+        <div className="bg-orange-50 border border-orange-200 rounded p-1 mt-1 flex items-center gap-1">
+          <span className="text-[8px]">📱</span>
+          <span className="text-[4px] text-orange-700 font-semibold">Get Famant to edit & collaborate</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 11: Item Reordering ─────────────────────────────────
+function LF11_NormalList() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+        <div className="text-[4.5px] text-orange-200">Long press any item to reorder</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs (×2)','Bread','Butter','Vegetables'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800 flex-1">{i}</span>
+          </div>
+        ))}
+        <div className="text-[4px] text-gray-400 text-center italic mt-0.5">↕ Long press to enter drag mode</div>
+      </div>
+    </div>
+  );
+}
+
+function LF11_DragMode() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · Reordering</div>
+        <div className="text-[4.5px] text-orange-200">Drag ≡ handle to move · release to drop</div>
+      </div>
+      <div className="flex-1 bg-orange-50 px-1.5 py-1 space-y-0.5">
+        {[
+          {name:'Milk',       dragging:false, elevated:false},
+          {name:'Eggs (×2)', dragging:false, elevated:false},
+          {name:'Bread',      dragging:false, elevated:false},
+          {name:'Butter',     dragging:true,  elevated:true },
+          {name:'Vegetables', dragging:false, elevated:false},
+        ].map(item=>(
+          <div key={item.name} className={`border rounded-lg px-1 py-1 flex items-center gap-1 transition-all ${
+            item.elevated
+              ? 'bg-orange-100 border-orange-400 shadow-lg scale-105 z-10 relative'
+              : 'bg-white border-gray-200'
+          }`}>
+            <div className="flex flex-col gap-[1.5px] flex-shrink-0 px-0.5">
+              {[0,1,2].map(r=><div key={r} className="w-2.5 h-px bg-gray-400 rounded"/>)}
+            </div>
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className={`text-[5.5px] flex-1 ${item.elevated?'font-bold text-orange-700':'text-gray-800'}`}>{item.name}</span>
+            {item.elevated && <span className="text-[4px] text-orange-500 font-semibold">dragging…</span>}
+          </div>
+        ))}
+        <div className="bg-orange-100 border border-dashed border-orange-400 rounded-lg px-1.5 py-0.5 text-center">
+          <span className="text-[4px] text-orange-600 font-semibold">↑ Drop here to move above Eggs</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF11_ReorderSaved() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+        <div className="text-[4.5px] text-orange-200">Order saved · synced to family</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {[
+          {name:'Milk',       new:false},
+          {name:'Butter',     new:true },
+          {name:'Eggs (×2)', new:false},
+          {name:'Bread',      new:false},
+          {name:'Vegetables', new:false},
+        ].map(item=>(
+          <div key={item.name} className={`border rounded-lg px-1.5 py-1 flex items-center gap-1 ${item.new?'bg-green-50 border-green-300':'bg-white border-gray-100'}`}>
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className={`text-[5.5px] flex-1 ${item.new?'font-bold text-green-700':'text-gray-800'}`}>{item.name}</span>
+            {item.new && <span className="text-[4px] text-green-500 font-semibold">moved ↑</span>}
+          </div>
+        ))}
+        <div className="bg-green-50 border border-green-200 rounded p-1 mt-0.5">
+          <div className="text-[4.5px] text-green-700">✓ New order saved · Synced to 3 family devices</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 12: Quantity & Notes on Item ────────────────────────
+function LF12_ItemRow() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+        <div className="text-[4.5px] text-orange-200">Tap any item to set qty or add notes</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {[
+          {name:'Milk',       qty:null, note:false},
+          {name:'Eggs',       qty:null, note:false, highlight:true},
+          {name:'Bread',      qty:null, note:false},
+          {name:'Butter',     qty:2,    note:true },
+          {name:'Vegetables', qty:null, note:false},
+        ].map((item:any)=>(
+          <div key={item.name} className={`border rounded-lg px-1.5 py-1 flex items-center gap-1 ${item.highlight?'bg-orange-50 border-orange-300 ring-1 ring-orange-300':'bg-white border-gray-100'}`}>
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className={`text-[5.5px] flex-1 ${item.highlight?'font-bold text-orange-700':'text-gray-800'}`}>{item.name}</span>
+            <div className="flex items-center gap-0.5 flex-shrink-0">
+              {item.qty && <span className="text-[4px] bg-orange-100 text-orange-600 border border-orange-200 rounded px-0.5 font-bold">×{item.qty}</span>}
+              {item.note && <span className="text-[4px] bg-violet-100 text-violet-600 border border-violet-200 rounded px-0.5">📝</span>}
+              {item.highlight && <span className="text-[4px] text-orange-500 font-semibold">tap ›</span>}
+            </div>
+          </div>
+        ))}
+        <div className="text-[4px] text-gray-400 italic text-center mt-0.5">Tap item → qty stepper + notes field</div>
+      </div>
+    </div>
+  );
+}
+
+function LF12_DetailSheet() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      <div className="bg-orange-500 px-2 py-1.5 opacity-30">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+      </div>
+      <div className="flex-1 bg-white opacity-20 px-1.5 py-1">
+        {['Milk','Eggs','Bread'].map(i=>(
+          <div key={i} className="border border-gray-100 rounded-lg px-1.5 py-1 mb-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-0.5"/>
+        <div className="text-[7px] font-bold text-gray-900">Eggs</div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">QUANTITY</div>
+          <div className="flex items-center gap-1">
+            <div className="w-6 h-5 bg-gray-100 rounded-lg flex items-center justify-center text-[9px] text-gray-500 border border-gray-200 font-bold">−</div>
+            <div className="text-[8px] font-bold text-gray-800 w-5 text-center">2</div>
+            <div className="w-6 h-5 bg-orange-100 rounded-lg flex items-center justify-center text-[9px] text-orange-600 border border-orange-200 font-bold">+</div>
+            <span className="text-[4.5px] text-gray-400 ml-1">dozen</span>
+          </div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">NOTES</div>
+          <div className="bg-orange-50 border border-orange-300 rounded px-1.5 py-0.5">
+            <div className="text-[5.5px] text-gray-800">Free-range if available</div>
+          </div>
+        </div>
+        <div>
+          <div className="text-[5px] text-gray-400 mb-0.5">STORE</div>
+          <div className="flex gap-0.5">
+            {['Costco','Safeway','Local','Any'].map((s,i)=>(
+              <div key={s} className={`text-[4px] px-1 py-0.5 rounded-full border font-medium ${i===0?'bg-orange-500 text-white border-orange-500':'bg-gray-50 text-gray-400 border-gray-200'}`}>{s}</div>
+            ))}
+          </div>
+        </div>
+        <div className="bg-orange-500 text-white text-[6px] font-bold text-center rounded py-1">SAVE ITEM</div>
+      </div>
+    </div>
+  );
+}
+
+function LF12_ItemWithMeta() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 5 items</div>
+        <div className="text-[4.5px] text-orange-200">Item updated · synced</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        <div className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+          <span className="text-[5.5px] text-gray-800 flex-1">Milk</span>
+        </div>
+        <div className="bg-green-50 border-2 border-green-300 rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+          <span className="text-[5.5px] font-bold text-gray-800 flex-1">Eggs</span>
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            <span className="text-[4px] bg-orange-100 text-orange-600 border border-orange-200 rounded px-0.5 font-bold">×2</span>
+            <span className="text-[4px] bg-violet-100 text-violet-600 border border-violet-200 rounded px-0.5">📝</span>
+            <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5">Costco</span>
+          </div>
+        </div>
+        <div className="ml-3 bg-violet-50 border border-violet-200 rounded px-1 py-0.5">
+          <div className="text-[4px] text-violet-600 italic">Note: Free-range if available</div>
+        </div>
+        {['Bread','Butter','Vegetables'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        <div className="bg-green-50 border border-green-200 rounded p-0.5 mt-0.5">
+          <div className="text-[4.5px] text-green-700">✓ Qty & note saved · visible to all members</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 13: Archive Completed Items ─────────────────────────
+function LF13_CheckedItems() {
+  const items = [
+    {name:'Milk',       done:true },
+    {name:'Eggs (×2)', done:true },
+    {name:'Bread',      done:true },
+    {name:'Butter',     done:false},
+    {name:'Vegetables', done:false},
+  ];
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 3/5 done</div>
+        <div className="text-[4.5px] text-orange-200">Archive completed to clean up</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {items.map(item=>(
+          <div key={item.name} className={`border rounded-lg px-1.5 py-0.5 flex items-center gap-1 ${item.done?'bg-gray-50 border-gray-100 opacity-60':'bg-white border-gray-100'}`}>
+            <div className={`w-3 h-3 rounded border-2 flex items-center justify-center flex-shrink-0 ${item.done?'bg-orange-400 border-orange-400':'border-gray-300'}`}>
+              {item.done && <span className="text-[5px] text-white font-bold">✓</span>}
+            </div>
+            <span className={`text-[5.5px] flex-1 ${item.done?'line-through text-gray-400':'text-gray-800 font-medium'}`}>{item.name}</span>
+          </div>
+        ))}
+        <div className="bg-slate-100 border border-slate-300 rounded-lg px-1.5 py-1 flex items-center justify-between mt-0.5">
+          <div className="flex items-center gap-1">
+            <span className="text-[8px]">📦</span>
+            <span className="text-[5px] text-slate-700 font-semibold">Archive completed (3)</span>
+          </div>
+          <span className="text-[4px] text-slate-500">tap ›</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF13_ArchiveSheet() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      <div className="bg-orange-500 px-2 py-1.5 opacity-30">
+        <div className="text-[6px] text-white font-bold">Groceries · 3/5 done</div>
+      </div>
+      <div className="flex-1 bg-white opacity-20 px-1.5 py-1 space-y-0.5">
+        {['Milk','Eggs','Bread'].map(i=>(
+          <div key={i} className="bg-gray-50 border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-orange-400 border-2 border-orange-400 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-400 line-through">{i}</span>
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1"/>
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0 text-[11px]">📦</div>
+          <div>
+            <div className="text-[6px] font-bold text-gray-900">Archive 3 completed items?</div>
+            <div className="text-[4.5px] text-gray-500 leading-tight">They'll move to Archive — not deleted. View or restore anytime.</div>
+          </div>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-1">
+          <div className="text-[4.5px] text-blue-700">💾 Archive ≠ delete. Items stay in Archive tab for future reference or re-adding.</div>
+        </div>
+        <div className="flex gap-1">
+          <div className="flex-1 border border-gray-300 text-gray-600 text-[5.5px] font-semibold text-center rounded py-1">Cancel</div>
+          <div className="flex-1 bg-slate-700 text-white text-[5.5px] font-bold text-center rounded py-1">Archive Items</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF13_Archived() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 2 items</div>
+        <div className="text-[4.5px] text-orange-200">3 items archived · list clean</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Butter','Vegetables'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800 font-medium">{i}</span>
+          </div>
+        ))}
+        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-lg px-1.5 py-1 flex items-center gap-1">
+          <div className="w-3 h-3 rounded border-2 border-gray-200 flex-shrink-0"/>
+          <span className="text-[5px] text-gray-400">Add item…</span>
+        </div>
+        <div className="bg-slate-50 border border-slate-200 rounded p-1 mt-0.5">
+          <div className="text-[5px] font-semibold text-slate-700">📦 Archive · 3 items</div>
+          <div className="text-[4px] text-slate-500">Milk · Eggs (×2) · Bread · saved 18 Mar</div>
+          <div className="text-[4px] text-slate-500 mt-0.5">Tap to restore individual items or re-add all</div>
+        </div>
+        <div className="bg-green-50 border border-green-200 rounded p-0.5">
+          <div className="text-[4.5px] text-green-700">✓ Archived · AI will suggest these next time</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 14: Voice Add Item ──────────────────────────────────
+function LF14_MicOpen() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · Voice Input</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"/>
+          <span className="text-[4.5px] text-orange-200">Listening…</span>
+        </div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 flex flex-col items-center justify-center space-y-2">
+        <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
+          <span className="text-[16px]">🎙️</span>
+        </div>
+        <div className="bg-orange-50 border border-orange-200 rounded-lg px-2 py-1 text-center">
+          <div className="text-[5.5px] font-semibold text-orange-700">"Add eggs and milk to groceries"</div>
+        </div>
+        <div className="flex gap-0.5 items-center">
+          {[3,5,8,6,4,7,5,3].map((h,i)=>(
+            <div key={i} className="w-1 bg-orange-400 rounded-full" style={{height:`${h*2}px`}}/>
+          ))}
+        </div>
+        <div className="text-[4.5px] text-gray-400 text-center">AI is parsing your voice command…</div>
+      </div>
+    </div>
+  );
+}
+
+function LF14_AIParsed() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Voice — AI Preview</div>
+        <div className="text-[4.5px] text-orange-200">Confirm items to add</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1.5 space-y-1.5">
+        <div className="bg-violet-50 border border-violet-200 rounded p-1">
+          <div className="text-[4.5px] text-violet-700 font-semibold">✨ AI understood: 2 items detected</div>
+          <div className="text-[4px] text-violet-600 italic mt-0.5">"Add eggs and milk to groceries"</div>
+        </div>
+        <div className="space-y-0.5">
+          {[
+            {name:'Eggs', store:'Costco', conf:'98%'},
+            {name:'Milk', store:'Safeway', conf:'99%'},
+          ].map(item=>(
+            <div key={item.name} className="bg-orange-50 border border-orange-200 rounded-lg px-1.5 py-1 flex items-center gap-1">
+              <div className="w-3.5 h-3.5 rounded border-2 border-orange-400 bg-orange-100 flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-[5px] font-bold text-orange-600">+</span>
+              </div>
+              <span className="text-[5.5px] font-semibold text-gray-800 flex-1">{item.name}</span>
+              <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5">{item.store}</span>
+              <span className="text-[4px] text-gray-400">{item.conf}</span>
+            </div>
+          ))}
+        </div>
+        <div className="text-[4px] text-gray-400">AI matched store tags from your purchase history</div>
+        <div className="flex gap-1">
+          <div className="flex-1 border border-gray-300 text-gray-600 text-[5px] font-semibold text-center rounded py-1">Edit</div>
+          <div className="flex-1 bg-orange-500 text-white text-[5px] font-bold text-center rounded py-1">Add All (2)</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF14_ItemsAdded() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Groceries · 7 items</div>
+        <div className="text-[4.5px] text-orange-200">2 items added via voice · synced</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['Bread','Butter','Vegetables'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        {[
+          {name:'Eggs', store:'Costco'},
+          {name:'Milk', store:'Safeway'},
+        ].map(item=>(
+          <div key={item.name} className="bg-green-50 border-2 border-green-300 rounded-lg px-1.5 py-1 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5.5px] font-bold text-green-800 flex-1">{item.name}</span>
+            <span className="text-[4px] bg-blue-50 text-blue-500 border border-blue-100 rounded px-0.5">{item.store}</span>
+            <span className="text-[4px] text-green-500 font-semibold">🎙 voice</span>
+          </div>
+        ))}
+        <div className="bg-green-50 border border-green-200 rounded p-1 mt-0.5">
+          <div className="text-[4.5px] text-green-700">✓ 2 items added via voice · family notified</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── List Flow 15: AI Calendar Event → Auto-Create List ────────────
+function LF15_CalendarEvent() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-purple-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Calendar · New Event</div>
+        <div className="text-[4.5px] text-purple-200">Event saved · AI analysing…</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1.5 space-y-1">
+        <div className="bg-purple-50 border border-purple-200 rounded-lg p-1.5">
+          <div className="flex items-center gap-1 mb-1">
+            <span className="text-[10px]">🎂</span>
+            <div>
+              <div className="text-[6px] font-bold text-purple-800">Natasha's Birthday Party</div>
+              <div className="text-[4.5px] text-purple-600">Sat 22 Apr · 4:00 PM · Home</div>
+            </div>
+          </div>
+          <div className="flex gap-0.5 flex-wrap">
+            {['🎉 Party','👨‍👩‍👧‍👦 All Family','🏠 Home'].map(t=>(
+              <span key={t} className="text-[4px] bg-purple-100 text-purple-600 rounded px-0.5">{t}</span>
+            ))}
+          </div>
+        </div>
+        <div className="text-[4.5px] text-gray-500 text-center">Event saved to family calendar</div>
+        <div className="bg-violet-50 border border-violet-200 rounded p-1 flex items-start gap-1">
+          <span className="text-[10px] mt-0.5">✨</span>
+          <div>
+            <div className="text-[5px] font-semibold text-violet-800">AI detected: Party event</div>
+            <div className="text-[4px] text-violet-600 leading-tight">Scanning subfeatures: guest list, food, decorations…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF15_AISuggestion() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col relative">
+      <div className="bg-purple-600 px-2 py-1.5 opacity-30">
+        <div className="text-[6px] text-white font-bold">Calendar</div>
+      </div>
+      <div className="flex-1 bg-white opacity-20"/>
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5 space-y-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-0.5"/>
+        <div className="flex items-start gap-1.5">
+          <div className="w-6 h-6 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0 text-[10px]">✨</div>
+          <div>
+            <div className="text-[6px] font-bold text-gray-900">Create a Party Prep list?</div>
+            <div className="text-[4.5px] text-gray-500 leading-tight">AI pre-filled 8 items based on "Natasha's Birthday Party"</div>
+          </div>
+        </div>
+        <div className="space-y-0.5">
+          {['🎂 Birthday cake','🎈 Decorations','🧃 Drinks & snacks','🎁 Gift wrap','🍽️ Paper plates & cups'].map(i=>(
+            <div key={i} className="flex items-center gap-1 bg-orange-50 border border-orange-100 rounded px-1 py-0.5">
+              <span className="text-[4px] text-gray-600">{i}</span>
+            </div>
+          ))}
+          <div className="text-[4px] text-gray-400">+3 more items…</div>
+        </div>
+        <div className="flex gap-1">
+          <div className="flex-1 border border-gray-300 text-gray-600 text-[5px] font-semibold text-center rounded py-1">Skip</div>
+          <div className="flex-1 bg-orange-500 text-white text-[5px] font-bold text-center rounded py-1">Create List (8 items)</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LF15_ListCreated() {
+  return (
+    <div style={{minHeight:240}} className="flex flex-col">
+      <div className="bg-orange-500 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">🎉 Party Prep · 8 items</div>
+        <div className="text-[4.5px] text-orange-200">Linked to Natasha's Birthday Party · 22 Apr</div>
+      </div>
+      <div className="flex-1 bg-white px-1.5 py-1 space-y-0.5">
+        {['🎂 Birthday cake','🎈 Decorations','🧃 Drinks & snacks','🎁 Gift wrap','🍽️ Paper plates'].map(i=>(
+          <div key={i} className="bg-white border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <span className="text-[5px] text-gray-800">{i}</span>
+          </div>
+        ))}
+        <div className="text-[4px] text-gray-400 px-1">+3 more items…</div>
+        <div className="bg-purple-50 border border-purple-200 rounded p-1 mt-0.5 space-y-0.5">
+          <div className="text-[5px] font-semibold text-purple-800">📅 Calendar link active</div>
+          <div className="text-[4px] text-purple-600">Reminder: 3 days before party (19 Apr)</div>
+          <div className="text-[4px] text-purple-600">Shared with all family members</div>
+        </div>
+        <div className="bg-green-50 border border-green-200 rounded p-0.5">
+          <div className="text-[4.5px] text-green-700">✓ List created · all 4 members notified</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── List: Feature Map ──────────────────────────────────────────────
 function ListFeatureMap() {
   const [expanded, setExpanded] = useState<string|null>(null);
@@ -4361,7 +5019,7 @@ function ListScreenFlows() {
     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-orange-500"/>
-        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">9 Interactive Screen Flows</h2>
+        <h2 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">15 Interactive Screen Flows</h2>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
         {LST_FLOWS.map(f=>(
