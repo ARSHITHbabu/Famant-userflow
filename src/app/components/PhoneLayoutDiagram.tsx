@@ -2518,6 +2518,844 @@ function CalendarScreenFlows() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// CALENDAR — General User Flow (Phase-based, general terms)
+// ═══════════════════════════════════════════════════════════════════
+
+// ── Phase screen components (all general / no specific examples) ───
+
+function CGF_CalendarMain() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-100 px-1.5 pt-1.5 pb-1 border-b border-purple-200">
+        <div className="flex items-center justify-between">
+          <div className="text-[6px] font-bold text-purple-900">Family Name ▾</div>
+          <div className="bg-purple-600 text-white rounded-full px-1 py-0.5 text-[5px] font-bold">👥</div>
+        </div>
+        <div className="flex gap-0.5 mt-1">
+          {['A','B','C','D'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-purple-400 flex items-center justify-center text-[4px] text-white font-bold">{m}</div>)}
+        </div>
+        <div className="flex gap-0.5 mt-1">
+          {['M','W','D','⊞'].map((v,i)=>(
+            <div key={v} className={`text-[5px] px-1 py-0.5 rounded font-semibold ${i===0?'bg-purple-600 text-white':'bg-white text-gray-400 border border-gray-200'}`}>{v}</div>
+          ))}
+          <div className="ml-auto text-[5px] text-purple-600">↗</div>
+        </div>
+      </div>
+      <div className="bg-blue-50 px-1 pt-1 pb-0.5 border-b border-blue-100 flex-1">
+        <div className="text-[5px] font-bold text-blue-800 mb-0.5 flex justify-between"><span>◀ Month Year ▶</span></div>
+        <div className="grid grid-cols-7 gap-0.5">
+          {['S','M','T','W','T','F','S'].map((d,i)=><div key={i} className="text-[4px] text-center text-gray-400">{d}</div>)}
+          {Array.from({length:28},(_,i)=>(
+            <div key={i} className={`text-[4px] text-center rounded py-0.5 relative ${i===13?'bg-blue-600 text-white font-bold rounded-full':'text-gray-600'}`}>
+              {i+1}
+              {[3,7,12,18,22].includes(i)&&<div className="flex justify-center gap-[1px] mt-0.5"><div className="w-0.5 h-0.5 rounded-full bg-purple-400"/><div className="w-0.5 h-0.5 rounded-full bg-blue-400"/></div>}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="bg-green-50 px-1.5 py-1 border-t border-green-200">
+        <div className="text-[5px] font-bold text-green-800 mb-0.5">Selected date · N events</div>
+        <div className="space-y-0.5">
+          <div className="bg-white rounded border-l-2 border-blue-400 px-1 py-0.5"><div className="text-[5px] text-gray-600">9:00 AM — Event Title</div><div className="text-[4px] text-gray-400">Category · Member</div></div>
+          <div className="bg-white rounded border-l-2 border-red-400 px-1 py-0.5"><div className="text-[5px] text-gray-600">2:00 PM — Event Title ⚠</div><div className="text-[4px] text-gray-400">Category · Member</div></div>
+        </div>
+      </div>
+      <div className="relative bg-white h-6 border-t border-gray-100">
+        <div className="absolute bottom-1 right-1.5 w-4 h-4 rounded-full bg-indigo-600 flex items-center justify-center text-white text-[8px] font-bold shadow">+</div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_EventPanel() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-blue-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">Selected Date</div>
+        <div className="text-[5px] text-blue-200">N events on this date</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1">
+        {[
+          {time:'HH:MM',title:'Event Title',cat:'Category · Member',border:'border-blue-400'},
+          {time:'HH:MM',title:'Event Title',cat:'Category · Member',border:'border-green-400'},
+          {time:'HH:MM',title:'Event Title ⚠',cat:'Category · Member',border:'border-red-400'},
+        ].map((e,i)=>(
+          <div key={i} className={`bg-white rounded border-l-2 ${e.border} px-1 py-0.5 shadow-sm`}>
+            <div className="text-[5px] text-gray-400">{e.time}</div>
+            <div className="text-[5.5px] font-bold text-gray-800">{e.title}</div>
+            <div className="text-[4.5px] text-gray-400">{e.cat}</div>
+          </div>
+        ))}
+      </div>
+      <div className="bg-gray-50 px-1.5 py-1 border-t">
+        <div className="text-[4.5px] text-gray-400 text-center">— Event History (recent types) —</div>
+        <div className="flex gap-0.5 mt-0.5 justify-center">
+          {['Type A','Type B','Type C'].map(t=><div key={t} className="text-[4px] bg-white border border-gray-200 rounded px-1 py-0.5 text-gray-500">{t}</div>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_EventDetail() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-indigo-600 px-2 py-1.5 flex items-center gap-1">
+        <span className="text-white text-[7px]">←</span>
+        <span className="text-[6px] text-white font-bold">Event Detail</span>
+      </div>
+      <div className="flex-1 px-2 py-1.5 space-y-1">
+        <div className="text-[7.5px] font-bold text-gray-900">Event Title</div>
+        <div className="text-[5.5px] text-gray-500">📅 Date · Start Time – End Time</div>
+        <div className="text-[5.5px] text-gray-500">📍 Location</div>
+        <div className="text-[5.5px] text-gray-500">🏷 Category · Visibility</div>
+        <div className="flex gap-0.5">
+          {['M1','M2'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-indigo-300 flex items-center justify-center text-[4px] text-indigo-900">{m}</div>)}
+        </div>
+        <div className="text-[5px] text-gray-400">🔁 Recurrence rule (if set)</div>
+        <div className="text-[5px] text-gray-400">🔔 Reminder timing</div>
+        <div className="bg-yellow-50 border border-yellow-200 rounded p-1">
+          <div className="text-[5px] text-yellow-800 font-semibold">⚠ Conflict (if any)</div>
+          <div className="text-[4.5px] text-yellow-700">Member has overlapping event — details shown here</div>
+        </div>
+        <div className="text-[4.5px] text-gray-400">📎 Linked modules: Task · List · Expense · Doc</div>
+      </div>
+      <div className="flex gap-1 px-2 pb-2">
+        <div className="flex-1 bg-blue-100 text-blue-700 text-[5.5px] font-bold text-center rounded py-1">EDIT</div>
+        <div className="flex-1 bg-red-100 text-red-700 text-[5.5px] font-bold text-center rounded py-1">DELETE</div>
+        <div className="flex-1 bg-gray-100 text-gray-700 text-[5.5px] font-bold text-center rounded py-1">COPY</div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_FABMenu() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-indigo-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Create New</div></div>
+      <div className="flex-1 px-2 py-2 space-y-1.5">
+        {[
+          {icon:'📝',label:'New Event',desc:'Manual entry form',color:'bg-indigo-50 border-indigo-200'},
+          {icon:'📷',label:'Scan Image',desc:'Extract from photo or flyer',color:'bg-blue-50 border-blue-200'},
+          {icon:'🕐',label:'Event History',desc:'Reuse a previous event type',color:'bg-gray-50 border-gray-200'},
+          {icon:'🎤',label:'Voice / AI',desc:'Say it or type it',color:'bg-pink-50 border-pink-200'},
+        ].map(o=>(
+          <div key={o.label} className={`border rounded-lg px-2 py-1 ${o.color} flex items-center gap-1.5`}>
+            <span className="text-[9px]">{o.icon}</span>
+            <div><div className="text-[5.5px] font-bold text-gray-800">{o.label}</div><div className="text-[4.5px] text-gray-500">{o.desc}</div></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CGF_AddEventForm() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-indigo-600 px-2 py-1 flex items-center gap-1">
+        <span className="text-white text-[7px]">←</span>
+        <span className="text-[6px] text-white font-bold">Add Event</span>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-0.5 bg-white overflow-hidden">
+        <div><div className="text-[4.5px] text-gray-400">TITLE</div><div className="bg-gray-100 rounded px-1 py-0.5 text-[5.5px] text-gray-700 border border-gray-200">Event title…</div></div>
+        <div className="grid grid-cols-2 gap-0.5">
+          <div><div className="text-[4.5px] text-gray-400">DATE</div><div className="bg-gray-100 rounded px-1 py-0.5 text-[5.5px] border border-gray-200 text-gray-600">Date picker</div></div>
+          <div><div className="text-[4.5px] text-gray-400">TIME</div><div className="bg-gray-100 rounded px-1 py-0.5 text-[5.5px] border border-gray-200 flex items-center gap-0.5 text-gray-600">Time <span className="text-green-500 text-[4px]">✓</span></div></div>
+        </div>
+        <div><div className="text-[4.5px] text-gray-400">LOCATION</div><div className="bg-gray-100 rounded px-1 py-0.5 text-[5px] text-gray-400 border border-gray-200">📍 Add location…</div></div>
+        <div><div className="text-[4.5px] text-gray-400">MEMBERS</div><div className="flex gap-0.5">{['M1','M2'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-indigo-400 text-[4px] text-white flex items-center justify-center">{m}</div>)}<div className="w-3.5 h-3.5 rounded-full bg-gray-200 text-[4px] text-gray-500 flex items-center justify-center">+</div></div></div>
+        <div><div className="text-[4.5px] text-gray-400">VISIBILITY</div><div className="flex gap-0.5"><div className="text-[4.5px] bg-gray-100 text-gray-500 rounded px-1 py-0.5">Personal</div><div className="text-[4.5px] bg-indigo-500 text-white rounded px-1 py-0.5">Family</div></div></div>
+        <div><div className="text-[4.5px] text-gray-400 mb-0.5">ATTACH / LINK</div><div className="flex gap-0.5 flex-wrap">{['📎 Doc','✅ Task','🛒 List','💰 Exp'].map(l=><div key={l} className="text-[4.5px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">{l}</div>)}</div></div>
+        <div className="bg-indigo-50 border border-indigo-200 rounded p-1">
+          <div className="flex items-center justify-between mb-0.5"><div className="text-[5px] font-bold text-indigo-800">🔁 Recurring</div><div className="w-5 h-2.5 bg-gray-300 rounded-full flex items-center pl-0.5"><div className="w-1.5 h-1.5 bg-white rounded-full shadow"/></div></div>
+          <div className="flex gap-0.5">{['Daily','Weekly','Monthly','Yearly'].map(f=><div key={f} className="text-[4px] px-0.5 py-0.5 rounded bg-white text-gray-400 border border-gray-200">{f}</div>)}</div>
+        </div>
+      </div>
+      <div className="px-1.5 pb-1.5 pt-1 bg-white border-t border-gray-100"><div className="bg-indigo-600 text-white text-[6px] font-bold text-center rounded py-1">SAVE EVENT</div></div>
+    </div>
+  );
+}
+
+function CGF_AIModuleLink() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-violet-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">✨ AI Suggestion</div></div>
+      <div className="flex-1 px-2 py-2 space-y-1.5">
+        <div className="text-[5.5px] text-gray-600">AI detected event type — suggested links:</div>
+        <div className="space-y-1">
+          {[
+            {icon:'✅',label:'Tasks',desc:'Create prep tasks, assign to members',active:true},
+            {icon:'🛒',label:'Shared List',desc:'Generate a linked supplies list',active:true},
+            {icon:'💰',label:'Expense',desc:'Set a budget entry for this event',active:false},
+            {icon:'📎',label:'Document',desc:'Attach a related file',active:false},
+          ].map(m=>(
+            <div key={m.label} className={`flex items-center gap-1.5 border rounded-lg px-1.5 py-1 ${m.active?'bg-violet-50 border-violet-300':'bg-gray-50 border-gray-200'}`}>
+              <span className="text-[9px]">{m.icon}</span>
+              <div className="flex-1"><div className={`text-[5.5px] font-bold ${m.active?'text-violet-800':'text-gray-500'}`}>{m.label}</div><div className="text-[4.5px] text-gray-400">{m.desc}</div></div>
+              <div className={`w-2 h-2 rounded border ${m.active?'bg-violet-600 border-violet-600':'border-gray-300'}`}>{m.active&&<span className="text-white text-[6px] leading-none flex items-center justify-center h-full">✓</span>}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="px-2 pb-2 space-y-1">
+        <div className="bg-violet-600 text-white text-[5.5px] font-bold text-center rounded py-1">YES — LINK ALL</div>
+        <div className="bg-gray-100 text-gray-600 text-[5.5px] font-bold text-center rounded py-1">Choose manually</div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_ConflictDetect() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-red-500 px-2 py-1.5"><div className="text-[6px] text-white font-bold">⚠ Conflict Detected</div></div>
+      <div className="flex-1 px-2 py-1.5 space-y-1.5">
+        <div className="bg-red-50 border border-red-200 rounded p-1.5">
+          <div className="text-[5.5px] font-bold text-red-700">Member — Date · Time</div>
+          <div className="text-[5px] text-red-600 mt-0.5">Already has: [existing event] at this time</div>
+        </div>
+        <div className="bg-orange-50 border border-orange-200 rounded p-1.5">
+          <div className="text-[5.5px] font-bold text-orange-700">Travel / Logistics Note</div>
+          <div className="text-[5px] text-orange-600 mt-0.5">Back-to-back events may not be feasible given travel time</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-[5px] text-gray-500 font-semibold">AI Suggestions:</div>
+          <div className="bg-blue-600 text-white text-[5.5px] font-bold text-center rounded py-1">✓ Accept suggested time</div>
+          <div className="bg-gray-100 text-gray-700 text-[5.5px] font-bold text-center rounded py-1">Save Anyway</div>
+          <div className="bg-white border border-gray-300 text-gray-700 text-[5.5px] font-bold text-center rounded py-1">Reschedule manually</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_SavedCascade() {
+  return (
+    <div className="flex flex-col items-center justify-center bg-green-50 px-2" style={{minHeight:240}}>
+      <div className="text-3xl mb-1.5">✅</div>
+      <div className="text-[7px] font-bold text-green-700 text-center">Event Saved!</div>
+      <div className="text-[5px] text-green-600 text-center mt-0.5">Event Title · Date · Time</div>
+      <div className="mt-2.5 w-full space-y-0.5">
+        {[
+          '📅 Calendar updated',
+          '🔔 Reminders set — all members',
+          '📱 Family feed updated',
+          '✅ Tasks created (if linked)',
+          '🛒 Shared list created (if linked)',
+          '💰 Expense budget linked (if linked)',
+          '📎 Document attached (if linked)',
+        ].map(item=><div key={item} className="text-[4.5px] text-green-700 flex items-center gap-0.5"><span>{item}</span></div>)}
+      </div>
+    </div>
+  );
+}
+
+function CGF_MatrixView() {
+  const members = ['Mbr 1','Mbr 2','Mbr 3','Mbr 4'];
+  const days = ['M','T','W','T','F'];
+  const cells = [
+    [true,false,true,true,false],
+    [false,true,true,true,true],
+    [true,false,false,true,true],
+    [true,true,true,true,false],
+  ];
+  const allFree = days.map((_,di)=>cells.every(row=>row[di]));
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Family Availability Matrix</div><div className="text-[5px] text-purple-200">Current week · tap ★ to schedule</div></div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="grid gap-0.5" style={{gridTemplateColumns:'auto repeat(5,1fr)'}}>
+          <div className="text-[4px] text-gray-400"/>
+          {days.map((d,i)=><div key={i} className="text-[5px] text-center font-bold text-gray-500">{d}</div>)}
+          {members.map((m,mi)=>(
+            <>
+              <div key={m} className="text-[4px] text-gray-500 flex items-center pr-0.5 truncate">{m}</div>
+              {cells[mi].map((free,di)=>(
+                <div key={di} className={`h-4 rounded flex items-center justify-center text-[5px] font-bold ${free?'bg-green-200 text-green-700':'bg-red-200 text-red-600'}`}>{free?'✓':'✗'}</div>
+              ))}
+            </>
+          ))}
+          <div className="text-[4px] text-gray-400 font-bold pt-0.5">ALL</div>
+          {allFree.map((f,i)=><div key={i} className={`h-4 rounded flex items-center justify-center text-[6px] font-bold ${f?'bg-green-400 text-white':'bg-gray-100 text-gray-300'}`}>{f?'★':'—'}</div>)}
+        </div>
+        <div className="mt-1 flex gap-1">
+          <div className="flex items-center gap-0.5"><div className="w-1.5 h-1.5 rounded bg-green-300"/><span className="text-[4px] text-gray-500">Free</span></div>
+          <div className="flex items-center gap-0.5"><div className="w-1.5 h-1.5 rounded bg-red-300"/><span className="text-[4px] text-gray-500">Busy</span></div>
+          <div className="flex items-center gap-0.5"><span className="text-[5px]">★</span><span className="text-[4px] text-gray-500">All free</span></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_ParallelTimeline() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Selected Day — All Members</div></div>
+      <div className="bg-green-100 border-b border-green-300 px-2 py-0.5">
+        <div className="text-[5px] text-green-800 font-semibold">✨ All members free 6:00–9:00 PM — tap to schedule</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="flex gap-0.5">
+          <div className="flex flex-col gap-0.5 pr-0.5" style={{width:18}}>
+            {['12p','2p','4p','6p','8p'].map(t=><div key={t} className="text-[4px] text-gray-400 h-6 flex items-start">{t}</div>)}
+          </div>
+          {['M1','M2','M3','M4'].map((m,mi)=>(
+            <div key={m} className="flex-1 flex flex-col gap-0.5">
+              <div className="text-[4.5px] text-gray-500 font-bold text-center mb-0.5">{m}</div>
+              <div className="h-6 rounded bg-purple-200"/>
+              <div className="h-6 rounded bg-orange-200"/>
+              <div className="h-6 rounded bg-gray-100"/>
+              <div className="h-6 rounded bg-green-300 border border-green-500"/>
+              <div className="h-6 rounded bg-green-300 border border-green-500"/>
+            </div>
+          ))}
+        </div>
+        <div className="mt-1 flex gap-1.5">
+          {[{c:'bg-purple-200',l:'Event'},{c:'bg-orange-200',l:'Task'},{c:'bg-green-300 border border-green-500',l:'Free'}].map(({c,l})=>(
+            <div key={l} className="flex items-center gap-0.5"><div className={`w-2 h-2 rounded ${c}`}/><span className="text-[4px] text-gray-500">{l}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_PrefilledMatrix() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-600 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-1"><span className="text-white text-[7px]">←</span><span className="text-[6px] text-white font-bold">Add Event</span></div>
+        <div className="text-[4.5px] bg-purple-400 text-white rounded px-1 py-0.5">✨ Pre-filled</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1 bg-white">
+        {[
+          {label:'DATE',val:'Day, Date ✨',active:true},
+          {label:'TIME',val:'Start – End PM ✨',active:true},
+          {label:'MEMBERS',val:null,active:true},
+          {label:'TITLE',val:'Enter event title…',active:false},
+        ].map(f=>(
+          <div key={f.label}>
+            <div className="text-[4.5px] text-gray-400">{f.label}</div>
+            {f.label==='MEMBERS'
+              ? <div className="flex gap-0.5 mt-0.5">{['M1','M2','M3','M4'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-purple-400 text-[4px] text-white flex items-center justify-center">{m}</div>)}</div>
+              : <div className={`rounded px-1 py-0.5 text-[5.5px] border ${f.active?'bg-purple-50 border-purple-200 text-purple-800':'bg-gray-100 border-gray-200 text-gray-400'}`}>{f.val}</div>
+            }
+          </div>
+        ))}
+        <div className="bg-green-50 border border-green-200 rounded p-1">
+          <div className="text-[4.5px] text-green-700">✓ Conflict-free slot · all selected members are available</div>
+        </div>
+      </div>
+      <div className="px-1.5 pb-1.5 bg-white border-t border-gray-100"><div className="bg-purple-600 text-white text-[6px] font-bold text-center rounded py-1">SAVE EVENT</div></div>
+    </div>
+  );
+}
+
+function CGF_RecurringOnCalendar() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Calendar View</div></div>
+      <div className="bg-blue-50 px-1.5 pt-1 flex-1">
+        <div className="text-[5px] font-bold text-blue-800 mb-0.5 flex justify-between"><span>◀ Month Year ▶</span></div>
+        <div className="grid grid-cols-7 gap-0.5">
+          {['S','M','T','W','T','F','S'].map((d,i)=><div key={i} className="text-[4px] text-center text-gray-400">{d}</div>)}
+          {Array.from({length:28},(_,i)=>(
+            <div key={i} className={`text-[4px] text-center rounded py-0.5 relative ${i===27?'bg-indigo-100 border border-indigo-400 text-indigo-900 font-bold rounded-sm':'text-gray-600'}`}>
+              {i+1}
+              {i===27&&<div className="text-[4px] text-indigo-600 leading-none text-center">🔁</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="bg-indigo-50 px-2 py-1.5 border-t border-indigo-200">
+        <div className="text-[5px] font-bold text-indigo-900 mb-0.5">🔁 Recurring Event — Due Today</div>
+        <div className="text-[4.5px] text-indigo-700">Event Title · Recurring (Monthly/Yearly)</div>
+        <div className="text-[4.5px] text-indigo-500 mt-0.5">💰 Linked amount · tap to open</div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_MarkComplete() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-indigo-600 px-2 py-1.5 flex items-center gap-1">
+        <span className="text-white text-[7px]">←</span>
+        <span className="text-[6px] text-white font-bold">Event Detail</span>
+      </div>
+      <div className="flex-1 px-2 py-1.5 space-y-1">
+        <div className="text-[7px] font-bold text-gray-900">Event Title</div>
+        <div className="text-[5px] text-gray-500">📅 Due date · Recurring schedule</div>
+        <div className="text-[5px] text-gray-500">💰 Linked amount</div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-1">
+          <div className="text-[5px] font-bold text-blue-800 mb-0.5">⏱ Actual time taken?</div>
+          <div className="flex gap-0.5">
+            {['Less','On time','+30m','+1h'].map((t,i)=><div key={t} className={`text-[4px] px-0.5 py-0.5 rounded border text-center flex-1 ${i===1?'bg-blue-600 text-white border-blue-600':'bg-white text-gray-500 border-gray-200'}`}>{t}</div>)}
+          </div>
+        </div>
+        <div className="bg-yellow-50 border border-yellow-200 rounded p-1">
+          <div className="text-[4.5px] text-yellow-700">Completing will auto-log the linked expense in Expense Tracker.</div>
+        </div>
+      </div>
+      <div className="px-2 pb-2"><div className="bg-emerald-600 text-white text-[6px] font-bold text-center rounded py-1.5">✓ MARK AS COMPLETE</div></div>
+    </div>
+  );
+}
+
+function CGF_ExpenseAutoLog() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-emerald-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">💰 Expense — Auto-Updated</div></div>
+      <div className="flex-1 px-2 py-1.5 space-y-1">
+        <div className="bg-emerald-50 border border-emerald-300 rounded p-1.5">
+          <div className="text-[4.5px] text-emerald-600 font-bold uppercase mb-0.5">New Entry Auto-Logged</div>
+          <div className="text-[6.5px] font-bold text-gray-900">Event Title</div>
+          <div className="text-[5px] text-gray-700">Linked amount · Date</div>
+          <div className="text-[4.5px] text-gray-400">Source: Calendar event completion</div>
+        </div>
+        <div className="text-[4.5px] text-gray-500 font-bold mt-1">History:</div>
+        {[
+          {yr:'Year –1',amt:'Amount',status:'Paid',done:true,future:false},
+          {yr:'Year 0',amt:'Amount',status:'Paid ✓',done:true,future:false},
+          {yr:'Year +1',amt:'Amount',status:'Upcoming 🔁',done:false,future:true},
+        ].map(r=>(
+          <div key={r.yr} className={`flex items-center justify-between rounded px-1.5 py-0.5 border ${r.future?'bg-gray-50 border-gray-200 opacity-60':r.done&&r.yr==='Year 0'?'bg-emerald-50 border-emerald-200':'bg-white border-gray-100'}`}>
+            <span className="text-[4.5px] text-gray-600">{r.yr} · {r.amt}</span>
+            <span className={`text-[4px] font-bold ${r.future?'text-gray-400':r.done?'text-emerald-600':'text-gray-500'}`}>{r.status}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CGF_ThreeWayChain() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-red-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">3-Way Linked Chain</div></div>
+      <div className="flex-1 px-2 py-2 space-y-2">
+        <div className="text-[5px] text-gray-600 text-center">Auto-created task — N days before due date</div>
+        <div className="flex items-center justify-center gap-1">
+          {[{icon:'✅',label:'Task',c:'bg-red-100 border-red-300 text-red-800'},{icon:'📅',label:'Calendar',c:'bg-indigo-100 border-indigo-300 text-indigo-800'},{icon:'💰',label:'Expense',c:'bg-emerald-100 border-emerald-300 text-emerald-800'}].map((m,i)=>(
+            <div key={m.label} className="flex items-center gap-0.5">
+              <div className={`border rounded px-1.5 py-1 ${m.c} text-center`}>
+                <div className="text-[9px]">{m.icon}</div>
+                <div className="text-[4.5px] font-bold">{m.label}</div>
+              </div>
+              {i<2&&<span className="text-[7px] text-gray-400">⟷</span>}
+            </div>
+          ))}
+        </div>
+        <div className="bg-gray-50 border border-gray-200 rounded p-1.5 text-center">
+          <div className="text-[5px] text-gray-600 font-semibold">"Completing any one updates all three"</div>
+        </div>
+        <div className="text-[4.5px] text-gray-400 text-center">Next cycle auto-scheduled on completion</div>
+      </div>
+      <div className="px-2 pb-2"><div className="bg-red-600 text-white text-[6px] font-bold text-center rounded py-1">✓ MARK TASK COMPLETE</div></div>
+    </div>
+  );
+}
+
+function CGF_AIChat() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-pink-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">✨ AI Assistant</div></div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1 bg-gray-50">
+        <div className="flex justify-end"><div className="bg-blue-500 text-white text-[5px] rounded-lg rounded-tr-none px-1.5 py-1 max-w-[85px]">Create an event for [member] on [date] at [time]</div></div>
+        <div className="flex items-start gap-0.5"><div className="w-3 h-3 rounded-full bg-pink-400 flex items-center justify-center text-[4px] text-white shrink-0">AI</div><div className="bg-white text-[5px] rounded-lg rounded-tl-none px-1.5 py-1 shadow-sm border border-gray-100 max-w-[90px]">Parsed: [event] · [member] · [date/time]. Checking schedule…</div></div>
+        <div className="flex items-start gap-0.5"><div className="w-3 h-3 rounded-full bg-pink-400 flex items-center justify-center text-[4px] text-white shrink-0">AI</div><div className="bg-red-50 border border-red-200 text-[5px] rounded-lg px-1.5 py-1 max-w-[90px]">⚠ Conflict at that time. Suggest [adjusted time]?</div></div>
+        <div className="flex justify-end"><div className="bg-blue-500 text-white text-[5px] rounded-lg rounded-tr-none px-1.5 py-1 max-w-[85px]">Yes, use adjusted time</div></div>
+        <div className="flex items-start gap-0.5"><div className="w-3 h-3 rounded-full bg-pink-400 flex items-center justify-center text-[4px] text-white shrink-0">AI</div><div className="bg-white text-[5px] rounded-lg rounded-tl-none px-1.5 py-1 shadow-sm border border-gray-100 max-w-[90px]">Opening form pre-filled…</div></div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_AIPrefilledForm() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-pink-600 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-1"><span className="text-white text-[7px]">←</span><span className="text-[6px] text-white font-bold">Event Form</span></div>
+        <div className="text-[4.5px] bg-pink-400 text-white rounded px-1 py-0.5">✨ AI pre-filled</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1 bg-white">
+        {[
+          {label:'TITLE',val:'[event type] ✨'},
+          {label:'DATE',val:'[date] ✨'},
+          {label:'TIME',val:'[adjusted time] ✨'},
+          {label:'MEMBER',val:'[assigned member] ✨'},
+        ].map(f=>(
+          <div key={f.label}>
+            <div className="text-[4.5px] text-gray-400">{f.label}</div>
+            <div className="bg-pink-50 border border-pink-200 rounded px-1 py-0.5 text-[5.5px] text-pink-800">{f.val}</div>
+          </div>
+        ))}
+        <div className="bg-yellow-50 border border-yellow-200 rounded p-1">
+          <div className="text-[4.5px] text-yellow-700">⚠ Time adjusted to resolve conflict — travel buffer included</div>
+        </div>
+      </div>
+      <div className="px-1.5 pb-1.5 bg-white"><div className="bg-pink-600 text-white text-[6px] font-bold text-center rounded py-1">CONFIRM & SAVE</div></div>
+    </div>
+  );
+}
+
+function CGF_CalUpdated() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-green-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Calendar Updated ✓</div></div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1">
+        <div className="text-[6px] font-bold text-gray-800">[Date] updated</div>
+        <div className="bg-green-50 border-l-2 border-green-500 rounded px-1 py-0.5">
+          <div className="text-[5.5px] font-bold text-green-800">[Event type] — [Member]</div>
+          <div className="text-[5px] text-green-600">[Adjusted time] · AI scheduled</div>
+        </div>
+        <div className="mt-1 space-y-0.5">
+          {['🔔 Member notified · reminder set','📱 Family feed updated','✓ Conflict-free · buffer applied'].map(t=>(
+            <div key={t} className="text-[5px] text-gray-500">{t}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_DocUploadAI() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-blue-700 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Document Vault</div></div>
+      <div className="flex-1 px-2 py-2 space-y-1.5">
+        <div className="border-2 border-dashed border-blue-300 rounded-lg p-2 text-center bg-blue-50">
+          <div className="text-[11px]">📄</div>
+          <div className="text-[5.5px] text-blue-600 font-semibold">[filename].pdf</div>
+          <div className="text-[4.5px] text-blue-400">Uploaded ✓</div>
+        </div>
+        <div className="bg-white border border-gray-200 rounded p-1.5 space-y-0.5">
+          <div className="text-[5.5px] font-bold text-gray-700">✨ AI Extracted:</div>
+          <div className="text-[5px] text-gray-600">📅 Due date: [extracted date]</div>
+          <div className="text-[5px] text-gray-600">💰 Amount: [extracted amount]</div>
+          <div className="text-[5px] text-gray-600">📌 Type: [document type]</div>
+        </div>
+      </div>
+      <div className="px-2 pb-2"><div className="bg-indigo-600 text-white text-[5.5px] font-bold text-center rounded py-1">✓ Auto-create calendar event</div></div>
+    </div>
+  );
+}
+
+function CGF_DocPrefilledForm() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-teal-700 px-2 py-1 flex items-center justify-between">
+        <div className="flex items-center gap-1"><span className="text-white text-[7px]">←</span><span className="text-[6px] text-white font-bold">Event Form</span></div>
+        <div className="text-[4.5px] bg-teal-500 text-white rounded px-1 py-0.5">✨ AI pre-filled</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1 bg-white overflow-hidden">
+        {[
+          {label:'TITLE',val:'[derived from doc type] ✨'},
+          {label:'DATE',val:'[extracted due date] ✨'},
+          {label:'AMOUNT',val:'[extracted amount] ✨'},
+          {label:'CATEGORY',val:'[doc category] ✨'},
+        ].map(f=>(
+          <div key={f.label}>
+            <div className="text-[4.5px] text-gray-400">{f.label}</div>
+            <div className="bg-teal-50 border border-teal-200 rounded px-1 py-0.5 text-[5px] text-teal-800">{f.val}</div>
+          </div>
+        ))}
+        <div className="bg-indigo-50 border border-indigo-200 rounded p-1">
+          <div className="flex items-center justify-between mb-0.5"><div className="text-[5px] font-bold text-indigo-800">🔁 Recurring: Yearly ✨</div><div className="w-5 h-2.5 bg-indigo-600 rounded-full flex items-center justify-end pr-0.5"><div className="w-1.5 h-1.5 bg-white rounded-full"/></div></div>
+          <div className="flex gap-0.5">{['Daily','Weekly','Monthly','Yearly'].map((f,i)=><div key={f} className={`text-[4px] px-0.5 py-0.5 rounded font-semibold ${i===3?'bg-indigo-600 text-white':'bg-white text-gray-400 border border-gray-200'}`}>{f}</div>)}</div>
+        </div>
+      </div>
+      <div className="px-1.5 pb-1.5 bg-white border-t border-gray-100"><div className="bg-teal-600 text-white text-[6px] font-bold text-center rounded py-1">CONFIRM & SAVE</div></div>
+    </div>
+  );
+}
+
+function CGF_RecurringChainSaved() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-green-700 px-2 py-1.5"><div className="text-[6px] text-white font-bold">Recurring Event Saved ✓</div></div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1">
+        <div className="bg-indigo-50 border border-indigo-200 rounded p-1.5">
+          <div className="text-[6.5px] font-bold text-indigo-900">🔁 [Event Title]</div>
+          <div className="text-[5px] text-indigo-700">[Date] every year · [amount]</div>
+        </div>
+        {[
+          {icon:'📅',text:'Calendar: Yearly recurring event set'},
+          {icon:'💰',text:'Expense: amount linked per occurrence'},
+          {icon:'✅',text:'Auto-task: HIGH PRIORITY, N days before'},
+          {icon:'🔔',text:'Reminder: 1 day + 15 min before'},
+          {icon:'📄',text:'Document attached to event'},
+        ].map(item=>(
+          <div key={item.text} className="text-[4.5px] text-gray-700 flex items-start gap-1">
+            <span className="shrink-0">{item.icon}</span><span>{item.text}</span>
+          </div>
+        ))}
+      </div>
+      <div className="px-1.5 pb-1.5"><div className="bg-green-600 text-white text-[5.5px] font-bold text-center rounded py-1">✓ Yearly reminder chain active</div></div>
+    </div>
+  );
+}
+
+function CGF_DashboardAlert() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-gray-800 px-2 py-1.5"><div className="text-[6px] text-white font-bold">🏠 Family OS — Home</div></div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1">
+        <div className="text-[5.5px] text-gray-600">Good morning, [member] 👋</div>
+        <div className="bg-red-50 border border-red-300 rounded p-1.5">
+          <div className="flex items-center justify-between">
+            <div><div className="text-[5.5px] font-bold text-red-700">⚠ AI Alert — Schedule</div><div className="text-[5px] text-red-600">N conflicts detected this week</div></div>
+            <div className="bg-red-600 text-white text-[5px] font-bold rounded px-1.5 py-0.5">Fix →</div>
+          </div>
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded p-1">
+          <div className="text-[5px] font-bold text-blue-700">📅 Today — N events</div>
+          <div className="text-[4.5px] text-blue-500">Upcoming schedule overview</div>
+        </div>
+        <div className="bg-purple-50 border border-purple-200 rounded p-1">
+          <div className="text-[5px] font-bold text-purple-700">✅ N tasks due today</div>
+          <div className="text-[4.5px] text-purple-500">Task summary</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CGF_ConflictsView() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-red-600 px-2 py-1.5">
+        <div className="text-[6px] text-white font-bold">📅 Calendar — Conflicts</div>
+        <div className="text-[4.5px] text-red-200">N issues highlighted by AI</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1.5">
+        {[1,2].map(n=>(
+          <div key={n} className="bg-red-50 border border-red-300 rounded p-1.5">
+            <div className="text-[5.5px] font-bold text-red-700">⚠ CONFLICT {n} — [Member]</div>
+            <div className="text-[4.5px] text-red-500 mt-0.5">[Event A] ↔ [Event B]</div>
+            <div className="text-[4px] text-red-400">Date · Time overlap or logistics issue</div>
+          </div>
+        ))}
+      </div>
+      <div className="px-2 pb-2"><div className="bg-red-600 text-white text-[5.5px] font-bold text-center rounded py-1">Let AI resolve both →</div></div>
+    </div>
+  );
+}
+
+function CGF_AIResolutions() {
+  return (
+    <div className="flex flex-col" style={{minHeight:240}}>
+      <div className="bg-purple-600 px-2 py-1.5"><div className="text-[6px] text-white font-bold">✨ AI Resolution Suggestions</div></div>
+      <div className="flex-1 px-1.5 py-1.5 space-y-1.5">
+        {[1,2].map(n=>(
+          <div key={n} className="bg-white border border-gray-200 rounded p-1.5 space-y-0.5">
+            <div className="text-[5px] font-bold text-gray-700">Conflict {n} — [Member]</div>
+            <div className="text-[4.5px] text-purple-700">✨ Move [event] → [conflict-free time]</div>
+            <div className="flex gap-1 mt-0.5">
+              <div className="flex-1 bg-green-500 text-white text-[5px] font-bold text-center rounded py-0.5">✓ Accept</div>
+              <div className="flex-1 bg-gray-100 text-gray-600 text-[5px] font-bold text-center rounded py-0.5">Edit</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CGF_ConflictsResolved() {
+  return (
+    <div className="flex flex-col items-center justify-center bg-green-50 px-2" style={{minHeight:240}}>
+      <div className="text-3xl mb-1.5">✅</div>
+      <div className="text-[6.5px] font-bold text-green-700 text-center">All Conflicts Resolved</div>
+      <div className="text-[4.5px] text-green-600 text-center mt-0.5">Calendar updated · All members notified</div>
+      <div className="mt-2.5 w-full space-y-0.5">
+        {[
+          '📅 [Member 1] event → new time',
+          '📅 [Member 2] event → new time',
+          '🔔 Members notified of changes',
+          '📱 Feed: schedule updates posted',
+          '✓ Zero conflicts this week',
+        ].map(item=><div key={item} className="text-[4.5px] text-green-700">{item}</div>)}
+      </div>
+    </div>
+  );
+}
+
+// ── Phase definitions for the general flow ──────────────────────────
+const CGF_PHASES = [
+  {
+    id: 'p1',
+    label: 'Phase 1 — Opening',
+    color: 'bg-indigo-600',
+    desc: 'How the user arrives at the Calendar from any entry point, and what the main screen looks like',
+    steps: [
+      {screen:<CGF_DashboardAlert/>, label:'Entry: Dashboard AI Card', type:'user' as const},
+      {arrow:'Tap Calendar / notification'},
+      {screen:<CGF_CalendarMain/>, label:'Calendar Main Screen (4 Zones)', type:'normal' as const},
+    ]
+  },
+  {
+    id: 'p2a',
+    label: 'Phase 2A — Date → Events → Detail',
+    color: 'bg-blue-600',
+    desc: 'Primary read flow: tap a date → see events listed → open full event detail → edit, delete, or copy',
+    steps: [
+      {screen:<CGF_CalendarMain/>, label:'Calendar Grid (any view)', type:'user' as const},
+      {arrow:'Tap a date'},
+      {screen:<CGF_EventPanel/>, label:'Event Panel (date events)', type:'system' as const},
+      {arrow:'Tap an event'},
+      {screen:<CGF_EventDetail/>, label:'Event Detail (full view)', type:'normal' as const},
+    ]
+  },
+  {
+    id: 'p2b',
+    label: 'Phase 2B — Matrix → Schedule',
+    color: 'bg-purple-600',
+    desc: 'Find a common free slot using the availability matrix → compare parallel timelines → create event from free slot',
+    steps: [
+      {screen:<CGF_MatrixView/>, label:'Availability Matrix (tap ★)', type:'user' as const},
+      {arrow:'Tap ★ day'},
+      {screen:<CGF_ParallelTimeline/>, label:'Parallel Timelines (free slots)', type:'system' as const},
+      {arrow:'Tap free slot'},
+      {screen:<CGF_PrefilledMatrix/>, label:'Form pre-filled from slot', type:'success' as const},
+    ]
+  },
+  {
+    id: 'p3',
+    label: 'Phase 3 — Create Event',
+    color: 'bg-indigo-700',
+    desc: 'Full event creation flow: FAB → form → AI module-link suggestions → conflict check → save with cascade',
+    steps: [
+      {screen:<CGF_FABMenu/>, label:'FAB — 4 Creation Options', type:'user' as const},
+      {arrow:'New Event'},
+      {screen:<CGF_AddEventForm/>, label:'Add Event Form (all fields)', type:'user' as const},
+      {arrow:'AI detects type'},
+      {screen:<CGF_AIModuleLink/>, label:'AI Module-Link Suggestion', type:'system' as const},
+      {arrow:'Save → conflict check'},
+      {screen:<CGF_ConflictDetect/>, label:'Conflict Detected (if any)', type:'warning' as const},
+      {arrow:'Accept / resolve'},
+      {screen:<CGF_SavedCascade/>, label:'Saved + Full Cascade', type:'success' as const},
+    ]
+  },
+  {
+    id: 'p4',
+    label: 'Phase 4 — Recurring & 3-Way Chain',
+    color: 'bg-emerald-700',
+    desc: 'Recurring event lifecycle: mark complete → expense auto-logged → next cycle + 3-way task-calendar-expense chain',
+    steps: [
+      {screen:<CGF_RecurringOnCalendar/>, label:'Recurring Event on Calendar', type:'user' as const},
+      {arrow:'Tap → open detail'},
+      {screen:<CGF_MarkComplete/>, label:'Mark Complete (log time)', type:'user' as const},
+      {arrow:'Confirm'},
+      {screen:<CGF_ExpenseAutoLog/>, label:'Expense Auto-Logged', type:'success' as const},
+      {arrow:'System: 3-way chain'},
+      {screen:<CGF_ThreeWayChain/>, label:'Task ↔ Calendar ↔ Expense', type:'system' as const},
+    ]
+  },
+  {
+    id: 'p5a',
+    label: 'Phase 5A — AI Chat / Voice',
+    color: 'bg-pink-600',
+    desc: 'Create an event entirely through the AI chat or voice — AI parses, checks conflicts, pre-fills form, user confirms',
+    steps: [
+      {screen:<CGF_AIChat/>, label:'AI Chat / Voice Input', type:'user' as const},
+      {arrow:'AI parses + checks'},
+      {screen:<CGF_AIPrefilledForm/>, label:'Form Pre-filled by AI', type:'system' as const},
+      {arrow:'Confirm'},
+      {screen:<CGF_CalUpdated/>, label:'Calendar Updated', type:'success' as const},
+    ]
+  },
+  {
+    id: 'p5b',
+    label: 'Phase 5B — Document Upload',
+    color: 'bg-teal-700',
+    desc: 'Upload a document → AI extracts due date and amount → pre-fills event form → creates recurring chain with expense link',
+    steps: [
+      {screen:<CGF_DocUploadAI/>, label:'Document Upload + AI Extract', type:'user' as const},
+      {arrow:'Auto-create event'},
+      {screen:<CGF_DocPrefilledForm/>, label:'Form Pre-filled from Doc', type:'system' as const},
+      {arrow:'Confirm & save'},
+      {screen:<CGF_RecurringChainSaved/>, label:'Recurring Chain Active', type:'success' as const},
+    ]
+  },
+  {
+    id: 'p5c',
+    label: 'Phase 5C — Dashboard Conflict Fix',
+    color: 'bg-gray-700',
+    desc: 'Passive AI detects conflicts on the dashboard → one tap opens the calendar in conflicts view → AI resolves all',
+    steps: [
+      {screen:<CGF_DashboardAlert/>, label:'Dashboard — AI Conflict Alert', type:'warning' as const},
+      {arrow:'Tap Fix →'},
+      {screen:<CGF_ConflictsView/>, label:'Calendar Conflicts View', type:'warning' as const},
+      {arrow:'Let AI resolve'},
+      {screen:<CGF_AIResolutions/>, label:'AI Suggests Fixes', type:'system' as const},
+      {arrow:'Accept all'},
+      {screen:<CGF_ConflictsResolved/>, label:'All Conflicts Resolved', type:'success' as const},
+    ]
+  },
+];
+
+function CalendarGeneralFlow() {
+  const [activePhase, setActivePhase] = useState('p1');
+  const current = CGF_PHASES.find(p=>p.id===activePhase)!;
+  const legend = [
+    {color:'border-blue-600',label:'User Action'},
+    {color:'border-purple-600',label:'System Process'},
+    {color:'border-red-500',label:'Warning / Conflict'},
+    {color:'border-green-600',label:'Success / Output'},
+    {color:'border-gray-700',label:'Neutral Screen'},
+  ];
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 p-5">
+      <h3 className="text-base font-bold text-gray-900 mb-1">General User Flow — Phone Layout Diagrams</h3>
+      <p className="text-sm text-gray-500 mb-4">
+        All 5 phases of the Calendar module shown as connected phone screen flows — written in general terms (no specific examples). Select a phase to explore.
+      </p>
+      {/* Phase selector */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {CGF_PHASES.map(p=>(
+          <button key={p.id} onClick={()=>setActivePhase(p.id)}
+            className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-all ${activePhase===p.id?`${p.color} text-white shadow-md`:'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+            {p.label}
+          </button>
+        ))}
+      </div>
+      {/* Description */}
+      <div className={`${current.color} text-white text-xs font-medium rounded-lg px-4 py-2 mb-4`}>{current.desc}</div>
+      {/* Legend */}
+      <div className="flex flex-wrap gap-3 mb-4">
+        {legend.map(l=>(
+          <div key={l.label} className="flex items-center gap-1.5">
+            <div className={`w-3 h-3 rounded-sm border-2 ${l.color}`}/>
+            <span className="text-[10px] text-gray-600">{l.label}</span>
+          </div>
+        ))}
+      </div>
+      {/* Screens */}
+      <AnimatePresence mode="wait">
+        <motion.div key={activePhase} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}} className="overflow-x-auto pb-4">
+          <div className="flex items-start gap-1 min-w-max px-2">
+            {current.steps.map((step,idx)=>{
+              if('arrow' in step) return <CalFlowArrow key={idx} label={step.arrow}/>;
+              return (
+                <motion.div key={idx} initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{delay:idx*0.07}}>
+                  <CalPhone label={step.label} type={step.type}>{step.screen}</CalPhone>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <div className="mt-3 text-xs text-gray-400 text-right">
+        {current.steps.filter(s=>'screen' in s).length} screens in this phase · General flow — no specific examples
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // EXPENSE TRACKING MODULE — Screens, Flows, Panels
 // ═══════════════════════════════════════════════════════════════════
 
@@ -8891,6 +9729,15 @@ export function PhoneLayoutDiagram() {
         <div className="border-t border-dashed border-gray-300 pt-6">
           <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Calendar — 10 Interactive Screen Flow Diagrams</p>
           <CalendarScreenFlows />
+        </div>
+
+        {/* ── Calendar: General User Flow (Phase-based) ── */}
+        <div className="border-t-2 border-dashed border-indigo-300 pt-6 mt-6">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-1">Calendar — General User Flow</p>
+          <p className="text-xs text-gray-500 mb-4">
+            The unified, phase-based flow derived from the BMAD specification document. All phases written in general terms — shows how every flow connects. 5 phases · 8 sub-flows.
+          </p>
+          <CalendarGeneralFlow />
         </div>
       </div>
 
