@@ -3359,43 +3359,132 @@ function CalendarGeneralFlow() {
 // EXPENSE TRACKING MODULE — Screens, Flows, Panels
 // ═══════════════════════════════════════════════════════════════════
 
-// ── Expense: Main Screen ──────────────────────────────────────────
+// ── Expense: Main Screen (comprehensive — all interactive zones) ──
 function ExpenseMainScreen() {
+  const [isFamily, setIsFamily] = useState(true);
   return (
-    <div className="flex flex-col h-full" style={{ minHeight: 280 }}>
-      <div className="bg-rose-600 text-white px-2 pt-3 pb-2">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-[7px] font-bold">Expenses</span>
-          <span className="text-[5px]">March 2026</span>
+    <div className="flex flex-col bg-white" style={{ minHeight: 390 }}>
+
+      {/* ── Zone 1: Header ── */}
+      <div className="bg-rose-600 px-2 pt-2 pb-1.5">
+        {/* Row 1: family name + interactive 👥/👤 toggle */}
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+            <span className="text-[5px] text-rose-200">▾</span>
+          </div>
+          <button
+            onClick={()=>setIsFamily(f=>!f)}
+            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5px] font-bold transition-colors ${isFamily?'bg-white text-rose-600 border-white':'bg-rose-500 text-white border-rose-300'}`}
+          >
+            <span>{isFamily?'👥':'👤'}</span>
+            <span>{isFamily?'Family':'Personal'}</span>
+          </button>
         </div>
-        <div className="flex gap-1 mb-1">
-          <span className="bg-white text-rose-700 px-1.5 py-0.5 rounded text-[5px] font-semibold">Personal</span>
-          <span className="text-white/70 px-1.5 py-0.5 rounded text-[5px]">Family</span>
+        {/* Row 2: member avatars — tap to filter transactions */}
+        <div className="flex gap-1 mb-1 items-center">
+          <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[5px]">🤖</div>
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false}/>)}
+          <div className="text-[4px] text-rose-200 ml-0.5 leading-tight">Tap to<br/>filter</div>
         </div>
-        <div className="text-[5px] text-rose-100">Spent ₹8,240 of ₹15,000</div>
-        <div className="mt-1 h-1 bg-rose-800 rounded-full overflow-hidden"><div className="h-full bg-white rounded-full" style={{width:'55%'}}/></div>
+        {/* Row 3: category filter chips */}
+        <div className="flex gap-0.5 mb-1 overflow-hidden">
+          {[{l:'All',a:true},{l:'🛒 Food',a:false},{l:'🚗 Drive',a:false},{l:'🎬 Fun',a:false},{l:'💊 Health',a:false}].map(c=>(
+            <div key={c.l} className={`text-[4px] px-1.5 py-0.5 rounded-full flex-shrink-0 font-semibold ${c.a?'bg-white text-rose-600':'bg-rose-500/60 text-white'}`}>{c.l}</div>
+          ))}
+        </div>
+        {/* Row 4: month nav + spend summary */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-0.5">
+            <span className="text-[5px] text-rose-200">◀</span>
+            <span className="text-[5.5px] font-bold text-white">March 2026</span>
+            <span className="text-[5px] text-rose-200">▶</span>
+          </div>
+          <span className="text-[4.5px] text-rose-100">₹8,240 / ₹15,000 · 55%</span>
+        </div>
+        <div className="mt-0.5 h-1.5 bg-rose-800 rounded-full overflow-hidden">
+          <div className="h-full bg-white rounded-full" style={{width:'55%'}}/>
+        </div>
       </div>
-      <div className="px-1.5 py-1 border-b border-gray-100">
-        <div className="text-[5px] font-semibold text-gray-500 mb-0.5">BUDGET</div>
-        {[{cat:'Food',pct:72,color:'bg-rose-400'},{cat:'Transport',pct:45,color:'bg-pink-400'},{cat:'Entertainment',pct:88,color:'bg-orange-400'}].map(b=>(
+
+      {/* Personal mode banner (shows when 👤 is active) */}
+      {!isFamily && (
+        <div className="bg-gray-800 text-white px-2 py-0.5 flex items-center justify-between">
+          <span className="text-[5px] font-semibold">👤 Showing only your private expenses</span>
+          <button onClick={()=>setIsFamily(true)} className="text-[5px] text-rose-300 underline">Show all</button>
+        </div>
+      )}
+
+      {/* ── Zone 2: Budget Progress Bars ── */}
+      <div className="bg-white px-1.5 py-1 border-b border-gray-100">
+        <div className="text-[4.5px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">BUDGET THIS MONTH</div>
+        {[
+          {cat:'Food',       pct:72, color:'bg-rose-400',   warn:false},
+          {cat:'Transport',  pct:45, color:'bg-pink-400',   warn:false},
+          {cat:'Entertain',  pct:88, color:'bg-orange-400', warn:true},
+          {cat:'Health',     pct:20, color:'bg-emerald-400',warn:false},
+        ].map(b=>(
           <div key={b.cat} className="flex items-center gap-1 mb-0.5">
-            <span className="text-[4px] w-10 text-gray-600">{b.cat}</span>
-            <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden"><div className={`h-full rounded-full ${b.color}`} style={{width:`${b.pct}%`}}/></div>
-            <span className="text-[4px] text-gray-500">{b.pct}%</span>
+            <span className="text-[4px] w-10 text-gray-600 flex-shrink-0">{b.cat}</span>
+            <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <div className={`h-full rounded-full ${b.color}`} style={{width:`${b.pct}%`}}/>
+            </div>
+            <span className={`text-[4px] font-medium flex-shrink-0 ${b.warn?'text-orange-500 font-bold':'text-gray-400'}`}>{b.pct}%</span>
+            {b.warn&&<span className="text-[5px] text-orange-500 flex-shrink-0">⚠</span>}
           </div>
         ))}
+        {/* ← View Report tap target — clearly visible */}
+        <div className="flex justify-end mt-0.5">
+          <span className="text-[5px] text-rose-500 font-bold underline">View Report →</span>
+        </div>
       </div>
-      <div className="flex-1 overflow-hidden px-1.5 py-1">
-        <div className="text-[5px] font-semibold text-gray-500 mb-0.5">RECENT</div>
-        {[{emoji:'🛒',desc:'Grocery Store',amt:'₹1,240',who:'Mom'},{emoji:'🚗',desc:'Fuel',amt:'₹800',who:'Dad'},{emoji:'🎬',desc:'Movie Tickets',amt:'₹600',who:'Dad'},{emoji:'💊',desc:'Pharmacy',amt:'₹320',who:'Mom'}].map((tx,i)=>(
-          <div key={i} className="flex items-center gap-1 py-0.5 border-b border-gray-50">
-            <span className="text-[7px]">{tx.emoji}</span>
-            <div className="flex-1 min-w-0"><div className="text-[4px] font-medium text-gray-800 truncate">{tx.desc}</div><div className="text-[4px] text-gray-400">{tx.who}</div></div>
-            <span className="text-[5px] font-semibold text-gray-800">{tx.amt}</span>
+
+      {/* ── Zone 3: Transaction Timeline ── */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 overflow-hidden">
+        <div className="flex items-center justify-between mb-0.5">
+          <span className="text-[5px] font-bold text-gray-500 uppercase tracking-wide">Recent · March</span>
+          <span className="text-[4.5px] text-rose-500 font-semibold">See all ›</span>
+        </div>
+        <div className="space-y-0.5">
+          {[
+            {emoji:'🛒',desc:'Grocery Store',  amt:'₹1,240',who:'Mom',wc:'bg-pink-400',  split:true, recur:false},
+            {emoji:'🚗',desc:'Fuel',           amt:'₹800',  who:'Dad',wc:'bg-orange-400',split:false,recur:false},
+            {emoji:'🏠',desc:'Rent',           amt:'₹15,000',who:'Dad',wc:'bg-orange-400',split:true,recur:true},
+            {emoji:'💊',desc:'Pharmacy',       amt:'₹320',  who:'Mom',wc:'bg-pink-400',  split:false,recur:false},
+          ].map((tx,i)=>(
+            <div key={i} className="bg-white rounded-lg border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+              <span className="text-[7px]">{tx.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[5px] font-medium text-gray-800 truncate">{tx.desc}</div>
+                <div className="flex items-center gap-0.5 mt-0.5">
+                  <div className={`w-2 h-2 rounded-full ${tx.wc} flex items-center justify-center text-[3px] text-white font-bold`}>{tx.who[0]}</div>
+                  <span className="text-[4px] text-gray-400">{tx.who}</span>
+                  {tx.split&&<span className="text-[3.5px] bg-rose-100 text-rose-600 rounded px-0.5 font-bold">split</span>}
+                  {tx.recur&&<span className="text-[3.5px] bg-indigo-100 text-indigo-600 rounded px-0.5 font-bold">🔁 auto</span>}
+                </div>
+              </div>
+              <span className="text-[5px] font-semibold text-gray-800 flex-shrink-0">{tx.amt}</span>
+              <span className="text-[5px] text-gray-300 flex-shrink-0">›</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Zone 4: Quick Actions + FAB ── */}
+      <div className="bg-white border-t border-gray-100 px-2 py-1.5 flex items-center justify-between">
+        <div className="flex gap-1">
+          <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+            <span className="text-[5px]">📷</span>
+            <span className="text-[4px] text-gray-600 font-medium">Scan</span>
           </div>
-        ))}
+          <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+            <span className="text-[5px]">🎙️</span>
+            <span className="text-[4px] text-gray-600 font-medium">Voice</span>
+          </div>
+        </div>
+        <div className="w-7 h-7 rounded-full bg-rose-500 flex items-center justify-center text-white text-[12px] font-bold shadow-md">+</div>
       </div>
-      <div className="pb-2 flex justify-end px-2"><div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center shadow-md"><span className="text-white text-[10px] font-bold">+</span></div></div>
     </div>
   );
 }
@@ -3433,6 +3522,208 @@ function ReceiptConfirmScreen() {
   );
 }
 
+// ── Expense: FAB Menu Sheet (tapping + opens this) ────────────────
+function ExpenseFABMenuScreen() {
+  return (
+    <div className="flex flex-col h-full relative" style={{ minHeight: 320 }}>
+      {/* Dimmed main screen beneath */}
+      <div className="bg-rose-600 px-2 pt-2 pb-1 opacity-40">
+        <div className="text-[6.5px] font-bold text-white">Thaikaattu Family</div>
+        <div className="text-[4.5px] text-rose-100 mt-0.5">₹8,240 / ₹15,000</div>
+      </div>
+      <div className="flex-1 bg-gray-50 opacity-30"/>
+      {/* Bottom sheet overlay */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1.5"/>
+        <div className="text-[5.5px] font-bold text-gray-700 mb-1.5 text-center">Add Expense</div>
+        <div className="space-y-1">
+          {[
+            {icon:'✏️', label:'Add Manually',       sub:'Fill form with amount, category, split', color:'bg-rose-50 border-rose-200', tc:'text-rose-700'},
+            {icon:'📷', label:'Scan Receipt',        sub:'Point camera at bill — OCR auto-fills form',  color:'bg-orange-50 border-orange-200', tc:'text-orange-700'},
+            {icon:'🎙️', label:'Voice Log',           sub:'"I bought milk for ₹120" — AI logs instantly', color:'bg-pink-50 border-pink-200', tc:'text-pink-700'},
+          ].map(opt=>(
+            <div key={opt.label} className={`flex items-center gap-1.5 border rounded-lg px-1.5 py-1 ${opt.color}`}>
+              <span className="text-[10px]">{opt.icon}</span>
+              <div className="flex-1 min-w-0">
+                <div className={`text-[5.5px] font-bold ${opt.tc}`}>{opt.label}</div>
+                <div className="text-[4px] text-gray-500 truncate">{opt.sub}</div>
+              </div>
+              <span className="text-[5px] text-gray-300">›</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Expense: Transaction Detail Screen ───────────────────────────
+function ExpenseDetailScreen() {
+  return (
+    <div className="flex flex-col h-full" style={{ minHeight: 320 }}>
+      <div className="bg-rose-600 text-white px-2 pt-3 pb-2">
+        <div className="flex items-center gap-1 mb-1">
+          <span className="text-[6px]">←</span>
+          <span className="text-[6px] font-bold flex-1">Expense Detail</span>
+          <span className="text-[5px] text-rose-200">Edit</span>
+        </div>
+      </div>
+      <div className="bg-rose-50 px-2 py-2 flex flex-col items-center border-b border-rose-100">
+        <div className="text-[16px] font-bold text-rose-600">₹1,240</div>
+        <div className="flex items-center gap-1 mt-0.5">
+          <span className="text-[5px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded font-medium">🛒 Food</span>
+          <span className="text-[5px] text-gray-400">18 Mar 2026</span>
+        </div>
+        <div className="text-[5px] text-gray-500 mt-0.5">Grocery Store</div>
+      </div>
+      <div className="flex-1 px-2 py-1.5 space-y-1 overflow-hidden">
+        {[['Paid By','Mom'],['Merchant','Big Bazaar'],['Date','18 Mar 2026 · Today']].map(([l,v])=>(
+          <div key={l} className="flex justify-between items-center py-0.5 border-b border-gray-50">
+            <span className="text-[4.5px] text-gray-400">{l}</span>
+            <span className="text-[5px] font-medium text-gray-700">{v}</span>
+          </div>
+        ))}
+        <div className="flex justify-between items-center py-0.5 border-b border-gray-50">
+          <span className="text-[4.5px] text-gray-400">Split Among</span>
+          <div className="flex gap-0.5">{['M','D','A'].map((m,i)=><div key={i} className={`w-2.5 h-2.5 rounded-full flex items-center justify-center text-[3px] text-white font-bold ${['bg-pink-400','bg-orange-400','bg-blue-400'][i]}`}>{m}</div>)}</div>
+        </div>
+        <div className="flex justify-between items-center py-0.5 border-b border-gray-50">
+          <span className="text-[4.5px] text-gray-400">Each owes</span>
+          <span className="text-[5px] font-medium text-gray-700">₹413.33</span>
+        </div>
+        <div className="bg-gray-100 rounded h-8 flex items-center justify-center border border-dashed border-gray-300">
+          <div className="flex items-center gap-1"><span className="text-[8px]">🧾</span><span className="text-[4px] text-gray-400">Receipt attached</span></div>
+        </div>
+        <div className="bg-indigo-50 border border-indigo-100 rounded px-1.5 py-0.5">
+          <div className="text-[4px] text-indigo-600">📅 Linked: Monthly Grocery event</div>
+        </div>
+      </div>
+      <div className="px-2 pb-2 flex gap-1">
+        <div className="flex-1 border border-gray-200 text-center py-1 rounded text-[5px] text-gray-600">Edit</div>
+        <div className="flex-1 border border-red-200 text-center py-1 rounded text-[5px] text-red-500">Delete</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Expense: Budget Report Screen ─────────────────────────────────
+function BudgetReportScreen() {
+  const cats = [
+    {name:'Food',pct:77,color:'bg-rose-400'},
+    {name:'Transport',pct:45,color:'bg-pink-400'},
+    {name:'Entertain',pct:88,color:'bg-orange-400'},
+    {name:'Health',pct:20,color:'bg-emerald-400'},
+    {name:'Utilities',pct:90,color:'bg-red-400'},
+  ];
+  return (
+    <div className="flex flex-col h-full" style={{ minHeight: 320 }}>
+      <div className="bg-rose-600 text-white px-2 pt-3 pb-2">
+        <div className="flex items-center gap-1 mb-1"><span className="text-[6px]">←</span><span className="text-[6px] font-bold flex-1">March Report</span><span className="text-[5px] text-rose-200">Export</span></div>
+        <div className="text-[5px] text-rose-100">Total: ₹10,240 / ₹15,000 · 68%</div>
+        <div className="mt-1 h-1 bg-rose-800 rounded-full overflow-hidden"><div className="h-full bg-white rounded-full" style={{width:'68%'}}/></div>
+      </div>
+      <div className="flex items-center gap-2 px-2 py-1.5 border-b border-gray-100">
+        <div className="w-10 h-10 rounded-full border-4 border-rose-400 flex-shrink-0 flex items-center justify-center"><span className="text-[4px] font-bold text-rose-600 text-center leading-tight">₹10K<br/>spent</span></div>
+        <div className="flex-1 space-y-0.5">
+          {[{color:'bg-rose-400',l:'Food 37%'},{color:'bg-pink-400',l:'Transport 18%'},{color:'bg-orange-400',l:'Fun 21%'}].map(d=>(
+            <div key={d.l} className="flex items-center gap-0.5"><div className={`w-1.5 h-1.5 rounded-full ${d.color}`}/><span className="text-[4px] text-gray-500">{d.l}</span></div>
+          ))}
+        </div>
+        <div className="flex flex-col items-end gap-0.5">
+          <span className="text-[4px] text-emerald-600 font-semibold">Saves: ₹4,760</span>
+          <span className="text-[4px] text-gray-400">vs Feb: +8%</span>
+        </div>
+      </div>
+      <div className="flex-1 px-2 py-1 space-y-1 overflow-hidden">
+        <div className="text-[4.5px] font-bold text-gray-400 uppercase tracking-wide">Category Breakdown</div>
+        {cats.map(c=>(
+          <div key={c.name}>
+            <div className="flex justify-between text-[4px] text-gray-600 mb-0.5"><span>{c.name}</span><span className={c.pct>=80?'text-orange-500 font-bold':''}>{c.pct}%</span></div>
+            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div className={`h-full rounded-full ${c.color}`} style={{width:`${c.pct}%`}}/></div>
+          </div>
+        ))}
+      </div>
+      <div className="px-2 pb-2">
+        <div className="bg-blue-50 border border-blue-100 rounded px-1.5 py-1">
+          <div className="text-[4px] text-blue-700">🤖 "Utilities at 90% — 3 days left. Consider deferring next entertainment spend."</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Expense: Family View Screen (👥 toggle ON) ────────────────────
+function ExpenseFamilyViewScreen() {
+  return (
+    <div className="flex flex-col h-full" style={{ minHeight: 320 }}>
+      <div className="bg-rose-600 text-white px-2 pt-2 pb-1.5">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6px] font-bold">Thaikaattu Family</span>
+          </div>
+          <div className="bg-white/20 rounded-full px-1.5 py-0.5 flex items-center gap-0.5">
+            <span className="text-[7px]">👥</span>
+            <span className="text-[4px] text-white font-bold">Family</span>
+          </div>
+        </div>
+        <div className="flex gap-1 mb-0.5 items-center">
+          <span className="text-[4px] text-rose-200">Filter:</span>
+          {['All','M','D','A'].map((m,i)=>(
+            <div key={m} className={`text-[4px] px-1 py-0.5 rounded-full font-bold ${i===0?'bg-white text-rose-600':'bg-rose-500 text-white'}`}>{m}</div>
+          ))}
+        </div>
+        <div className="text-[4.5px] text-rose-100">Family spent ₹10,240 of ₹15,000 this month</div>
+        <div className="mt-0.5 h-1 bg-rose-800 rounded-full overflow-hidden"><div className="h-full bg-white rounded-full" style={{width:'68%'}}/></div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="text-[4.5px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">FAMILY TRANSACTIONS</div>
+        {[
+          {emoji:'🛒',desc:'Grocery Store',amt:'₹1,240',who:'Mom',c:'bg-pink-400'},
+          {emoji:'🚗',desc:'Fuel',amt:'₹800',who:'Dad',c:'bg-orange-400'},
+          {emoji:'📚',desc:'School Books',amt:'₹1,500',who:'Mom',c:'bg-pink-400'},
+          {emoji:'🎬',desc:'Movie Tickets',amt:'₹600',who:'Dad',c:'bg-orange-400'},
+          {emoji:'🍕',desc:'Dinner Out',amt:'₹920',who:'Dad',c:'bg-orange-400'},
+        ].map((tx,i)=>(
+          <div key={i} className="flex items-center gap-1 py-0.5 border-b border-gray-50">
+            <span className="text-[7px]">{tx.emoji}</span>
+            <div className="flex-1 min-w-0"><div className="text-[4px] font-medium text-gray-800 truncate">{tx.desc}</div></div>
+            <div className={`w-2.5 h-2.5 rounded-full ${tx.c} flex items-center justify-center text-[3px] text-white font-bold flex-shrink-0`}>{tx.who[0]}</div>
+            <span className="text-[4.5px] font-semibold text-gray-800 ml-0.5">{tx.amt}</span>
+          </div>
+        ))}
+      </div>
+      <div className="pb-2 flex justify-end px-2"><div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center shadow-md"><span className="text-white text-[10px] font-bold">+</span></div></div>
+    </div>
+  );
+}
+
+// ── Expense: Zone Legend (compact inline card) ────────────────────
+function ExpenseZoneLegend() {
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 p-4 w-full max-w-sm">
+      <p className="text-xs font-bold text-gray-700 mb-2">Expense Screen — Zone Legend</p>
+      <div className="space-y-1">
+        {[
+          { color:'bg-rose-200',   label:'Zone 1 – Header',               desc:'Personal/Family toggle · Month selector · Spent vs Budget summary · Member avatar filter' },
+          { color:'bg-pink-200',   label:'Zone 2 – Budget Progress Bars',  desc:'Per-category budget bars · Threshold indicators · Overspend alerts · View Report link' },
+          { color:'bg-orange-200', label:'Zone 3 – Transaction Timeline',  desc:'Chronological expense cards · Category icons · Amount · Paid-by tag · Split badge' },
+          { color:'bg-red-200',    label:'Zone 4 – FAB / Quick Actions',   desc:'Add Expense · Camera Scan Receipt · Voice Log · Expanded action menu' },
+        ].map(z=>(
+          <div key={z.label} className="flex items-start gap-2">
+            <div className={`w-3 h-3 rounded mt-0.5 flex-shrink-0 ${z.color}`}/>
+            <div><span className="text-[10px] font-semibold text-gray-800">{z.label}</span><span className="text-[10px] text-gray-500"> — {z.desc}</span></div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 bg-rose-50 border border-rose-200 rounded p-2">
+        <p className="text-[10px] font-bold text-rose-800 mb-1">👥 ↔ 👤  Personal / Family Toggle</p>
+        <p className="text-[9px] text-rose-700">Top-right icon in Expense header. Default: <strong>Family</strong> (👥) — shows all members' shared expenses. Tap to switch to <strong>Personal</strong> (👤) — shows only your own private expenses. Role-based: children see summary count only.</p>
+      </div>
+    </div>
+  );
+}
+
 // ── Expense: Small Phone for Flows ────────────────────────────────
 function ExpPhone({ children, label, sublabel }: { children: React.ReactNode; label: string; sublabel?: string }) {
   return (
@@ -3455,39 +3746,99 @@ function ExpArrow({ label }: { label?: string }) {
   );
 }
 
-// ── Expense: 4 Flow Screens ───────────────────────────────────────
+// ── Expense Flows — each starts from its tap trigger on main screen ─
+// Helper: compact main screen thumbnail showing a highlighted zone
+function EMainTrigger({ zone, hint }: { zone: 'fab'|'scan'|'voice'|'report'|'transaction'|'split'|'toggle'|'chip'; hint: string }) {
+  const hl: Record<string,string> = {
+    fab:         'Zone 4 — FAB (+)',
+    scan:        'Zone 4 — 📷 Scan',
+    voice:       'Zone 4 — 🎙️ Voice',
+    report:      'Zone 2 — View Report →',
+    transaction: 'Zone 3 — transaction row ›',
+    split:       'Zone 3 — split badge',
+    toggle:      'Zone 1 — 👥/👤 toggle',
+    chip:        'Zone 1 — category chip',
+  };
+  return (
+    <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+      <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
+        <div className="flex items-center justify-between mb-0.5">
+          <span className="text-[5.5px] font-bold">Expenses</span>
+          <span className={`text-[4px] px-1 py-0.5 rounded-full font-bold ${zone==='toggle'?'bg-white text-rose-600 ring-2 ring-yellow-400':'bg-white/20 text-white'}`}>{zone==='toggle'?'👥 Family':'👥 Family'}</span>
+        </div>
+        <div className={`flex gap-0.5 mb-0.5 overflow-hidden`}>
+          {['All','🛒','🚗','🎬'].map((c,i)=>(
+            <div key={c} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${zone==='chip'&&i===1?'bg-yellow-300 text-gray-800 ring-1 ring-yellow-500':i===0?'bg-white text-rose-600':'bg-rose-500/60 text-white'}`}>{c}</div>
+          ))}
+        </div>
+        <div className="text-[4px] text-rose-100">₹8,240 / ₹15,000</div>
+      </div>
+      <div className="bg-white px-1.5 py-0.5 border-b border-gray-100">
+        {[{c:'Food',p:72},{c:'Entertain',p:88,w:true}].map(b=>(
+          <div key={b.c} className="flex items-center gap-1 mb-0.5">
+            <span className="text-[4px] w-10 flex-shrink-0 text-gray-500">{b.c}</span>
+            <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden"><div className={`h-full rounded-full ${b.w?'bg-orange-400':'bg-rose-400'}`} style={{width:`${b.p}%`}}/></div>
+          </div>
+        ))}
+        <div className={`flex justify-end`}>
+          <span className={`text-[5px] font-bold underline ${zone==='report'?'text-yellow-600 ring-1 ring-yellow-400 rounded px-0.5':'text-rose-400'}`}>View Report →</span>
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-1.5 py-0.5 overflow-hidden">
+        {[{e:'🛒',d:'Grocery',a:'₹1,240',split:true},{e:'🏠',d:'Rent',a:'₹15,000',recur:true}].map((tx,i)=>(
+          <div key={i} className={`flex items-center gap-0.5 bg-white rounded border px-1 py-0.5 mb-0.5 shadow-sm ${(zone==='transaction'||zone==='split')&&i===0?'ring-2 ring-yellow-400 border-yellow-300':' border-gray-100'}`}>
+            <span className="text-[6px]">{tx.e}</span>
+            <span className="flex-1 text-[4px] text-gray-700 truncate">{tx.d}</span>
+            {tx.split&&<span className={`text-[3.5px] rounded px-0.5 font-bold ${zone==='split'?'bg-yellow-300 text-yellow-800':'bg-rose-100 text-rose-600'}`}>split</span>}
+            {tx.recur&&<span className="text-[3.5px] bg-indigo-100 text-indigo-600 rounded px-0.5">🔁</span>}
+            <span className="text-[4.5px] font-semibold ml-0.5">{tx.a}</span>
+          </div>
+        ))}
+      </div>
+      <div className={`bg-white border-t border-gray-100 px-1.5 py-1 flex items-center justify-between`}>
+        <div className="flex gap-0.5">
+          <div className={`flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[4px] ${zone==='scan'?'bg-yellow-300 text-gray-800 ring-1 ring-yellow-500':'bg-gray-100 text-gray-600'}`}>📷 Scan</div>
+          <div className={`flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[4px] ${zone==='voice'?'bg-yellow-300 text-gray-800 ring-1 ring-yellow-500':'bg-gray-100 text-gray-600'}`}>🎙️ Voice</div>
+        </div>
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow ${zone==='fab'?'bg-yellow-500 ring-2 ring-yellow-300':'bg-rose-500'}`}>+</div>
+      </div>
+      <div className="bg-yellow-50 border-t border-yellow-200 px-1.5 py-0.5 text-center">
+        <span className="text-[4.5px] text-yellow-700 font-bold">👆 {hl[zone]}</span>
+        <div className="text-[4px] text-yellow-600">{hint}</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Flow 1: Add Expense Manually (FAB + → Add Manually) ──────────
 function EFlow1() {
   return (
     <div className="flex flex-wrap gap-3 items-start justify-center">
-      <ExpPhone label="Expense Main" sublabel="Transaction timeline">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold mb-0.5">Expenses</div><div className="text-[5px] text-rose-100">Spent ₹8,240 / ₹15,000</div></div>
-          <div className="flex-1 px-1.5 py-1 space-y-0.5">{['🛒 Grocery ₹1,240','🚗 Fuel ₹800','🎬 Movie ₹600'].map(t=><div key={t} className="text-[4px] py-0.5 border-b border-gray-100 text-gray-700">{t}</div>)}</div>
-          <div className="pb-2 flex justify-end px-2"><div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center"><span className="text-white text-[9px] font-bold">+</span></div></div>
-        </div>
+      <ExpPhone label="Main Screen" sublabel="Tap FAB (+)">
+        <EMainTrigger zone="fab" hint="Tap the + button"/>
       </ExpPhone>
       <ExpArrow label="Tap +" />
-      <ExpPhone label="Add Expense Form" sublabel="Fill amount & details">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Add Expense</div></div>
-          <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="text-center bg-rose-50 rounded py-1"><div className="text-[12px] font-bold text-rose-600">₹320</div></div>
-            <div className="border border-gray-200 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Category</div><div className="text-[4px]">💊 Health</div></div>
-            <div className="border border-gray-200 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Paid By</div><div className="text-[4px]">👩 Mom</div></div>
-            <div className="border border-rose-200 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">Split</div><div className="text-[4px]">Family (3)</div></div>
-          </div>
-          <div className="px-1.5 pb-2"><div className="bg-rose-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">Save</div></div>
-        </div>
+      <ExpPhone label="FAB Menu Opens" sublabel="3 quick-add options">
+        <ExpenseFABMenuScreen/>
+      </ExpPhone>
+      <ExpArrow label="Tap Add Manually" />
+      <ExpPhone label="Add Expense Form" sublabel="Amount · category · split">
+        <AddExpenseScreen/>
       </ExpPhone>
       <ExpArrow label="Save" />
-      <ExpPhone label="Saved + Feed" sublabel="Activity card posted">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Expenses</div></div>
+      <ExpPhone label="Saved — Timeline Updated" sublabel="Feed card posted">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Expenses</div></div>
           <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 flex items-center gap-1"><span>✓</span><span className="text-[4px] text-emerald-700">Expense saved!</span></div>
-            <div className="text-[4px] font-semibold text-gray-500 mt-1">FAMILY FEED</div>
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 flex items-center gap-1"><span>✓</span><span className="text-[4px] text-emerald-700 font-bold">Expense saved!</span></div>
+            <div className="bg-white rounded border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+              <span className="text-[7px]">💊</span>
+              <div className="flex-1 min-w-0"><div className="text-[5px] font-medium">Pharmacy</div><div className="text-[4px] text-gray-400">Mom · split</div></div>
+              <span className="text-[5px] font-semibold">₹320</span>
+            </div>
+            <div className="text-[4px] font-semibold text-gray-400 uppercase">Family Feed</div>
             <div className="bg-purple-50 border border-purple-200 rounded px-1 py-0.5"><div className="text-[4px] text-purple-700">💊 Mom logged Pharmacy ₹320</div></div>
-            <div className="text-[4px] text-gray-400">Dashboard widget updated</div>
+            <div className="text-[4px] text-gray-400">Budget bars updated · Dashboard synced</div>
           </div>
         </div>
       </ExpPhone>
@@ -3495,81 +3846,92 @@ function EFlow1() {
   );
 }
 
+// ── Flow 2: Camera / Receipt OCR Scan (tap 📷 Scan) ───────────────
 function EFlow2() {
   return (
     <div className="flex flex-wrap gap-3 items-start justify-center">
-      <ExpPhone label="Camera View" sublabel="Point at receipt">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-gray-900 text-white px-2 pt-4 pb-1 flex-1 flex flex-col">
+      <ExpPhone label="Main Screen" sublabel="Tap 📷 Scan shortcut">
+        <EMainTrigger zone="scan" hint="Tap Scan quick-action"/>
+      </ExpPhone>
+      <ExpArrow label="Tap Scan" />
+      <ExpPhone label="Camera — Align Receipt" sublabel="Point at bill">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-gray-900 text-white px-2 pt-3 pb-1 flex-1 flex flex-col">
             <div className="text-[6px] font-bold mb-1">📷 Scan Receipt</div>
             <div className="flex-1 bg-gray-800 rounded flex items-center justify-center">
               <div className="border-2 border-dashed border-rose-400 w-16 h-20 rounded flex items-center justify-center"><span className="text-[7px]">🧾</span></div>
             </div>
-            <div className="text-[4px] text-gray-400 text-center mt-1">Align receipt in frame</div>
+            <div className="text-[4px] text-gray-400 text-center mt-1">Align receipt in frame · tap shutter</div>
           </div>
         </div>
       </ExpPhone>
-      <ExpArrow label="OCR" />
-      <ExpPhone label="OCR Processing" sublabel="Google Vision API">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Extracting...</div></div>
-          <div className="flex-1 flex flex-col items-center justify-center gap-1 px-2">
-            <div className="text-[9px]">🔍</div>
-            <div className="text-[4px] text-gray-500 text-center">Merchant · Total · Date</div>
-            <div className="w-full bg-gray-200 rounded-full h-0.5 overflow-hidden"><div className="bg-rose-400 h-0.5 rounded-full" style={{width:'70%'}}/></div>
-          </div>
-        </div>
+      <ExpArrow label="OCR processing" />
+      <ExpPhone label="Receipt Confirm" sublabel="Review OCR-filled fields">
+        <ReceiptConfirmScreen/>
       </ExpPhone>
-      <ExpArrow label="Review" />
-      <ExpPhone label="Confirm & Save" sublabel="Edit then confirm">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Receipt Scanned</div></div>
+      <ExpArrow label="Confirm &amp; Save" />
+      <ExpPhone label="Saved — Timeline Updated" sublabel="Receipt image stored">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Expenses</div></div>
           <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 text-[4px] text-emerald-700">✓ Auto-extracted</div>
-            <div className="border border-rose-200 bg-rose-50 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Merchant</div><div className="text-[4px]">Big Bazaar</div></div>
-            <div className="border border-rose-200 bg-rose-50 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Amount</div><div className="text-[4px]">₹2,340</div></div>
-            <div className="border border-rose-200 bg-rose-50 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Date</div><div className="text-[4px]">18 Mar 2026</div></div>
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700 font-bold">✓ Receipt saved (OCR)</div></div>
+            <div className="bg-white rounded border border-gray-100 px-1.5 py-1 flex items-center gap-1">
+              <span className="text-[7px]">🧾</span>
+              <div className="flex-1 min-w-0"><div className="text-[5px] font-medium">Big Bazaar</div><div className="text-[4px] text-gray-400">Mom · 18 Mar</div></div>
+              <span className="text-[5px] font-semibold">₹2,340</span>
+            </div>
+            <div className="bg-indigo-50 border border-indigo-100 rounded px-1 py-0.5"><div className="text-[4px] text-indigo-600">📎 Receipt image saved to Doc Vault</div></div>
           </div>
-          <div className="px-1.5 pb-2"><div className="bg-rose-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">Confirm &amp; Save</div></div>
         </div>
       </ExpPhone>
     </div>
   );
 }
 
+// ── Flow 3: Voice Expense Logging (tap 🎙️ Voice) ──────────────────
 function EFlow3() {
   return (
     <div className="flex flex-wrap gap-3 items-start justify-center">
-      <ExpPhone label="Voice Trigger" sublabel="Speak the command">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">AI Assistant</div></div>
+      <ExpPhone label="Main Screen" sublabel="Tap 🎙️ Voice shortcut">
+        <EMainTrigger zone="voice" hint="Tap Voice quick-action"/>
+      </ExpPhone>
+      <ExpArrow label="Tap Voice" />
+      <ExpPhone label="AI Listening" sublabel="Speak the expense">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">🎙️ Voice Log</div></div>
           <div className="flex-1 flex flex-col items-center justify-center gap-2 px-2">
             <div className="w-10 h-10 bg-rose-50 rounded-full flex items-center justify-center border-2 border-rose-300"><span className="text-[14px]">🎙️</span></div>
             <div className="text-[4px] text-gray-500 text-center">Listening...</div>
             <div className="flex gap-0.5 items-end h-3">{[2,4,3,5,2,4,3].map((h,i)=><div key={i} className="w-0.5 bg-rose-400 rounded-full" style={{height:h*2}}/>)}</div>
-            <div className="bg-gray-100 rounded px-1.5 py-0.5 text-center"><div className="text-[4px] text-gray-600 italic">"I bought milk for ₹120"</div></div>
+            <div className="bg-gray-100 rounded px-1.5 py-0.5 text-center w-full"><div className="text-[4px] text-gray-600 italic">"I bought milk for ₹120"</div></div>
           </div>
         </div>
       </ExpPhone>
-      <ExpArrow label="AI parse" />
-      <ExpPhone label="AI Confirmation" sublabel="Review parsed details">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Expense Detected</div></div>
+      <ExpArrow label="AI parses" />
+      <ExpPhone label="Parsed — Confirm" sublabel="Review before saving">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Expense Detected</div></div>
           <div className="flex-1 px-1.5 py-1 space-y-1">
             <div className="bg-blue-50 border border-blue-200 rounded px-1 py-0.5"><div className="text-[4px] text-blue-700 font-medium">Finance AI parsed:</div></div>
-            {[['Item','Milk'],['Amount','₹120'],['Category','🛒 Food'],['Date','Today']].map(([l,v])=><div key={l} className="flex justify-between border-b border-gray-100 py-0.5"><span className="text-[4px] text-gray-400">{l}</span><span className="text-[4px] font-medium text-gray-700">{v}</span></div>)}
+            {[['Item','Milk'],['Amount','₹120'],['Category','🛒 Food'],['Date','Today']].map(([l,v])=>(
+              <div key={l} className="flex justify-between border-b border-gray-100 py-0.5"><span className="text-[4px] text-gray-400">{l}</span><span className="text-[4px] font-medium text-gray-700">{v}</span></div>
+            ))}
           </div>
-          <div className="px-1.5 pb-2 flex gap-1"><div className="flex-1 border border-gray-200 text-center py-0.5 rounded text-[5px] text-gray-600">Edit</div><div className="flex-1 bg-rose-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">Log It</div></div>
+          <div className="px-1.5 pb-2 flex gap-1">
+            <div className="flex-1 border border-gray-200 text-center py-0.5 rounded text-[5px] text-gray-600">Edit</div>
+            <div className="flex-1 bg-rose-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">Log It</div>
+          </div>
         </div>
       </ExpPhone>
-      <ExpArrow label="Logged" />
-      <ExpPhone label="Logged + Feed" sublabel="No navigation needed">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">AI Assistant</div></div>
+      <ExpArrow label="Log It" />
+      <ExpPhone label="Logged — No Navigation" sublabel="AI confirms in-place">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">🎙️ Voice Log</div></div>
           <div className="flex-1 px-1.5 py-2 space-y-1.5">
-            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700">✓ Logged: Milk ₹120 (Food)</div></div>
-            <div className="bg-gray-50 border border-gray-200 rounded px-1 py-0.5"><div className="text-[4px] text-gray-600">"Got it! Milk ₹120 logged under Food. Your food spend is now ₹3,840 this month."</div></div>
-            <div className="text-[4px] text-gray-400">Family Feed notified · Dashboard updated</div>
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700 font-bold">✓ Logged: Milk ₹120 (Food)</div></div>
+            <div className="bg-gray-50 border border-gray-200 rounded px-1 py-0.5"><div className="text-[4px] text-gray-600">"Got it! Milk ₹120 in Food. Your food spend is now ₹3,840 this month."</div></div>
+            <div className="text-[4px] text-gray-400">Budget bar updated · Family Feed notified</div>
+            <div className="text-[4px] text-gray-400">No navigation required — stay where you are</div>
           </div>
         </div>
       </ExpPhone>
@@ -3577,42 +3939,437 @@ function EFlow3() {
   );
 }
 
+// ── Flow 4: View Budget Report (tap View Report →) ────────────────
 function EFlow4() {
   return (
     <div className="flex flex-wrap gap-3 items-start justify-center">
-      <ExpPhone label="Home Dashboard" sublabel="Budget nudge card">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-gray-800 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Good morning, Dad 👋</div></div>
-          <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="bg-orange-50 border border-orange-300 rounded px-1 py-0.5"><div className="text-[4px] text-orange-700 font-semibold">⚠️ Budget Alert</div><div className="text-[4px] text-orange-600">Entertainment is at 88%. ₹240 remaining.</div></div>
-            <div className="bg-rose-50 border border-rose-200 rounded px-1 py-0.5"><div className="text-[4px] text-rose-700">Financials · Spent ₹8,240 / ₹15,000</div><div className="text-[4px] text-rose-500 underline">View Report →</div></div>
+      <ExpPhone label="Main Screen" sublabel='Tap "View Report →" in budget bars'>
+        <EMainTrigger zone="report" hint="Tap View Report link"/>
+      </ExpPhone>
+      <ExpArrow label="Tap View Report" />
+      <ExpPhone label="Monthly Report" sublabel="Full spend + charts">
+        <BudgetReportScreen/>
+      </ExpPhone>
+      <ExpArrow label="AI insight" />
+      <ExpPhone label="AI Spending Insights" sublabel="Trends + suggestions">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">AI Insights</div><div className="text-[4px] text-rose-100">March 2026</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-1 overflow-hidden">
+            {[
+              {icon:'⚠️',text:'Entertainment at 88% — 3 days left. Pause subscriptions?',c:'bg-orange-50 border-orange-200'},
+              {icon:'📈',text:'Food up 8% vs Feb — weekend dining is the driver.',c:'bg-blue-50 border-blue-200'},
+              {icon:'✅',text:'Transport on track. You saved ₹400 vs last month.',c:'bg-emerald-50 border-emerald-200'},
+            ].map((ins,i)=>(
+              <div key={i} className={`border rounded px-1 py-0.5 ${ins.c}`}><div className="text-[4px]">{ins.icon} {ins.text}</div></div>
+            ))}
+            <div className="mt-1 text-[4px] text-gray-400">Tap any category bar → set new budget limit</div>
           </div>
         </div>
       </ExpPhone>
-      <ExpArrow label="View Report" />
-      <ExpPhone label="Monthly Report" sublabel="Full category breakdown">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">March Report</div><div className="text-[4px] text-rose-100">Total: ₹8,240 / ₹15,000</div></div>
-          <div className="flex-1 px-1.5 py-1 space-y-0.5 overflow-hidden">
-            {[{cat:'Food',pct:77},{cat:'Transport',pct:45},{cat:'Entertainment',pct:88},{cat:'Health',pct:20}].map(b=>(
-              <div key={b.cat} className="text-[4px]">
-                <div className="flex justify-between text-gray-600"><span>{b.cat}</span><span>{b.pct}%</span></div>
-                <div className="h-1 bg-gray-100 rounded-full overflow-hidden mt-0.5"><div className={`h-full rounded-full ${b.pct>=80?'bg-orange-400':'bg-rose-400'}`} style={{width:`${b.pct}%`}}/></div>
+      <ExpArrow label="Update limit" />
+      <ExpPhone label="Budget Limit Updated" sublabel="New cap saved">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Budget Settings</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="text-[4.5px] font-bold text-gray-500">Entertainment Budget</div>
+            <div className="border border-gray-200 rounded px-1 py-0.5 bg-gray-50"><div className="text-[4px] text-gray-400">Current limit</div><div className="text-[5px] font-semibold text-gray-700">₹2,500</div></div>
+            <div className="border border-rose-300 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">New limit (AI suggested)</div><div className="text-[5px] font-semibold text-rose-700">₹3,000</div></div>
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700 font-bold">✓ Budget updated</div></div>
+            <div className="text-[4px] text-gray-400">All family devices updated instantly</div>
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 5: Recurring Expense Auto-Log ───────────────────
+function EFlow5() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Main Screen" sublabel="🔁 badge on Rent row">
+        <EMainTrigger zone="transaction" hint="Tap 🔁 Rent row to manage"/>
+      </ExpPhone>
+      <ExpArrow label="Tap 🔁 Rent" />
+      <ExpPhone label="Recurring Settings" sublabel="Manage auto-log schedule">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Recurring Expense</div>
+            <div className="text-[4px] text-rose-100">🔁 Monthly Rent</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="bg-indigo-50 border border-indigo-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-indigo-700 font-bold">🔗 Linked to Calendar</div>
+              <div className="text-[4px] text-indigo-600">Pay Rent · 1st of every month</div>
+            </div>
+            {[['Amount','₹15,000'],['Next due','1 May 2026'],['Auto-log','ON ✓']].map(([l,v])=>(
+              <div key={l} className="flex justify-between border-b border-gray-100 py-0.5">
+                <span className="text-[4px] text-gray-400">{l}</span>
+                <span className="text-[4px] font-semibold text-gray-700">{v}</span>
               </div>
             ))}
-            <div className="mt-1 bg-blue-50 rounded px-1 py-0.5 text-[4px] text-blue-700">AI: "You typically spend 20% more on Food in March."</div>
+            <div className="bg-amber-50 border border-amber-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-amber-700">⏰ Due in 20 days — no action needed</div>
+            </div>
+            <div className="text-[4px] text-gray-400">When event is marked complete, expense auto-logs</div>
           </div>
         </div>
       </ExpPhone>
-      <ExpArrow label="Update" />
-      <ExpPhone label="Budget Updated" sublabel="AI updates cap">
-        <div className="flex flex-col h-full text-[5px]">
-          <div className="bg-rose-600 text-white px-2 pt-4 pb-1.5"><div className="text-[6px] font-bold">Budget Settings</div></div>
+      <ExpArrow label="Calendar fires" />
+      <ExpPhone label="Calendar — Due Today" sublabel="Tap ✓ to complete event">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-indigo-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Calendar</div>
+            <div className="text-[4px] text-indigo-100">1 May 2026</div>
+          </div>
           <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="text-[4px] text-gray-500">Entertainment Budget</div>
-            <div className="border border-gray-200 rounded px-1 py-0.5"><div className="text-[4px] text-gray-400">Current</div><div className="text-[5px] font-semibold text-gray-700">₹2,500</div></div>
-            <div className="border border-rose-300 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">New Limit</div><div className="text-[5px] font-semibold text-rose-700">₹3,000</div></div>
-            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700">✓ Budget updated by AI</div></div>
+            <div className="bg-amber-50 border border-amber-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-amber-700 font-bold">⏰ Due Today</div>
+              <div className="text-[5px] font-bold text-gray-800">Pay Rent — ₹15,000</div>
+              <div className="text-[4px] text-gray-500">Recurring · 1st of month</div>
+            </div>
+            <div className="bg-rose-50 border border-rose-200 rounded px-1 py-0.5 flex items-center gap-1">
+              <span className="text-[6px]">✓</span>
+              <span className="text-[4px] text-rose-700 font-bold">Tap to mark complete</span>
+            </div>
+            <div className="text-[4px] text-gray-400">Completing will auto-log ₹15,000 expense</div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="Mark complete" />
+      <ExpPhone label="Expense Auto-Created" sublabel="Auto-appears in timeline">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Expenses</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-emerald-700 font-bold">✓ Auto-logged by system</div>
+              <div className="text-[5px] font-bold text-gray-800">Rent · ₹15,000</div>
+              <div className="text-[4px] text-gray-500">1 May 2026 · 🔁 Recurring</div>
+            </div>
+            <div className="bg-white rounded border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+              <span className="text-[7px]">🏠</span>
+              <div className="flex-1 min-w-0"><div className="text-[5px] font-medium">Rent</div><div className="text-[4px] text-gray-400">Auto · 🔁 recurring</div></div>
+              <span className="text-[5px] font-semibold">₹15,000</span>
+            </div>
+            <div className="text-[4px] text-gray-400">No manual entry · Next: 1 Jun 2026</div>
+            <div className="text-[4px] text-gray-400">Family Feed notified</div>
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 6: Split Tracking & Member Ledger ────────────────
+function EFlow6() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Main Screen" sublabel="Tap split badge on Grocery">
+        <EMainTrigger zone="split" hint="Tap split badge to view ledger"/>
+      </ExpPhone>
+      <ExpArrow label="Tap split badge" />
+      <ExpPhone label="Split Detail" sublabel="Who paid · who owes">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Split Detail</div>
+            <div className="text-[4px] text-rose-100">🛒 Grocery Store · ₹1,240</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="bg-blue-50 border border-blue-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-blue-700">Paid by: <span className="font-bold">Mom</span></div>
+              <div className="text-[4px] text-blue-600">Split equally among 3 members</div>
+            </div>
+            {[{name:'Mom',label:'paid — settled',c:'bg-pink-400',tag:'text-emerald-600'},{name:'Dad',label:'owes ₹413',c:'bg-orange-400',tag:'text-rose-600'},{name:'Anvi',label:'owes ₹413',c:'bg-blue-400',tag:'text-rose-600'}].map(m=>(
+              <div key={m.name} className="flex items-center gap-1 border-b border-gray-50 py-0.5">
+                <div className={`w-3 h-3 rounded-full ${m.c} flex items-center justify-center text-[3px] text-white font-bold`}>{m.name[0]}</div>
+                <span className="flex-1 text-[4px] text-gray-700">{m.name}</span>
+                <span className={`text-[4px] font-semibold ${m.tag}`}>{m.label}</span>
+              </div>
+            ))}
+            <div className="bg-amber-50 border border-amber-200 rounded px-1 py-0.5"><div className="text-[4px] text-amber-700">⏳ Dad + Anvi owe Mom ₹826</div></div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="Tap View Ledger" />
+      <ExpPhone label="Member Ledger" sublabel="Cumulative family balances">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Ledger — Mom</div>
+            <div className="text-[4px] text-rose-100">Others owe you</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            {[{name:'Dad',amt:'₹2,413',c:'bg-orange-400'},{name:'Anvi',amt:'₹813',c:'bg-blue-400'}].map(m=>(
+              <div key={m.name} className="flex items-center gap-1 bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5">
+                <div className={`w-3 h-3 rounded-full ${m.c} flex items-center justify-center text-[3px] text-white font-bold`}>{m.name[0]}</div>
+                <span className="flex-1 text-[4px] text-gray-700">{m.name}</span>
+                <span className="text-[4px] font-semibold text-emerald-700">{m.amt}</span>
+              </div>
+            ))}
+            <div className="bg-rose-50 border border-rose-100 rounded px-1 py-0.5 flex items-center justify-between">
+              <span className="text-[4px] text-rose-600">You owe Dad</span>
+              <span className="text-[4px] font-bold text-rose-700">₹600</span>
+            </div>
+            <div className="text-[4px] text-gray-400 italic">Tap member → full split history</div>
+            <div className="bg-indigo-50 border border-indigo-100 rounded px-1 py-0.5"><div className="text-[3.5px] text-indigo-600">🤖 AI: Settle via UPI request?</div></div>
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 7: Personal ↔ Family Toggle ──────────────────────
+function EFlow7() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Main Screen" sublabel="Tap 👥 Family toggle in header">
+        <EMainTrigger zone="toggle" hint="Tap toggle to switch view mode"/>
+      </ExpPhone>
+      <ExpArrow label="Tap 👥 toggle" />
+      <ExpPhone label="Personal View Active" sublabel="Private expenses only · dark header">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-gray-800 text-white px-1.5 pt-2 pb-1">
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[5.5px] font-bold">Expenses</span>
+              <span className="text-[4px] px-1 py-0.5 rounded-full font-bold bg-white text-gray-800">👤 Personal</span>
+            </div>
+            <div className="text-[4px] text-gray-300">Your spend: ₹3,200 / ₹5,000</div>
+          </div>
+          <div className="bg-gray-700 px-1.5 py-0.5">
+            <div className="text-[4px] text-yellow-300 font-bold">👤 Personal Mode — only your expenses</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-0.5">
+            <div className="bg-gray-100 border border-gray-200 rounded px-1 py-0.5 text-[4px] text-gray-500 italic">🔒 Private — only visible to you</div>
+            {[{e:'☕',d:'Coffee',a:'₹180'},{e:'📱',d:'App sub',a:'₹499'},{e:'🏋️',d:'Gym',a:'₹1,200'}].map((t,i)=>(
+              <div key={i} className="flex items-center gap-0.5 bg-white rounded border border-gray-100 px-1 py-0.5 shadow-sm">
+                <span className="text-[6px]">{t.e}</span><span className="flex-1 text-[4px] text-gray-700">{t.d}</span>
+                <span className="text-[4.5px] font-semibold text-gray-700">{t.a}</span>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white border-t border-gray-100 px-1.5 py-1 flex items-center justify-between">
+            <div className="flex gap-0.5">
+              <div className="rounded-full px-1 py-0.5 text-[4px] bg-gray-100 text-gray-600">📷 Scan</div>
+              <div className="rounded-full px-1 py-0.5 text-[4px] bg-gray-100 text-gray-600">🎙️ Voice</div>
+            </div>
+            <div className="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center text-white text-[10px] font-bold shadow">+</div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="Tap 👤 again" />
+      <ExpPhone label="Back to Family View" sublabel="All shared expenses restored">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[5.5px] font-bold">Expenses</span>
+              <span className="text-[4px] px-1 py-0.5 rounded-full font-bold bg-white text-rose-600">👥 Family</span>
+            </div>
+            <div className="text-[4px] text-rose-100">Family: ₹10,240 / ₹15,000</div>
+          </div>
+          <div className="bg-emerald-600 px-1.5 py-0.5">
+            <div className="text-[4px] text-white font-bold">👥 Family Mode — all shared expenses</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-0.5">
+            {[{e:'🛒',d:'Grocery',w:'Mom',a:'₹1,240'},{e:'🏠',d:'Rent',w:'Dad',a:'₹15,000'},{e:'🚗',d:'Fuel',w:'Dad',a:'₹800'}].map((t,i)=>(
+              <div key={i} className="flex items-center gap-0.5 bg-white rounded border border-gray-100 px-1 py-0.5 shadow-sm">
+                <span className="text-[6px]">{t.e}</span><span className="flex-1 text-[4px] text-gray-700">{t.d}</span>
+                <span className="text-[3.5px] text-gray-400 mr-0.5">{t.w}</span>
+                <span className="text-[4.5px] font-semibold text-gray-700">{t.a}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 8: Expense Detail View & Edit ────────────────────
+function EFlow8() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Main Screen" sublabel="Tap › on Grocery transaction">
+        <EMainTrigger zone="transaction" hint="Tap › arrow to open detail"/>
+      </ExpPhone>
+      <ExpArrow label="Tap › row" />
+      <ExpPhone label="Expense Detail" sublabel="Full detail + edit/delete">
+        <ExpenseDetailScreen />
+      </ExpPhone>
+      <ExpArrow label="Tap Edit" />
+      <ExpPhone label="Edit Form" sublabel="Pre-filled for changes">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Edit Expense</div>
+            <div className="text-[4px] text-rose-100">Make changes below</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="text-center bg-rose-50 rounded py-1 border border-rose-200"><div className="text-[12px] font-bold text-rose-600">₹1,240</div><div className="text-[3.5px] text-gray-400">Tap to change amount</div></div>
+            <div className="border border-rose-300 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">Category</div><div className="text-[4px]">🛒 Food ▾</div></div>
+            <div className="border border-rose-300 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">Description</div><div className="text-[4px]">Grocery Store</div></div>
+            <div className="border border-rose-300 rounded px-1 py-0.5 bg-rose-50"><div className="text-[4px] text-gray-400">Date</div><div className="text-[4px]">18 Mar 2026</div></div>
+            <div className="bg-rose-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">Update Expense</div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="Updated" />
+      <ExpPhone label="Back to Main — Synced" sublabel="Timeline reflects changes">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
+            <span className="text-[5.5px] font-bold">Expenses</span>
+            <div className="text-[4px] text-rose-100 mt-0.5">₹8,240 / ₹15,000</div>
+          </div>
+          <div className="bg-emerald-600 px-1.5 py-0.5"><div className="text-[4px] text-white font-bold">✓ Expense updated · budget recalculated</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-0.5">
+            {[{e:'🛒',d:'Grocery Store',a:'₹1,240',hi:true},{e:'🏠',d:'Rent',a:'₹15,000',hi:false},{e:'🚗',d:'Fuel',a:'₹800',hi:false}].map((t,i)=>(
+              <div key={i} className={`flex items-center gap-0.5 bg-white rounded border px-1 py-0.5 shadow-sm ${t.hi?'border-emerald-300':'border-gray-100'}`}>
+                <span className="text-[6px]">{t.e}</span><span className="flex-1 text-[4px] text-gray-700">{t.d}</span>
+                <span className="text-[4.5px] font-semibold">{t.a}</span>
+              </div>
+            ))}
+            <div className="text-[4px] text-gray-400">All family devices synced · Feed updated</div>
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 9: Category Filter & Search ──────────────────────
+function EFlow9() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Main Screen" sublabel="Tap 🛒 Food chip in header">
+        <EMainTrigger zone="chip" hint="Tap category chip to filter"/>
+      </ExpPhone>
+      <ExpArrow label="Tap 🛒 Food chip" />
+      <ExpPhone label="Filtered: Food Only" sublabel="Header chip activates · list narrows">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[5.5px] font-bold">Expenses</span>
+            </div>
+            <div className="flex gap-0.5 mb-0.5 overflow-hidden">
+              {['All','🛒 Food','🚗','🎬'].map((c,i)=>(
+                <div key={c} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${i===1?'bg-white text-rose-600 ring-1 ring-yellow-400':i===0?'bg-rose-500/60 text-white':'bg-rose-500/60 text-white'}`}>{c}</div>
+              ))}
+            </div>
+            <div className="text-[4px] text-rose-100">Showing: 🛒 Food · ₹3,840</div>
+          </div>
+          <div className="bg-rose-50 px-1.5 py-0.5 border-b border-rose-100">
+            <div className="text-[4px] text-rose-700 font-bold">🛒 Food · ₹3,840 / ₹5,000 this month</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-0.5 overflow-hidden">
+            {[{d:'Grocery Store',a:'₹1,240',dt:'18 Mar'},{d:'Street Food',a:'₹240',dt:'17 Mar'},{d:'Bakery',a:'₹180',dt:'16 Mar'},{d:'Supermart',a:'₹2,180',dt:'14 Mar'}].map((t,i)=>(
+              <div key={i} className="flex items-center gap-1 bg-white rounded border border-gray-100 px-1 py-0.5 shadow-sm">
+                <span className="text-[4px] text-gray-400 flex-shrink-0">{t.dt}</span>
+                <span className="text-[5px]">🛒</span>
+                <span className="flex-1 text-[4px] text-gray-700 truncate">{t.d}</span>
+                <span className="text-[4.5px] font-semibold">{t.a}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="AI insight card" />
+      <ExpPhone label="Category Insights" sublabel="AI analysis for Food spend">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">🛒 Food Analysis</div>
+            <div className="text-[4px] text-rose-100">March 2026</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="text-[4px] text-gray-500">Budget vs Spent</div>
+            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div className="h-full bg-rose-400 rounded-full" style={{width:'77%'}}/></div>
+            <div className="text-[3.5px] text-gray-500">₹3,840 / ₹5,000 · 77% — on track</div>
+            <div className="bg-blue-50 border border-blue-100 rounded px-1 py-0.5">
+              <div className="text-[4px] text-blue-700">🤖 "Food on track. Weekend dining is 15% higher — 2 weekends left."</div>
+            </div>
+            <div className="flex justify-between text-[3.5px] text-gray-400"><span>vs last month</span><span className="text-orange-500">▲ +8%</span></div>
+            <div className="bg-rose-50 border border-rose-200 rounded px-1 py-0.5">
+              <div className="text-[4px] text-rose-600">Top spend: Supermart ₹2,180 (57%)</div>
+            </div>
+          </div>
+        </div>
+      </ExpPhone>
+    </div>
+  );
+}
+
+// ── Expense Flow 10: Document Upload → 3-Module Cascade ──────────
+function EFlow10() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start justify-center">
+      <ExpPhone label="Document Vault" sublabel="External trigger — upload bill">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-indigo-600 text-white px-2 pt-3 pb-1.5">
+            <div className="text-[6px] font-bold">Documents</div>
+            <div className="text-[4px] text-indigo-100">Tap + to upload new</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="bg-gray-100 rounded-lg h-12 flex items-center justify-center border-2 border-dashed border-indigo-300">
+              <div className="text-center"><div className="text-[9px]">📄</div><div className="text-[4px] text-indigo-600 font-bold mt-0.5">Upload Insurance Bill</div><div className="text-[3.5px] text-gray-400">Camera · Gallery · Files</div></div>
+            </div>
+            <div className="text-[4px] text-gray-400">AI extracts data automatically</div>
+            <div className="bg-indigo-50 border border-indigo-200 rounded px-1 py-0.5"><div className="text-[3.5px] text-indigo-600">🤖 Drop any bill — I will create expense + calendar + task</div></div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="AI extract" />
+      <ExpPhone label="AI Extraction" sublabel="Data pulled from document">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-indigo-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Processing...</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            <div className="bg-blue-50 border border-blue-200 rounded px-1 py-0.5"><div className="text-[4px] text-blue-700 font-bold">AI detected:</div></div>
+            {[['Type','Insurance Bill'],['Amount','₹12,000'],['Due Date','15 Apr 2026'],['Provider','LIC India']].map(([l,v])=>(
+              <div key={l} className="flex justify-between border-b border-gray-100 py-0.5">
+                <span className="text-[4px] text-gray-400">{l}</span><span className="text-[4px] font-medium text-gray-700">{v}</span>
+              </div>
+            ))}
+            <div className="bg-emerald-50 border border-emerald-100 rounded px-1 py-0.5"><div className="text-[4px] text-emerald-700">Creating 3 linked items...</div></div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="3-module cascade" />
+      <ExpPhone label="3 Modules Created" sublabel="Expense · Calendar · Task linked">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">All Created ✓</div></div>
+          <div className="flex-1 px-1.5 py-1 space-y-1">
+            {[
+              {icon:'💰',mod:'Expense',detail:'₹12,000 reminder in timeline',c:'bg-rose-50 border-rose-200 text-rose-700'},
+              {icon:'📅',mod:'Calendar',detail:'Due date: 15 Apr 2026',c:'bg-indigo-50 border-indigo-200 text-indigo-700'},
+              {icon:'✅',mod:'Task',detail:'"Pay LIC" · HIGH priority',c:'bg-emerald-50 border-emerald-200 text-emerald-700'},
+            ].map(x=>(
+              <div key={x.mod} className={`border rounded px-1 py-0.5 ${x.c}`}>
+                <div className="text-[4px] font-bold">{x.icon} {x.mod}</div>
+                <div className="text-[3.5px]">{x.detail}</div>
+              </div>
+            ))}
+            <div className="text-[3.5px] text-gray-400">All 3 items linked · tap any to navigate</div>
+          </div>
+        </div>
+      </ExpPhone>
+      <ExpArrow label="Appears in Expense Main" />
+      <ExpPhone label="Expense Main — New Entry" sublabel="LIC payment now in timeline">
+        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+          <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
+            <span className="text-[5.5px] font-bold">Expenses</span>
+            <div className="text-[4px] text-rose-100 mt-0.5">₹8,240 / ₹15,000</div>
+          </div>
+          <div className="bg-amber-50 border-b border-amber-200 px-1.5 py-0.5">
+            <div className="text-[4px] text-amber-700 font-bold">⏰ New: LIC payment due 15 Apr</div>
+          </div>
+          <div className="flex-1 px-1.5 py-1 space-y-0.5 overflow-hidden">
+            <div className="flex items-center gap-0.5 bg-amber-50 rounded border border-amber-200 px-1 py-0.5 shadow-sm">
+              <span className="text-[6px]">📄</span>
+              <div className="flex-1 min-w-0"><div className="text-[4px] font-medium text-gray-800">LIC Insurance</div><div className="text-[3.5px] text-amber-600">Due 15 Apr · from Doc Vault</div></div>
+              <span className="text-[4.5px] font-semibold">₹12,000</span>
+            </div>
+            {[{e:'🛒',d:'Grocery',a:'₹1,240'},{e:'🏠',d:'Rent',a:'₹15,000'}].map((t,i)=>(
+              <div key={i} className="flex items-center gap-0.5 bg-white rounded border border-gray-100 px-1 py-0.5 shadow-sm">
+                <span className="text-[6px]">{t.e}</span><span className="flex-1 text-[4px] text-gray-700">{t.d}</span>
+                <span className="text-[4.5px] font-semibold">{t.a}</span>
+              </div>
+            ))}
           </div>
         </div>
       </ExpPhone>
@@ -3802,19 +4559,25 @@ function ExpenseScreenZones() {
   );
 }
 
-// ── Expense: 4-Flow Screen Diagram ────────────────────────────────
+// ── Expense: 10-Flow Screen Diagram ───────────────────────────────
 function ExpenseScreenFlows() {
   const [active, setActive] = useState('flow1');
   const flows = [
-    { id:'flow1', label:'Flow 1 — Add Expense Manually', component:<EFlow1/> },
-    { id:'flow2', label:'Flow 2 — Receipt OCR Scan', component:<EFlow2/> },
-    { id:'flow3', label:'Flow 3 — Voice Expense Logging', component:<EFlow3/> },
-    { id:'flow4', label:'Flow 4 — Budget Alert & Report', component:<EFlow4/> },
+    { id:'flow1',  label:'Flow 1 — Add Expense Manually',        component:<EFlow1/>  },
+    { id:'flow2',  label:'Flow 2 — Receipt OCR Scan',            component:<EFlow2/>  },
+    { id:'flow3',  label:'Flow 3 — Voice Expense Logging',       component:<EFlow3/>  },
+    { id:'flow4',  label:'Flow 4 — Budget Alert & Report',       component:<EFlow4/>  },
+    { id:'flow5',  label:'Flow 5 — Recurring Expense Auto-Log',  component:<EFlow5/>  },
+    { id:'flow6',  label:'Flow 6 — Split Tracking & Ledger',     component:<EFlow6/>  },
+    { id:'flow7',  label:'Flow 7 — Personal ↔ Family Toggle',    component:<EFlow7/>  },
+    { id:'flow8',  label:'Flow 8 — Expense Detail & Edit',       component:<EFlow8/>  },
+    { id:'flow9',  label:'Flow 9 — Category Filter & Search',    component:<EFlow9/>  },
+    { id:'flow10', label:'Flow 10 — Doc Upload → 3-Module Cascade', component:<EFlow10/> },
   ];
   const current = flows.find(f=>f.id===active)!;
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-5">
-      <h3 className="text-base font-bold text-gray-900 mb-1">Screen Flow Diagram — 4 Key Flows</h3>
+      <h3 className="text-base font-bold text-gray-900 mb-1">Screen Flow Diagram — 10 Key Flows</h3>
       <p className="text-sm text-gray-500 mb-4">Complete user journeys shown as connected phone screens</p>
       <div className="flex flex-wrap gap-2 mb-6">
         {flows.map(f=><button key={f.id} onClick={()=>setActive(f.id)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${active===f.id?'bg-rose-500 text-white shadow-sm':'bg-gray-100 text-gray-600 hover:bg-rose-50 hover:text-rose-700'}`}>{f.label}</button>)}
@@ -9750,10 +10513,10 @@ export function PhoneLayoutDiagram() {
         </div>
         <p className="text-xs text-gray-500 mb-6">
           User taps <strong>Budgeting</strong> in the More screen → enters the full expense tracking feature set.<br/>
-          Everything below is ported from the expense-map blueprint — phone layouts, 4 screen flows, features, AI layers, module connections, and system processes.
+          Everything below covers phone layouts, 10 screen flows, features, AI layers, module connections, and system processes.
         </p>
 
-        {/* Navigation flow: More → Expense */}
+        {/* Step 1: More Screen → Expense Main */}
         <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
           <PhoneShell label="More Screen" sublabel="Tap Budgeting" accent="border-rose-500">
             <MoreScreen />
@@ -9762,32 +10525,107 @@ export function PhoneLayoutDiagram() {
             <span className="text-[9px] font-bold bg-rose-50 border border-rose-300 text-rose-700 px-2 py-0.5 rounded-full">Tap Budgeting</span>
             <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
           </div>
-          <PhoneShell label="Expense Main Screen" sublabel="Budget bars + transaction list" accent="border-rose-500" highlight>
+          <PhoneShell label="Expense Main Screen" sublabel="All tap targets shown below" accent="border-rose-500" highlight>
             <ExpenseMainScreen />
           </PhoneShell>
-          <Arrow label="Tap FAB (+)" />
-          <PhoneShell label="Add Expense Form" sublabel="Amount, category, split" accent="border-pink-500">
-            <AddExpenseScreen />
-          </PhoneShell>
         </div>
 
-        {/* Receipt OCR flow */}
-        <div className="flex justify-center mb-2">
-          <div className="flex flex-col items-center gap-1 text-center">
-            <div className="text-[10px] text-rose-600 font-semibold bg-rose-50 px-3 py-1 rounded-full border border-rose-200">Tap Camera icon → Receipt OCR scan</div>
-            <div className="text-gray-400 text-xl">↓</div>
+        {/* Navigation map: labeled tap targets on main screen */}
+        <div className="bg-rose-50 border-2 border-rose-200 rounded-xl p-5 mb-8">
+          <p className="text-xs font-bold text-rose-700 uppercase tracking-widest mb-4">Expense Main Screen — Every Tap Target &amp; Where It Goes</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { zone:'Zone 1', element:'👥 / 👤 Toggle (header)', dest:'Personal ↔ Family view switches instantly', flow:'Flow 7', color:'bg-pink-100 border-pink-300 text-pink-800' },
+              { zone:'Zone 1', element:'🛒 / 🚗 / 🎬 Category chips (header)', dest:'Filters transaction list + shows category insights', flow:'Flow 9', color:'bg-orange-100 border-orange-300 text-orange-800' },
+              { zone:'Zone 2', element:'"View Report →" link (budget bars)', dest:'Opens Monthly Report → AI Insights → Budget Settings', flow:'Flow 4', color:'bg-amber-100 border-amber-300 text-amber-800' },
+              { zone:'Zone 3', element:'Transaction row › (timeline)', dest:'Opens Expense Detail sheet (full info + edit + delete)', flow:'Flow 8', color:'bg-rose-100 border-rose-300 text-rose-800' },
+              { zone:'Zone 3', element:'"split" badge on transaction', dest:'Opens Split Detail → Member Ledger (who owes whom)', flow:'Flow 6', color:'bg-red-100 border-red-300 text-red-800' },
+              { zone:'Zone 3', element:'🔁 badge on recurring transaction', dest:'Opens Recurring Settings (schedule, auto-log status)', flow:'Flow 5', color:'bg-indigo-100 border-indigo-300 text-indigo-800' },
+              { zone:'Zone 4', element:'+ FAB button (bottom-right)', dest:'Bottom sheet: Add Manually / Scan Receipt / Voice Log', flow:'Flows 1–3', color:'bg-rose-100 border-rose-300 text-rose-800' },
+              { zone:'Zone 4', element:'📷 Scan shortcut (bottom bar)', dest:'Goes directly to Camera → Receipt OCR pipeline', flow:'Flow 2', color:'bg-pink-100 border-pink-300 text-pink-800' },
+              { zone:'Zone 4', element:'🎙️ Voice shortcut (bottom bar)', dest:'Goes directly to AI listening → parsed confirmation', flow:'Flow 3', color:'bg-fuchsia-100 border-fuchsia-300 text-fuchsia-800' },
+            ].map((item,i)=>(
+              <div key={i} className={`border rounded-lg px-3 py-2 ${item.color}`}>
+                <div className="flex items-center justify-between mb-0.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wide opacity-60">{item.zone}</span>
+                  <span className="text-[9px] font-bold bg-white/70 rounded-full px-1.5 py-0.5">{item.flow}</span>
+                </div>
+                <div className="text-xs font-semibold mb-0.5">{item.element}</div>
+                <div className="text-[11px] opacity-80">→ {item.dest}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="flex justify-center mb-6">
-          <PhoneShell label="Receipt Confirm" sublabel="OCR-extracted fields" accent="border-rose-600">
-            <ReceiptConfirmScreen />
+
+        {/* FAB bottom sheet + downstream screens */}
+        <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
+          <PhoneShell label="FAB Menu (tap +)" sublabel="3 quick-add options" accent="border-rose-500">
+            <ExpenseFABMenuScreen />
+          </PhoneShell>
+          <div className="flex flex-col items-center gap-4 self-center px-2">
+            <div className="flex items-center gap-1">
+              <div className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">Add Manually</div>
+              <div className="text-gray-400 text-lg">→</div>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">Scan Receipt</div>
+              <div className="text-gray-400 text-lg">→</div>
+            </div>
+          </div>
+          <div className="flex flex-col items-start gap-4">
+            <PhoneShell label="Add Expense Form" sublabel="Amount · category · split" accent="border-rose-500">
+              <AddExpenseScreen />
+            </PhoneShell>
+            <PhoneShell label="Receipt Confirm" sublabel="OCR-extracted fields" accent="border-pink-600">
+              <ReceiptConfirmScreen />
+            </PhoneShell>
+          </div>
+          <Arrow label="Save" />
+          <PhoneShell label="Expense Detail" sublabel="Tap any transaction row ›" accent="border-pink-500">
+            <ExpenseDetailScreen />
           </PhoneShell>
         </div>
 
-        {/* ── Expense: Screen Zones ── */}
+        {/* Budget report + Family view */}
+        <div className="flex flex-wrap justify-center items-start gap-4 mb-6">
+          <div className="flex flex-col items-center gap-1">
+            <div className="text-[9px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">Tap "View Report →" in budget bars</div>
+            <div className="text-gray-400 text-sm">↓</div>
+            <PhoneShell label="Monthly Budget Report" sublabel="Charts · AI insight · Budget edit" accent="border-pink-500">
+              <BudgetReportScreen />
+            </PhoneShell>
+          </div>
+          <div className="flex flex-col items-center justify-center self-center text-gray-300 text-2xl font-light px-2">|</div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="text-[9px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">Tap 👥 / 👤 toggle in header</div>
+            <div className="text-gray-400 text-sm">↓</div>
+            <PhoneShell label="Family Expense View" sublabel="All members · avatar filter" accent="border-rose-400">
+              <ExpenseFamilyViewScreen />
+            </PhoneShell>
+          </div>
+        </div>
+
+        {/* Zone Legend */}
+        <div className="flex justify-center mb-8">
+          <ExpenseZoneLegend />
+        </div>
+
+        {/* ── Expense: Screen Zones Detailed ── */}
         <div className="border-t border-dashed border-rose-200 pt-6 mb-6">
           <p className="text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Expense — UI Screen Zones (Detailed)</p>
-          <ExpenseScreenZones />
+          <div className="space-y-3">
+            {[
+              { id:'header', title:'Zone 1 — Header', color:'bg-rose-100 border-rose-300 hover:bg-rose-200', items:['Left: Family selector / family name (tap to switch context)','Member avatar filter strip — tap avatar to filter transactions by that member','Personal / Family toggle (top-right icon) — 👥 = shared family view, 👤 = private personal view','Center: Month/Year label — tap to open month picker','Summary: "Spent ₹X of ₹Y this month" with mini progress bar'] },
+              { id:'budget', title:'Zone 2 — Budget Progress Bars', color:'bg-pink-100 border-pink-300 hover:bg-pink-200', items:['Per-category horizontal progress bars with percentage labels','Orange threshold at 80% spend — amber warning color applied','Red overspend at 100% — push notification triggered','"View Report" link tap-target anchored to each bar row','Category labels: Food, Transport, Entertainment, Health, Utilities, Other'] },
+              { id:'timeline', title:'Zone 3 — Transaction Timeline', color:'bg-orange-100 border-orange-300 hover:bg-orange-200', items:['Chronological list of expense cards — most recent at top','Each card: emoji category icon · description · paid-by avatar · date · amount','Split badge indicator on shared expenses (👥 split tag)','Swipe left on card → reveal Delete / Edit quick-action buttons','Tap card → full Expense Detail sheet (Zone 4 in detail view)'] },
+              { id:'fab', title:'Zone 4 — FAB / Quick Actions', color:'bg-red-100 border-red-300 hover:bg-red-200', items:['Position: bottom-right, above global navigation bar','Tap → bottom sheet with three options: Add Expense / Camera Scan / Voice Log','Add Expense → pre-filled form with current date and payer pre-selected','Camera Scan → Google Vision OCR pipeline (receipt → auto-populated form)','Voice Log → Finance AI parses natural language → confirmation card before save'] },
+            ].map(zone=>(
+              <div key={zone.id} className={`border-2 rounded-lg p-4 ${zone.color}`}>
+                <h4 className="font-semibold text-gray-900 mb-2">{zone.title}</h4>
+                <ul className="text-sm text-gray-700 space-y-1">{zone.items.map((item,idx)=><li key={idx} className="flex items-start"><span className="text-gray-400 mr-2">•</span><span>{item}</span></li>)}</ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ── Expense: Feature Map ── */}
@@ -9826,9 +10664,9 @@ export function PhoneLayoutDiagram() {
           <ExpenseSysProcesses />
         </div>
 
-        {/* ── Expense: 4 Screen Flows ── */}
+        {/* ── Expense: 10 Screen Flows ── */}
         <div className="border-t border-dashed border-gray-300 pt-6">
-          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Expense — 4 Interactive Screen Flow Diagrams</p>
+          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Expense — 10 Interactive Screen Flow Diagrams</p>
           <ExpenseScreenFlows />
         </div>
       </div>
