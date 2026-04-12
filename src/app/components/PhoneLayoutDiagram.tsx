@@ -3490,17 +3490,252 @@ function ExpenseMainScreen() {
 }
 
 function AddExpenseScreen() {
+  const [paidByOn, setPaidByOn]     = useState(true);
+  const [splitOn, setSplitOn]       = useState(true);
+  const [recurringOn, setRecurringOn] = useState(false);
+  const [paidBy, setPaidBy]         = useState('M');
+  const [splitSel, setSplitSel]     = useState(['D','A']);
+  const ml = [{i:'M',n:'Mom',c:'bg-pink-400'},{i:'D',n:'Dad',c:'bg-orange-400'},{i:'A',n:'Anvi',c:'bg-blue-400'},{i:'J',n:'John',c:'bg-emerald-400'}];
+  const tog = (v: string) => setSplitSel(p => p.includes(v) ? p.filter(x=>x!==v) : [...p,v]);
+  const each = splitSel.length ? Math.round(1240/splitSel.length) : 0;
   return (
-    <div className="flex flex-col h-full" style={{ minHeight: 280 }}>
-      <div className="bg-rose-600 text-white px-2 pt-3 pb-2"><div className="flex items-center gap-1"><span className="text-[6px]">←</span><span className="text-[6px] font-bold">Add Expense</span></div></div>
+    <div className="flex flex-col bg-white" style={{ minHeight: 480 }}>
+      <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+        <div className="flex items-center gap-1"><span className="text-[6px]">←</span><span className="text-[6px] font-bold">Add Expense</span></div>
+      </div>
+      <div className="flex-1 px-2 py-1 space-y-1 overflow-hidden">
+        {/* Amount */}
+        <div className="text-center py-1 bg-rose-50 rounded-lg border border-rose-100">
+          <div className="text-[4px] text-gray-400">AMOUNT</div>
+          <div className="text-[14px] font-bold text-rose-600">₹1,240</div>
+          <div className="text-[3.5px] text-gray-400">Tap to enter</div>
+        </div>
+        {/* Description */}
+        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
+          <div className="text-[4px] text-gray-400">Description</div>
+          <div className="text-[5px] text-gray-700">Grocery Store</div>
+        </div>
+        {/* Category */}
+        <div>
+          <div className="text-[4px] text-gray-400 mb-0.5">Category</div>
+          <div className="flex gap-0.5 flex-wrap">
+            {[{l:'🛒 Food',a:true},{l:'🚗 Drive',a:false},{l:'🎬 Fun',a:false},{l:'💊 Health',a:false}].map(c=>(
+              <span key={c.l} className={`text-[4px] px-1 py-0.5 rounded-full ${c.a?'bg-rose-500 text-white':'bg-gray-100 text-gray-600'}`}>{c.l}</span>
+            ))}
+          </div>
+        </div>
+        {/* Paid By toggle */}
+        <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between px-1.5 py-1 bg-gray-50">
+            <div>
+              <div className="text-[5px] font-semibold text-gray-700">Paid By</div>
+              <div className="text-[3.5px] text-gray-400">{paidByOn?'Select who paid':'Off — personal expense'}</div>
+            </div>
+            <button onClick={()=>setPaidByOn(v=>!v)} className={`w-7 h-3.5 rounded-full relative transition-colors ${paidByOn?'bg-rose-500':'bg-gray-300'}`}>
+              <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow transition-transform ${paidByOn?'translate-x-[14px]':'translate-x-0.5'}`}/>
+            </button>
+          </div>
+          {paidByOn && (
+            <div className="px-1.5 py-1 bg-white flex gap-2">
+              {ml.map(m=>(
+                <button key={m.i} onClick={()=>setPaidBy(m.i)} className="flex flex-col items-center gap-0.5">
+                  <div className={`w-4 h-4 rounded-full ${m.c} flex items-center justify-center text-[4px] text-white font-bold ${paidBy===m.i?'ring-2 ring-rose-500':''}`}>{m.i}</div>
+                  <span className={`text-[3.5px] ${paidBy===m.i?'text-rose-600 font-bold':'text-gray-400'}`}>{m.n}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        {/* Split Among toggle */}
+        <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between px-1.5 py-1 bg-gray-50">
+            <div>
+              <div className="text-[5px] font-semibold text-gray-700">Split Among</div>
+              <div className="text-[3.5px] text-gray-400">{splitOn?`${splitSel.length} selected · ₹${each} each`:'Off — no split'}</div>
+            </div>
+            <button onClick={()=>setSplitOn(v=>!v)} className={`w-7 h-3.5 rounded-full relative transition-colors ${splitOn?'bg-rose-500':'bg-gray-300'}`}>
+              <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow transition-transform ${splitOn?'translate-x-[14px]':'translate-x-0.5'}`}/>
+            </button>
+          </div>
+          {splitOn && (
+            <div className="px-1.5 py-1 bg-white space-y-0.5">
+              <div className="flex gap-2">
+                {ml.map(m=>(
+                  <button key={m.i} onClick={()=>tog(m.i)} className="flex flex-col items-center gap-0.5">
+                    <div className={`w-4 h-4 rounded-full ${m.c} flex items-center justify-center text-[4px] text-white font-bold transition-opacity ${splitSel.includes(m.i)?'ring-2 ring-rose-500':'opacity-40'}`}>{m.i}</div>
+                    <span className={`text-[3.5px] ${splitSel.includes(m.i)?'text-rose-600 font-bold':'text-gray-400'}`}>{m.n}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-0.5">
+                {['Equal','Custom %','Custom ₹'].map((mode,i)=>(
+                  <span key={mode} className={`text-[3.5px] px-1 py-0.5 rounded-full ${i===0?'bg-rose-500 text-white':'bg-gray-100 text-gray-500'}`}>{mode}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Date */}
+        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
+          <div className="text-[4px] text-gray-400">Date</div>
+          <div className="text-[5px] text-gray-700">18 Mar 2026 · Today</div>
+        </div>
+        {/* Receipt */}
+        <div className="border-2 border-dashed border-gray-200 rounded px-1.5 py-1 bg-gray-50 flex items-center gap-1">
+          <span className="text-[8px]">📎</span>
+          <div>
+            <div className="text-[5px] text-gray-600 font-medium">Add Receipt</div>
+            <div className="text-[3.5px] text-gray-400">Camera · Gallery · Files</div>
+          </div>
+        </div>
+        {/* Notes */}
+        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
+          <div className="text-[4px] text-gray-400">Notes</div>
+          <div className="text-[4px] text-gray-400 italic">Add a note...</div>
+        </div>
+        {/* Recurring toggle */}
+        <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between px-1.5 py-1 bg-gray-50">
+            <div>
+              <div className="text-[5px] font-semibold text-gray-700">Recurring Expense</div>
+              <div className="text-[3.5px] text-gray-400">{recurringOn?'Repeats automatically':'Off — one-time expense'}</div>
+            </div>
+            <button onClick={()=>setRecurringOn(v=>!v)} className={`w-7 h-3.5 rounded-full relative transition-colors ${recurringOn?'bg-rose-500':'bg-gray-300'}`}>
+              <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow transition-transform ${recurringOn?'translate-x-[14px]':'translate-x-0.5'}`}/>
+            </button>
+          </div>
+          {recurringOn && (
+            <div className="px-1.5 py-1 bg-white space-y-0.5">
+              <div className="flex gap-0.5">
+                {['Daily','Weekly','Monthly','Custom'].map((f,i)=>(
+                  <span key={f} className={`text-[3.5px] px-1 py-0.5 rounded-full ${i===2?'bg-rose-500 text-white':'bg-gray-100 text-gray-500'}`}>{f}</span>
+                ))}
+              </div>
+              <div className="text-[3.5px] text-gray-400">🔗 Links to Calendar event automatically</div>
+            </div>
+          )}
+        </div>
+        {/* Connect with modules */}
+        <div className="border border-indigo-100 rounded-lg px-1.5 py-1 bg-indigo-50">
+          <div className="text-[4px] text-indigo-700 font-semibold mb-0.5">Connect with</div>
+          <div className="flex gap-0.5 flex-wrap">
+            {[{l:'📋 List',a:true},{l:'📅 Calendar',a:true},{l:'✅ Task',a:false},{l:'📁 Docs',a:false}].map(m=>(
+              <span key={m.l} className={`text-[4px] px-1 py-0.5 rounded-full border ${m.a?'bg-indigo-500 text-white border-indigo-500':'bg-white text-gray-500 border-gray-200'}`}>{m.l}{m.a?' ✓':''}</span>
+            ))}
+          </div>
+        </div>
+        {/* Save */}
+        <div className="w-full bg-rose-500 text-white text-center py-1.5 rounded-lg">
+          <span className="text-[6px] font-semibold">Save Expense</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Expense: Categories Management Screen ────────────────────────
+function CategoriesManageScreen() {
+  const cats = [
+    {icon:'🛒',name:'Food',spent:3840,limit:5000,pct:77,c:'bg-rose-400',warn:false},
+    {icon:'🚗',name:'Transport',spent:1800,limit:4000,pct:45,c:'bg-orange-400',warn:false},
+    {icon:'🎬',name:'Entertain',spent:2200,limit:2500,pct:88,c:'bg-amber-400',warn:true},
+    {icon:'💊',name:'Health',spent:400,limit:2000,pct:20,c:'bg-emerald-400',warn:false},
+    {icon:'🏠',name:'Home',spent:15000,limit:16000,pct:94,c:'bg-blue-400',warn:true},
+  ];
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
+      <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+        <div className="flex items-center gap-1 mb-0.5">
+          <span className="text-[6px]">←</span>
+          <span className="text-[6px] font-bold">Categories &amp; Budgets</span>
+        </div>
+        <div className="text-[4px] text-rose-100">Monthly total budget: ₹15,000</div>
+      </div>
+      <div className="flex-1 px-1.5 py-1 space-y-1 overflow-hidden">
+        <div className="text-[4px] text-gray-400 font-semibold uppercase tracking-wide">5 Categories</div>
+        {cats.map(cat=>(
+          <div key={cat.name} className={`bg-white border rounded-lg px-1.5 py-1 shadow-sm ${cat.warn?'border-orange-200':'border-gray-100'}`}>
+            <div className="flex items-center gap-1 mb-0.5">
+              <span className="text-[9px]">{cat.icon}</span>
+              <span className="flex-1 text-[5px] font-semibold text-gray-700">{cat.name}</span>
+              {cat.warn && <span className="text-[4.5px] text-orange-500">⚠</span>}
+              <span className="text-[4px] text-gray-500">₹{cat.limit.toLocaleString()}</span>
+              <span className="text-[4px] bg-rose-50 text-rose-500 border border-rose-200 rounded px-0.5 ml-0.5">✏️</span>
+            </div>
+            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-0.5">
+              <div className={`h-full rounded-full ${cat.c}`} style={{width:`${cat.pct}%`}}/>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-[3.5px] text-gray-400">₹{cat.spent.toLocaleString()} spent</span>
+              <span className={`text-[3.5px] font-bold ${cat.warn?'text-orange-500':'text-gray-500'}`}>{cat.pct}%</span>
+            </div>
+          </div>
+        ))}
+        <button className="w-full border-2 border-dashed border-rose-300 rounded-lg py-1.5 flex items-center justify-center gap-1 bg-rose-50">
+          <span className="text-[8px] text-rose-400">+</span>
+          <span className="text-[5px] font-semibold text-rose-600">Add Category</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Expense: Add / Edit Category Screen ──────────────────────────
+function AddCategoryScreen() {
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
+        <div className="flex items-center gap-1"><span className="text-[6px]">←</span><span className="text-[6px] font-bold">Add Category</span></div>
+      </div>
       <div className="flex-1 px-2 py-1.5 space-y-1.5 overflow-hidden">
-        <div className="text-center py-1 bg-rose-50 rounded-lg"><div className="text-[5px] text-gray-400 mb-0.5">AMOUNT</div><div className="text-[14px] font-bold text-rose-600">₹1,240</div></div>
-        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50"><div className="text-[4px] text-gray-400">Description</div><div className="text-[5px] text-gray-700">Grocery Store</div></div>
-        <div><div className="text-[4px] text-gray-400 mb-0.5">Category</div><div className="flex gap-1 flex-wrap">{['🛒 Food','🚗 Transport','🎬 Fun','💊 Health'].map(c=><span key={c} className={`text-[4px] px-1 py-0.5 rounded ${c.startsWith('🛒')?'bg-rose-500 text-white':'bg-gray-100 text-gray-600'}`}>{c}</span>)}</div></div>
-        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50"><div className="text-[4px] text-gray-400">Paid By</div><div className="text-[5px] text-gray-700">👩 Mom</div></div>
-        <div className="border border-rose-200 rounded px-1.5 py-1 bg-rose-50"><div className="text-[4px] text-gray-400">Split Among</div><div className="flex gap-1 mt-0.5">{['👨 Dad','👩 Mom','👧 Anvi'].map(m=><span key={m} className="text-[4px] bg-white border border-rose-200 rounded px-0.5 py-0.5">{m}</span>)}</div></div>
-        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50"><div className="text-[4px] text-gray-400">Date</div><div className="text-[5px] text-gray-700">18 Mar 2026 · Today</div></div>
-        <div className="w-full bg-rose-500 text-white text-center py-1 rounded-lg"><span className="text-[6px] font-semibold">Save Expense</span></div>
+        {/* Icon picker */}
+        <div>
+          <div className="text-[4px] text-gray-400 mb-0.5">Icon / Emoji</div>
+          <div className="flex gap-0.5 flex-wrap">
+            {['🛒','🚗','🎬','💊','🏠','✈️','🎓','🐾','⚡','🍕'].map((e,i)=>(
+              <div key={e} className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] border cursor-pointer ${i===4?'border-rose-400 bg-rose-50 ring-1 ring-rose-400':'border-gray-200 bg-gray-50'}`}>{e}</div>
+            ))}
+          </div>
+        </div>
+        {/* Name */}
+        <div className="border border-rose-300 rounded px-1.5 py-1 bg-rose-50">
+          <div className="text-[4px] text-gray-400">Category Name</div>
+          <div className="text-[5px] text-gray-700">Home &amp; Utilities</div>
+        </div>
+        {/* Color */}
+        <div>
+          <div className="text-[4px] text-gray-400 mb-0.5">Color</div>
+          <div className="flex gap-1">
+            {[{c:'bg-rose-400',sel:false},{c:'bg-orange-400',sel:false},{c:'bg-amber-400',sel:false},{c:'bg-emerald-400',sel:false},{c:'bg-blue-400',sel:true},{c:'bg-purple-400',sel:false}].map((x,i)=>(
+              <div key={i} className={`w-4 h-4 rounded-full ${x.c} ${x.sel?'ring-2 ring-offset-1 ring-gray-700':''}`}/>
+            ))}
+          </div>
+        </div>
+        {/* Monthly budget */}
+        <div className="border border-rose-300 rounded px-1.5 py-1 bg-rose-50">
+          <div className="text-[4px] text-gray-400">Monthly Budget Limit</div>
+          <div className="text-[12px] font-bold text-rose-600">₹2,000</div>
+          <div className="text-[3.5px] text-gray-400">Alert fires at 80% → ₹1,600</div>
+        </div>
+        {/* Budget alert toggle */}
+        <div className="flex items-center justify-between border border-gray-100 rounded px-1.5 py-1 bg-gray-50">
+          <div>
+            <div className="text-[5px] font-semibold text-gray-700">Budget Alert</div>
+            <div className="text-[3.5px] text-gray-400">Notify when approaching limit</div>
+          </div>
+          <div className="w-7 h-3.5 rounded-full bg-rose-500 relative">
+            <div className="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-white rounded-full shadow"/>
+          </div>
+        </div>
+        {/* Delete option (for edit mode) */}
+        <div className="border border-red-100 rounded px-1.5 py-1 bg-red-50 flex items-center justify-between">
+          <span className="text-[4.5px] text-red-500">🗑 Delete this category</span>
+          <span className="text-[4px] text-red-400">Moves transactions to Uncategorised</span>
+        </div>
+        {/* Save */}
+        <div className="w-full bg-rose-500 text-white text-center py-1.5 rounded-lg">
+          <span className="text-[6px] font-semibold">Save Category</span>
+        </div>
       </div>
     </div>
   );
@@ -3538,9 +3773,9 @@ function ExpenseFABMenuScreen() {
         <div className="text-[5.5px] font-bold text-gray-700 mb-1.5 text-center">Add Expense</div>
         <div className="space-y-1">
           {[
-            {icon:'✏️', label:'Add Manually',       sub:'Fill form with amount, category, split', color:'bg-rose-50 border-rose-200', tc:'text-rose-700'},
-            {icon:'📷', label:'Scan Receipt',        sub:'Point camera at bill — OCR auto-fills form',  color:'bg-orange-50 border-orange-200', tc:'text-orange-700'},
-            {icon:'🎙️', label:'Voice Log',           sub:'"I bought milk for ₹120" — AI logs instantly', color:'bg-pink-50 border-pink-200', tc:'text-pink-700'},
+            {icon:'✏️', label:'Add Manually',  sub:'Fill form — amount, category, split', color:'bg-rose-50 border-rose-200', tc:'text-rose-700'},
+            {icon:'📷', label:'Scan Receipt',   sub:'Point camera at bill — OCR auto-fills', color:'bg-orange-50 border-orange-200', tc:'text-orange-700'},
+            {icon:'🏷️', label:'Categories',     sub:'Add · edit · set budget per category', color:'bg-indigo-50 border-indigo-200', tc:'text-indigo-700'},
           ].map(opt=>(
             <div key={opt.label} className={`flex items-center gap-1.5 border rounded-lg px-1.5 py-1 ${opt.color}`}>
               <span className="text-[10px]">{opt.icon}</span>
@@ -3552,6 +3787,7 @@ function ExpenseFABMenuScreen() {
             </div>
           ))}
         </div>
+        <div className="text-[4px] text-gray-400 text-center mt-1">🎙️ Voice Log — use shortcut in bottom bar</div>
       </div>
     </div>
   );
@@ -3818,27 +4054,31 @@ function EFlow1() {
         <EMainTrigger zone="fab" hint="Tap the + button"/>
       </ExpPhone>
       <ExpArrow label="Tap +" />
-      <ExpPhone label="FAB Menu Opens" sublabel="3 quick-add options">
+      <ExpPhone label="FAB Menu Opens" sublabel="Add Manually · Scan · Categories">
         <ExpenseFABMenuScreen/>
       </ExpPhone>
       <ExpArrow label="Tap Add Manually" />
-      <ExpPhone label="Add Expense Form" sublabel="Amount · category · split">
+      <ExpPhone label="Add Expense Form" sublabel="Toggles: Paid By · Split · Recurring">
         <AddExpenseScreen/>
       </ExpPhone>
       <ExpArrow label="Save" />
-      <ExpPhone label="Saved — Timeline Updated" sublabel="Feed card posted">
+      <ExpPhone label="Saved — Timeline Updated" sublabel="Budget recalculated · Feed posted">
         <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
           <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5"><div className="text-[6px] font-bold">Expenses</div></div>
           <div className="flex-1 px-1.5 py-1 space-y-1">
             <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 flex items-center gap-1"><span>✓</span><span className="text-[4px] text-emerald-700 font-bold">Expense saved!</span></div>
             <div className="bg-white rounded border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm">
-              <span className="text-[7px]">💊</span>
-              <div className="flex-1 min-w-0"><div className="text-[5px] font-medium">Pharmacy</div><div className="text-[4px] text-gray-400">Mom · split</div></div>
-              <span className="text-[5px] font-semibold">₹320</span>
+              <span className="text-[7px]">🛒</span>
+              <div className="flex-1 min-w-0"><div className="text-[5px] font-medium">Grocery Store</div><div className="text-[4px] text-gray-400">Mom · split · D + A</div></div>
+              <span className="text-[5px] font-semibold">₹1,240</span>
+            </div>
+            <div className="bg-indigo-50 border border-indigo-100 rounded px-1 py-0.5 space-y-0.5">
+              <div className="text-[4px] text-indigo-600">📋 Linked: Grocery List</div>
+              <div className="text-[4px] text-indigo-600">📅 Linked: Grocery Calendar event</div>
             </div>
             <div className="text-[4px] font-semibold text-gray-400 uppercase">Family Feed</div>
-            <div className="bg-purple-50 border border-purple-200 rounded px-1 py-0.5"><div className="text-[4px] text-purple-700">💊 Mom logged Pharmacy ₹320</div></div>
-            <div className="text-[4px] text-gray-400">Budget bars updated · Dashboard synced</div>
+            <div className="bg-purple-50 border border-purple-200 rounded px-1 py-0.5"><div className="text-[4px] text-purple-700">🛒 Mom logged Grocery ₹1,240 · split 3 ways</div></div>
+            <div className="text-[4px] text-gray-400">Budget bars updated · all devices synced</div>
           </div>
         </div>
       </ExpPhone>
@@ -4234,59 +4474,51 @@ function EFlow8() {
   );
 }
 
-// ── Expense Flow 9: Category Filter & Search ──────────────────────
+// ── Expense Flow 9: Category Management — Add · Edit · Budget ─────
 function EFlow9() {
   return (
     <div className="flex flex-wrap gap-3 items-start justify-center">
-      <ExpPhone label="Main Screen" sublabel="Tap 🛒 Food chip in header">
-        <EMainTrigger zone="chip" hint="Tap category chip to filter"/>
+      <ExpPhone label="Main Screen" sublabel="Tap FAB (+) to open menu">
+        <EMainTrigger zone="fab" hint="Tap + → Categories option"/>
       </ExpPhone>
-      <ExpArrow label="Tap 🛒 Food chip" />
-      <ExpPhone label="Filtered: Food Only" sublabel="Header chip activates · list narrows">
+      <ExpArrow label="Tap +" />
+      <ExpPhone label="FAB Menu" sublabel="Tap 🏷️ Categories">
+        <ExpenseFABMenuScreen/>
+      </ExpPhone>
+      <ExpArrow label="Tap Categories" />
+      <ExpPhone label="Categories & Budgets" sublabel="All categories · edit or add">
+        <CategoriesManageScreen/>
+      </ExpPhone>
+      <ExpArrow label="Tap + Add Category" />
+      <ExpPhone label="Add / Edit Category" sublabel="Icon · name · color · budget">
+        <AddCategoryScreen/>
+      </ExpPhone>
+      <ExpArrow label="Save Category" />
+      <ExpPhone label="Main Screen Updated" sublabel="New chip + budget bar appear">
         <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
           <div className="bg-rose-600 text-white px-1.5 pt-2 pb-1">
-            <div className="flex items-center justify-between mb-0.5">
-              <span className="text-[5.5px] font-bold">Expenses</span>
-            </div>
-            <div className="flex gap-0.5 mb-0.5 overflow-hidden">
-              {['All','🛒 Food','🚗','🎬'].map((c,i)=>(
-                <div key={c} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${i===1?'bg-white text-rose-600 ring-1 ring-yellow-400':i===0?'bg-rose-500/60 text-white':'bg-rose-500/60 text-white'}`}>{c}</div>
+            <span className="text-[5.5px] font-bold">Expenses</span>
+            <div className="flex gap-0.5 mt-0.5 overflow-hidden">
+              {['All','🛒','🚗','🎬','🏠 New!'].map((c,i)=>(
+                <div key={c} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${i===4?'bg-yellow-300 text-gray-800 ring-1 ring-yellow-500':i===0?'bg-white text-rose-600':'bg-rose-500/60 text-white'}`}>{c}</div>
               ))}
             </div>
-            <div className="text-[4px] text-rose-100">Showing: 🛒 Food · ₹3,840</div>
           </div>
-          <div className="bg-rose-50 px-1.5 py-0.5 border-b border-rose-100">
-            <div className="text-[4px] text-rose-700 font-bold">🛒 Food · ₹3,840 / ₹5,000 this month</div>
-          </div>
-          <div className="flex-1 px-1.5 py-1 space-y-0.5 overflow-hidden">
-            {[{d:'Grocery Store',a:'₹1,240',dt:'18 Mar'},{d:'Street Food',a:'₹240',dt:'17 Mar'},{d:'Bakery',a:'₹180',dt:'16 Mar'},{d:'Supermart',a:'₹2,180',dt:'14 Mar'}].map((t,i)=>(
-              <div key={i} className="flex items-center gap-1 bg-white rounded border border-gray-100 px-1 py-0.5 shadow-sm">
-                <span className="text-[4px] text-gray-400 flex-shrink-0">{t.dt}</span>
-                <span className="text-[5px]">🛒</span>
-                <span className="flex-1 text-[4px] text-gray-700 truncate">{t.d}</span>
-                <span className="text-[4.5px] font-semibold">{t.a}</span>
+          <div className="bg-white px-1.5 py-0.5 border-b border-gray-100">
+            {[{c:'Food',p:77,w:false},{c:'Entertain',p:88,w:true},{c:'🏠 Home',p:0,isNew:true}].map((b,i)=>(
+              <div key={b.c} className={`flex items-center gap-1 mb-0.5 ${b.isNew?'opacity-80':''}`}>
+                <span className="text-[4px] w-12 flex-shrink-0 text-gray-500">{b.c}</span>
+                <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full ${b.w?'bg-orange-400':b.isNew?'bg-blue-400':'bg-rose-400'}`} style={{width:`${b.p}%`}}/>
+                </div>
+                {b.isNew && <span className="text-[3.5px] text-emerald-600 font-bold">NEW</span>}
               </div>
             ))}
           </div>
-        </div>
-      </ExpPhone>
-      <ExpArrow label="AI insight card" />
-      <ExpPhone label="Category Insights" sublabel="AI analysis for Food spend">
-        <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
-          <div className="bg-rose-600 text-white px-2 pt-3 pb-1.5">
-            <div className="text-[6px] font-bold">🛒 Food Analysis</div>
-            <div className="text-[4px] text-rose-100">March 2026</div>
-          </div>
-          <div className="flex-1 px-1.5 py-1 space-y-1">
-            <div className="text-[4px] text-gray-500">Budget vs Spent</div>
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div className="h-full bg-rose-400 rounded-full" style={{width:'77%'}}/></div>
-            <div className="text-[3.5px] text-gray-500">₹3,840 / ₹5,000 · 77% — on track</div>
-            <div className="bg-blue-50 border border-blue-100 rounded px-1 py-0.5">
-              <div className="text-[4px] text-blue-700">🤖 "Food on track. Weekend dining is 15% higher — 2 weekends left."</div>
-            </div>
-            <div className="flex justify-between text-[3.5px] text-gray-400"><span>vs last month</span><span className="text-orange-500">▲ +8%</span></div>
-            <div className="bg-rose-50 border border-rose-200 rounded px-1 py-0.5">
-              <div className="text-[4px] text-rose-600">Top spend: Supermart ₹2,180 (57%)</div>
+          <div className="flex-1 bg-gray-50 px-1.5 py-0.5">
+            <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 mt-0.5">
+              <div className="text-[4px] text-emerald-700 font-bold">✓ Category added: 🏠 Home &amp; Utilities</div>
+              <div className="text-[3.5px] text-emerald-600">Budget ₹2,000 · alert at 80%</div>
             </div>
           </div>
         </div>
@@ -4571,7 +4803,7 @@ function ExpenseScreenFlows() {
     { id:'flow6',  label:'Flow 6 — Split Tracking & Ledger',     component:<EFlow6/>  },
     { id:'flow7',  label:'Flow 7 — Personal ↔ Family Toggle',    component:<EFlow7/>  },
     { id:'flow8',  label:'Flow 8 — Expense Detail & Edit',       component:<EFlow8/>  },
-    { id:'flow9',  label:'Flow 9 — Category Filter & Search',    component:<EFlow9/>  },
+    { id:'flow9',  label:'Flow 9 — Category Management',         component:<EFlow9/>  },
     { id:'flow10', label:'Flow 10 — Doc Upload → 3-Module Cascade', component:<EFlow10/> },
   ];
   const current = flows.find(f=>f.id===active)!;
@@ -10541,7 +10773,7 @@ export function PhoneLayoutDiagram() {
               { zone:'Zone 3', element:'Transaction row › (timeline)', dest:'Opens Expense Detail sheet (full info + edit + delete)', flow:'Flow 8', color:'bg-rose-100 border-rose-300 text-rose-800' },
               { zone:'Zone 3', element:'"split" badge on transaction', dest:'Opens Split Detail → Member Ledger (who owes whom)', flow:'Flow 6', color:'bg-red-100 border-red-300 text-red-800' },
               { zone:'Zone 3', element:'🔁 badge on recurring transaction', dest:'Opens Recurring Settings (schedule, auto-log status)', flow:'Flow 5', color:'bg-indigo-100 border-indigo-300 text-indigo-800' },
-              { zone:'Zone 4', element:'+ FAB button (bottom-right)', dest:'Bottom sheet: Add Manually / Scan Receipt / Voice Log', flow:'Flows 1–3', color:'bg-rose-100 border-rose-300 text-rose-800' },
+              { zone:'Zone 4', element:'+ FAB button (bottom-right)', dest:'Bottom sheet: Add Manually / Scan Receipt / Categories', flow:'Flows 1,2,9', color:'bg-rose-100 border-rose-300 text-rose-800' },
               { zone:'Zone 4', element:'📷 Scan shortcut (bottom bar)', dest:'Goes directly to Camera → Receipt OCR pipeline', flow:'Flow 2', color:'bg-pink-100 border-pink-300 text-pink-800' },
               { zone:'Zone 4', element:'🎙️ Voice shortcut (bottom bar)', dest:'Goes directly to AI listening → parsed confirmation', flow:'Flow 3', color:'bg-fuchsia-100 border-fuchsia-300 text-fuchsia-800' },
             ].map((item,i)=>(
