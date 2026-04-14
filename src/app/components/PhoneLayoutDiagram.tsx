@@ -9395,96 +9395,217 @@ function TaskScreenFlows() {
 
 // ── Vault: Main Screen ────────────────────────────────────────────
 function VaultMainScreen() {
+  const [isFamily, setIsFamily] = useState(false);
   return (
-    <div className="h-full flex flex-col" style={{ minHeight: 290 }}>
-      <div className="bg-indigo-600 text-white px-2 pt-2 pb-1.5">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-[6px] font-bold">Document Vault</span>
-          <span className="text-[5px] bg-orange-400 px-1 rounded">⚠ 2 Expiring</span>
+    <div className="flex flex-col bg-white" style={{ minHeight: 390 }}>
+      {/* Zone 1: Header */}
+      <div className="bg-indigo-600 px-2 pt-2 pb-1.5">
+        {/* Row 1: Family name + toggle */}
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1">
+            <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+            <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+            <span className="text-[5px] text-indigo-300">▾</span>
+          </div>
+          <button onClick={()=>setIsFamily(f=>!f)} className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[4.5px] font-bold transition-colors ${isFamily?'bg-white text-indigo-600':'bg-indigo-500 text-white'}`}>
+            <span>{isFamily?'👥':'👤'}</span>
+            <span>{isFamily?'Family':'Personal'}</span>
+          </button>
         </div>
-        <div className="flex gap-1 mb-1">
-          <span className="bg-white text-indigo-700 px-1.5 py-0.5 rounded text-[5px] font-semibold">Personal</span>
-          <span className="text-white/70 px-1.5 py-0.5 rounded text-[5px]">Family</span>
+        {/* Row 2: Member avatars */}
+        <div className="flex gap-1 mb-1 items-center">
+          <div className="w-3.5 h-3.5 rounded-full bg-gray-800 flex items-center justify-center text-[4px]">🤖</div>
+          {MEMBERS.map(m=><MemberAvatar key={m.name} {...m} active={false}/>)}
+          <div className="text-[4px] text-indigo-300 ml-0.5 leading-tight">Tap to<br/>filter</div>
         </div>
-        <div className="bg-indigo-700 rounded px-1.5 py-0.5 flex items-center gap-1">
-          <span className="text-[5px]">🔍</span>
-          <span className="text-[4px] text-indigo-300">Search documents...</span>
+        {/* Row 3: Category chips */}
+        <div className="flex gap-0.5 mb-1 overflow-hidden">
+          {[{l:'All',a:true},{l:'🏥 Insurance',a:false},{l:'🪪 IDs',a:false},{l:'📋 Bills',a:false},{l:'🏦 Bank',a:false}].map(c=>(
+            <div key={c.l} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${c.a?'bg-white text-indigo-600':'bg-indigo-500/60 text-white'}`}>{c.l}</div>
+          ))}
+        </div>
+        {/* Row 4: Search bar + expiry badge */}
+        <div className="flex items-center gap-1">
+          <div className="flex-1 bg-indigo-700 rounded px-1.5 py-0.5 flex items-center gap-1">
+            <span className="text-[5px]">🔍</span>
+            <span className="text-[4px] text-indigo-300">Search documents...</span>
+          </div>
+          <div className="bg-orange-400 rounded-full px-1 py-0.5 flex items-center gap-0.5 flex-shrink-0">
+            <span className="text-[4.5px] text-white font-bold">⚠ 2</span>
+          </div>
         </div>
       </div>
-      <div className="flex gap-1 px-1.5 py-1 overflow-hidden border-b border-gray-100">
-        {['All','Insurance','IDs','Bills'].map((c,i)=>(
-          <span key={c} className={`text-[4px] px-1 py-0.5 rounded flex-shrink-0 ${i===0?'bg-indigo-500 text-white':'bg-gray-100 text-gray-600'}`}>{c}</span>
-        ))}
-      </div>
-      <div className="flex-1 px-1.5 py-1 space-y-1 overflow-hidden">
-        {[
-          { emoji:'🏥', name:'Car Insurance', cat:'Insurance', expiry:'Expires Apr 15', warn:true },
-          { emoji:'🪪', name:'Passport - Dad', cat:'IDs', expiry:'Valid till 2029', warn:false },
-          { emoji:'⚡', name:'Electricity Bill', cat:'Bills', expiry:'Mar 2026', warn:false },
-          { emoji:'🏦', name:'Bank Statement', cat:'Bank', expiry:'Feb 2026', warn:false },
-        ].map((doc,i)=>(
-          <div key={i} className="bg-gray-50 border border-gray-200 rounded p-1 flex items-center gap-1">
-            <span className="text-[9px]">{doc.emoji}</span>
-            <div className="flex-1 min-w-0">
-              <div className="text-[5px] font-medium text-gray-800 truncate">{doc.name}</div>
-              <div className="text-[4px] text-gray-400">{doc.cat}</div>
-            </div>
-            {doc.warn
-              ? <span className="text-[4px] bg-orange-100 text-orange-600 px-0.5 rounded flex-shrink-0">⚠</span>
-              : <span className="text-[4px] text-gray-400 flex-shrink-0">{doc.expiry}</span>}
+      {!isFamily && <div className="bg-indigo-800 px-1.5 py-0.5"><div className="text-[4px] text-indigo-200">👤 Personal Vault — only your documents</div></div>}
+      {/* Zone 2a: Expiring Soon */}
+      <div className="bg-orange-50 border-b border-orange-200 px-1.5 py-1">
+        <div className="text-[4.5px] font-bold text-orange-600 uppercase tracking-wide mb-0.5">⚠ Expiring Soon</div>
+        {[{e:'🏥',n:'Car Insurance',d:'28 days left'},{e:'🪪',n:'Aadhar Renewal',d:'45 days left'}].map((doc,i)=>(
+          <div key={i} className="flex items-center gap-1 bg-white border border-orange-200 rounded px-1 py-0.5 mb-0.5 shadow-sm">
+            <span className="text-[7px]">{doc.e}</span>
+            <span className="flex-1 text-[4px] font-medium text-gray-700 truncate">{doc.n}</span>
+            <span className="text-[4px] text-orange-500 font-bold">{doc.d}</span>
+            <span className="text-[5px] text-gray-300">›</span>
           </div>
         ))}
       </div>
-      <div className="pb-2 flex justify-end px-2">
-        <div className="w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center shadow-md">
-          <span className="text-white text-[9px] font-bold">+</span>
+      {/* Zone 2b: Document list */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-1 overflow-hidden">
+        <div className="text-[4px] text-gray-400 font-semibold uppercase tracking-wide mb-0.5">All Documents · 8</div>
+        {[
+          {e:'⚡',n:'Electricity Bill',c:'Bills',d:'Mar 2026',sh:['M','D']},
+          {e:'🏦',n:'Bank Statement',c:'Bank',d:'Feb 2026',sh:[]},
+          {e:'📋',n:'Rental Agreement',c:'Legal',d:'2027',sh:['M']},
+          {e:'🏥',n:'Medical Report',c:'Medical',d:'',sh:[]},
+        ].map((doc,i)=>(
+          <div key={i} className="flex items-center gap-1 bg-white rounded border border-gray-100 px-1 py-0.5 mb-0.5 shadow-sm">
+            <span className="text-[7px]">{doc.e}</span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[4.5px] font-medium text-gray-800 truncate">{doc.n}</div>
+              <div className="text-[3.5px] text-gray-400">{doc.c}{doc.d?` · ${doc.d}`:''}</div>
+            </div>
+            {doc.sh.length>0 && <div className="flex -space-x-0.5">{doc.sh.map((m,j)=><div key={j} className={`w-2 h-2 rounded-full border border-white flex items-center justify-center text-[3px] text-white font-bold ${j===0?'bg-pink-400':'bg-orange-400'}`}>{m}</div>)}</div>}
+            <span className="text-[5px] text-gray-300 ml-0.5">›</span>
+          </div>
+        ))}
+      </div>
+      {/* Zone 3: FAB */}
+      <div className="bg-white border-t border-gray-100 px-2 py-1.5 flex justify-end">
+        <div className="w-7 h-7 rounded-full bg-indigo-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Vault: FAB Bottom Sheet (tap + opens this) ────────────────────
+function UploadOptionsScreen() {
+  return (
+    <div className="flex flex-col h-full relative" style={{ minHeight: 320 }}>
+      {/* Dimmed main behind */}
+      <div className="bg-indigo-600 px-2 pt-2 pb-1 opacity-40">
+        <div className="text-[6.5px] font-bold text-white">Document Vault</div>
+        <div className="text-[4.5px] text-indigo-100 mt-0.5">8 documents · ⚠ 2 expiring</div>
+      </div>
+      <div className="flex-1 bg-gray-50 opacity-30"/>
+      {/* Bottom sheet */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl shadow-2xl border-t border-gray-200 px-2 pt-2 pb-1.5">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-1.5"/>
+        <div className="text-[5.5px] font-bold text-gray-700 mb-1.5 text-center">Add to Vault</div>
+        <div className="space-y-1">
+          {[
+            {icon:'📄', label:'Upload PDF / Image',    sub:'From device storage or files app',        color:'bg-indigo-50 border-indigo-200', tc:'text-indigo-700'},
+            {icon:'📷', label:'Camera Scan (AI OCR)',   sub:'Receipt · Invitation · Insurance doc',    color:'bg-violet-50 border-violet-200', tc:'text-violet-700'},
+            {icon:'🖼', label:'Gallery / Files',        sub:'Select existing photo or file',           color:'bg-purple-50 border-purple-200', tc:'text-purple-700'},
+          ].map(opt=>(
+            <div key={opt.label} className={`flex items-center gap-1.5 border rounded-lg px-1.5 py-1 ${opt.color}`}>
+              <span className="text-[10px]">{opt.icon}</span>
+              <div className="flex-1 min-w-0">
+                <div className={`text-[5.5px] font-bold ${opt.tc}`}>{opt.label}</div>
+                <div className="text-[4px] text-gray-500 truncate">{opt.sub}</div>
+              </div>
+              <span className="text-[5px] text-gray-300">›</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-// ── Vault: Upload Options Screen ──────────────────────────────────
-function UploadOptionsScreen() {
+// ── Vault: Upload Document Form (after selecting source) ──────────
+function UploadDocumentForm() {
+  const [expiryOn, setExpiryOn]     = useState(false);
+  const [familyOn, setFamilyOn]     = useState(false);
   return (
-    <div className="flex flex-col" style={{ minHeight: 290 }}>
-      <div className="bg-indigo-600 text-white px-2 pt-2 pb-1.5">
-        <div className="text-[7px] font-bold">Add Document</div>
+    <div className="flex flex-col bg-white" style={{ minHeight: 480 }}>
+      <div className="bg-indigo-600 text-white px-2 pt-3 pb-1.5">
+        <div className="flex items-center gap-1"><span className="text-[6px]">←</span><span className="text-[6px] font-bold">Upload Document</span></div>
       </div>
-      <div className="flex-1 px-2 py-1.5 space-y-1.5">
+      <div className="flex-1 px-2 py-1 space-y-1 overflow-hidden">
+        {/* File preview */}
         <div className="border-2 border-dashed border-indigo-300 rounded-lg p-2 text-center bg-indigo-50">
-          <div className="text-[10px] mb-0.5">📄</div>
-          <div className="text-[5px] font-semibold text-indigo-700">Upload PDF / Image</div>
-          <div className="text-[4px] text-indigo-500">From device storage</div>
+          <div className="text-[10px]">📄</div>
+          <div className="text-[5px] font-semibold text-indigo-700">Car_Insurance.pdf</div>
+          <div className="text-[3.5px] text-indigo-400">Tap to change · Upload · Camera · Gallery</div>
         </div>
-        <div className="border border-violet-200 rounded-lg p-2 bg-violet-50">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[9px]">📷</span>
-            <div>
-              <div className="text-[5px] font-semibold text-violet-700">Camera Scan (AI OCR)</div>
-              <div className="text-[4px] text-violet-500">Receipt · Invitation · Insurance</div>
-            </div>
-          </div>
+        {/* Document name */}
+        <div className="border border-indigo-300 rounded px-1.5 py-1 bg-indigo-50">
+          <div className="text-[4px] text-gray-400">Document Name</div>
+          <div className="text-[5px] text-gray-700">Car Insurance 2026</div>
         </div>
-        <div className="border border-purple-200 rounded-lg p-1.5 bg-purple-50">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[9px]">🖼</span>
-            <div className="text-[5px] font-semibold text-purple-700">Gallery / Files</div>
-          </div>
-        </div>
-        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
-          <div className="text-[4px] text-gray-400">Category</div>
-          <div className="text-[5px] text-gray-700">Insurance ▾</div>
-        </div>
-        <div className="border border-indigo-200 rounded px-1.5 py-1 bg-indigo-50">
-          <div className="text-[4px] text-gray-400">Access: Family</div>
-          <div className="flex gap-1 mt-0.5">
-            {['View','Edit','Download'].map(p=>(
-              <span key={p} className="text-[4px] bg-white border border-indigo-200 rounded px-0.5 py-0.5">{p}</span>
+        {/* Category */}
+        <div>
+          <div className="text-[4px] text-gray-400 mb-0.5">Category</div>
+          <div className="flex gap-0.5 flex-wrap">
+            {[{l:'🏥 Insurance',a:true},{l:'🪪 IDs',a:false},{l:'📋 Bills',a:false},{l:'🏦 Bank',a:false},{l:'⚕️ Medical',a:false},{l:'⚖️ Legal',a:false}].map(c=>(
+              <span key={c.l} className={`text-[4px] px-1 py-0.5 rounded-full ${c.a?'bg-indigo-500 text-white':'bg-gray-100 text-gray-600'}`}>{c.l}</span>
             ))}
           </div>
         </div>
-        <div className="w-full bg-indigo-500 text-white text-center py-1 rounded-lg">
+        {/* Expiry date toggle */}
+        <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between px-1.5 py-1 bg-gray-50">
+            <div>
+              <div className="text-[5px] font-semibold text-gray-700">Expiry Date</div>
+              <div className="text-[3.5px] text-gray-400">{expiryOn?'Renewal reminders will fire':'Off — no expiry tracking'}</div>
+            </div>
+            <button onClick={()=>setExpiryOn(v=>!v)} className={`w-7 h-3.5 rounded-full relative transition-colors ${expiryOn?'bg-indigo-500':'bg-gray-300'}`}>
+              <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow transition-transform ${expiryOn?'translate-x-[14px]':'translate-x-0.5'}`}/>
+            </button>
+          </div>
+          {expiryOn && (
+            <div className="px-1.5 py-1 bg-white space-y-0.5">
+              <div className="border border-indigo-200 rounded px-1 py-0.5 bg-indigo-50">
+                <div className="text-[4px] text-gray-400">Expiry Date</div>
+                <div className="text-[5px] text-gray-700">April 15, 2027</div>
+              </div>
+              <div className="text-[3.5px] text-gray-400">Alert fires at 90 / 30 / 7 days before expiry</div>
+            </div>
+          )}
+        </div>
+        {/* Notes */}
+        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
+          <div className="text-[4px] text-gray-400">Notes</div>
+          <div className="text-[4px] text-gray-400 italic">Add notes about this document...</div>
+        </div>
+        {/* Tags */}
+        <div className="border border-gray-200 rounded px-1.5 py-1 bg-gray-50">
+          <div className="text-[4px] text-gray-400 mb-0.5">Tags</div>
+          <div className="flex gap-0.5 items-center">
+            <span className="text-[4px] bg-indigo-100 text-indigo-700 rounded-full px-1 py-0.5">car</span>
+            <span className="text-[4px] bg-indigo-100 text-indigo-700 rounded-full px-1 py-0.5">annual</span>
+            <span className="text-[4px] text-indigo-400 ml-0.5">+ Add tag</span>
+          </div>
+        </div>
+        {/* Share with family toggle */}
+        <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
+          <div className="flex items-center justify-between px-1.5 py-1 bg-gray-50">
+            <div>
+              <div className="text-[5px] font-semibold text-gray-700">Share with Family</div>
+              <div className="text-[3.5px] text-gray-400">{familyOn?'Set access per member below':'Private — only visible to you'}</div>
+            </div>
+            <button onClick={()=>setFamilyOn(v=>!v)} className={`w-7 h-3.5 rounded-full relative transition-colors ${familyOn?'bg-indigo-500':'bg-gray-300'}`}>
+              <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow transition-transform ${familyOn?'translate-x-[14px]':'translate-x-0.5'}`}/>
+            </button>
+          </div>
+          {familyOn && (
+            <div className="px-1.5 py-1 bg-white space-y-0.5">
+              <div className="text-[4px] text-gray-500 mb-0.5">Permissions per member</div>
+              {[{i:'M',n:'Mom',c:'bg-pink-400',p:'View'},{i:'D',n:'Dad',c:'bg-orange-400',p:'Edit'},{i:'A',n:'Anvi',c:'bg-blue-400',p:'View'}].map(m=>(
+                <div key={m.i} className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded-full ${m.c} flex items-center justify-center text-[3px] text-white font-bold`}>{m.i}</div>
+                  <span className="flex-1 text-[4px] text-gray-600">{m.n}</span>
+                  <div className="flex gap-0.5">
+                    {['View','Edit','Download'].map((perm,pi)=>(
+                      <span key={perm} className={`text-[3.5px] px-0.5 py-0.5 rounded border ${m.p===perm?'bg-indigo-500 text-white border-indigo-500':'bg-gray-50 text-gray-400 border-gray-200'}`}>{perm}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {/* Upload button */}
+        <div className="w-full bg-indigo-500 text-white text-center py-1.5 rounded-lg">
           <span className="text-[6px] font-semibold">Upload Document</span>
         </div>
       </div>
@@ -9805,41 +9926,113 @@ function DVF4_DocOpened() {
   );
 }
 
+// ── Vault: Main Screen Trigger (first screen of every flow) ───────
+function DVMainTrigger({ zone, hint }: { zone: 'fab'|'doc'|'expiry'|'search'|'chip'|'toggle'; hint: string }) {
+  const hl: Record<string,string> = {
+    fab:    'Zone 3 — FAB (+)',
+    doc:    'Zone 2 — document row ›',
+    expiry: 'Zone 2 — expiry badge',
+    search: 'Zone 1 — search bar',
+    chip:   'Zone 1 — category chip',
+    toggle: 'Zone 1 — 👥/👤 toggle',
+  };
+  return (
+    <div className="flex flex-col h-full text-[5px]" style={{minHeight:240}}>
+      {/* Header */}
+      <div className="bg-indigo-600 text-white px-1.5 pt-2 pb-1">
+        <div className="flex items-center justify-between mb-0.5">
+          <span className="text-[5.5px] font-bold">Document Vault</span>
+          <span className={`text-[4px] px-1 py-0.5 rounded-full font-bold ${zone==='toggle'?'bg-white text-indigo-600 ring-2 ring-yellow-400':'bg-white/20 text-white'}`}>👤 Personal</span>
+        </div>
+        <div className="flex gap-0.5 mb-0.5 overflow-hidden">
+          {['All','🏥','🪪','📋','🏦'].map((c,i)=>(
+            <div key={c} className={`text-[4px] px-1 py-0.5 rounded-full flex-shrink-0 font-semibold ${zone==='chip'&&i===1?'bg-yellow-300 text-gray-800 ring-1 ring-yellow-500':i===0?'bg-white text-indigo-600':'bg-indigo-500/60 text-white'}`}>{c}</div>
+          ))}
+        </div>
+        <div className={`flex items-center gap-1 rounded px-1 py-0.5 ${zone==='search'?'bg-yellow-300 ring-1 ring-yellow-500':'bg-indigo-700'}`}>
+          <span className="text-[4px]">🔍</span>
+          <span className={`text-[4px] ${zone==='search'?'text-gray-700 font-bold':'text-indigo-300'}`}>{zone==='search'?'Tap to search / voice':'Search documents...'}</span>
+        </div>
+      </div>
+      {/* Expiring soon strip */}
+      <div className="bg-orange-50 border-b border-orange-200 px-1.5 py-0.5">
+        <div className="flex items-center gap-1 bg-white border border-orange-200 rounded px-1 py-0.5 shadow-sm">
+          <span className="text-[6px]">🏥</span>
+          <span className="flex-1 text-[4px] text-gray-700 truncate">Car Insurance</span>
+          <span className={`text-[4px] font-bold ${zone==='expiry'?'text-yellow-600 ring-1 ring-yellow-400 rounded px-0.5':'text-orange-500'}`}>⚠ 28d</span>
+        </div>
+      </div>
+      {/* Document list */}
+      <div className="flex-1 bg-gray-50 px-1.5 py-0.5 overflow-hidden">
+        {[{e:'⚡',n:'Electricity Bill',d:'Bills'},{e:'📋',n:'Rental Agreement',d:'Legal'}].map((doc,i)=>(
+          <div key={i} className={`flex items-center gap-0.5 bg-white rounded border px-1 py-0.5 mb-0.5 shadow-sm ${zone==='doc'&&i===0?'ring-2 ring-yellow-400 border-yellow-300':'border-gray-100'}`}>
+            <span className="text-[6px]">{doc.e}</span>
+            <div className="flex-1 min-w-0"><div className="text-[4px] font-medium text-gray-700 truncate">{doc.n}</div><div className="text-[3.5px] text-gray-400">{doc.d}</div></div>
+            <span className="text-[5px] text-gray-300">›</span>
+          </div>
+        ))}
+      </div>
+      {/* FAB */}
+      <div className="bg-white border-t border-gray-100 px-1.5 py-1 flex justify-end">
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow ${zone==='fab'?'bg-yellow-500 ring-2 ring-yellow-300':'bg-indigo-500'}`}>+</div>
+      </div>
+      {/* Hint bar */}
+      <div className="bg-yellow-50 border-t border-yellow-200 px-1.5 py-0.5 text-center">
+        <span className="text-[4.5px] text-yellow-700 font-bold">👆 {hl[zone]}</span>
+        <div className="text-[4px] text-yellow-600">{hint}</div>
+      </div>
+    </div>
+  );
+}
+
+// wrapper components for DOC_FLOWS (no-arg components wrapping DVMainTrigger)
+const DVTrigFAB  = () => <DVMainTrigger zone="fab"    hint="Tap + to open upload menu"/>;
+const DVTrigDoc  = () => <DVMainTrigger zone="doc"    hint="Tap document row to open detail"/>;
+const DVTrigExp  = () => <DVMainTrigger zone="expiry" hint="Tap expiry badge to view document"/>;
+const DVTrigSrch = () => <DVMainTrigger zone="search" hint="Tap search or use voice Q&A"/>;
+
 const DOC_FLOWS = [
   {
-    id:'flow1', title:'Flow 1 — Insurance Doc → Auto Calendar + Task',
-    description:'User uploads insurance document; AI extracts due date and amount, then auto-creates a calendar event and reminder task.',
+    id:'flow1', title:'Flow 1 — Upload Insurance Doc → Auto Calendar + Task',
+    description:'Tap FAB (+) → Upload PDF → AI extracts due date and amount → auto-creates calendar event and reminder task.',
     screens:[
-      {component:DVF1_Upload, label:'Upload Insurance Doc', arrow:'AI extracts'},
-      {component:DVF1_Processing, label:'OCR Processing', arrow:'Created'},
-      {component:DVF1_AutoCreated, label:'Auto-Created Items', arrow:null},
+      {component:DVTrigFAB,         label:'Main Screen',         arrow:'Tap +'},
+      {component:UploadOptionsScreen, label:'FAB Menu',          arrow:'Upload PDF'},
+      {component:DVF1_Upload,       label:'Upload Form',         arrow:'AI extracts'},
+      {component:DVF1_Processing,   label:'OCR Processing',      arrow:'Created'},
+      {component:DVF1_AutoCreated,  label:'Auto-Created Items',  arrow:null},
     ],
   },
   {
-    id:'flow2', title:'Flow 2 — Receipt Scan → Auto Expense',
-    description:'User scans a receipt; Google Vision API extracts merchant, total, and date, then auto-creates an expense record.',
+    id:'flow2', title:'Flow 2 — Camera Scan Receipt → Auto Expense',
+    description:'Tap FAB (+) → Camera Scan → OCR extracts merchant, total, date → expense record auto-created.',
     screens:[
-      {component:DVF2_CameraScan, label:'Camera Scan', arrow:'OCR extract'},
-      {component:DVF2_OCRExtracted, label:'OCR Extracted', arrow:'Saved'},
-      {component:DVF2_ExpenseCreated, label:'Expense Auto-Created', arrow:null},
+      {component:DVTrigFAB,           label:'Main Screen',         arrow:'Tap +'},
+      {component:UploadOptionsScreen, label:'FAB Menu',            arrow:'Camera Scan'},
+      {component:DVF2_CameraScan,     label:'Camera — Align',      arrow:'OCR extract'},
+      {component:DVF2_OCRExtracted,   label:'OCR Extracted',       arrow:'Confirm'},
+      {component:DVF2_ExpenseCreated, label:'Expense Auto-Created',arrow:null},
     ],
   },
   {
     id:'flow3', title:'Flow 3 — Invitation Scan → Auto Calendar Event',
-    description:'User photographs a physical invitation; Gemini AI extracts event details and auto-creates a calendar event.',
+    description:'Tap FAB (+) → Camera Scan → Gemini AI parses invitation → calendar event auto-created.',
     screens:[
-      {component:DVF3_ScanInvite, label:'Scan Invitation', arrow:'AI parse'},
-      {component:DVF3_AIExtracted, label:'AI Extracted Event', arrow:'Created'},
+      {component:DVTrigFAB,            label:'Main Screen',            arrow:'Tap +'},
+      {component:UploadOptionsScreen,  label:'FAB Menu',               arrow:'Camera Scan'},
+      {component:DVF3_ScanInvite,      label:'Scan Invitation',        arrow:'AI parse'},
+      {component:DVF3_AIExtracted,     label:'AI Extracted Event',     arrow:'Created'},
       {component:DVF3_CalEventCreated, label:'Calendar Event Created', arrow:null},
     ],
   },
   {
     id:'flow4', title:'Flow 4 — Voice Q&A from Documents',
-    description:'User asks a voice question about a document; AI answers from knowledge index and optionally navigates to the doc via A2UI.',
+    description:'Tap search bar → speak question → AI answers from indexed knowledge → optionally opens document via A2UI.',
     screens:[
-      {component:DVF4_VoiceQuestion, label:'Voice Question', arrow:'AI index'},
-      {component:DVF4_AIAnswer, label:'AI Answers Instantly', arrow:'A2UI open'},
-      {component:DVF4_DocOpened, label:'Document Opened', arrow:null},
+      {component:DVTrigSrch,        label:'Main Screen',          arrow:'Tap search'},
+      {component:DVF4_VoiceQuestion,label:'Voice Question',       arrow:'AI index'},
+      {component:DVF4_AIAnswer,     label:'AI Answers Instantly', arrow:'A2UI open'},
+      {component:DVF4_DocOpened,    label:'Document Opened',      arrow:null},
     ],
   },
 ];
@@ -11119,21 +11312,60 @@ export function PhoneLayoutDiagram() {
           Upload receipts, insurance docs, invitations — OCR extracts data and auto-creates linked calendar events, tasks, and expenses.
         </p>
 
-        {/* Navigation flow phones */}
+        {/* Step 1: More → Vault Main */}
         <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
           <PhoneShell label="More Screen" sublabel="Tap Documents" accent="border-indigo-500">
             <MoreScreen />
           </PhoneShell>
-          <DocArrow />
-          <PhoneShell label="Document Vault" sublabel="Main Screen" accent="border-indigo-500">
+          <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+            <span className="text-[9px] font-bold bg-indigo-50 border border-indigo-300 text-indigo-700 px-2 py-0.5 rounded-full">Tap Documents</span>
+            <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+          </div>
+          <PhoneShell label="Document Vault — Main Screen" sublabel="All tap targets shown below" accent="border-indigo-500" highlight>
             <VaultMainScreen />
           </PhoneShell>
-          <DocArrow />
-          <PhoneShell label="Upload Options" sublabel="FAB Menu" accent="border-indigo-500">
+        </div>
+
+        {/* Navigation map: every tap target on main screen */}
+        <div className="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5 mb-8">
+          <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest mb-4">Document Vault Main Screen — Every Tap Target &amp; Where It Goes</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { zone:'Zone 1', element:'👤 / 👥 Toggle (header)', dest:'Switch Personal ↔ Family vault view', flow:'Header toggle', color:'bg-indigo-100 border-indigo-300 text-indigo-800' },
+              { zone:'Zone 1', element:'Category chips (Insurance / IDs / Bills…)', dest:'Filter document list by category', flow:'Filter', color:'bg-violet-100 border-violet-300 text-violet-800' },
+              { zone:'Zone 1', element:'🔍 Search bar', dest:'Text search or voice Q&A ("When does my passport expire?")', flow:'Flow 4', color:'bg-purple-100 border-purple-300 text-purple-800' },
+              { zone:'Zone 2', element:'⚠ expiry badge on document', dest:'Opens document detail with expiry info + linked calendar event', flow:'Flow 1 end', color:'bg-orange-100 border-orange-300 text-orange-800' },
+              { zone:'Zone 2', element:'Document row › (list)', dest:'Opens full Document Detail: OCR fields, linked modules, View/Share/Download', flow:'Detail', color:'bg-indigo-100 border-indigo-300 text-indigo-800' },
+              { zone:'Zone 3', element:'+ FAB button (bottom-right)', dest:'Bottom sheet: Upload PDF / Camera Scan / Gallery', flow:'Flows 1–3', color:'bg-violet-100 border-violet-300 text-violet-800' },
+              { zone:'FAB → PDF', element:'Upload PDF / Image', dest:'Upload form: name, category, expiry toggle, notes, tags, family sharing + permissions', flow:'Flow 1', color:'bg-indigo-100 border-indigo-300 text-indigo-800' },
+              { zone:'FAB → Scan', element:'Camera Scan (AI OCR)', dest:'Camera view → OCR → Receipt: auto Expense · Invite: auto Calendar event', flow:'Flows 2–3', color:'bg-purple-100 border-purple-300 text-purple-800' },
+            ].map((item,i)=>(
+              <div key={i} className={`border rounded-lg px-3 py-2 ${item.color}`}>
+                <div className="flex items-center justify-between mb-0.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wide opacity-60">{item.zone}</span>
+                  <span className="text-[9px] font-bold bg-white/70 rounded-full px-1.5 py-0.5">{item.flow}</span>
+                </div>
+                <div className="text-xs font-semibold mb-0.5">{item.element}</div>
+                <div className="text-[11px] opacity-80">→ {item.dest}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAB → Upload Form + Document Detail side by side */}
+        <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
+          <PhoneShell label="FAB Menu (tap +)" sublabel="Upload · Scan · Gallery" accent="border-indigo-500">
             <UploadOptionsScreen />
           </PhoneShell>
-          <DocArrow />
-          <PhoneShell label="Document Detail" sublabel="OCR Fields" accent="border-indigo-500">
+          <div className="flex flex-col items-center gap-1 self-center px-2">
+            <div className="text-[9px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">Upload PDF</div>
+            <div className="text-gray-400 text-lg">→</div>
+          </div>
+          <PhoneShell label="Upload Document Form" sublabel="Name · Category · Expiry · Notes · Permissions" accent="border-indigo-500">
+            <UploadDocumentForm />
+          </PhoneShell>
+          <Arrow label="Tap row ›" />
+          <PhoneShell label="Document Detail" sublabel="OCR fields + linked modules" accent="border-violet-500">
             <DocumentDetailScreen />
           </PhoneShell>
         </div>
