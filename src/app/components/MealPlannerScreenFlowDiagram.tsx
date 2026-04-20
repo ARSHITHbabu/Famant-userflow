@@ -23,7 +23,7 @@ const screens: Record<string, Screen> = {
     cardColor: 'border-indigo-400 bg-indigo-50',
     userAction: 'Arrives on app open (returning user) or after family setup.\nSees time-based meal card → taps "Start Cooking" or navigates to Meal Planner tab.',
     systemResponse: 'Dashboard AI agent fetches today\'s meal plan entries and renders time-based meal card.\nMorning notification (7:30am default) shows breakfast + dinner for the day.',
-    leadsTo: ['Meal Settings', 'Recipe Search', 'Meal Planner', 'Cook Mode (via "Start Cooking")'],
+    leadsTo: ['Meal Settings', 'Recipe Search', 'Meal Planner', 'Recipe Detail (tap meal row in widget)'],
   },
   mealSettings: {
     id: 'mealSettings',
@@ -93,7 +93,7 @@ const screens: Record<string, Screen> = {
     cardColor: 'border-indigo-400 bg-indigo-50',
     userAction: 'Navigates weeks (← →).\nTaps empty slot (+) → picks from library or searches inline.\nSets servings per slot; marks leftovers (suppresses from grocery list).\nTaps "Approve & share" to publish.',
     systemResponse: 'Allergy check fires on every recipe selection:\n→ Hard red alert (blocking) if allergen matched\n→ Soft amber warning for disliked ingredient (non-blocking)\nDraft visible only to creating parent.\nPublish: status → Published; push notification to all members.\nChild role: view-only.',
-    leadsTo: ['Grocery List Generation', 'Cook Mode (via Dashboard)', 'Recipe Search (inline)'],
+    leadsTo: ['Grocery List Generation', 'Recipe Detail (tap any slot)', 'Recipe Search (inline)'],
   },
   groceryList: {
     id: 'groceryList',
@@ -104,16 +104,6 @@ const screens: Record<string, Screen> = {
     userAction: 'Taps "Generate grocery list" from planner.\nAssigns items to stores (defaults from mapping).\nChecks off items while shopping.\nVoice: "Add milk" / "Mark eggs done".',
     systemResponse: 'Collects all meal plan entries for current week.\nMerges duplicate ingredients by summing quantities.\nCategorises into grocery taxonomy.\nAuto-creates Task: "Grocery shopping — Week N" due on shopping day.\nCreates shared List entity (source_meal_plan_id set).',
     leadsTo: ['Shared Lists module', 'Tasks module'],
-  },
-  cookMode: {
-    id: 'cookMode',
-    label: 'Cook Mode',
-    tag: 'COOK',
-    tagColor: 'bg-orange-600 text-white',
-    cardColor: 'border-orange-400 bg-orange-50',
-    userAction: 'Taps "Start Cooking" on dashboard meal card.\nAdjusts serving count → quantities recalculate live.\nFollows numbered steps; taps timers.\nScreen stays awake (wake lock).',
-    systemResponse: 'Serving scaling: multiplies all ingredient quantities proportionally.\nTimer auto-detected via regex on duration patterns.\nCook-start reminder fires if prep + cook = 60 min and dinner window = 17:00.\nAll rule-based. No AI.',
-    leadsTo: ['Home Dashboard', 'Meal Planner'],
   },
   voiceInput: {
     id: 'voiceInput',
@@ -150,8 +140,8 @@ const flowLevels: { rowLabel: string; ids: string[]; note?: string }[] = [
   },
   {
     rowLabel: 'Output',
-    ids: ['groceryList', 'cookMode', 'voiceInput'],
-    note: 'All three can run in parallel once plan is published',
+    ids: ['groceryList', 'voiceInput'],
+    note: 'Both available once plan is published',
   },
 ];
 
@@ -162,7 +152,6 @@ const arrows: Arrow[] = [
   { from: 'dashboard', to: 'recipeSearch', label: 'Recipe tab' },
   { from: 'dashboard', to: 'recipeImport', label: 'Import URL' },
   { from: 'dashboard', to: 'recipeManual', label: 'Create manual' },
-  { from: 'dashboard', to: 'cookMode', label: 'Start Cooking' },
   { from: 'recipeSearch', to: 'recipeDetail' },
   { from: 'recipeImport', to: 'recipeDetail' },
   { from: 'recipeManual', to: 'recipeLibrary' },
@@ -170,7 +159,6 @@ const arrows: Arrow[] = [
   { from: 'recipeLibrary', to: 'mealPlanner', label: 'Plan slot' },
   { from: 'mealSettings', to: 'mealPlanner', label: 'After setup' },
   { from: 'mealPlanner', to: 'groceryList', label: 'Generate list' },
-  { from: 'mealPlanner', to: 'cookMode', label: 'via Dashboard' },
   { from: 'mealPlanner', to: 'voiceInput', label: 'Voice control' },
   { from: 'voiceInput', to: 'groceryList', label: 'Add/Mark' },
 ];
@@ -379,8 +367,6 @@ export function MealPlannerScreenFlowDiagram() {
             { label: 'Publish', color: 'bg-indigo-800 text-white' },
             { label: '→', color: '' },
             { label: 'Grocery List', color: 'bg-teal-600 text-white' },
-            { label: '+', color: 'text-gray-400 font-bold' },
-            { label: 'Cook Mode', color: 'bg-orange-600 text-white' },
             { label: '+', color: 'text-gray-400 font-bold' },
             { label: 'Voice', color: 'bg-violet-600 text-white' },
           ].map((item, i) =>
