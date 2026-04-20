@@ -62,30 +62,12 @@ function FlowArrow({ label }: { label?: string }) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function MealPlannerMainScreenMockup() {
-  const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  const slots: Record<string, { name: string; time: string; color: string } | null> = {
-    'B-0': { name: 'Oat Bowl', time: '10m', color: 'bg-amber-100' },
-    'B-1': null,
-    'B-2': { name: 'Pancakes', time: '20m', color: 'bg-amber-100' },
-    'B-3': null,
-    'B-4': { name: 'Eggs', time: '15m', color: 'bg-amber-100' },
-    'B-5': null,
-    'B-6': null,
-    'L-0': null,
-    'L-1': { name: 'Caesar', time: '15m', color: 'bg-green-100' },
-    'L-2': null,
-    'L-3': { name: 'Wrap', time: '10m', color: 'bg-green-100' },
-    'L-4': null,
-    'L-5': { name: 'Pasta', time: '25m', color: 'bg-green-100' },
-    'L-6': null,
-    'D-0': { name: 'Chicken', time: '45m', color: 'bg-indigo-100' },
-    'D-1': { name: 'Stir Fry', time: '30m', color: 'bg-indigo-100' },
-    'D-2': null,
-    'D-3': { name: 'Salmon', time: '35m', color: 'bg-indigo-100' },
-    'D-4': null,
-    'D-5': { name: 'Pizza', time: '60m', color: 'bg-indigo-100' },
-    'D-6': { name: 'Curry', time: '50m', color: 'bg-indigo-100' },
-  };
+  const meals = [
+    { type: 'Breakfast', emoji: '🥞', name: 'Overnight oats with rhubarb c...', time: '45 min', diff: 'Easy', diffColor: 'text-gray-500', note: 'Peppe: use lactose-free milk.', active: false },
+    { type: 'Lunch', emoji: '🥪', name: 'Leftover cod and vegetable w...', time: '30 min', diff: 'Easy', diffColor: 'text-gray-500', note: null, active: true },
+    { type: 'Dinner', emoji: '🍝', name: 'Cod fillets with spring vegeta...', time: '60 min', diff: 'Medium', diffColor: 'text-orange-500', note: null, active: false },
+    { type: 'Snack', emoji: '🍎', name: 'Apple slices with sunflower se...', time: '10 min', diff: 'Easy', diffColor: 'text-gray-500', note: null, active: false },
+  ];
 
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
@@ -94,122 +76,123 @@ function MealPlannerMainScreenMockup() {
         <h2 className="text-xl font-bold text-gray-900">Meal Planner — Main Screen</h2>
       </div>
       <p className="text-sm text-gray-600 mb-6">
-        Annotated phone mockup of the weekly planner grid. Tap a zone label to understand its purpose.
+        Annotated phone mockup showing the vertical day-by-day list layout.
       </p>
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         {/* Phone mockup */}
         <div className="flex flex-col items-center gap-2 shrink-0">
-          <div className="relative flex flex-col rounded-[2rem] border-[3px] border-indigo-600 shadow-2xl overflow-hidden w-52 bg-gray-800">
+          <div className="relative flex flex-col rounded-[2rem] border-[3px] border-indigo-600 shadow-2xl overflow-hidden w-56 bg-gray-800">
             {/* Status bar */}
             <div className="bg-gray-800 flex justify-between items-center px-3 py-1">
-              <span className="text-[7px] text-gray-400">9:41</span>
+              <span className="text-[7px] text-gray-400">11:19</span>
               <div className="w-8 h-2 bg-gray-600 rounded-full" />
-              <span className="text-[7px] text-gray-400">▶▶</span>
+              <span className="text-[7px] text-gray-400">26%</span>
             </div>
-            <div className="bg-white flex-1">
-              {/* Header */}
-              <div className="bg-indigo-700 px-2 py-1.5 flex items-center justify-between">
-                <span className="text-white text-[9px] font-bold">🍽 Meal Planner</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-[7px] bg-green-400 text-white px-1 rounded-full">Draft</span>
-                  <span className="text-[8px] text-indigo-200">⚙</span>
+            <div className="bg-gray-50 flex-1">
+              {/* App header */}
+              <div className="bg-white px-3 py-2 flex items-center justify-between border-b border-gray-100">
+                <span className="text-[10px]">🏠</span>
+                <span className="text-[10px] font-bold text-gray-900">Family meals</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-teal-500">🛒</span>
+                  <span className="text-[9px] text-gray-400">⋯</span>
                 </div>
               </div>
               {/* Week navigator */}
-              <div className="flex items-center justify-between px-2 py-1 bg-indigo-50 border-b border-indigo-100">
-                <span className="text-[8px] text-indigo-600">‹</span>
-                <span className="text-[8px] font-bold text-indigo-800">Week of Apr 20</span>
-                <span className="text-[8px] text-indigo-600">›</span>
-              </div>
-              {/* Day headers */}
-              <div className="grid grid-cols-8 border-b border-gray-200">
-                <div className="col-span-1 px-0.5 py-0.5" />
-                {days.map((d, i) => (
-                  <div key={i} className={`col-span-1 text-center py-0.5 ${i === 0 ? 'bg-indigo-100' : ''}`}>
-                    <p className="text-[6px] font-bold text-gray-600">{d}</p>
-                    <p className={`text-[7px] font-bold ${i === 0 ? 'text-indigo-700' : 'text-gray-800'}`}>{20 + i}</p>
+              <div className="bg-white flex items-center justify-between px-3 py-1.5 border-b border-gray-100">
+                <span className="text-[9px] text-gray-400">‹</span>
+                <div className="text-center">
+                  <div className="flex items-center gap-1 justify-center">
+                    <span className="text-[9px] font-bold text-gray-900">This week</span>
+                    <span className="text-[7px] bg-indigo-100 text-indigo-600 font-bold px-1.5 py-0.5 rounded-full">Draft</span>
                   </div>
-                ))}
+                  <span className="text-[7px] text-gray-400">4/20 - 4/26</span>
+                </div>
+                <span className="text-[9px] text-gray-400">›</span>
               </div>
-              {/* Rows */}
-              {[
-                { key: 'B', label: 'Bfst', rowColor: 'bg-amber-50' },
-                { key: 'L', label: 'Lnch', rowColor: 'bg-green-50' },
-                { key: 'D', label: 'Dinr', rowColor: 'bg-indigo-50' },
-              ].map((row) => (
-                <div key={row.key} className={`grid grid-cols-8 border-b border-gray-100 ${row.rowColor}`}>
-                  <div className="col-span-1 flex items-center justify-center py-1">
-                    <span className="text-[5px] font-bold text-gray-500 text-center leading-tight">{row.label}</span>
-                  </div>
-                  {days.map((_, i) => {
-                    const slot = slots[`${row.key}-${i}`];
-                    return (
-                      <div key={i} className="col-span-1 p-0.5">
-                        {slot ? (
-                          <div className={`rounded p-0.5 ${slot.color}`}>
-                            <p className="text-[4px] font-bold text-gray-800 leading-tight truncate">{slot.name}</p>
-                            <p className="text-[4px] text-gray-500">{slot.time}</p>
-                          </div>
-                        ) : (
-                          <div className="rounded border border-dashed border-gray-200 flex items-center justify-center" style={{ height: 22 }}>
-                            <span className="text-[7px] text-gray-300">+</span>
-                          </div>
-                        )}
+
+              {/* Day header */}
+              <div className="flex items-center justify-between px-3 py-1.5">
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                  <span className="text-[9px] font-bold text-gray-900">Monday</span>
+                  <span className="text-[8px] text-gray-400">4/20</span>
+                </div>
+                <span className="text-[8px] text-gray-400">⋯</span>
+              </div>
+
+              {/* Meal cards */}
+              <div className="px-2 space-y-1.5 pb-1">
+                {meals.map((m, i) => (
+                  <div key={i} className={`bg-white rounded-xl px-2 py-1.5 flex items-start gap-2 ${m.active ? 'border-2 border-teal-400' : 'border border-gray-100'} shadow-sm`}>
+                    <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center text-[13px] shrink-0 mt-0.5">{m.emoji}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span className="text-[7px] font-bold text-teal-600">{m.type}</span>
+                        <span className="text-[6px] text-teal-400">✦</span>
                       </div>
-                    );
-                  })}
-                </div>
-              ))}
-              {/* Snack row (collapsed) */}
-              <div className="grid grid-cols-8 border-b border-gray-100 bg-yellow-50">
-                <div className="col-span-1 flex items-center justify-center py-1">
-                  <span className="text-[5px] font-bold text-gray-400">Snck</span>
-                </div>
-                {days.map((_, i) => (
-                  <div key={i} className="col-span-1 p-0.5">
-                    <div className="rounded border border-dashed border-gray-200 flex items-center justify-center" style={{ height: 16 }}>
-                      <span className="text-[7px] text-gray-300">+</span>
+                      <p className="text-[8px] font-bold text-gray-900 leading-tight truncate">{m.name}</p>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="text-[6px] text-gray-400">⏱ {m.time}</span>
+                        <span className={`text-[6px] font-medium ${m.diffColor}`}>🍴 {m.diff}</span>
+                      </div>
+                      {m.note && <p className="text-[6px] text-teal-500 mt-0.5 italic">💡 {m.note}</p>}
                     </div>
+                    <span className="text-[8px] text-gray-300 shrink-0">⋮</span>
                   </div>
                 ))}
               </div>
+
+              {/* Next day preview */}
+              <div className="flex items-center justify-between px-3 py-1">
+                <span className="text-[9px] font-semibold text-gray-500">Tuesday 4/21</span>
+                <span className="text-[8px] text-gray-300">⋯</span>
+              </div>
+
               {/* Publish button */}
-              <div className="px-2 py-1.5">
-                <button className="w-full bg-indigo-600 text-white text-[8px] font-bold py-1 rounded-full">
-                  ✓ Approve &amp; Share with Family
+              <div className="px-2 pb-2">
+                <button className="w-full bg-indigo-500 text-white text-[8px] font-bold py-1.5 rounded-full flex items-center justify-center gap-1">
+                  <span>✓</span> Approve &amp; share with family
                 </button>
               </div>
+
               {/* Bottom nav */}
-              <div className="bg-white border-t border-gray-100 flex items-center justify-around py-1 px-2">
-                <span className="text-[9px]">🏠</span>
-                <span className="text-[10px] font-bold text-indigo-600">🍽</span>
-                <div className="w-5 h-5 rounded-full bg-gray-900 flex items-center justify-center">
-                  <span className="text-[7px] text-white">🤖</span>
-                </div>
-                <span className="text-[9px]">🔔</span>
-                <span className="text-[9px]">👤</span>
+              <div className="bg-white border-t border-gray-100 flex items-center justify-around py-1.5 px-1">
+                {[
+                  { icon: '🏠', label: 'Home', active: false },
+                  { icon: '📅', label: 'Calendar', active: false },
+                  { icon: '✓', label: 'Chores', active: false },
+                  { icon: '💬', label: 'Messages', active: false },
+                  { icon: '⋯', label: 'More', active: true },
+                ].map((n) => (
+                  <div key={n.label} className="flex flex-col items-center gap-0.5">
+                    <span className={`text-[9px] ${n.active ? 'text-teal-500' : ''}`}>{n.icon}</span>
+                    <span className={`text-[5px] ${n.active ? 'text-teal-500 font-bold' : 'text-gray-400'}`}>{n.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="bg-gray-800 flex justify-center py-1.5">
               <div className="w-14 h-1 bg-gray-500 rounded-full" />
             </div>
           </div>
-          <p className="text-xs font-bold text-indigo-700 text-center">Meal Planner (Weekly View)</p>
+          <p className="text-xs font-bold text-indigo-700 text-center">Family meals — Day view</p>
         </div>
 
         {/* Zone annotations */}
         <div className="flex-1 space-y-3">
           <p className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Screen Zones Annotated</p>
           {[
-            { zone: 'Zone 1 — Header Bar', color: 'border-indigo-400 bg-indigo-50', desc: '"🍽 Meal Planner" title · Draft/Published status badge · Settings gear (opens Meal Settings)' },
-            { zone: 'Zone 2 — Week Navigator', color: 'border-indigo-300 bg-indigo-50', desc: '← / → arrows to move between weeks · "Week of [date]" label in center' },
-            { zone: 'Zone 3 — Day Headers', color: 'border-gray-300 bg-gray-50', desc: 'Mon–Sun abbreviated day names + date numbers · Today column highlighted in indigo' },
-            { zone: 'Zone 4 — Meal Slot Grid', color: 'border-amber-300 bg-amber-50', desc: 'Rows: Breakfast, Morning Snack, Lunch, Evening Snack, Dinner, optional Weekend Dessert\nFilled slot: recipe name + cook time + difficulty dot + optional allergy icon\nEmpty slot: dashed "+" tap target → opens recipe picker bottom sheet' },
-            { zone: 'Zone 5 — Allergy Alert', color: 'border-red-300 bg-red-50', desc: 'Hard red banner (blocking) if allergen detected · Soft amber inline note for disliked ingredient\nSubstitution hint shown below alert' },
-            { zone: 'Zone 6 — Publish CTA', color: 'border-green-400 bg-green-50', desc: '"Approve & Share with Family" button · Changes plan status from Draft → Published\nSends push notification to all family members\nChild role members see plan as read-only after publish' },
-            { zone: 'Zone 7 — Bottom Nav', color: 'border-gray-300 bg-gray-50', desc: 'Meal Planner tab active (🍽) · Home · AI Chat (FAB) · Notifications · Profile' },
-            { zone: 'Zone 8 — Grocery Shortcut', color: 'border-teal-300 bg-teal-50', desc: 'Cart icon in header top-right → jump directly to Grocery List screen' },
+            { zone: 'Zone 1 — App Header', color: 'border-indigo-400 bg-indigo-50', desc: 'Home icon (left) · "Family meals" title (center) · Cart icon → Grocery List · 3-dot menu (right)' },
+            { zone: 'Zone 2 — Week Navigator', color: 'border-indigo-300 bg-indigo-50', desc: '← Previous / Next → · "This week" label + Draft/Published badge · Date range (e.g. 4/20 – 4/26)' },
+            { zone: 'Zone 3 — Day Header', color: 'border-gray-300 bg-gray-50', desc: 'Green dot = today · Day name + date · "⋯" 3-dot menu (copy day, clear day, add meal)' },
+            { zone: 'Zone 4 — Meal Cards', color: 'border-amber-300 bg-amber-50', desc: 'One card per meal slot · Food emoji thumbnail · Meal type label (teal) + sparkle icon\nRecipe name (truncated) · Clock + duration · Fork + difficulty (colour-coded: Easy=gray, Medium=orange)\nOptional allergy/note hint below in teal italic · 3-dot context menu (right)' },
+            { zone: 'Zone 5 — Active Card', color: 'border-teal-300 bg-teal-50', desc: 'Currently selected or current meal time: teal 2px border highlight' },
+            { zone: 'Zone 6 — Allergy Note', color: 'border-red-300 bg-red-50', desc: 'Inline teal hint below recipe name (e.g. "Peppe: use lactose-free milk.")\nHard allergen → red blocking alert overlay before slot is saved' },
+            { zone: 'Zone 7 — Next Day Preview', color: 'border-gray-200 bg-gray-50', desc: 'Partial next-day header visible at bottom to indicate vertical scrollability' },
+            { zone: 'Zone 8 — Publish CTA', color: 'border-green-400 bg-green-50', desc: '"✓ Approve & share with family" sticky purple button · Draft → Published · Push notification to family' },
+            { zone: 'Zone 9 — Bottom Nav', color: 'border-gray-300 bg-gray-50', desc: 'Home · Calendar · Chores · Messages · More (active tab highlighted in teal)' },
           ].map((z) => (
             <div key={z.zone} className={`border-l-4 rounded-r-lg px-3 py-2 ${z.color}`}>
               <p className="text-xs font-bold text-gray-800">{z.zone}</p>
