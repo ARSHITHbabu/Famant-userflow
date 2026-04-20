@@ -72,7 +72,7 @@ export default function App() {
         <ScreenFlowDiagram />
 
         {/* Section 14 — Meal Planner Workflow */}
-        <div className="border-t-2 border-dashed border-green-200 pt-2">
+        <div id="section-14" className="border-t-2 border-dashed border-green-200 pt-2">
           <p className="text-xs text-green-500 uppercase tracking-widest font-semibold mb-6">
             Section 14 · Meal Planner Feature Workflow
           </p>

@@ -10364,6 +10364,7 @@ export function PhoneLayoutDiagram() {
     { id: 'section-11', label: 'Lists & Shopping Module',           badge: 'S11', color: 'bg-orange-600' },
     { id: 'section-12', label: 'Tasks & Chores Module',             badge: 'S12', color: 'bg-emerald-600' },
     { id: 'section-13', label: 'Document Vault',                    badge: 'S13', color: 'bg-indigo-600' },
+    { id: 'section-14', label: 'Meal Planner',                      badge: 'S14', color: 'bg-green-600' },
   ];
 
   return (
