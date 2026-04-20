@@ -8,6 +8,7 @@ import { ResultingActions } from './components/ResultingActions';
 import { SystemProcesses } from './components/SystemProcesses';
 import { ModuleConnections } from './components/ModuleConnections';
 import { MealPlannerWorkflow } from './components/MealPlannerWorkflow';
+import { MealPlannerScreenFlowDiagram } from './components/MealPlannerScreenFlowDiagram';
 
 export default function App() {
   const [selectedFlow, setSelectedFlow] = useState<string | null>(null);
@@ -77,6 +78,7 @@ export default function App() {
             Section 14 · Meal Planner Feature Workflow
           </p>
         </div>
+        <MealPlannerScreenFlowDiagram />
         <MealPlannerWorkflow />
       </div>
     </div>
