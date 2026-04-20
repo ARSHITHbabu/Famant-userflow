@@ -7,9 +7,7 @@ import { UserActions } from './components/UserActions';
 import { ResultingActions } from './components/ResultingActions';
 import { SystemProcesses } from './components/SystemProcesses';
 import { ModuleConnections } from './components/ModuleConnections';
-import { MealPlannerWorkflow } from './components/MealPlannerWorkflow';
-import { MealPlannerScreenFlowDiagram } from './components/MealPlannerScreenFlowDiagram';
-import { MealPlannerHub } from './components/MealPlannerHub';
+import { MealPlannerHub, MealPlannerScreenFlowDiagram, MealPlannerWorkflow } from './components/MealPlannerFeature';
 
 export default function App() {
   const [selectedFlow, setSelectedFlow] = useState<string | null>(null);
