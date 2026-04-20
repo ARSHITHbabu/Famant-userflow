@@ -236,7 +236,7 @@ const screenZoneData = [
       { name: 'Meal Rows', desc: 'One row per meal slot for today: food emoji + recipe name + meal type label (Breakfast / Lunch / Dinner / Snack)\nRows listed in time order; greyed-out once their time window has passed' },
       { name: 'Time-based Disappear Logic', desc: 'Each row auto-fades once its meal window ends (e.g. Breakfast row greyed at 11am, removed next morning)\nWidget itself hides at end of day; reappears at midnight with next day\'s meals' },
       { name: 'NOT in Calendar', desc: 'Meal plan entries are NEVER written to the Calendar module. They appear only in this Dashboard widget and the Meal Planner screen. Calendar remains for events, appointments, and tasks only.' },
-      { name: 'Tap Behaviour', desc: 'Tapping the widget header → opens Meal Planner screen\nTapping a specific meal row → opens that recipe in Cook Mode (if plan is published)' },
+      { name: 'Tap Behaviour', desc: 'Tapping the widget header → opens Meal Planner screen\nTapping a specific meal row → opens that recipe\'s detail page' },
     ],
   },
   {
@@ -308,7 +308,7 @@ const screenZoneData = [
       { name: 'Approval Toggle (Adults)', desc: 'Admin/Parent can enable "Require approval from family" toggle per week\nWhen enabled: adult Member role family members see an "Approve" / "Suggest change" action on the published plan\nPlan is considered family-confirmed once all Adults approve\nKids excluded from approval — view-only only' },
       { name: 'Publish Bar', desc: '"Approve & Share with Family" sticky bar at bottom; disabled if plan is empty\nIf approval required: shows approval status per adult member' },
       { name: 'Not in Calendar', desc: 'Meal plans do NOT appear in the Calendar module. Dashboard widget only.' },
-      { name: 'Child Role View', desc: 'Published plan shown read-only — no +, no context menu, no publish bar\nRecipe cards are tappable: kids can view full recipe detail and follow Cook Mode' },
+      { name: 'Child Role View', desc: 'Published plan shown read-only — no +, no context menu, no publish bar\nRecipe cards are tappable: kids can view full recipe detail' },
     ],
   },
   {
@@ -325,22 +325,6 @@ const screenZoneData = [
       { name: 'Sharing', desc: 'Shared automatically in Lists module; family members see live updates' },
       { name: 'Expense — Scan Receipt (OCR)', desc: '"Scan receipt" button in header or bottom bar\nCamera opens → OCR reads store name, items, quantities, total amount\nExtracted line items matched against grocery list; unmatched items flagged\nUser confirms and saves to Expense Tracker module as "Grocery — Week N"' },
       { name: 'Expense — Manual Entry', desc: '"Add expense" option: user types store name + total amount (or per-item breakdown)\nSaved to Expense Tracker with category: Grocery and source_meal_plan_id linked' },
-    ],
-  },
-  {
-    id: 'sz-cook',
-    label: 'Cook Mode',
-    color: 'bg-orange-100 border-orange-400',
-    zones: [
-      { name: 'Recipe Header', desc: 'Recipe name · total time · difficulty · serving count adjuster' },
-      { name: 'Serving Scaler', desc: '− / + buttons; all ingredient quantities recalculate live' },
-      { name: 'Ingredients Summary', desc: 'Scaled ingredient list shown at top for quick reference' },
-      { name: 'Step Cards', desc: 'Full-width numbered steps; swipe right to advance; swipe left to go back' },
-      { name: 'Timer Widget', desc: 'Auto-detected durations highlighted as tappable pills → countdown starts on tap' },
-      { name: 'Screen Wake Lock', desc: 'Device screen stays on throughout cook mode; disables on exit' },
-      { name: 'Child Role', desc: 'Kids can open Cook Mode from their read-only published plan view' },
-      { name: 'Cooking Task Attribution', desc: '"Done Cooking" button asks "Who cooked this?" → member selector\nSelected member gets a completed Task logged on their profile: "Cooked: [Recipe Name] — [date]"\nTask is visible in their personal Tasks module activity and family activity feed' },
-      { name: 'Exit', desc: '"Done Cooking" → member selection → task logged → returns to Home Dashboard' },
     ],
   },
 ];
@@ -482,7 +466,7 @@ const featureMapData = [
       'Draft → Published flow: parent creates in Draft (only they see it); publish notifies whole family',
       'Approval toggle (optional, per week): admin/parent can require adult members to approve the plan; approval status shown per member; kids excluded',
       'Meal plan does NOT appear in the Calendar module — visible only in Dashboard widget and Meal Planner screen',
-      'Child role (kids): view published plan as read-only; can tap recipe to see full detail and enter Cook Mode',
+      'Child role (kids): view published plan as read-only; can tap recipe to see full detail',
     ],
   },
   {
@@ -506,24 +490,19 @@ const featureMapData = [
     ],
   },
   {
-    id: 'fm-cook',
-    title: 'Feature 5 — Dashboard & Cook Mode',
+    id: 'fm-dashboard',
+    title: 'Feature 5 — Dashboard Meal Widget',
     icon: Clock,
     color: 'bg-orange-100 border-orange-300',
-    tag: 'COOK',
+    tag: 'DASHBOARD',
     tagColor: 'bg-orange-600 text-white',
     subfeatures: [
-      'Dashboard shows time-based meal card for the current meal window (configurable windows in Meal Settings)',
-      '"Start Cooking" on meal card → launches Cook Mode full-screen',
-      'Serving scaling: adjusting count multiplies all ingredient quantities proportionally',
-      'Auto-countdown timers detected via regex on step text ("bake for 20 minutes" → tappable pill)',
-      'Screen wake lock active throughout cook mode',
-      'Morning notification (default 7:30am): today\'s breakfast and dinner',
-      'Cook-start reminder: fires when prep + cook time before configured meal window',
+      '"What are we eating today?" widget shows today\'s meals in time order (Breakfast / Lunch / Dinner / Snack)',
+      'Each row greys out once its meal window ends; widget resets at midnight with next day\'s meals',
+      'Tapping widget header → Meal Planner screen; tapping a meal row → recipe detail page',
+      'Morning notification (default 7:30am): today\'s meals summary sent to all family members',
       'Grocery reminder on shopping day if list has unchecked items',
-      'Child role (kids): can open Cook Mode from their read-only meal plan view',
-      '"Done Cooking" → "Who cooked?" member picker → logs completed task on that member\'s profile: "Cooked: [Recipe] — [date]"',
-      'Cooking task visible in member\'s Tasks module and family activity feed',
+      'Meal plan is NOT written to Calendar module — widget display only',
       'All logic rule-based. No AI.',
     ],
   },
@@ -572,8 +551,8 @@ const featureMapData = [
     subfeatures: [
       'Admin / Parent: create & edit recipes, assign planner slots, publish plan, set approval requirement, generate grocery list, manage dietary profiles',
       'Member (Adult): create & edit own recipes, view and pick from library, view published plan, approve/suggest changes on plan when approval is required — cannot publish',
-      'Child role (kids): browse Recipe Library (read-only), view full Recipe Detail, follow Cook Mode, view published Meal Plan, check off grocery items — cannot add, edit, approve, or publish',
-      'All roles: log cooking task via "Done Cooking" picker; check off grocery list items; use Voice Input for grocery commands',
+      'Child role (kids): browse Recipe Library (read-only), view full Recipe Detail, view published Meal Plan, check off grocery items — cannot add, edit, approve, or publish',
+      'All roles: check off grocery list items; use Voice Input for grocery commands',
       'Approval flow (when enabled): admin sends plan for approval → adult members tap Approve or Suggest Change → admin sees status per member → confirms final plan',
       'Personal layer: private recipes not shared with family unless explicitly marked shared',
     ],
@@ -689,11 +668,11 @@ const crossModuleData = [
     dataFlow: 'family_member_ids → FCM push',
   },
   {
-    from: 'Dashboard', to: 'Cook Mode',
+    from: 'Dashboard Widget', to: 'Recipe Detail',
     color: 'border-orange-400 bg-orange-50',
-    trigger: 'User taps "Start Cooking" on time-based meal card',
-    what: 'Opens Cook Mode full-screen with the recipe for the current meal window',
-    dataFlow: 'meal_card(recipe_id) → cook_mode screen',
+    trigger: 'User taps a meal row in "What are we eating today?" widget',
+    what: 'Opens the recipe detail page for that meal — ingredients, steps, and meta info. Cooking approach is up to the individual.',
+    dataFlow: 'meal_row(recipe_id) → recipe_detail screen',
   },
   {
     from: 'Recipe (edit)', to: 'Meal Planner',
@@ -729,13 +708,6 @@ const crossModuleData = [
     trigger: 'Grocery list generated',
     what: 'category_to_store_mapping and shopping_day from Meal Settings applied automatically to new grocery list',
     dataFlow: 'family_settings → list_generation defaults',
-  },
-  {
-    from: 'Cook Mode ("Done Cooking")', to: 'Tasks Module',
-    color: 'border-orange-400 bg-orange-50',
-    trigger: 'User taps "Done Cooking" → selects who cooked',
-    what: 'Logs a completed task on the selected member\'s profile: "Cooked: [Recipe Name] — [date]". Visible in their Tasks module activity list and family activity feed.',
-    dataFlow: 'cook_session(recipe_id, member_id, date) → task_entity(status: done) → member_profile',
   },
   {
     from: 'Grocery List', to: 'Expense Tracker Module',
@@ -975,35 +947,6 @@ function GroceryPhone() {
   );
 }
 
-function CookModePhone() {
-  return (
-    <div className="flex flex-col" style={{ minHeight: 200 }}>
-      <div className="bg-orange-600 px-2 py-1.5">
-        <p className="text-white text-[8px] font-bold">👨‍🍳 Cook Mode</p>
-      </div>
-      <div className="p-1.5">
-        <p className="text-[8px] font-bold text-gray-800 mb-0.5">Creamy Chicken Pasta</p>
-        <div className="flex gap-1 mb-1.5">
-          <span className="text-[5px] bg-orange-100 rounded px-1">⏱ 45m</span>
-          <span className="text-[5px] bg-orange-100 rounded px-1">👥 4</span>
-        </div>
-        <div className="bg-orange-50 rounded p-1 mb-1">
-          <p className="text-[6px] font-bold text-gray-700 mb-0.5">Step 2 of 8</p>
-          <p className="text-[6px] text-gray-600">Heat olive oil in a large pan over medium heat…</p>
-          <div className="mt-1 bg-orange-200 rounded-full px-1 py-0.5 inline-block">
-            <span className="text-[5px] font-bold text-orange-800">⏱ 3 min</span>
-          </div>
-        </div>
-        <div className="flex gap-1">
-          <button className="flex-1 bg-gray-100 rounded text-[6px] py-0.5">‹ Prev</button>
-          <button className="flex-1 bg-orange-600 text-white rounded text-[6px] py-0.5">Next ›</button>
-        </div>
-        <p className="text-[5px] text-gray-400 text-center mt-1">Screen stays awake · Kids can follow steps</p>
-      </div>
-    </div>
-  );
-}
-
 function MealPlannerInteractivePhoneFlow() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -1045,15 +988,7 @@ function MealPlannerInteractivePhoneFlow() {
       label: 'Grocery List',
       sublabel: 'Shop & check off',
       accent: 'border-teal-500',
-      arrowLabel: 'Start cooking',
       content: <GroceryPhone />,
-    },
-    {
-      id: 'cook',
-      label: 'Cook Mode',
-      sublabel: 'Step-by-step',
-      accent: 'border-orange-500',
-      content: <CookModePhone />,
     },
   ];
 
@@ -1112,8 +1047,7 @@ function MealPlannerInteractivePhoneFlow() {
                 {activeId === 'search' && 'Search by dish name or ingredient — backend scraper queries recipe sites. Also supports Import from URL and Manual creation.'}
                 {activeId === 'library' && 'All saved recipes in one place. Kids can browse and view full recipe detail in read-only mode.'}
                 {activeId === 'planner' && 'Assign recipes to weekly slots. Allergy check fires on every assignment. Publish sends push notification to family. Kids see read-only view.'}
-                {activeId === 'grocery' && 'One-tap generation from the weekly plan. Merges duplicates, assigns stores, auto-creates a shopping task. Voice control available.'}
-                {activeId === 'cook' && 'Full-screen step-by-step cooking with live serving scaler and auto-timers. Kids can follow Cook Mode from their view of the published plan.'}
+                {activeId === 'grocery' && 'One-tap generation from the weekly plan. Merges duplicates, assigns stores, auto-creates a shopping task. Voice control available. Scan receipt or add expense manually to log grocery spend.'}
               </p>
             </div>
           </motion.div>
@@ -1127,10 +1061,9 @@ function MealPlannerInteractivePhoneFlow() {
           <p className="text-sm font-bold text-yellow-800">Child Role — What Kids Can Access</p>
           <ul className="text-xs text-yellow-700 mt-1 space-y-0.5">
             <li>• <strong>Recipe Library:</strong> browse all recipes, view full recipe detail — read-only</li>
-            <li>• <strong>Meal Planner:</strong> view published weekly plan — read-only, no editing</li>
-            <li>• <strong>Cook Mode:</strong> tap any recipe on the published plan to follow step-by-step</li>
+            <li>• <strong>Meal Planner:</strong> view published weekly plan — read-only; tap a recipe to view its detail</li>
             <li>• <strong>Grocery List:</strong> can check off items while shopping</li>
-            <li>• <strong>Cannot:</strong> add/edit/delete recipes, assign planner slots, publish a plan, or change dietary profiles</li>
+            <li>• <strong>Cannot:</strong> add/edit/delete recipes, assign planner slots, publish a plan, approve, or change dietary profiles</li>
           </ul>
         </div>
       </div>
@@ -1161,9 +1094,9 @@ const screenByScreenFlow: FlowStep[] = [
     tag: 'ENTRY',
     tagColor: 'bg-indigo-600 text-white',
     description: 'Entry point on every app open. Shows "What are we eating today?" widget listing all meals for the day; rows grey out as each meal window passes.',
-    userAction: 'Sees "What are we eating today?" widget with today\'s meals listed (Breakfast / Lunch / Dinner / Snack)\nTaps widget header → Meal Planner screen\nTaps a specific meal row → Cook Mode for that recipe\nTaps morning notification to jump to today\'s plan',
+    userAction: 'Sees "What are we eating today?" widget with today\'s meals listed (Breakfast / Lunch / Dinner / Snack)\nTaps widget header → Meal Planner screen\nTaps a specific meal row → Recipe Detail page\nTaps morning notification to jump to today\'s plan',
     systemResponse: 'Fetches published meal_plan for the current week\nBuilds widget rows from today\'s plan slots in time order\nEach row greys out once its meal window ends (e.g. Breakfast greyed at 11am)\nWidget resets at midnight with next day\'s meals\nMorning push notification (7:30am): today\'s meals summary\nMeal plan is NOT written to Calendar module — widget only',
-    nextScreens: ['Cook Mode (tap meal row)', 'Meal Planner (tap widget header or nav tab)', 'Meal Settings (settings icon)'],
+    nextScreens: ['Recipe Detail (tap meal row)', 'Meal Planner (tap widget header or nav tab)', 'Meal Settings (settings icon)'],
   },
   {
     id: 'sbs-settings',
@@ -1236,8 +1169,8 @@ const screenByScreenFlow: FlowStep[] = [
     description: '7-column grid (Mon–Sun) with meal rows. Supports repeating slots, adult approval toggle, and draft→publish flow. NOT connected to Calendar.',
     userAction: 'Navigates weeks (← →)\nTaps + on empty slot → bottom sheet: "Pick from library" or "Search"\nSets servings per slot; marks leftover; toggles ↺ Repeat Weekly per slot\nOptionally enables "Require family approval" toggle for this week\nTaps "Approve & Share with Family" to publish',
     systemResponse: 'Allergy check on every assignment:\n→ Hard red blocking alert if allergen found\n→ Soft amber inline warning for disliked ingredient\n→ Substitution hint from pre-authored table\nRepeating slot: auto-fills same recipe next week; ↺ icon shown; user can override any week\nNew week = Draft (visible only to creating parent)\nPublish: status → Published; push notification to all members\nIf approval enabled: adult Members see Approve / Suggest Change action; admin sees per-member approval status\nMeal plan NOT written to Calendar — Dashboard widget only',
-    nextScreens: ['Grocery List (generate)', 'Cook Mode (via Dashboard widget)', 'Recipe Search (inline from slot picker)', 'Approval flow (adult Members)'],
-    childAccess: 'After plan is published: kids see read-only weekly grid. They can tap any recipe to view full detail and launch Cook Mode. Kids are excluded from approval flow.',
+    nextScreens: ['Grocery List (generate)', 'Recipe Detail (tap any slot)', 'Recipe Search (inline from slot picker)', 'Approval flow (adult Members)'],
+    childAccess: 'After plan is published: kids see read-only weekly grid. They can tap any recipe to view full recipe detail. Kids are excluded from approval flow.',
   },
   {
     id: 'sbs-grocery',
@@ -1249,17 +1182,6 @@ const screenByScreenFlow: FlowStep[] = [
     systemResponse: 'Collects all planner entries for the week (skips leftover-marked slots)\nMerges duplicates by summing where unit matches\nApplies category taxonomy and store mapping\nCreates shared List entity (source_meal_plan_id set) → synced to Lists module\nAuto-creates "Grocery shopping — Week N" task due on shopping_day → synced to Tasks module\nOCR path: camera image → text extraction → line items parsed → matched against grocery list → expense_entity saved\nManual path: amount + store → expense_entity saved with category: Grocery and source_meal_plan_id\nExpense visible in Expense Tracker module for family budget tracking',
     nextScreens: ['Lists module (shared family list)', 'Tasks module (shopping task)', 'Expense Tracker module (receipt scan or manual entry)'],
     childAccess: 'Kids can check off items on the grocery list.',
-  },
-  {
-    id: 'sbs-cook',
-    screen: 'Cook Mode',
-    tag: 'COOK',
-    tagColor: 'bg-orange-600 text-white',
-    description: 'Full-screen step-by-step cooking view launched from the dashboard meal card. Screen stays awake.',
-    userAction: 'Taps meal row in Dashboard widget → Cook Mode\nAdjusts serving count (quantities scale live)\nFollows numbered steps; taps timer pills for countdown\nTaps "Done Cooking" → member picker: "Who cooked this?" → selects themselves or another member → confirms',
-    systemResponse: 'Serving scaling multiplies all ingredient quantities proportionally\nAuto-detects timer durations via regex ("bake for 20 minutes" → pill)\nScreen wake lock active\nCook-start reminder: fires at (meal_window_start − prep_time − cook_time)\n"Done Cooking" → logs completed task on selected member\'s profile: "Cooked: [Recipe] — [date]"\nTask appears in member\'s Tasks module (personal activity) and family activity feed\nRule-based. No AI.',
-    nextScreens: ['Home Dashboard', 'Meal Planner', 'Tasks module (cooking task auto-logged)'],
-    childAccess: 'Kids can enter Cook Mode from their read-only published plan. They can also complete the "Done Cooking" flow to log their own cooking task.',
   },
   {
     id: 'sbs-voice',
@@ -1401,8 +1323,6 @@ function MealPlannerScreenByScreen() {
             { label: 'Publish', color: 'bg-indigo-800 text-white' },
             { label: '→', color: '' },
             { label: 'Grocery', color: 'bg-teal-600 text-white' },
-            { label: '+', color: 'text-gray-400 font-bold' },
-            { label: 'Cook Mode → Task', color: 'bg-orange-600 text-white' },
             { label: '+', color: 'text-gray-400 font-bold' },
             { label: 'Voice', color: 'bg-violet-600 text-white' },
             { label: '+', color: 'text-gray-400 font-bold' },
