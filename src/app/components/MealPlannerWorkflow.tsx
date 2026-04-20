@@ -8,7 +8,7 @@ import {
 // ─── Entry points ─────────────────────────────────────────────────────────────
 
 const entryPoints = [
-  { label: 'Home dashboard', path: 'Time-based meal card → "Start Cooking" → Cook Mode' },
+  { label: 'Home dashboard', path: 'Meal widget → tap meal row → Recipe Detail' },
   { label: 'Recipe tab', path: 'Search bar → scraper results → select → review → save' },
   { label: 'Import from URL', path: 'Paste link → scraper fills form → review → save' },
   { label: 'Create manually', path: 'Blank form → fill in → save to library' },
@@ -89,7 +89,7 @@ const screenFlow: FlowStep[] = [
     description: '7-column grid (Mon–Sun) with slot rows per day: Breakfast, Morning Snack, Lunch, Evening Snack, Dinner, and optional Weekend Dessert. Parent creates plan in Draft; publishes when ready.',
     userAction: 'Navigates weeks with ← / → arrows\nTaps empty slot (+) → bottom sheet: "Pick from library" or "Search for a recipe"\nSets servings for each slot (defaults to family setting)\nOptionally marks slot as "leftover" → suppresses ingredients from grocery list\nTaps "Approve & share with family" to publish',
     systemResponse: 'Allergy check fires on every recipe selection:\n→ Hard red alert if allergen matched (must acknowledge before slot saves)\n→ Soft amber warning for disliked ingredient (inline, non-blocking)\n→ Substitution hint shown from pre-authored lookup table\nNew week defaults to Draft — visible only to creating parent\nPublish: status → Published, push notification sent to all members\nChild role members: view only; cannot edit published plan',
-    nextScreens: ['Grocery List Generation', 'Cook Mode', 'Recipe Search (inline)'],
+    nextScreens: ['Grocery List Generation', 'Recipe Detail (tap any slot)', 'Recipe Search (inline)'],
   },
   {
     id: 'grocery-list',
@@ -100,16 +100,6 @@ const screenFlow: FlowStep[] = [
     userAction: 'Taps "Generate grocery list" from weekly planner\nAssigns items to stores (defaults from category-to-store mapping)\nChecks off items while shopping\nVoice: "Add milk to grocery list" / "Mark eggs as done"',
     systemResponse: 'Collects all meal plan entries for current week\nExtracts ingredients[] from each linked recipe (skips leftover-marked slots)\nMerges duplicates by summing quantities where unit matches\nCategorises each ingredient into grocery taxonomy\nCreates List entity in shared Lists module (source_meal_plan_id set)\nAuto-creates Task: "Grocery shopping — Week N", due on preferred shopping day\nCategory-to-store mapping applied by default; user can reassign per item',
     nextScreens: ['Shared Lists module', 'Tasks module'],
-  },
-  {
-    id: 'cook-mode',
-    screen: 'Cook Mode',
-    tag: 'DASHBOARD',
-    tagColor: 'bg-orange-600 text-white',
-    description: 'Full-screen step-by-step cooking view. Opened from "Start Cooking" on the time-based dashboard meal card.',
-    userAction: 'Taps "Start Cooking" on dashboard meal card\nAdjusts serving count → quantities recalculate live\nFollows numbered steps; taps countdown timers for timed steps\nScreen stays awake throughout (wake lock)',
-    systemResponse: 'Dashboard shows correct meal for current time window (configurable in Meal Settings)\nServing scaling: multiplies all ingredient quantities proportionally\nTimer auto-detected via regex on duration patterns ("bake for 20 minutes")\nMorning notification (default 7:30am): today\'s breakfast and dinner\nCook-start reminder: if prep + cook time = 60 min and dinner window = 17:00 → notify at 16:00\nGrocery reminder: on shopping day if list has unchecked items. All rule-based. No AI.',
-    nextScreens: ['Home Dashboard', 'Meal Planner'],
   },
   {
     id: 'voice-input',
@@ -198,17 +188,17 @@ const features = [
     ],
   },
   {
-    id: 'dashboard-cook',
-    title: 'Feature 5 — Dashboard & Cook Mode',
+    id: 'dashboard-widget',
+    title: 'Feature 5 — Dashboard Meal Widget',
     icon: Clock,
     color: 'bg-orange-100 border-orange-300',
     subfeatures: [
-      'Home shows correct meal for current time window (configurable time windows)',
-      'Cook Mode: full-screen step-by-step; serving scaling; auto-countdown timers via regex',
-      'Screen wake lock during cook mode',
-      'Morning summary notification (default 7:30am): breakfast and dinner',
-      'Cook-start reminder: prep + cook time window before meal time',
+      '"What are we eating today?" widget shows today\'s meals in time order',
+      'Each meal row greys out once its time window passes; resets at midnight',
+      'Tapping a meal row opens the recipe detail page',
+      'Morning summary notification (default 7:30am): today\'s meals',
       'Grocery reminder on preferred shopping day. All rule-based. No AI.',
+      'Meal plan NOT shown in Calendar module — widget only',
     ],
   },
   {
@@ -234,7 +224,7 @@ const moduleLinks = [
   { from: 'Grocery List', to: 'Tasks module', how: 'Auto-creates "Grocery shopping — Week N" task due on preferred shopping day', color: 'border-blue-400 bg-blue-50' },
   { from: 'Grocery List', to: 'Lists module', how: 'Creates a List entity with source_meal_plan_id — visible in Shared Lists', color: 'border-green-400 bg-green-50' },
   { from: 'Meal Planner', to: 'Home Dashboard', how: 'Published plan feeds time-based meal card on dashboard home screen', color: 'border-indigo-400 bg-indigo-50' },
-  { from: 'Dashboard', to: 'Cook Mode', how: '"Start Cooking" button on meal card → full-screen step-by-step cook mode', color: 'border-orange-400 bg-orange-50' },
+  { from: 'Dashboard Widget', to: 'Recipe Detail', how: 'Tapping a meal row opens the recipe detail page — cooking approach is up to the individual', color: 'border-orange-400 bg-orange-50' },
   { from: 'Recipe (edit)', to: 'Meal Planner', how: 'If ingredients change, allergy check re-runs on all slots using that recipe', color: 'border-rose-400 bg-rose-50' },
   { from: 'Voice Input', to: 'Grocery List', how: '"Add milk" / "Mark eggs done" → calls same tRPC endpoints as UI', color: 'border-violet-400 bg-violet-50' },
 ];
@@ -397,8 +387,6 @@ function ScreenFlow() {
             { label: 'Publish', color: 'bg-indigo-800 text-white' },
             { label: '→', color: '' },
             { label: 'Grocery List', color: 'bg-teal-600 text-white' },
-            { label: '+', color: 'text-gray-400 font-bold' },
-            { label: 'Cook Mode', color: 'bg-orange-600 text-white' },
             { label: '+', color: 'text-gray-400 font-bold' },
             { label: 'Voice', color: 'bg-violet-600 text-white' },
           ].map((item, i) => (
