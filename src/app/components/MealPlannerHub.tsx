@@ -845,50 +845,67 @@ function RecipeLibraryPhone() {
 function MealPlannerPhone() {
   return (
     <div className="flex flex-col" style={{ minHeight: 200 }}>
-      <div className="bg-indigo-700 px-2 py-1">
-        <div className="flex justify-between items-center">
-          <p className="text-white text-[7px] font-bold">🍽 Planner</p>
-          <span className="text-[5px] bg-yellow-400 text-gray-900 rounded-full px-1">Draft</span>
+      {/* App header */}
+      <div className="bg-white px-2 py-1 border-b border-gray-100 flex justify-between items-center">
+        <span className="text-[6px]">🏠</span>
+        <p className="text-[7px] font-bold text-gray-800">Family meals</p>
+        <div className="flex gap-1">
+          <span className="text-[6px]">🛒</span>
+          <span className="text-[6px]">⋯</span>
         </div>
       </div>
-      <div className="px-1 py-0.5">
-        <div className="flex justify-between items-center mb-0.5">
-          <span className="text-[6px] text-indigo-600">‹</span>
-          <span className="text-[6px] font-bold text-gray-700">Apr 20–26</span>
-          <span className="text-[6px] text-indigo-600">›</span>
+      {/* Week nav */}
+      <div className="bg-gray-50 px-2 py-0.5 flex justify-between items-center border-b border-gray-100">
+        <span className="text-[6px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-bold text-gray-700">This week</span>
+            <span className="text-[4px] bg-yellow-400 text-gray-800 rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[5px] text-gray-400">4/20–4/26</span>
         </div>
-        <div className="grid grid-cols-8 text-center mb-0.5">
-          <div />
-          {['M','T','W','T','F','S','S'].map((d,i) => (
-            <div key={i} className={`text-[5px] font-bold ${i===0?'text-indigo-700':'text-gray-500'}`}>{d}</div>
-          ))}
+        <span className="text-[6px] text-gray-500">›</span>
+      </div>
+      {/* Day section */}
+      <div className="px-1.5 py-1 flex-1 overflow-hidden">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+            <span className="text-[6px] font-bold text-gray-800">Monday 4/20</span>
+          </div>
+          <span className="text-[5px] text-gray-400">⋯</span>
         </div>
+        {/* Meal cards */}
         {[
-          { row: 'B', color: 'bg-amber-50', fills: [1,0,1,0,1,0,0] },
-          { row: 'L', color: 'bg-green-50',  fills: [0,1,0,1,0,1,0] },
-          { row: 'D', color: 'bg-indigo-50', fills: [1,1,0,1,0,1,1] },
-        ].map(({ row, color, fills }) => (
-          <div key={row} className={`grid grid-cols-8 ${color} border-b border-gray-100 mb-0.5`}>
-            <div className="flex items-center justify-center"><span className="text-[4px] font-bold text-gray-500">{row}</span></div>
-            {fills.map((f, i) => (
-              <div key={i} className="p-0.5">
-                {f ? (
-                  <div className="rounded bg-white border border-gray-200 flex items-center justify-center" style={{height:10}}>
-                    <span className="text-[4px] text-gray-600">✓</span>
-                  </div>
-                ) : (
-                  <div className="rounded border border-dashed border-gray-200 flex items-center justify-center" style={{height:10}}>
-                    <span className="text-[6px] text-gray-300">+</span>
-                  </div>
-                )}
+          { type: 'Breakfast', emoji: '🥣', name: 'Overnight Oats', time: '8:00 am', diff: 'Easy', active: false },
+          { type: 'Lunch', emoji: '🥗', name: 'Greek Salad', time: '12:30 pm', diff: 'Easy', active: true },
+          { type: 'Dinner', emoji: '🍝', name: 'Pasta Bolognese', time: '7:00 pm', diff: 'Medium', active: false },
+        ].map((meal) => (
+          <div key={meal.type} className={`rounded-lg border mb-0.5 bg-white px-1 py-0.5 ${meal.active ? 'border-teal-400' : 'border-gray-200'}`}>
+            <div className="flex items-center gap-1">
+              <span className="text-[8px]">{meal.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-0.5">
+                  <span className="text-[5px] font-bold text-teal-600 uppercase">{meal.type}</span>
+                </div>
+                <p className="text-[6px] font-semibold text-gray-800 truncate">{meal.name}</p>
+                <div className="flex items-center gap-1">
+                  <span className="text-[5px] text-gray-400">⏱ {meal.time}</span>
+                  <span className="text-[5px] text-gray-400">🍴 {meal.diff}</span>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         ))}
-        <button className="w-full bg-indigo-600 text-white text-[6px] font-bold rounded-full py-0.5 mt-1">
-          Approve &amp; Share
+        {/* Next day preview */}
+        <div className="flex items-center gap-1 mt-1 opacity-50">
+          <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+          <span className="text-[6px] text-gray-500 font-bold">Tuesday 4/21</span>
+        </div>
+        {/* Approve button */}
+        <button className="w-full bg-violet-600 text-white text-[5px] font-bold rounded-full py-0.5 mt-1">
+          ✓ Approve &amp; share with family
         </button>
-        <p className="text-[5px] text-gray-400 text-center mt-0.5">Kids: read-only after publish</p>
       </div>
     </div>
   );
