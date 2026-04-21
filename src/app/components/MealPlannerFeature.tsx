@@ -807,7 +807,63 @@ function MealPlannerInteractivePhoneFlow() {
         <Smartphone className="w-5 h-5 text-orange-500" />
         <h2 className="text-xl font-bold text-gray-900">Interactive Screen Flow — Phone Mockups</h2>
       </div>
-      <p className="text-sm text-gray-500 italic">Phone mockups removed.</p>
+      <p className="text-sm text-gray-600 mb-6">
+        Flow starts from the More screen — tap Meal Planner to enter the feature.
+      </p>
+
+      {/* More Screen phone — same design as PhoneLayoutDiagram MoreScreen */}
+      <div className="overflow-x-auto pb-4">
+        <div className="flex items-start gap-2 min-w-max">
+          <PhoneShell label="More Screen" sublabel="Tap Meal Planner" accent="border-orange-500">
+            <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+              {/* Header */}
+              <div className="bg-white px-2 pt-2 pb-1.5 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <div className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[7px]">🏠</div>
+                    <span className="text-[7px] font-bold text-gray-800">Thaikaattu Family</span>
+                    <span className="text-[6px] text-gray-400">▾</span>
+                  </div>
+                </div>
+              </div>
+              {/* Categories grid */}
+              <div className="flex-1 bg-white px-2 py-2">
+                <div className="text-[5px] font-bold text-gray-400 uppercase tracking-widest mb-2">Categories</div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { icon: '☑️', label: 'Tasks',        color: 'bg-indigo-50  border-indigo-100',  highlight: false },
+                    { icon: '📝', label: 'List',          color: 'bg-blue-50    border-blue-100',    highlight: false },
+                    { icon: '📅', label: 'Reminder',      color: 'bg-purple-50  border-purple-100',  highlight: false },
+                    { icon: '🗂️', label: 'Documents',     color: 'bg-yellow-50  border-yellow-100',  highlight: false },
+                    { icon: '💰', label: 'Budgeting',     color: 'bg-green-50   border-green-100',   highlight: false },
+                    { icon: '🍽️', label: 'Meal Planner',  color: 'bg-orange-100 border-orange-400',  highlight: true  },
+                  ].map(t => (
+                    <div key={t.label} className={`border rounded-2xl p-2.5 flex flex-col items-start gap-1.5 shadow-sm ${t.color} ${t.highlight ? 'ring-2 ring-orange-400' : ''}`}>
+                      <span className="text-[14px] leading-none">{t.icon}</span>
+                      <span className="text-[7px] font-bold text-gray-800">{t.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Bottom nav */}
+              <div className="bg-white border-t border-gray-100 flex items-center justify-around py-1.5 px-2">
+                {[
+                  { icon: '🏠', label: 'Home',    active: false },
+                  { icon: '⊞',  label: 'More',    active: true  },
+                  { icon: '🤖', label: 'AI',      active: false },
+                  { icon: '🔔', label: 'Alerts',  active: false },
+                  { icon: '👤', label: 'Profile', active: false },
+                ].map((n, i) => (
+                  <div key={i} className="flex flex-col items-center gap-0.5">
+                    <span className={`text-[9px] ${n.active ? 'text-orange-500' : 'text-gray-400'}`}>{n.icon}</span>
+                    <span className={`text-[4.5px] ${n.active ? 'text-orange-500 font-bold' : 'text-gray-400'}`}>{n.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </PhoneShell>
+        </div>
+      </div>
 
       {/* Kids access callout */}
       <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-start gap-3">
