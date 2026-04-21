@@ -218,15 +218,15 @@ function MealPlannerMainScreenMockup() {
         <div className="flex-1 space-y-3">
           <p className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Screen Zones Annotated</p>
           {[
-            { zone: 'Zone 1 — App Header', color: 'border-indigo-400 bg-indigo-50', desc: 'Home icon (left) · "Family meals" title (center) · Cart icon → Grocery List · 3-dot menu (right)' },
-            { zone: 'Zone 2 — Week Navigator', color: 'border-indigo-300 bg-indigo-50', desc: '← Previous / Next → · "This week" label + Draft/Published badge · Date range (e.g. 4/20 – 4/26)' },
-            { zone: 'Zone 3 — Day Header', color: 'border-gray-300 bg-gray-50', desc: 'Green dot = today · Day name + date · "⋯" 3-dot menu (copy day, clear day, add meal)' },
-            { zone: 'Zone 4 — Meal Cards', color: 'border-amber-300 bg-amber-50', desc: 'One card per meal slot · Food emoji thumbnail · Meal type label (teal) + sparkle icon\nRecipe name (truncated) · Clock + duration · Fork + difficulty (colour-coded: Easy=gray, Medium=orange)\nOptional allergy/note hint below in teal italic · 3-dot context menu (right)' },
-            { zone: 'Zone 5 — Active Card', color: 'border-teal-300 bg-teal-50', desc: 'Currently selected or current meal time: teal 2px border highlight' },
-            { zone: 'Zone 6 — Allergy Note', color: 'border-red-300 bg-red-50', desc: 'Inline teal hint below recipe name (e.g. "Peppe: use lactose-free milk.")\nHard allergen → red blocking alert overlay before slot is saved' },
-            { zone: 'Zone 7 — Next Day Preview', color: 'border-gray-200 bg-gray-50', desc: 'Partial next-day header visible at bottom to indicate vertical scrollability' },
-            { zone: 'Zone 8 — Publish CTA', color: 'border-green-400 bg-green-50', desc: '"✓ Approve & share with family" sticky purple button · Draft → Published · Push notification to family' },
-            { zone: 'Zone 9 — Bottom Nav', color: 'border-gray-300 bg-gray-50', desc: 'Home · Calendar · Chores · Messages · More (active tab highlighted in teal)' },
+            { zone: 'Zone 1 — Header', color: 'border-teal-400 bg-teal-50', desc: 'Family name + dropdown · Members icon (top right)' },
+            { zone: 'Zone 2 — Member Avatars', color: 'border-indigo-300 bg-indigo-50', desc: 'Coloured avatar circles for each family member · Tap to filter by member' },
+            { zone: 'Zone 3 — Week Tabs', color: 'border-gray-300 bg-gray-50', desc: 'This week · Next week · Saved — active tab highlighted in white' },
+            { zone: 'Zone 4 — Day Cards', color: 'border-amber-300 bg-amber-50', desc: 'One card per day · Calendar emoji icon · Day + date label · Meal count badge\nMeal preview row (truncated) · Member dot indicators · Chevron ›' },
+            { zone: 'Zone 5 — Draft Badge', color: 'border-teal-300 bg-teal-50', desc: '"Draft" label shown next to item count until plan is published' },
+            { zone: 'Zone 6 — Plan a Day Row', color: 'border-gray-200 bg-gray-50', desc: 'Dashed inline row at bottom of list — tap to add a new day to the plan' },
+            { zone: 'Zone 7 — Quick Templates', color: 'border-green-400 bg-green-50', desc: 'Healthy · Quick · Family · Veggie + New template — tap to pre-fill week instantly' },
+            { zone: 'Zone 8 — Approve & Share', color: 'border-indigo-400 bg-indigo-50', desc: '"✓ Approve & Share" pill (bottom left) · Draft → Published · Push notification to family' },
+            { zone: 'Zone 9 — FAB (+)', color: 'border-gray-300 bg-gray-50', desc: 'Teal floating action button (bottom right) — tap to add a new meal plan or day' },
           ].map((z) => (
             <div key={z.zone} className={`border-l-4 rounded-r-lg px-3 py-2 ${z.color}`}>
               <p className="text-xs font-bold text-gray-800">{z.zone}</p>
