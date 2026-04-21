@@ -609,6 +609,108 @@ type PhoneScreen = {
   content: React.ReactNode;
 };
 
+function MealSettingsDetailPhone() {
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="bg-rose-600 px-2 py-1.5 flex items-center justify-between">
+        <span className="text-white text-[7px]">←</span>
+        <span className="text-white text-[7px] font-bold">Meal Settings</span>
+        <span className="text-white text-[7px] font-bold">Save</span>
+      </div>
+      {/* Content */}
+      <div className="flex-1 overflow-hidden px-1.5 py-1 space-y-1.5">
+
+        {/* Block 1: Dietary Profile */}
+        <div className="bg-rose-50 border border-rose-100 rounded-lg p-1.5">
+          <p className="text-[5.5px] font-bold text-rose-700 uppercase tracking-wide mb-1">Dietary Profile</p>
+          {/* Diet type */}
+          <p className="text-[5px] font-semibold text-gray-500 mb-0.5">Diet Type</p>
+          <div className="flex flex-wrap gap-0.5 mb-1">
+            {['Omnivore','Vegetarian','Pescatarian','Vegan'].map((d,i) => (
+              <span key={d} className={`text-[4px] rounded-full px-1 py-0.5 border ${i===0?'bg-orange-400 text-white border-orange-400':'bg-white text-gray-500 border-gray-200'}`}>{d}</span>
+            ))}
+          </div>
+          {/* Allergies */}
+          <p className="text-[5px] font-semibold text-gray-500 mb-0.5">Allergies</p>
+          <div className="flex flex-wrap gap-0.5 mb-1">
+            {[{l:'🥜 Nuts',on:true},{l:'🌾 Gluten',on:true},{l:'🫘 Soy',on:false}].map(a => (
+              <span key={a.l} className={`text-[4px] rounded-full px-1 py-0.5 border ${a.on?'bg-red-100 text-red-700 border-red-200':'bg-white text-gray-400 border-gray-200'}`}>{a.l}</span>
+            ))}
+          </div>
+          {/* Intolerance */}
+          <p className="text-[5px] font-semibold text-gray-500 mb-0.5">Intolerance</p>
+          <div className="flex flex-wrap gap-0.5 mb-1">
+            {[{l:'🥛 Lactose',on:true},{l:'FODMAP',on:false}].map(a => (
+              <span key={a.l} className={`text-[4px] rounded-full px-1 py-0.5 border ${a.on?'bg-yellow-100 text-yellow-700 border-yellow-200':'bg-white text-gray-400 border-gray-200'}`}>{a.l}</span>
+            ))}
+          </div>
+          {/* Dislikes */}
+          <p className="text-[5px] font-semibold text-gray-500 mb-0.5">Dislikes</p>
+          <div className="flex items-center gap-1">
+            <div className="flex-1 bg-white border border-gray-200 rounded-full px-1 py-0.5 flex items-center gap-0.5">
+              <span className="text-[4px] text-gray-400">🔍 Search…</span>
+            </div>
+            <div className="w-3.5 h-3.5 bg-rose-500 rounded-full flex items-center justify-center shrink-0">
+              <span className="text-white text-[8px] leading-none">+</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Block 2: Weekday Schedule */}
+        <div className="bg-blue-50 border border-blue-100 rounded-lg p-1.5">
+          <p className="text-[5.5px] font-bold text-blue-700 uppercase tracking-wide mb-1">Weekdays Mon–Fri</p>
+          <p className="text-[4px] text-blue-500 mb-0.5">Select at least one</p>
+          <div className="flex flex-wrap gap-0.5">
+            {[{l:'Breakfast',on:true},{l:'Lunch',on:true},{l:'Dinner',on:true},{l:'Snack',on:false},{l:'Eve Snack',on:false}].map(m => (
+              <span key={m.l} className={`text-[4px] rounded-full px-1 py-0.5 border ${m.on?'bg-blue-500 text-white border-blue-500':'bg-white text-gray-400 border-gray-200'}`}>{m.l}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Block 3: Weekend Schedule */}
+        <div className="bg-purple-50 border border-purple-100 rounded-lg p-1.5">
+          <p className="text-[5.5px] font-bold text-purple-700 uppercase tracking-wide mb-1">Weekends Sat–Sun</p>
+          <p className="text-[4px] text-purple-400 mb-0.5">Select at least one</p>
+          <div className="flex flex-wrap gap-0.5">
+            {[{l:'Breakfast',on:true},{l:'Lunch',on:false},{l:'Dinner',on:true},{l:'Snack',on:true},{l:'Eve Snack',on:false}].map(m => (
+              <span key={m.l} className={`text-[4px] rounded-full px-1 py-0.5 border ${m.on?'bg-purple-500 text-white border-purple-500':'bg-white text-gray-400 border-gray-200'}`}>{m.l}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Block 4: Servings */}
+        <div className="bg-green-50 border border-green-100 rounded-lg p-1.5">
+          <p className="text-[5.5px] font-bold text-green-700 uppercase tracking-wide mb-1">No. of Servings</p>
+          <div className="flex items-center gap-1.5">
+            <div className="w-4 h-4 bg-white border border-gray-200 rounded flex items-center justify-center">
+              <span className="text-[9px] text-gray-500 leading-none">−</span>
+            </div>
+            <div className="flex-1 bg-white border border-green-200 rounded text-center py-0.5">
+              <span className="text-[8px] font-bold text-gray-800">4</span>
+            </div>
+            <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
+              <span className="text-[9px] text-white leading-none font-bold">+</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Block 5: Meal Plan Options */}
+        <div className="bg-amber-50 border border-amber-100 rounded-lg p-1.5">
+          <p className="text-[5.5px] font-bold text-amber-700 uppercase tracking-wide mb-1">Meal Plan Options</p>
+          <div className="flex items-center justify-between">
+            <span className="text-[5px] text-gray-700">🍰 Dessert Suggestions</span>
+            <div className="w-7 h-3.5 bg-orange-400 rounded-full flex items-center justify-end px-0.5">
+              <div className="w-2.5 h-2.5 bg-white rounded-full shadow" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 function MealSettingsPhone() {
   return (
     <div className="flex flex-col" style={{ minHeight: 200 }}>
@@ -861,6 +963,12 @@ function MealPlannerInteractivePhoneFlow() {
                 ))}
               </div>
             </div>
+          </PhoneShell>
+
+          <FlowArrow label="Tap Meal Planner" />
+
+          <PhoneShell label="Meal Settings" sublabel="Diet · Schedule · Servings" accent="border-rose-500">
+            <MealSettingsDetailPhone />
           </PhoneShell>
         </div>
       </div>
