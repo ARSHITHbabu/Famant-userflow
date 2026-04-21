@@ -948,111 +948,13 @@ function GroceryPhone() {
 }
 
 function MealPlannerInteractivePhoneFlow() {
-  const [activeId, setActiveId] = useState<string | null>(null);
-
-  const phoneScreens: PhoneScreen[] = [
-    {
-      id: 'settings',
-      label: 'Meal Settings',
-      sublabel: 'Configure first',
-      accent: 'border-rose-500',
-      arrowLabel: 'Set up',
-      content: <MealSettingsPhone />,
-    },
-    {
-      id: 'search',
-      label: 'Recipe Search',
-      sublabel: 'Find recipes',
-      accent: 'border-amber-500',
-      arrowLabel: 'Add recipe',
-      content: <RecipeSearchPhone />,
-    },
-    {
-      id: 'library',
-      label: 'Recipe Library',
-      sublabel: 'Your collection',
-      accent: 'border-green-600',
-      arrowLabel: 'Pick for slot',
-      content: <RecipeLibraryPhone />,
-    },
-    {
-      id: 'planner',
-      label: 'Meal Planner',
-      sublabel: 'Plan the week',
-      accent: 'border-indigo-500',
-      arrowLabel: 'Publish →\nGenerate',
-      content: <MealPlannerPhone />,
-    },
-    {
-      id: 'grocery',
-      label: 'Grocery List',
-      sublabel: 'Shop & check off',
-      accent: 'border-teal-500',
-      content: <GroceryPhone />,
-    },
-  ];
-
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
       <div className="flex items-center gap-2 mb-1">
         <Smartphone className="w-5 h-5 text-orange-500" />
         <h2 className="text-xl font-bold text-gray-900">Interactive Screen Flow — Phone Mockups</h2>
       </div>
-      <p className="text-sm text-gray-600 mb-6">
-        Tap any phone to highlight it. The flow reads left to right — each screen is reachable from the previous.
-      </p>
-
-      {/* Horizontal scroll flow */}
-      <div className="overflow-x-auto pb-4">
-        <div className="flex items-start gap-0 min-w-max">
-          {phoneScreens.map((ps, idx) => (
-            <div key={ps.id} className="flex items-start">
-              <motion.div
-                className="cursor-pointer"
-                onClick={() => setActiveId(activeId === ps.id ? null : ps.id)}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <PhoneShell
-                  label={ps.label}
-                  sublabel={ps.sublabel}
-                  accent={activeId === ps.id ? 'border-indigo-500' : ps.accent}
-                >
-                  {ps.content}
-                </PhoneShell>
-              </motion.div>
-              {idx < phoneScreens.length - 1 && (
-                <FlowArrow label={ps.arrowLabel} />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Detail on tap */}
-      <AnimatePresence>
-        {activeId && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden"
-          >
-            <div className="mt-4 bg-indigo-50 border border-indigo-200 rounded-xl p-4">
-              <p className="text-xs font-bold text-indigo-800 mb-1">
-                {phoneScreens.find(p => p.id === activeId)?.label}
-              </p>
-              <p className="text-xs text-indigo-700">
-                {activeId === 'settings' && 'Configure dietary profiles per member, family defaults, and store mappings before using the planner.'}
-                {activeId === 'search' && 'Search by dish name or ingredient — backend scraper queries recipe sites. Also supports Import from URL and Manual creation.'}
-                {activeId === 'library' && 'All saved recipes in one place. Kids can browse and view full recipe detail in read-only mode.'}
-                {activeId === 'planner' && 'Assign recipes to weekly slots. Allergy check fires on every assignment. Publish sends push notification to family. Kids see read-only view.'}
-                {activeId === 'grocery' && 'One-tap generation from the weekly plan. Merges duplicates, assigns stores, auto-creates a shopping task. Voice control available. Scan receipt or add expense manually to log grocery spend.'}
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <p className="text-sm text-gray-500 italic">Phone mockups removed.</p>
 
       {/* Kids access callout */}
       <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-start gap-3">
