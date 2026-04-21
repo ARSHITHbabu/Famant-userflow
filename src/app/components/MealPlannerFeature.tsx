@@ -73,7 +73,8 @@ function MealPlannerMainScreenMockup() {
       </p>
 
       {/* Navigation flow: More → Meal Planner Home */}
-      <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
+      <div className="overflow-x-auto pb-4">
+      <div className="flex items-start gap-2 mb-8 min-w-max justify-center">
         {/* More Screen phone */}
         <PhoneShell label="More Screen" sublabel="Tap Meal Planner" accent="border-orange-500">
           <div className="flex flex-col bg-white" style={{ minHeight: 200 }}>
@@ -186,6 +187,7 @@ function MealPlannerMainScreenMockup() {
             </div>
           </div>
         </PhoneShell>
+      </div>
       </div>
 
       {/* Zone annotations */}
