@@ -80,104 +80,138 @@ function MealPlannerMainScreenMockup() {
       </p>
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
-        {/* Phone mockup */}
+        {/* Phone mockup — Section 11 style */}
         <div className="flex flex-col items-center gap-2 shrink-0">
-          <div className="relative flex flex-col rounded-[2rem] border-[3px] border-indigo-600 shadow-2xl overflow-hidden w-56 bg-gray-800">
+          <div className="relative flex flex-col rounded-[2rem] border-[3px] border-teal-600 shadow-2xl overflow-hidden w-56 bg-gray-800">
             {/* Status bar */}
             <div className="bg-gray-800 flex justify-between items-center px-3 py-1">
               <span className="text-[7px] text-gray-400">11:19</span>
               <div className="w-8 h-2 bg-gray-600 rounded-full" />
               <span className="text-[7px] text-gray-400">26%</span>
             </div>
-            <div className="bg-gray-50 flex-1">
-              {/* App header */}
-              <div className="bg-white px-3 py-2 flex items-center justify-between border-b border-gray-100">
-                <span className="text-[10px]">🏠</span>
-                <span className="text-[10px] font-bold text-gray-900">Family meals</span>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] text-teal-500">🛒</span>
-                  <span className="text-[9px] text-gray-400">⋯</span>
-                </div>
-              </div>
-              {/* Week navigator */}
-              <div className="bg-white flex items-center justify-between px-3 py-1.5 border-b border-gray-100">
-                <span className="text-[9px] text-gray-400">‹</span>
-                <div className="text-center">
-                  <div className="flex items-center gap-1 justify-center">
-                    <span className="text-[9px] font-bold text-gray-900">This week</span>
-                    <span className="text-[7px] bg-indigo-100 text-indigo-600 font-bold px-1.5 py-0.5 rounded-full">Draft</span>
+            <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
+              {/* Header — teal, same structure as Section 11 orange header */}
+              <div className="bg-teal-600 px-2 pt-2 pb-1.5">
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-1">
+                    <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
+                    <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
+                    <span className="text-[5px] text-teal-200">▾</span>
                   </div>
-                  <span className="text-[7px] text-gray-400">4/20 - 4/26</span>
+                  <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                      <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
+                      <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                      <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
+                      <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
+                    </svg>
+                  </div>
                 </div>
-                <span className="text-[9px] text-gray-400">›</span>
-              </div>
-
-              {/* Day header */}
-              <div className="flex items-center justify-between px-3 py-1.5">
-                <div className="flex items-center gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-                  <span className="text-[9px] font-bold text-gray-900">Monday</span>
-                  <span className="text-[8px] text-gray-400">4/20</span>
+                {/* Member avatars */}
+                <div className="flex gap-1.5 items-center mb-1.5">
+                  {[
+                    { initial: 'M', color: 'bg-pink-400' },
+                    { initial: 'D', color: 'bg-orange-400' },
+                    { initial: 'J', color: 'bg-blue-400' },
+                    { initial: 'N', color: 'bg-emerald-400' },
+                  ].map(m => (
+                    <div key={m.initial} className={`w-5 h-5 rounded-full ${m.color} border-2 border-white flex items-center justify-center text-[5px] text-white font-bold`}>{m.initial}</div>
+                  ))}
                 </div>
-                <span className="text-[8px] text-gray-400">⋯</span>
-              </div>
-
-              {/* Meal cards */}
-              <div className="px-2 space-y-1.5 pb-1">
-                {meals.map((m, i) => (
-                  <div key={i} className={`bg-white rounded-xl px-2 py-1.5 flex items-start gap-2 ${m.active ? 'border-2 border-teal-400' : 'border border-gray-100'} shadow-sm`}>
-                    <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center text-[13px] shrink-0 mt-0.5">{m.emoji}</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1 mb-0.5">
-                        <span className="text-[7px] font-bold text-teal-600">{m.type}</span>
-                        <span className="text-[6px] text-teal-400">✦</span>
-                      </div>
-                      <p className="text-[8px] font-bold text-gray-900 leading-tight truncate">{m.name}</p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <span className="text-[6px] text-gray-400">⏱ {m.time}</span>
-                        <span className={`text-[6px] font-medium ${m.diffColor}`}>🍴 {m.diff}</span>
-                      </div>
-                      {m.note && <p className="text-[6px] text-teal-500 mt-0.5 italic">💡 {m.note}</p>}
+                {/* Week tabs */}
+                <div className="flex gap-0.5 overflow-hidden">
+                  {[
+                    { label: 'This week', active: true },
+                    { label: 'Next week', active: false },
+                    { label: 'Saved', active: false },
+                  ].map(t => (
+                    <div key={t.label} className={`flex items-center gap-0.5 text-[5px] px-1.5 py-0.5 rounded-full font-semibold whitespace-nowrap ${t.active ? 'bg-white text-teal-700' : 'bg-teal-500/60 text-white'}`}>
+                      {t.label}
                     </div>
-                    <span className="text-[8px] text-gray-300 shrink-0">⋮</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 bg-gray-50 px-1.5 py-1.5 space-y-2 overflow-hidden">
+                {/* Day cards */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">This Week · 7 days</span>
+                    <span className="text-[4.5px] text-teal-600 font-semibold">Draft</span>
                   </div>
-                ))}
-              </div>
-
-              {/* Next day preview */}
-              <div className="flex items-center justify-between px-3 py-1">
-                <span className="text-[9px] font-semibold text-gray-500">Tuesday 4/21</span>
-                <span className="text-[8px] text-gray-300">⋯</span>
-              </div>
-
-              {/* Publish button */}
-              <div className="px-2 pb-2">
-                <button className="w-full bg-indigo-500 text-white text-[8px] font-bold py-1.5 rounded-full flex items-center justify-center gap-1">
-                  <span>✓</span> Approve &amp; share with family
-                </button>
-              </div>
-
-              {/* Bottom nav */}
-              <div className="bg-white border-t border-gray-100 flex items-center justify-around py-1.5 px-1">
-                {[
-                  { icon: '🏠', label: 'Home', active: false },
-                  { icon: '📅', label: 'Calendar', active: false },
-                  { icon: '✓', label: 'Chores', active: false },
-                  { icon: '💬', label: 'Messages', active: false },
-                  { icon: '⋯', label: 'More', active: true },
-                ].map((n) => (
-                  <div key={n.label} className="flex flex-col items-center gap-0.5">
-                    <span className={`text-[9px] ${n.active ? 'text-teal-500' : ''}`}>{n.icon}</span>
-                    <span className={`text-[5px] ${n.active ? 'text-teal-500 font-bold' : 'text-gray-400'}`}>{n.label}</span>
+                  <div className="space-y-0.5">
+                    {[
+                      { day: 'Mon 4/20', meals: '🥞 Oats · 🥗 Salad · 🍝 Pasta', members: ['M','D'], color: 'bg-teal-50 border-teal-200' },
+                      { day: 'Tue 4/21', meals: '🥚 Eggs · 🥪 Wrap · 🍛 Curry',  members: ['M'],    color: 'bg-white border-gray-100' },
+                      { day: 'Wed 4/22', meals: '🥣 Oats · 🥗 Salad · 🐟 Salmon', members: ['D','N'], color: 'bg-white border-gray-100' },
+                    ].map((d, i) => (
+                      <div key={d.day} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${d.color}`}>
+                        <div className="w-5 h-5 rounded-lg bg-teal-100 flex items-center justify-center text-[9px] flex-shrink-0">📅</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1">
+                            <span className="text-[5.5px] font-bold text-gray-800">{d.day}</span>
+                            <span className="text-[4px] bg-gray-100 text-gray-500 rounded px-0.5">3</span>
+                          </div>
+                          <div className="text-[4px] text-gray-400 truncate">{d.meals}</div>
+                        </div>
+                        <div className="flex items-center gap-0 flex-shrink-0">
+                          {d.members.map((m, j) => (
+                            <div key={j} className={`w-2.5 h-2.5 rounded-full ${['bg-pink-400','bg-orange-400','bg-blue-400'][j % 3]} border border-white flex items-center justify-center text-[3px] text-white font-bold -ml-0.5`}>{m}</div>
+                          ))}
+                          <span className="text-[5px] text-gray-400 ml-0.5">›</span>
+                        </div>
+                      </div>
+                    ))}
+                    {/* Inline quick-add */}
+                    <div className="bg-white rounded-lg border border-dashed border-gray-300 px-1.5 py-1 flex items-center gap-1">
+                      <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center text-[9px] flex-shrink-0">➕</div>
+                      <span className="text-[5px] text-gray-400 flex-1">Plan a day…</span>
+                    </div>
                   </div>
-                ))}
+                </div>
+
+                {/* Quick templates */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
+                    <span className="text-[4.5px] text-teal-600 font-semibold">All templates ›</span>
+                  </div>
+                  <div className="flex gap-1 overflow-hidden pb-0.5">
+                    {[
+                      { icon: '🥗', label: 'Healthy', color: 'bg-green-50 border-green-200 text-green-700' },
+                      { icon: '⚡', label: 'Quick',   color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+                      { icon: '👨‍👩‍👧', label: 'Family', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+                      { icon: '🌱', label: 'Veggie',  color: 'bg-emerald-50 border-emerald-200 text-emerald-700' },
+                    ].map(t => (
+                      <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
+                        <span className="text-[9px] leading-none">{t.icon}</span>
+                        <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
+                      </div>
+                    ))}
+                    <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-teal-300 rounded-lg px-1.5 py-1 text-center bg-teal-50">
+                      <span className="text-[9px] leading-none text-teal-400">＋</span>
+                      <span className="text-[4px] text-teal-500 font-semibold leading-tight max-w-[32px]">New</span>
+                    </div>
+                  </div>
+                  <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled week instantly</div>
+                </div>
+              </div>
+
+              {/* Bottom bar */}
+              <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
+                <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
+                  <span className="text-[5px]">✓</span>
+                  <span className="text-[4.5px] text-gray-600 font-semibold">Approve &amp; Share</span>
+                </div>
+                <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
               </div>
             </div>
             <div className="bg-gray-800 flex justify-center py-1.5">
               <div className="w-14 h-1 bg-gray-500 rounded-full" />
             </div>
           </div>
-          <p className="text-xs font-bold text-indigo-700 text-center">Family meals — Day view</p>
+          <p className="text-xs font-bold text-teal-700 text-center">Family meals — Week view</p>
         </div>
 
         {/* Zone annotations */}
