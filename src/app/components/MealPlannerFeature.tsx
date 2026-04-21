@@ -62,13 +62,6 @@ function FlowArrow({ label }: { label?: string }) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function MealPlannerMainScreenMockup() {
-  const meals = [
-    { type: 'Breakfast', emoji: '🥞', name: 'Overnight oats with rhubarb c...', time: '45 min', diff: 'Easy', diffColor: 'text-gray-500', note: 'Peppe: use lactose-free milk.', active: false },
-    { type: 'Lunch', emoji: '🥪', name: 'Leftover cod and vegetable w...', time: '30 min', diff: 'Easy', diffColor: 'text-gray-500', note: null, active: true },
-    { type: 'Dinner', emoji: '🍝', name: 'Cod fillets with spring vegeta...', time: '60 min', diff: 'Medium', diffColor: 'text-orange-500', note: null, active: false },
-    { type: 'Snack', emoji: '🍎', name: 'Apple slices with sunflower se...', time: '10 min', diff: 'Easy', diffColor: 'text-gray-500', note: null, active: false },
-  ];
-
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
       <div className="flex items-center gap-2 mb-1">
@@ -76,146 +69,127 @@ function MealPlannerMainScreenMockup() {
         <h2 className="text-xl font-bold text-gray-900">Meal Planner — Main Screen</h2>
       </div>
       <p className="text-sm text-gray-600 mb-6">
-        Annotated phone mockup showing the vertical day-by-day list layout.
+        Flow starts from the More screen — user taps Meal Planner to enter the feature.
       </p>
 
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
-        {/* Phone mockup — Section 11 style */}
-        <div className="flex flex-col items-center gap-2 shrink-0">
-          <div className="relative flex flex-col rounded-[2rem] border-[3px] border-teal-600 shadow-2xl overflow-hidden w-56 bg-gray-800">
-            {/* Status bar */}
-            <div className="bg-gray-800 flex justify-between items-center px-3 py-1">
-              <span className="text-[7px] text-gray-400">11:19</span>
-              <div className="w-8 h-2 bg-gray-600 rounded-full" />
-              <span className="text-[7px] text-gray-400">26%</span>
-            </div>
-            <div className="flex flex-col bg-white" style={{ minHeight: 400 }}>
-              {/* Header — teal, same structure as Section 11 orange header */}
-              <div className="bg-teal-600 px-2 pt-2 pb-1.5">
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-1">
-                    <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[5px]">🏠</div>
-                    <span className="text-[6.5px] font-bold text-white">Thaikaattu Family</span>
-                    <span className="text-[5px] text-teal-200">▾</span>
-                  </div>
-                  <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                      <circle cx="8" cy="7" r="3" stroke="white" strokeWidth="2.2"/>
-                      <path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-                      <circle cx="17" cy="7" r="3" stroke="white" strokeWidth="2.2" strokeOpacity="0.5"/>
-                      <path d="M14 19c0-2.2 1.3-4 3-4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.5"/>
-                    </svg>
-                  </div>
-                </div>
-                {/* Member avatars */}
-                <div className="flex gap-1.5 items-center mb-1.5">
-                  {[
-                    { initial: 'M', color: 'bg-pink-400' },
-                    { initial: 'D', color: 'bg-orange-400' },
-                    { initial: 'J', color: 'bg-blue-400' },
-                    { initial: 'N', color: 'bg-emerald-400' },
-                  ].map(m => (
-                    <div key={m.initial} className={`w-5 h-5 rounded-full ${m.color} border-2 border-white flex items-center justify-center text-[5px] text-white font-bold`}>{m.initial}</div>
-                  ))}
-                </div>
-                {/* Week tabs */}
-                <div className="flex gap-0.5 overflow-hidden">
-                  {[
-                    { label: 'This week', active: true },
-                    { label: 'Next week', active: false },
-                    { label: 'Saved', active: false },
-                  ].map(t => (
-                    <div key={t.label} className={`flex items-center gap-0.5 text-[5px] px-1.5 py-0.5 rounded-full font-semibold whitespace-nowrap ${t.active ? 'bg-white text-teal-700' : 'bg-teal-500/60 text-white'}`}>
-                      {t.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Body */}
-              <div className="flex-1 bg-gray-50 px-1.5 py-1.5 space-y-2 overflow-hidden">
-                {/* Day cards */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">This Week · 7 days</span>
-                    <span className="text-[4.5px] text-teal-600 font-semibold">Draft</span>
-                  </div>
-                  <div className="space-y-0.5">
-                    {[
-                      { day: 'Mon 4/20', meals: '🥞 Oats · 🥗 Salad · 🍝 Pasta', members: ['M','D'], color: 'bg-teal-50 border-teal-200' },
-                      { day: 'Tue 4/21', meals: '🥚 Eggs · 🥪 Wrap · 🍛 Curry',  members: ['M'],    color: 'bg-white border-gray-100' },
-                      { day: 'Wed 4/22', meals: '🥣 Oats · 🥗 Salad · 🐟 Salmon', members: ['D','N'], color: 'bg-white border-gray-100' },
-                    ].map((d, i) => (
-                      <div key={d.day} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${d.color}`}>
-                        <div className="w-5 h-5 rounded-lg bg-teal-100 flex items-center justify-center text-[9px] flex-shrink-0">📅</div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1">
-                            <span className="text-[5.5px] font-bold text-gray-800">{d.day}</span>
-                            <span className="text-[4px] bg-gray-100 text-gray-500 rounded px-0.5">3</span>
-                          </div>
-                          <div className="text-[4px] text-gray-400 truncate">{d.meals}</div>
-                        </div>
-                        <div className="flex items-center gap-0 flex-shrink-0">
-                          {d.members.map((m, j) => (
-                            <div key={j} className={`w-2.5 h-2.5 rounded-full ${['bg-pink-400','bg-orange-400','bg-blue-400'][j % 3]} border border-white flex items-center justify-center text-[3px] text-white font-bold -ml-0.5`}>{m}</div>
-                          ))}
-                          <span className="text-[5px] text-gray-400 ml-0.5">›</span>
-                        </div>
-                      </div>
-                    ))}
-                    {/* Inline quick-add */}
-                    <div className="bg-white rounded-lg border border-dashed border-gray-300 px-1.5 py-1 flex items-center gap-1">
-                      <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center text-[9px] flex-shrink-0">➕</div>
-                      <span className="text-[5px] text-gray-400 flex-1">Plan a day…</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick templates */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Quick Templates</span>
-                    <span className="text-[4.5px] text-teal-600 font-semibold">All templates ›</span>
-                  </div>
-                  <div className="flex gap-1 overflow-hidden pb-0.5">
-                    {[
-                      { icon: '🥗', label: 'Healthy', color: 'bg-green-50 border-green-200 text-green-700' },
-                      { icon: '⚡', label: 'Quick',   color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
-                      { icon: '👨‍👩‍👧', label: 'Family', color: 'bg-blue-50 border-blue-200 text-blue-700' },
-                      { icon: '🌱', label: 'Veggie',  color: 'bg-emerald-50 border-emerald-200 text-emerald-700' },
-                    ].map(t => (
-                      <div key={t.label} className={`flex-shrink-0 flex flex-col items-center gap-0.5 border rounded-lg px-1.5 py-1 text-center ${t.color}`}>
-                        <span className="text-[9px] leading-none">{t.icon}</span>
-                        <span className="text-[4px] font-semibold leading-tight max-w-[28px]">{t.label}</span>
-                      </div>
-                    ))}
-                    <div className="flex-shrink-0 flex flex-col items-center gap-0.5 border border-dashed border-teal-300 rounded-lg px-1.5 py-1 text-center bg-teal-50">
-                      <span className="text-[9px] leading-none text-teal-400">＋</span>
-                      <span className="text-[4px] text-teal-500 font-semibold leading-tight max-w-[32px]">New</span>
-                    </div>
-                  </div>
-                  <div className="text-[4px] text-gray-400 mt-0.5">Tap any template → pre-filled week instantly</div>
-                </div>
-              </div>
-
-              {/* Bottom bar */}
-              <div className="bg-white border-t border-gray-100 px-2 py-1 flex items-center justify-between">
-                <div className="flex items-center gap-0.5 bg-gray-100 rounded-full px-1.5 py-0.5">
-                  <span className="text-[5px]">✓</span>
-                  <span className="text-[4.5px] text-gray-600 font-semibold">Approve &amp; Share</span>
-                </div>
-                <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center text-white text-[11px] font-bold shadow-md">+</div>
+      {/* Navigation flow: More → Meal Planner Home */}
+      <div className="flex flex-wrap justify-center items-start gap-2 mb-8">
+        {/* More Screen phone */}
+        <PhoneShell label="More Screen" sublabel="Tap Meal Planner" accent="border-orange-500">
+          <div className="flex flex-col bg-white" style={{ minHeight: 200 }}>
+            <div className="bg-white px-2 pt-1.5 pb-1 border-b border-gray-100">
+              <div className="flex items-center gap-1">
+                <div className="w-3.5 h-3.5 rounded-full bg-indigo-100 flex items-center justify-center text-[5px]">🏠</div>
+                <span className="text-[6px] font-bold text-gray-800">Thaikaattu Family</span>
+                <span className="text-[5px] text-gray-400">▾</span>
               </div>
             </div>
-            <div className="bg-gray-800 flex justify-center py-1.5">
-              <div className="w-14 h-1 bg-gray-500 rounded-full" />
+            <div className="flex-1 bg-white px-1.5 py-1.5">
+              <div className="text-[4.5px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Categories</div>
+              <div className="grid grid-cols-2 gap-1">
+                {[
+                  { icon: '☑️', label: 'Tasks',        color: 'bg-indigo-50 border-indigo-100' },
+                  { icon: '📝', label: 'List',         color: 'bg-blue-50 border-blue-100' },
+                  { icon: '📅', label: 'Reminder',     color: 'bg-purple-50 border-purple-100' },
+                  { icon: '🗂️', label: 'Documents',    color: 'bg-yellow-50 border-yellow-100' },
+                  { icon: '💰', label: 'Budgeting',    color: 'bg-green-50 border-green-100' },
+                  { icon: '🍽️', label: 'Meal Planner', color: 'bg-orange-100 border-orange-400 ring-2 ring-orange-400' },
+                ].map(t => (
+                  <div key={t.label} className={`border rounded-xl p-2 flex flex-col items-start gap-1 shadow-sm ${t.color}`}>
+                    <span className="text-[11px] leading-none">{t.icon}</span>
+                    <span className="text-[5.5px] font-bold text-gray-800">{t.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Bottom nav */}
+            <div className="bg-white border-t border-gray-100 flex items-center justify-around py-1 px-1">
+              {[{ icon: '🏠', active: false }, { icon: '⊞', active: true }, { icon: '🤖', active: false }, { icon: '🔔', active: false }, { icon: '👤', active: false }].map((n, i) => (
+                <span key={i} className={`text-[8px] ${n.active ? 'text-orange-500' : 'text-gray-400'}`}>{n.icon}</span>
+              ))}
             </div>
           </div>
-          <p className="text-xs font-bold text-teal-700 text-center">Family meals — Week view</p>
+        </PhoneShell>
+
+        {/* Arrow */}
+        <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+          <span className="text-[9px] font-bold bg-orange-50 border border-orange-300 text-orange-700 px-2 py-0.5 rounded-full">Tap Meal Planner</span>
+          <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
         </div>
 
-        {/* Zone annotations */}
-        <div className="flex-1 space-y-3">
+        {/* Meal Planner Home phone */}
+        <PhoneShell label="Meal Planner Home" sublabel="Week view · Draft · Templates" accent="border-teal-500">
+          <div className="flex flex-col bg-white" style={{ minHeight: 200 }}>
+            {/* Header */}
+            <div className="bg-teal-600 px-2 pt-1.5 pb-1">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center text-[4px]">🏠</div>
+                  <span className="text-[5.5px] font-bold text-white">Thaikaattu Family</span>
+                  <span className="text-[4px] text-teal-200">▾</span>
+                </div>
+                <div className="w-4 h-4 rounded-md bg-white/20 flex items-center justify-center text-[6px] text-white">👥</div>
+              </div>
+              <div className="flex gap-0.5 items-center mb-1">
+                {[{ i:'M',c:'bg-pink-400'},{i:'D',c:'bg-orange-400'},{i:'J',c:'bg-blue-400'},{i:'N',c:'bg-emerald-400'}].map(m=>(
+                  <div key={m.i} className={`w-4 h-4 rounded-full ${m.c} border border-white flex items-center justify-center text-[4px] text-white font-bold`}>{m.i}</div>
+                ))}
+              </div>
+              <div className="flex gap-0.5">
+                {[{l:'This week',a:true},{l:'Next week',a:false},{l:'Saved',a:false}].map(t=>(
+                  <div key={t.l} className={`text-[4px] px-1 py-0.5 rounded-full font-semibold whitespace-nowrap ${t.a?'bg-white text-teal-700':'bg-teal-500/60 text-white'}`}>{t.l}</div>
+                ))}
+              </div>
+            </div>
+            {/* Body */}
+            <div className="flex-1 bg-gray-50 px-1 py-1 space-y-1 overflow-hidden">
+              <div className="flex items-center justify-between">
+                <span className="text-[4.5px] font-bold text-gray-500 uppercase">This Week · 7 days</span>
+                <span className="text-[4px] text-teal-600 font-semibold">Draft</span>
+              </div>
+              {[
+                { day:'Mon 4/20', meals:'🥞·🥗·🍝', members:['M','D'], active:true },
+                { day:'Tue 4/21', meals:'🥚·🥪·🍛',  members:['M'],    active:false },
+                { day:'Wed 4/22', meals:'🥣·🥗·🐟', members:['D','N'], active:false },
+              ].map(d=>(
+                <div key={d.day} className={`bg-white rounded border px-1 py-0.5 flex items-center gap-1 ${d.active?'border-teal-300':'border-gray-100'}`}>
+                  <span className="text-[7px]">📅</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[4.5px] font-bold text-gray-800">{d.day}</span>
+                    <div className="text-[4px] text-gray-400">{d.meals}</div>
+                  </div>
+                  <div className="flex">
+                    {d.members.map((m,j)=>(
+                      <div key={j} className={`w-2 h-2 rounded-full ${['bg-pink-400','bg-orange-400'][j%2]} border border-white -ml-0.5 flex items-center justify-center text-[3px] text-white font-bold`}>{m}</div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div className="bg-white rounded border border-dashed border-gray-300 px-1 py-0.5 flex items-center gap-1">
+                <span className="text-[7px]">➕</span>
+                <span className="text-[4px] text-gray-400">Plan a day…</span>
+              </div>
+              <div className="text-[4px] font-bold text-gray-400 uppercase mt-0.5">Quick Templates</div>
+              <div className="flex gap-0.5">
+                {[{e:'🥗',l:'Healthy'},{e:'⚡',l:'Quick'},{e:'👨‍👩‍👧',l:'Family'},{e:'🌱',l:'Veggie'}].map(t=>(
+                  <div key={t.l} className="flex flex-col items-center border rounded px-0.5 py-0.5 bg-white">
+                    <span className="text-[7px]">{t.e}</span>
+                    <span className="text-[3.5px] text-gray-600">{t.l}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Bottom bar */}
+            <div className="bg-white border-t border-gray-100 px-1.5 py-0.5 flex items-center justify-between">
+              <span className="text-[4px] text-gray-500 bg-gray-100 rounded-full px-1 py-0.5">✓ Approve &amp; Share</span>
+              <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center text-white text-[9px] font-bold">+</div>
+            </div>
+          </div>
+        </PhoneShell>
+      </div>
+
+      {/* Zone annotations */}
+      <div className="mt-8 space-y-3">
           <p className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Screen Zones Annotated</p>
           {[
             { zone: 'Zone 1 — Header', color: 'border-teal-400 bg-teal-50', desc: 'Family name + dropdown · Members icon (top right)' },
