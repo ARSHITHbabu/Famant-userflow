@@ -1097,6 +1097,7 @@ function F2S3_AddDinnerSheet() {
         <div className="pt-0.5 space-y-1">
           {[
             { icon: '🔗', bg: 'bg-blue-50',   label: 'Import by URL or Search', sub: 'Paste a URL or search from Google' },
+            { icon: '📖', bg: 'bg-green-50',  label: 'Recipe Library',          sub: 'Pick from your saved recipes' },
             { icon: '✏️', bg: 'bg-indigo-50', label: 'Custom Manually',         sub: 'Type the meal name and details' },
           ].map(o => (
             <div key={o.label} className="flex items-center gap-1.5">
