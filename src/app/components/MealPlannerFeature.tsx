@@ -616,7 +616,9 @@ function MealSettingsDetailPhone() {
       <div className="bg-rose-600 px-2 py-1.5 flex items-center justify-between">
         <span className="text-white text-[7px]">←</span>
         <span className="text-white text-[7px] font-bold">Meal Settings</span>
-        <span className="text-white text-[7px] font-bold">Save</span>
+        <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
+              <span className="text-rose-600 text-[8px] font-black leading-none">✓</span>
+            </div>
       </div>
       {/* Content */}
       <div className="flex-1 overflow-hidden px-1.5 py-1 space-y-1.5">
@@ -902,6 +904,67 @@ function GroceryPhone() {
   );
 }
 
+function WeeklyPlannerPhone() {
+  const days = [
+    { day: 'Wednesday', date: '4/22', today: true },
+    { day: 'Thursday',  date: '4/23', today: false },
+    { day: 'Friday',    date: '4/24', today: false },
+  ];
+  const slots = [
+    { emoji: '🌙', label: 'Evening snack' },
+    { emoji: '🍎', label: 'Snack' },
+    { emoji: '🥞', label: 'Breakfast' },
+  ];
+  return (
+    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+      {/* App header */}
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      {/* Week navigator */}
+      <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-semibold text-gray-700">This week</span>
+            <span className="text-[4.5px] bg-blue-100 text-blue-600 font-bold rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[4.5px] text-gray-400">4/20 - 4/26</span>
+        </div>
+        <span className="text-[8px] text-gray-500">›</span>
+      </div>
+      {/* Days */}
+      <div className="flex-1 px-1.5 py-1 space-y-1.5 overflow-hidden">
+        {days.map(d => (
+          <div key={d.day}>
+            <div className="flex items-center justify-between mb-0.5">
+              <div className="flex items-center gap-1">
+                <div className={`w-1.5 h-1.5 rounded-full ${d.today ? 'bg-teal-400' : 'bg-gray-300'}`} />
+                <span className="text-[5.5px] font-bold text-gray-800">{d.day}</span>
+                <span className="text-[5px] text-gray-400">{d.date}</span>
+              </div>
+              <span className="text-[7px] text-gray-400">···</span>
+            </div>
+            <div className="space-y-0.5">
+              {slots.map(s => (
+                <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+                  <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                    <span className="text-[5px] text-gray-400">+</span>
+                  </div>
+                  <span className="text-[8px] leading-none">{s.emoji}</span>
+                  <span className="text-[5.5px] text-gray-400">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function MealPlannerInteractivePhoneFlow() {
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
@@ -969,6 +1032,12 @@ function MealPlannerInteractivePhoneFlow() {
 
           <PhoneShell label="Meal Settings" sublabel="Diet · Schedule · Servings" accent="border-rose-500">
             <MealSettingsDetailPhone />
+          </PhoneShell>
+
+          <FlowArrow label="Tap ✓ Save" />
+
+          <PhoneShell label="Weekly Planner" sublabel="Add meals to slots" accent="border-teal-500">
+            <WeeklyPlannerPhone />
           </PhoneShell>
         </div>
       </div>
