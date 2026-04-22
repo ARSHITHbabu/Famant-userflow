@@ -1456,6 +1456,11 @@ function F3S4_CustomRecipeForm() {
         <div className="bg-white rounded-lg px-2 py-1.5">
           <span className="text-[5.5px] font-semibold text-gray-800">Apple peanut snack</span>
         </div>
+        {/* Allergy micro badge */}
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="text-[4.5px] bg-red-100 text-red-600 border border-red-200 rounded-full px-1.5 py-0.5 font-semibold">⚠️ Nuts — Bob</span>
+          <span className="text-[4px] text-gray-400">allergy detected</span>
+        </div>
         <div className="flex gap-1">
           <div className="flex-1 bg-white rounded-lg px-1.5 py-1.5 flex items-center gap-0.5">
             <span className="text-[7px]">🌐</span>
@@ -1670,7 +1675,7 @@ function MealPlannerInteractivePhoneFlow() {
     {
       label: 'Flow 3',
       title: 'Flow 3 — Adding a Snack via Custom Recipe',
-      subtitle: 'Tap + on Snack slot → Custom Manually → fill recipe form → tap Save → allergy alert (Bob allergic to peanuts) → Add Anyway → snack slot fills in.',
+      subtitle: 'Tap + on Snack slot → Custom Manually → fill recipe form (⚠️ Nuts — Bob badge shown inline) → tap Save → snack slot fills in.',
     },
   ];
 
@@ -1751,11 +1756,7 @@ function MealPlannerInteractivePhoneFlow() {
               <F3S4_CustomRecipeForm />
             </PhoneShell>
             <FlowArrow label="Tap Save" />
-            <PhoneShell label="Screen 4" sublabel="Allergy alert" accent="border-red-500">
-              <F3S_AllergyAlert />
-            </PhoneShell>
-            <FlowArrow label="Add Anyway" />
-            <PhoneShell label="Screen 5" sublabel="Snack slot filled" accent="border-green-500">
+            <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
               <F3S5_PlannerWithSnack />
             </PhoneShell>
           </>}
