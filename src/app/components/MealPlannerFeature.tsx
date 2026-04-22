@@ -1895,6 +1895,64 @@ function F5S3_RecipeLibraryFABMenu() {
   );
 }
 
+function F5S5_RecipeLibraryWithToast() {
+  const recipes = [
+    { emoji: '🥗', name: 'Fruit Salad',             time: '5 min',  diff: 'Easy',   isNew: false },
+    { emoji: '🫙', name: 'Yogurt Parfait',           time: '10 min', diff: 'Easy',   isNew: false },
+    { emoji: '🍎', name: 'Apple peanut snack',       time: '5 min',  diff: 'Easy',   isNew: true  },
+    { emoji: '🥜', name: 'Trail Mix',                time: '5 min',  diff: 'Easy',   isNew: false },
+    { emoji: '🍌', name: 'Banana Smoothie',          time: '8 min',  diff: 'Easy',   isNew: false },
+  ];
+  return (
+    <div className="flex flex-col bg-white relative" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="bg-white px-2 py-1.5 flex items-center justify-between border-b border-gray-100">
+        <span className="text-[8px] text-gray-600">←</span>
+        <span className="text-[6.5px] font-bold text-gray-900">Recipe Library</span>
+        <span className="text-[9px] text-gray-500">🔍</span>
+      </div>
+      {/* Filter chips */}
+      <div className="flex gap-0.5 px-2 py-1 border-b border-gray-100">
+        {['All','Favorites','Family fav','Quick'].map((t,i) => (
+          <span key={t} className={`text-[4px] rounded-full px-1.5 py-0.5 whitespace-nowrap border ${i===0?'bg-teal-500 text-white border-teal-500':'bg-white text-gray-500 border-gray-200'}`}>{t}</span>
+        ))}
+      </div>
+      {/* Recipe list */}
+      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden">
+        {recipes.map(r => (
+          <div key={r.name} className={`flex items-center gap-1.5 rounded-xl px-1.5 py-1 border ${r.isNew ? 'border-teal-200 bg-teal-50' : 'border-gray-100 bg-white'}`}>
+            <div className={`w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${r.isNew ? 'bg-teal-100' : 'bg-gray-50'}`}>
+              <span className="text-[10px] leading-none">{r.emoji}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-0.5">
+                <p className="text-[5.5px] font-semibold text-gray-800 truncate">{r.name}</p>
+                {r.isNew && <span className="text-[3.5px] bg-teal-500 text-white rounded-full px-0.5 shrink-0">NEW</span>}
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-[4px] text-gray-400">⏱ {r.time}</span>
+                <span className="text-[4px] text-teal-500">{r.diff}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-[8px] text-gray-300">♡</span>
+              <span className="text-[8px] text-teal-400">⊕</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Toast notification */}
+      <div className="absolute bottom-2 left-2 right-2 bg-gray-900 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5 shadow-lg">
+        <span className="text-[10px]">✅</span>
+        <div>
+          <p className="text-[5.5px] font-semibold text-white">"Apple peanut snack" added</p>
+          <p className="text-[4px] text-gray-400">New recipe saved to your library</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 
 function MealPlannerInteractivePhoneFlow() {
@@ -1924,7 +1982,7 @@ function MealPlannerInteractivePhoneFlow() {
     {
       label: 'Flow 5',
       title: 'Flow 5 — Adding More Recipes via FAB in Recipe Library',
-      subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Create manually or Import from URL/Search → snack slot fills in.',
+      subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Create manually → fill recipe form → Save → library shows new recipe with toast confirmation.',
     },
   ];
 
@@ -2042,9 +2100,13 @@ function MealPlannerInteractivePhoneFlow() {
             <PhoneShell label="Screen 3" sublabel="Tap + FAB" accent="border-teal-600">
               <F5S3_RecipeLibraryFABMenu />
             </PhoneShell>
-            <FlowArrow label="Select option" />
-            <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
-              <F4S4_PlannerWithLibrarySnack />
+            <FlowArrow label="Create manually" />
+            <PhoneShell label="Screen 4" sublabel="New recipe form" accent="border-amber-500">
+              <F3S4_CustomRecipeForm />
+            </PhoneShell>
+            <FlowArrow label="Tap Save" />
+            <PhoneShell label="Screen 5" sublabel="Recipe added to library" accent="border-green-500">
+              <F5S5_RecipeLibraryWithToast />
             </PhoneShell>
           </>}
 
