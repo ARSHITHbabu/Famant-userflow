@@ -1021,6 +1021,7 @@ function F2S1_PlannerEmpty() {
           </div>
         ))}
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -1113,7 +1114,6 @@ function F2S3_AddDinnerSheet() {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -1188,6 +1188,7 @@ function F2S4_PlannerFilled() {
           ))}
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -1279,7 +1280,6 @@ function F2S6_RecipeForm() {
           <span className="text-[7px] text-gray-300">★★★★★</span>
         </div>
       </div>
-      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
