@@ -966,20 +966,47 @@ function WeeklyPlannerPhone() {
 }
 
 function MealPlannerInteractivePhoneFlow() {
+  const [activeFlow, setActiveFlow] = useState(0);
+
+  const flows = [
+    {
+      label: 'Flow 1',
+      title: 'Flow 1 — More Screen → Meal Settings → Weekly Planner',
+      subtitle: 'Tap Meal Planner tile → configure dietary profile, schedules & servings → tap ✓ to save → view weekly planner.',
+    },
+  ];
+
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-      <div className="flex items-center gap-2 mb-1">
-        <Smartphone className="w-5 h-5 text-orange-500" />
-        <h2 className="text-xl font-bold text-gray-900">Interactive Screen Flow — Phone Mockups</h2>
-      </div>
-      <p className="text-sm text-gray-600 mb-6">
-        Flow starts from the More screen — tap Meal Planner to enter the feature.
-      </p>
-
-      {/* Flow 1 heading */}
+      {/* Section header */}
       <div className="flex items-center gap-2 mb-4">
-        <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Flow 1</span>
-        <span className="text-sm font-semibold text-gray-700">More Screen → Meal Settings → Weekly Planner</span>
+        <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shrink-0" />
+        <h2 className="text-sm font-extrabold text-gray-900 uppercase tracking-widest">
+          {flows.length} Interactive Screen Flow{flows.length !== 1 ? 's' : ''}
+        </h2>
+      </div>
+
+      {/* Flow tabs */}
+      <div className="flex items-center gap-2 mb-4">
+        {flows.map((f, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveFlow(i)}
+            className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
+              activeFlow === i
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-600 border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Active flow description card */}
+      <div className="bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3 mb-6">
+        <p className="text-sm font-bold text-gray-900">{flows[activeFlow].title}</p>
+        <p className="text-xs text-gray-500 mt-0.5">{flows[activeFlow].subtitle}</p>
       </div>
 
       <div className="overflow-x-auto pb-4">
