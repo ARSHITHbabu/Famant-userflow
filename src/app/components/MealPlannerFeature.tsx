@@ -916,7 +916,7 @@ function WeeklyPlannerPhone() {
     { emoji: '🥞', label: 'Breakfast' },
   ];
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       {/* App header */}
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
@@ -961,6 +961,7 @@ function WeeklyPlannerPhone() {
           </div>
         ))}
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -978,7 +979,7 @@ function F2S1_PlannerEmpty() {
     { emoji: '🥞', label: 'Breakfast' },
   ];
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
         <span className="text-[7px] font-bold text-gray-800">Family meals</span>
@@ -1112,13 +1113,14 @@ function F2S3_AddDinnerSheet() {
           ))}
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
 
 function F2S4_PlannerFilled() {
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
         <span className="text-[7px] font-bold text-gray-800">Family meals</span>
@@ -1277,6 +1279,7 @@ function F2S6_RecipeForm() {
           <span className="text-[7px] text-gray-300">★★★★★</span>
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -1285,7 +1288,7 @@ function F2S6_RecipeForm() {
 
 function F3S1_PlannerSnackTap() {
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
         <span className="text-[7px] font-bold text-gray-800">Family meals</span>
@@ -1578,13 +1581,14 @@ function F3S_AllergyAlert() {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
 
 function F3S5_PlannerWithSnack() {
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
         <span className="text-[7px] font-bold text-gray-800">Family meals</span>
@@ -1750,13 +1754,14 @@ function F4S3_RecipeLibraryPicker() {
           <span className="text-white text-[12px] font-bold leading-none">+</span>
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
 
 function F4S4_PlannerWithLibrarySnack() {
   return (
-    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
       <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
         <span className="text-[9px]">🏠</span>
         <span className="text-[7px] font-bold text-gray-800">Family meals</span>
@@ -1891,6 +1896,7 @@ function F5S3_RecipeLibraryFABMenu() {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
@@ -3404,6 +3410,7 @@ export function MealPlannerWorkflow() {
           ))}
         </div>
       </div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
     </div>
   );
 }
