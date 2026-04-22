@@ -1355,8 +1355,8 @@ function F3S1_PlannerSnackTap() {
           ))}
         </div>
       </div>
-    </div>
       <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
+    </div>
   );
 }
 
@@ -1657,8 +1657,8 @@ function F3S5_PlannerWithSnack() {
           ))}
         </div>
       </div>
-    </div>
       <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
+    </div>
   );
 }
 
@@ -1828,8 +1828,8 @@ function F4S4_PlannerWithLibrarySnack() {
           ))}
         </div>
       </div>
-    </div>
       <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center z-10"><span className="text-white text-[12px] font-bold leading-none">+</span></div>
+    </div>
   );
 }
 
