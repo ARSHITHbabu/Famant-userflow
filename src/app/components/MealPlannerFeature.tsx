@@ -1826,6 +1826,75 @@ function F4S4_PlannerWithLibrarySnack() {
   );
 }
 
+// ── Flow 5 phone screens ───────────────────────────────────────────────────────
+
+function F5S3_RecipeLibraryFABMenu() {
+  const recipes = [
+    { emoji: '🥗', name: 'Fruit Salad',      time: '5 min',  diff: 'Easy'   },
+    { emoji: '🫙', name: 'Yogurt Parfait',    time: '10 min', diff: 'Easy'   },
+    { emoji: '🥜', name: 'Trail Mix',         time: '5 min',  diff: 'Easy'   },
+    { emoji: '🍌', name: 'Banana Smoothie',   time: '8 min',  diff: 'Easy'   },
+    { emoji: '🧀', name: 'Cheese & Crackers', time: '5 min',  diff: 'Easy'   },
+  ];
+  return (
+    <div className="flex flex-col bg-white relative" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="bg-white px-2 py-1.5 flex items-center justify-between border-b border-gray-100">
+        <span className="text-[8px] text-gray-600">←</span>
+        <span className="text-[6.5px] font-bold text-gray-900">Recipe Library</span>
+        <span className="text-[9px] text-gray-500">🔍</span>
+      </div>
+      {/* Filter chips */}
+      <div className="flex gap-0.5 px-2 py-1 border-b border-gray-100">
+        {['All','Favorites','Family fav','Quick'].map((t,i) => (
+          <span key={t} className={`text-[4px] rounded-full px-1.5 py-0.5 whitespace-nowrap border ${i===0?'bg-teal-500 text-white border-teal-500':'bg-white text-gray-500 border-gray-200'}`}>{i===0&&<span className="mr-0.5">✓</span>}{t}</span>
+        ))}
+      </div>
+      {/* Dimmed recipe list */}
+      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden opacity-30">
+        {recipes.map(r => (
+          <div key={r.name} className="flex items-center gap-1.5 rounded-xl px-1.5 py-1 border border-gray-100 bg-white">
+            <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+              <span className="text-[10px] leading-none">{r.emoji}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[5.5px] font-semibold text-gray-800 truncate">{r.name}</p>
+              <div className="flex items-center gap-1">
+                <span className="text-[4px] text-gray-400">⏱ {r.time}</span>
+                <span className="text-[4px] text-teal-500">{r.diff}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-[8px] text-gray-300">♡</span>
+              <span className="text-[8px] text-teal-400">⊕</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* FAB menu overlay */}
+      <div className="absolute bottom-2 left-2 right-2 space-y-1.5 z-10">
+        {[
+          { icon: '✏️', bg: 'bg-teal-50',   label: 'Create manually',              iconBg: 'bg-teal-100'   },
+          { icon: '🔗', bg: 'bg-indigo-50', label: 'Import from URL or Search',     iconBg: 'bg-indigo-100' },
+        ].map(o => (
+          <div key={o.label} className={`flex items-center gap-2 ${o.bg} rounded-2xl px-3 py-2 shadow-lg`}>
+            <div className={`w-5 h-5 ${o.iconBg} rounded-xl flex items-center justify-center shrink-0`}>
+              <span className="text-[9px]">{o.icon}</span>
+            </div>
+            <span className="text-[6px] font-semibold text-gray-800">{o.label}</span>
+          </div>
+        ))}
+        {/* FAB button itself */}
+        <div className="flex justify-end">
+          <div className="w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
+            <span className="text-white text-[12px] font-bold leading-none">+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 
 function MealPlannerInteractivePhoneFlow() {
@@ -1851,6 +1920,11 @@ function MealPlannerInteractivePhoneFlow() {
       label: 'Flow 4',
       title: 'Flow 4 — Adding a Snack from Recipe Library',
       subtitle: 'Tap + on Snack slot → Recipe Library → browse & select a saved recipe → tap Add to Meal Plan → snack slot fills in.',
+    },
+    {
+      label: 'Flow 5',
+      title: 'Flow 5 — Adding More Recipes via FAB in Recipe Library',
+      subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Create manually or Import from URL/Search → snack slot fills in.',
     },
   ];
 
@@ -1950,6 +2024,25 @@ function MealPlannerInteractivePhoneFlow() {
               <F4S3_RecipeLibraryPicker />
             </PhoneShell>
             <FlowArrow label="Add to Meal Plan" />
+            <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
+              <F4S4_PlannerWithLibrarySnack />
+            </PhoneShell>
+          </>}
+
+          {/* ── Flow 5 phones ── */}
+          {activeFlow === 4 && <>
+            <PhoneShell label="Screen 1" sublabel="Tap Snack slot" accent="border-teal-500">
+              <F3S1_PlannerSnackTap />
+            </PhoneShell>
+            <FlowArrow label="Tap + on Snack" />
+            <PhoneShell label="Screen 2" sublabel="Recipe Library" accent="border-green-500">
+              <F4S2_AddSnackSheetLibrary />
+            </PhoneShell>
+            <FlowArrow label="Tap Recipe Library" />
+            <PhoneShell label="Screen 3" sublabel="Tap + FAB" accent="border-teal-600">
+              <F5S3_RecipeLibraryFABMenu />
+            </PhoneShell>
+            <FlowArrow label="Select option" />
             <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
               <F4S4_PlannerWithLibrarySnack />
             </PhoneShell>
