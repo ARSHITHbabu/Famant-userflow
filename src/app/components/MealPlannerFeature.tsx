@@ -1984,6 +1984,11 @@ function MealPlannerInteractivePhoneFlow() {
       title: 'Flow 5 — Adding More Recipes via FAB in Recipe Library',
       subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Create manually → fill recipe form → Save → library shows new recipe with toast confirmation.',
     },
+    {
+      label: 'Flow 6',
+      title: 'Flow 6 — Import Recipe via URL / Google Search into Library',
+      subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Import from URL/Search → search Google → review recipe form → Save → library toast confirmation.',
+    },
   ];
 
   return (
@@ -2106,6 +2111,33 @@ function MealPlannerInteractivePhoneFlow() {
             </PhoneShell>
             <FlowArrow label="Tap Save" />
             <PhoneShell label="Screen 5" sublabel="Recipe added to library" accent="border-green-500">
+              <F5S5_RecipeLibraryWithToast />
+            </PhoneShell>
+          </>}
+
+          {/* ── Flow 6 phones ── */}
+          {activeFlow === 5 && <>
+            <PhoneShell label="Screen 1" sublabel="Tap Snack slot" accent="border-teal-500">
+              <F3S1_PlannerSnackTap />
+            </PhoneShell>
+            <FlowArrow label="Tap + on Snack" />
+            <PhoneShell label="Screen 2" sublabel="Recipe Library" accent="border-green-500">
+              <F4S2_AddSnackSheetLibrary />
+            </PhoneShell>
+            <FlowArrow label="Tap Recipe Library" />
+            <PhoneShell label="Screen 3" sublabel="Tap + FAB" accent="border-teal-600">
+              <F5S3_RecipeLibraryFABMenu />
+            </PhoneShell>
+            <FlowArrow label="Import URL / Search" />
+            <PhoneShell label="Screen 4" sublabel="Search from Google" accent="border-blue-500">
+              <F2S5_GoogleSearch />
+            </PhoneShell>
+            <FlowArrow label="Select result" />
+            <PhoneShell label="Screen 5" sublabel="Review recipe form" accent="border-amber-500">
+              <F2S6_RecipeForm />
+            </PhoneShell>
+            <FlowArrow label="Tap Save" />
+            <PhoneShell label="Screen 6" sublabel="Recipe added to library" accent="border-green-500">
               <F5S5_RecipeLibraryWithToast />
             </PhoneShell>
           </>}
