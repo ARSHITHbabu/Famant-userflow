@@ -2038,7 +2038,7 @@ function F6S2_ModuleSelector() {
       {/* Bottom sheet overlay */}
       <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl px-3 py-3 z-10">
         <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-2" />
-        <p className="text-[6.5px] font-bold text-gray-800 mb-2">Connect to module</p>
+        <p className="text-[6.5px] font-bold text-gray-800 mb-2"></p>
         <div className="space-y-1.5">
           {[
             { icon: '📋', label: 'List',    desc: 'Add meals to your shopping list', bg: 'bg-blue-50',   iconBg: 'bg-blue-100',   text: 'text-blue-700'   },
@@ -2055,10 +2055,6 @@ function F6S2_ModuleSelector() {
               <span className="text-[8px] text-gray-400">›</span>
             </div>
           ))}
-        </div>
-        {/* FAB */}
-        <div className="absolute bottom-3 right-3 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
-          <span className="text-white text-[12px] font-bold leading-none">×</span>
         </div>
       </div>
     </div>
@@ -2232,7 +2228,7 @@ function MealPlannerInteractivePhoneFlow() {
             <PhoneShell label="Screen 1" sublabel="Tap + FAB" accent="border-teal-500">
               <F6S1_PlannerFABTapped />
             </PhoneShell>
-            <FlowArrow label="Tap +" />
+            <FlowArrow label="Tap more button" />
             <PhoneShell label="Screen 2" sublabel="Module selector" accent="border-blue-500">
               <F6S2_ModuleSelector />
             </PhoneShell>
