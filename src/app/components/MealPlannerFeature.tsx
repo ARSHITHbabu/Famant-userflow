@@ -976,7 +976,12 @@ function MealPlannerInteractivePhoneFlow() {
         Flow starts from the More screen — tap Meal Planner to enter the feature.
       </p>
 
-      {/* More Screen phone — same design as PhoneLayoutDiagram MoreScreen */}
+      {/* Flow 1 heading */}
+      <div className="flex items-center gap-2 mb-4">
+        <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Flow 1</span>
+        <span className="text-sm font-semibold text-gray-700">More Screen → Meal Settings → Weekly Planner</span>
+      </div>
+
       <div className="overflow-x-auto pb-4">
         <div className="flex items-start gap-2 min-w-max">
           <PhoneShell label="More Screen" sublabel="Tap Meal Planner" accent="border-orange-500">
