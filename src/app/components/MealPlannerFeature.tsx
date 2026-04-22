@@ -1381,7 +1381,7 @@ function F3S4_CustomRecipeForm() {
       {/* Fields */}
       <div className="flex-1 px-1.5 space-y-1 overflow-hidden">
         <div className="bg-white rounded-lg px-2 py-1.5">
-          <span className="text-[5px] text-gray-400">Description</span>
+          <span className="text-[5.5px] font-semibold text-gray-800">Apple peanut snack</span>
         </div>
         <div className="flex gap-1">
           <div className="flex-1 bg-white rounded-lg px-1.5 py-1.5 flex items-center gap-0.5">
@@ -1446,6 +1446,80 @@ function F3S4_CustomRecipeForm() {
         <div className="bg-white rounded-lg px-1.5 py-1 flex items-center gap-0.5">
           <span className="text-[8px]">🏷️</span>
           <span className="text-[5.5px] font-bold text-gray-800">Tags</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function F3S5_PlannerWithSnack() {
+  return (
+    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-semibold text-gray-700">This week</span>
+            <span className="text-[4.5px] bg-blue-100 text-blue-600 font-bold rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[4.5px] text-gray-400">4/20 - 4/26</span>
+        </div>
+        <span className="text-[8px] text-gray-500">›</span>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        {/* Wednesday — with filled snack */}
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            <span className="text-[5.5px] font-bold text-gray-800">Wednesday</span>
+            <span className="text-[5px] text-gray-400">4/22</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5 mb-1.5">
+          {/* Filled snack slot */}
+          <div className="border border-teal-300 rounded-lg bg-teal-50 flex items-center gap-1 px-1 py-1">
+            <span className="text-[8px] leading-none">🍎</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[4.5px] font-bold text-teal-700 uppercase">Snack</p>
+              <p className="text-[5px] font-semibold text-gray-800 truncate">Apple peanut snack</p>
+            </div>
+          </div>
+          {/* Empty slots */}
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        {/* Thursday */}
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            <span className="text-[5.5px] font-bold text-gray-700">Thursday</span>
+            <span className="text-[5px] text-gray-400">4/23</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5">
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🍎',label:'Snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -1554,6 +1628,10 @@ function MealPlannerInteractivePhoneFlow() {
             <FlowArrow label="Tap Custom Manually" />
             <PhoneShell label="Screen 4" sublabel="New recipe form" accent="border-teal-600">
               <F3S4_CustomRecipeForm />
+            </PhoneShell>
+            <FlowArrow label="Saved" />
+            <PhoneShell label="Screen 5" sublabel="Snack slot filled" accent="border-green-500">
+              <F3S5_PlannerWithSnack />
             </PhoneShell>
           </>}
 
