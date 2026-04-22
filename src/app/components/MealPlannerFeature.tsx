@@ -1751,10 +1751,6 @@ function F4S3_RecipeLibraryPicker() {
             {r.selected && <span className="text-[8px] text-teal-500 shrink-0">✓</span>}
           </div>
         ))}
-        {/* FAB */}
-        <div className="absolute bottom-1 right-1 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
-          <span className="text-white text-[12px] font-bold leading-none">+</span>
-        </div>
       </div>
     </div>
   );
