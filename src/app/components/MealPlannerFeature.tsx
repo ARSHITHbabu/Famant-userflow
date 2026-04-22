@@ -1452,6 +1452,58 @@ function F3S4_CustomRecipeForm() {
   );
 }
 
+function F3S_AllergyAlert() {
+  return (
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
+      {/* Dimmed recipe form behind */}
+      <div className="opacity-25 px-2 py-1.5 bg-gray-100 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-600">←</span>
+        <span className="text-[6.5px] font-bold text-gray-900">New recipe</span>
+        <span className="text-[5.5px] text-teal-600">Save</span>
+      </div>
+      <div className="flex-1 opacity-20 px-1.5 py-1 space-y-1">
+        <div className="bg-white rounded-lg px-2 py-1.5">
+          <span className="text-[5.5px] font-semibold text-gray-800">Apple peanut snack</span>
+        </div>
+        <div className="bg-white rounded-lg px-2 py-1.5 h-4" />
+        <div className="bg-white rounded-lg px-2 py-1.5 h-4" />
+      </div>
+
+      {/* Alert modal */}
+      <div className="absolute inset-0 flex items-center justify-center px-3">
+        <div className="bg-white rounded-2xl shadow-2xl border border-red-100 w-full overflow-hidden">
+          {/* Red top bar */}
+          <div className="bg-red-500 px-3 py-2 flex items-center gap-1.5">
+            <span className="text-[14px] leading-none">⚠️</span>
+            <span className="text-[7px] font-extrabold text-white tracking-wide uppercase">Allergy Alert</span>
+          </div>
+          {/* Body */}
+          <div className="px-3 py-2.5">
+            <p className="text-[6px] font-bold text-gray-900 mb-1">Peanut allergy detected</p>
+            <div className="bg-red-50 border border-red-200 rounded-lg px-2 py-1.5 flex items-start gap-1.5 mb-2">
+              <span className="text-[10px] leading-none shrink-0">👤</span>
+              <div>
+                <p className="text-[5.5px] font-semibold text-red-700">Bob is allergic to Peanuts</p>
+                <p className="text-[4.5px] text-red-500 mt-0.5">"Apple peanut snack" contains peanuts which conflicts with Bob's dietary profile.</p>
+              </div>
+            </div>
+            <p className="text-[4.5px] text-gray-500 mb-2">Do you still want to add this meal?</p>
+            {/* Buttons */}
+            <div className="flex gap-1">
+              <div className="flex-1 border border-gray-300 rounded-lg py-1 text-center">
+                <span className="text-[5.5px] font-semibold text-gray-600">Go Back</span>
+              </div>
+              <div className="flex-1 bg-red-500 rounded-lg py-1 text-center">
+                <span className="text-[5.5px] font-bold text-white">Add Anyway</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function F3S5_PlannerWithSnack() {
   return (
     <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
@@ -1545,7 +1597,7 @@ function MealPlannerInteractivePhoneFlow() {
     {
       label: 'Flow 3',
       title: 'Flow 3 — Adding a Snack via Custom Recipe',
-      subtitle: 'Tap ··· on a day → select Add snack → tap Custom Manually → fill in the new recipe form → tap Save → snack slot fills in.',
+      subtitle: 'Tap ··· on a day → select Add snack → Custom Manually → fill recipe form → tap Save → allergy alert (Bob allergic to peanuts) → Add Anyway → snack slot fills in.',
     },
   ];
 
@@ -1629,8 +1681,12 @@ function MealPlannerInteractivePhoneFlow() {
             <PhoneShell label="Screen 4" sublabel="New recipe form" accent="border-teal-600">
               <F3S4_CustomRecipeForm />
             </PhoneShell>
-            <FlowArrow label="Saved" />
-            <PhoneShell label="Screen 5" sublabel="Snack slot filled" accent="border-green-500">
+            <FlowArrow label="Tap Save" />
+            <PhoneShell label="Screen 5" sublabel="Allergy alert" accent="border-red-500">
+              <F3S_AllergyAlert />
+            </PhoneShell>
+            <FlowArrow label="Add Anyway" />
+            <PhoneShell label="Screen 6" sublabel="Snack slot filled" accent="border-green-500">
               <F3S5_PlannerWithSnack />
             </PhoneShell>
           </>}
