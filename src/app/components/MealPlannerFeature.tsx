@@ -1945,8 +1945,8 @@ function F5S5_RecipeLibraryWithToast() {
       <div className="absolute bottom-2 left-2 right-2 bg-gray-900 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5 shadow-lg">
         <span className="text-[10px]">✅</span>
         <div>
-          <p className="text-[5.5px] font-semibold text-white">"Apple peanut snack" added</p>
-          <p className="text-[4px] text-gray-400">New recipe saved to your library</p>
+          <p className="text-[5.5px] font-semibold text-white">New recipe added!</p>
+          <p className="text-[4px] text-gray-400">Saved to your library</p>
         </div>
       </div>
     </div>
