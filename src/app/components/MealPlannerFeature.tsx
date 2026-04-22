@@ -1150,7 +1150,7 @@ function F2S4_PlannerFilled() {
             <span className="text-[8px] leading-none">🍝</span>
             <div className="flex-1 min-w-0">
               <p className="text-[4.5px] font-bold text-teal-700 uppercase">Dinner</p>
-              <p className="text-[5px] font-semibold text-gray-800 truncate">Beef Stew</p>
+              <p className="text-[5px] font-semibold text-gray-800 truncate">Chicken Sandwich</p>
             </div>
           </div>
           {/* Empty slots */}
