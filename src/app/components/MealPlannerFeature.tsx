@@ -1746,12 +1746,6 @@ function F4S3_RecipeLibraryPicker() {
           </div>
         ))}
       </div>
-      {/* Add button */}
-      <div className="px-2 pb-2">
-        <div className="bg-teal-600 rounded-full py-1.5 text-center">
-          <span className="text-[6px] font-bold text-white">Add to Meal Plan</span>
-        </div>
-      </div>
     </div>
   );
 }
