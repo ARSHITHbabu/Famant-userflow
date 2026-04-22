@@ -1950,6 +1950,121 @@ function F5S5_RecipeLibraryWithToast() {
   );
 }
 
+// ── Flow 6 phone screens ───────────────────────────────────────────────────────
+
+function F6S1_PlannerFABTapped() {
+  return (
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-semibold text-gray-700">This week</span>
+            <span className="text-[4.5px] bg-blue-100 text-blue-600 font-bold rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[4.5px] text-gray-400">4/20 - 4/26</span>
+        </div>
+        <span className="text-[8px] text-gray-500">›</span>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            <span className="text-[5.5px] font-bold text-gray-800">Wednesday</span>
+            <span className="text-[5px] text-gray-400">4/22</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5 mb-1.5">
+          {[{emoji:'🍎',label:'Snack'},{emoji:'🌙',label:'Evening snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            <span className="text-[5.5px] font-bold text-gray-700">Thursday</span>
+            <span className="text-[5px] text-gray-400">4/23</span>
+          </div>
+        </div>
+        <div className="space-y-0.5">
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🍎',label:'Snack'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* FAB — tapped/active state */}
+      <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal-700 rounded-full shadow-lg flex items-center justify-center z-10 ring-2 ring-teal-300">
+        <span className="text-white text-[12px] font-bold leading-none">+</span>
+      </div>
+    </div>
+  );
+}
+
+function F6S2_ModuleSelector() {
+  return (
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
+      {/* Dimmed planner background */}
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200 opacity-30">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      <div className="flex-1 opacity-20 px-1.5 py-1">
+        {[{emoji:'🍎',label:'Snack'},{emoji:'🌙',label:'Evening snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+          <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1 mb-0.5">
+            <span className="text-[8px] leading-none">{s.emoji}</span>
+            <span className="text-[5.5px] text-gray-400">{s.label}</span>
+          </div>
+        ))}
+      </div>
+      {/* Bottom sheet overlay */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl px-3 py-3 z-10">
+        <div className="w-6 h-0.5 bg-gray-300 rounded-full mx-auto mb-2" />
+        <p className="text-[6.5px] font-bold text-gray-800 mb-2">Connect to module</p>
+        <div className="space-y-1.5">
+          {[
+            { icon: '📋', label: 'List',    desc: 'Add meals to your shopping list', bg: 'bg-blue-50',   iconBg: 'bg-blue-100',   text: 'text-blue-700'   },
+            { icon: '💰', label: 'Expense', desc: 'Track meal costs & budget',        bg: 'bg-green-50',  iconBg: 'bg-green-100',  text: 'text-green-700'  },
+          ].map(m => (
+            <div key={m.label} className={`flex items-center gap-2 ${m.bg} rounded-xl px-2 py-1.5`}>
+              <div className={`w-6 h-6 ${m.iconBg} rounded-xl flex items-center justify-center shrink-0`}>
+                <span className="text-[11px]">{m.icon}</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-[6px] font-bold ${m.text}`}>{m.label} module</p>
+                <p className="text-[4.5px] text-gray-500 truncate">{m.desc}</p>
+              </div>
+              <span className="text-[8px] text-gray-400">›</span>
+            </div>
+          ))}
+        </div>
+        {/* FAB */}
+        <div className="absolute bottom-3 right-3 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
+          <span className="text-white text-[12px] font-bold leading-none">×</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 
 function MealPlannerInteractivePhoneFlow() {
@@ -1983,8 +2098,8 @@ function MealPlannerInteractivePhoneFlow() {
     },
     {
       label: 'Flow 6',
-      title: 'Flow 6 — Import Recipe via URL / Google Search into Library',
-      subtitle: 'Tap + on Snack slot → Recipe Library → tap + FAB → Import from URL/Search → search Google → review recipe form → Save → library toast confirmation.',
+      title: 'Flow 6 — Meal Plan + Button → List & Expense Modules',
+      subtitle: 'Tap + FAB on the meal planner → module selector appears → choose List module (shopping list) or Expense module (budget tracking).',
     },
   ];
 
@@ -2114,28 +2229,12 @@ function MealPlannerInteractivePhoneFlow() {
 
           {/* ── Flow 6 phones ── */}
           {activeFlow === 5 && <>
-            <PhoneShell label="Screen 1" sublabel="Tap Snack slot" accent="border-teal-500">
-              <F3S1_PlannerSnackTap />
+            <PhoneShell label="Screen 1" sublabel="Tap + FAB" accent="border-teal-500">
+              <F6S1_PlannerFABTapped />
             </PhoneShell>
-            <FlowArrow label="Tap + on Snack" />
-            <PhoneShell label="Screen 2" sublabel="Recipe Library" accent="border-green-500">
-              <F4S2_AddSnackSheetLibrary />
-            </PhoneShell>
-            <FlowArrow label="Tap Recipe Library" />
-            <PhoneShell label="Screen 3" sublabel="Tap + FAB" accent="border-teal-600">
-              <F5S3_RecipeLibraryFABMenu />
-            </PhoneShell>
-            <FlowArrow label="Import URL / Search" />
-            <PhoneShell label="Screen 4" sublabel="Search from Google" accent="border-blue-500">
-              <F2S5_GoogleSearch />
-            </PhoneShell>
-            <FlowArrow label="Select result" />
-            <PhoneShell label="Screen 5" sublabel="Review recipe form" accent="border-amber-500">
-              <F2S6_RecipeForm />
-            </PhoneShell>
-            <FlowArrow label="Tap Save" />
-            <PhoneShell label="Screen 6" sublabel="Recipe added to library" accent="border-green-500">
-              <F5S5_RecipeLibraryWithToast />
+            <FlowArrow label="Tap +" />
+            <PhoneShell label="Screen 2" sublabel="Module selector" accent="border-blue-500">
+              <F6S2_ModuleSelector />
             </PhoneShell>
           </>}
 
