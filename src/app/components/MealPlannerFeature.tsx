@@ -1887,12 +1887,6 @@ function F5S3_RecipeLibraryFABMenu() {
             <span className="text-[6px] font-semibold text-gray-800">{o.label}</span>
           </div>
         ))}
-        {/* FAB button itself */}
-        <div className="flex justify-end">
-          <div className="w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
-            <span className="text-white text-[12px] font-bold leading-none">+</span>
-          </div>
-        </div>
       </div>
     </div>
   );
