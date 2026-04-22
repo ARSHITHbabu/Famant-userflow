@@ -1283,6 +1283,79 @@ function F2S6_RecipeForm() {
 
 // ── Flow 3 phone screens ───────────────────────────────────────────────────────
 
+function F3S1_PlannerSnackTap() {
+  return (
+    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-semibold text-gray-700">This week</span>
+            <span className="text-[4.5px] bg-blue-100 text-blue-600 font-bold rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[4.5px] text-gray-400">4/20 - 4/26</span>
+        </div>
+        <span className="text-[8px] text-gray-500">›</span>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            <span className="text-[5.5px] font-bold text-gray-800">Wednesday</span>
+            <span className="text-[5px] text-gray-400">4/22</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5 mb-1.5">
+          {/* Snack slot — highlighted as tapped */}
+          <div className="border-2 border-teal-400 rounded-lg bg-teal-50 flex items-center gap-1 px-1 py-1 ring-2 ring-teal-200">
+            <div className="w-3 h-3 rounded-full bg-teal-500 flex items-center justify-center shrink-0">
+              <span className="text-[5px] text-white font-bold">+</span>
+            </div>
+            <span className="text-[8px] leading-none">🍎</span>
+            <span className="text-[5.5px] font-semibold text-teal-700">Snack</span>
+            <span className="text-[4px] text-teal-400 ml-auto">tap</span>
+          </div>
+          {/* Other empty slots */}
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            <span className="text-[5.5px] font-bold text-gray-700">Thursday</span>
+            <span className="text-[5px] text-gray-400">4/23</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5">
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🍎',label:'Snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function F3S2_MealTypeSnack() {
   const meals = [
     { emoji: '🥚', label: 'Add breakfast' },
@@ -1597,7 +1670,7 @@ function MealPlannerInteractivePhoneFlow() {
     {
       label: 'Flow 3',
       title: 'Flow 3 — Adding a Snack via Custom Recipe',
-      subtitle: 'Tap ··· on a day → select Add snack → Custom Manually → fill recipe form → tap Save → allergy alert (Bob allergic to peanuts) → Add Anyway → snack slot fills in.',
+      subtitle: 'Tap + on Snack slot → Custom Manually → fill recipe form → tap Save → allergy alert (Bob allergic to peanuts) → Add Anyway → snack slot fills in.',
     },
   ];
 
@@ -1666,27 +1739,23 @@ function MealPlannerInteractivePhoneFlow() {
 
           {/* ── Flow 3 phones ── */}
           {activeFlow === 2 && <>
-            <PhoneShell label="Screen 1" sublabel="Weekly Planner — tap ···" accent="border-teal-500">
-              <F2S1_PlannerEmpty />
+            <PhoneShell label="Screen 1" sublabel="Tap Snack slot" accent="border-teal-500">
+              <F3S1_PlannerSnackTap />
             </PhoneShell>
-            <FlowArrow label="Tap ··· on day" />
-            <PhoneShell label="Screen 2" sublabel="Select Add snack" accent="border-indigo-500">
-              <F3S2_MealTypeSnack />
-            </PhoneShell>
-            <FlowArrow label="Tap Add snack" />
-            <PhoneShell label="Screen 3" sublabel="Custom Manually" accent="border-rose-500">
+            <FlowArrow label="Tap + on Snack" />
+            <PhoneShell label="Screen 2" sublabel="Custom Manually" accent="border-rose-500">
               <F3S3_AddSnackSheet />
             </PhoneShell>
             <FlowArrow label="Tap Custom Manually" />
-            <PhoneShell label="Screen 4" sublabel="New recipe form" accent="border-teal-600">
+            <PhoneShell label="Screen 3" sublabel="New recipe form" accent="border-teal-600">
               <F3S4_CustomRecipeForm />
             </PhoneShell>
             <FlowArrow label="Tap Save" />
-            <PhoneShell label="Screen 5" sublabel="Allergy alert" accent="border-red-500">
+            <PhoneShell label="Screen 4" sublabel="Allergy alert" accent="border-red-500">
               <F3S_AllergyAlert />
             </PhoneShell>
             <FlowArrow label="Add Anyway" />
-            <PhoneShell label="Screen 6" sublabel="Snack slot filled" accent="border-green-500">
+            <PhoneShell label="Screen 5" sublabel="Snack slot filled" accent="border-green-500">
               <F3S5_PlannerWithSnack />
             </PhoneShell>
           </>}
