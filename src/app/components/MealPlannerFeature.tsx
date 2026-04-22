@@ -1732,7 +1732,7 @@ function F4S3_RecipeLibraryPicker() {
         ))}
       </div>
       {/* Recipe list */}
-      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden">
+      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden relative">
         {recipes.map(r => (
           <div key={r.name} className={`flex items-center gap-1.5 rounded-xl px-1.5 py-1 border ${r.selected ? 'bg-teal-50 border-teal-300 ring-1 ring-teal-300' : 'bg-white border-gray-100'}`}>
             <div className={`w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${r.selected ? 'bg-teal-100' : 'bg-gray-50'}`}>
@@ -1745,6 +1745,10 @@ function F4S3_RecipeLibraryPicker() {
             {r.selected && <span className="text-[8px] text-teal-500 shrink-0">✓</span>}
           </div>
         ))}
+        {/* FAB */}
+        <div className="absolute bottom-1 right-1 w-6 h-6 bg-teal-600 rounded-full shadow-lg flex items-center justify-center">
+          <span className="text-white text-[12px] font-bold leading-none">+</span>
+        </div>
       </div>
     </div>
   );
