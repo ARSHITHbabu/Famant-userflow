@@ -1189,6 +1189,97 @@ function F2S4_PlannerFilled() {
   );
 }
 
+function F2S5_GoogleSearch() {
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="px-2 py-1.5 flex items-center justify-between border-b border-gray-100">
+        <span className="text-[5.5px] text-teal-600 font-semibold">Cancel</span>
+        <span className="text-[6.5px] font-bold text-gray-900">Add recipe</span>
+        <span className="text-[5.5px] text-white">Save</span>
+      </div>
+      {/* Tab pills */}
+      <div className="flex items-center gap-0.5 px-1.5 py-1 border-b border-gray-100">
+        {[
+          { l: 'Search',  active: true  },
+          { l: 'Import',  active: false },
+          { l: 'Create',  active: false },
+          { l: '✦ Help', active: false },
+        ].map(t => (
+          <span key={t.l} className={`text-[4px] px-1.5 py-0.5 rounded-full whitespace-nowrap ${t.active ? 'bg-teal-100 text-teal-700 font-bold' : 'bg-gray-100 text-gray-500'}`}>{t.l}</span>
+        ))}
+      </div>
+      {/* Body */}
+      <div className="flex-1 px-2 py-2 space-y-2">
+        <p className="text-[4.5px] text-gray-500 leading-tight">Not sure what you're making? Search with Google to find a recipe and add it.</p>
+        {/* Google search box */}
+        <div className="flex items-center gap-1 border border-gray-200 rounded-lg px-1.5 py-1.5">
+          <span className="text-[9px] leading-none font-bold">
+            <span className="text-blue-500">G</span><span className="text-red-500">o</span><span className="text-yellow-500">o</span><span className="text-blue-500">g</span><span className="text-green-500">l</span><span className="text-red-500">e</span>
+          </span>
+          <span className="text-[5.5px] text-gray-700 font-medium flex-1">Chicken sandwich</span>
+          <span className="text-[5px] text-teal-500">|</span>
+        </div>
+        {/* Search button */}
+        <div className="bg-teal-600 rounded-lg py-1.5 text-center">
+          <span className="text-[6px] font-bold text-white">Search</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function F2S6_RecipeForm() {
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="px-2 py-1.5 flex items-center justify-between border-b border-gray-100">
+        <span className="text-[5px] text-teal-600 font-semibold">Cancel</span>
+        <span className="text-[6px] font-bold text-gray-900">Add recipe</span>
+        <span className="text-[5px] text-teal-600 font-semibold">Save</span>
+      </div>
+      {/* Recipe title + photo */}
+      <div className="px-2 pt-1.5 pb-1 flex items-start justify-between border-b border-gray-100">
+        <div className="flex-1">
+          <p className="text-[7px] font-bold text-gray-900 leading-tight">Chicken sandwiches</p>
+          <p className="text-[4.5px] text-gray-400 mt-0.5">Photo</p>
+        </div>
+        <div className="w-8 h-8 bg-amber-100 rounded-lg overflow-hidden shrink-0 ml-1">
+          <div className="w-full h-full bg-gradient-to-br from-amber-200 to-orange-300 flex items-center justify-center">
+            <span className="text-[10px]">🥪</span>
+          </div>
+        </div>
+      </div>
+      {/* Fields */}
+      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden">
+        {[
+          { label: 'Recipe Box',      value: '🧑 Recipe box',          edit: true  },
+          { label: 'Category',        value: 'Other',                   edit: true  },
+          { label: 'Servings',        value: '10',                      edit: false },
+          { label: 'Prep Time',       value: '– hr  15 min',            edit: false },
+          { label: 'Cook Time',       value: '– hr  0 min',             edit: false },
+          { label: 'Main Ingredient', value: '–',                       edit: false },
+          { label: 'Cuisine',         value: 'Western',                 edit: false },
+          { label: 'Reference',       value: 'recipetineats.com/chi…',  edit: false },
+        ].map(f => (
+          <div key={f.label} className="flex items-center justify-between bg-gray-50 rounded px-1 py-0.5">
+            <span className="text-[4.5px] text-gray-500 shrink-0">{f.label}</span>
+            <div className="flex items-center gap-0.5">
+              <span className="text-[4.5px] text-gray-800 font-medium">{f.value}</span>
+              {f.edit && <span className="text-[4px] text-teal-500 font-semibold">Edit</span>}
+            </div>
+          </div>
+        ))}
+        {/* Star rating */}
+        <div className="flex items-center justify-between bg-gray-50 rounded px-1 py-0.5">
+          <span className="text-[4.5px] text-gray-500">Star rating</span>
+          <span className="text-[7px] text-gray-300">★★★★★</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 
 function MealPlannerInteractivePhoneFlow() {
@@ -1203,7 +1294,7 @@ function MealPlannerInteractivePhoneFlow() {
     {
       label: 'Flow 2',
       title: 'Flow 2 — Adding Meals to the Weekly Planner',
-      subtitle: 'Tap ··· on a day → select meal type → choose from recipes, custom meal or AI suggestion → meal slot fills in.',
+      subtitle: 'Tap ··· on a day → select meal type → tap Import/Search → search Google → fill recipe form → tap Save → meal slot fills in.',
     },
   ];
 
@@ -1256,8 +1347,16 @@ function MealPlannerInteractivePhoneFlow() {
             <PhoneShell label="Screen 3" sublabel="Choose how to add" accent="border-rose-500">
               <F2S3_AddDinnerSheet />
             </PhoneShell>
-            <FlowArrow label="Pick recipe" />
-            <PhoneShell label="Screen 4" sublabel="Meal slot filled" accent="border-green-500">
+            <FlowArrow label="Import / Search" />
+            <PhoneShell label="Screen 4" sublabel="Search from Google" accent="border-blue-500">
+              <F2S5_GoogleSearch />
+            </PhoneShell>
+            <FlowArrow label="Select result" />
+            <PhoneShell label="Screen 5" sublabel="Recipe form" accent="border-amber-500">
+              <F2S6_RecipeForm />
+            </PhoneShell>
+            <FlowArrow label="Tap Save" />
+            <PhoneShell label="Screen 6" sublabel="Meal slot filled" accent="border-green-500">
               <F2S4_PlannerFilled />
             </PhoneShell>
           </>}
