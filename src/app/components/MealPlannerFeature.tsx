@@ -1656,6 +1656,178 @@ function F3S5_PlannerWithSnack() {
   );
 }
 
+// ── Flow 4 phone screens ───────────────────────────────────────────────────────
+
+function F4S2_AddSnackSheetLibrary() {
+  return (
+    <div className="flex flex-col bg-gray-50 relative" style={{ minHeight: 380 }}>
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200 opacity-30">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+      </div>
+      <div className="flex-1 opacity-20 px-1.5 py-1">
+        {['Evening snack','Snack','Breakfast'].map(s => (
+          <div key={s} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1 mb-0.5">
+            <span className="text-[5.5px] text-gray-400">{s}</span>
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl border-t border-gray-100 px-2 pt-1.5 pb-2">
+        <div className="flex justify-center mb-1.5">
+          <div className="w-6 h-0.5 bg-gray-300 rounded-full" />
+        </div>
+        <div className="flex items-center gap-1 mb-1.5 pb-1.5 border-b border-gray-100">
+          <span className="text-[11px]">🍎</span>
+          <span className="text-[6.5px] font-bold text-gray-900">Add snack</span>
+        </div>
+        <div className="pt-0.5 space-y-1">
+          {[
+            { icon: '🔗', bg: 'bg-blue-50',   label: 'Import by URL or Search', sub: 'Paste a URL or search from Google', highlight: false },
+            { icon: '📖', bg: 'bg-green-50',  label: 'Recipe Library',          sub: 'Pick from your saved recipes',      highlight: true  },
+            { icon: '✏️', bg: 'bg-indigo-50', label: 'Custom Manually',         sub: 'Type the meal name and details',    highlight: false },
+          ].map(o => (
+            <div key={o.label} className={`flex items-center gap-1.5 rounded-lg p-0.5 ${o.highlight ? 'bg-green-50 ring-1 ring-green-300' : ''}`}>
+              <div className={`w-4 h-4 rounded-lg ${o.bg} flex items-center justify-center shrink-0`}>
+                <span className="text-[8px]">{o.icon}</span>
+              </div>
+              <div>
+                <p className={`text-[5.5px] font-semibold ${o.highlight ? 'text-green-700' : 'text-gray-800'}`}>{o.label}</p>
+                <p className="text-[4px] text-gray-400">{o.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function F4S3_RecipeLibraryPicker() {
+  const recipes = [
+    { emoji: '🥗', name: 'Fruit Salad',       tag: 'Snack',    selected: true  },
+    { emoji: '🫙', name: 'Yogurt Parfait',     tag: 'Snack',    selected: false },
+    { emoji: '🥜', name: 'Trail Mix',          tag: 'Snack',    selected: false },
+    { emoji: '🍌', name: 'Banana Smoothie',    tag: 'Snack',    selected: false },
+    { emoji: '🧀', name: 'Cheese & Crackers',  tag: 'Snack',    selected: false },
+  ];
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 380 }}>
+      {/* Header */}
+      <div className="bg-white px-2 py-1.5 flex items-center justify-between border-b border-gray-100">
+        <span className="text-[8px] text-gray-600">←</span>
+        <span className="text-[6.5px] font-bold text-gray-900">Recipe Library</span>
+        <span className="text-[5px] text-teal-600 font-semibold">Add</span>
+      </div>
+      {/* Search bar */}
+      <div className="px-2 py-1 border-b border-gray-100">
+        <div className="bg-gray-100 rounded-full px-2 py-0.5 flex items-center gap-1">
+          <span className="text-[7px] text-gray-400">🔍</span>
+          <span className="text-[5px] text-gray-400">Search recipes…</span>
+        </div>
+      </div>
+      {/* Filter chips */}
+      <div className="flex gap-0.5 px-2 py-1 border-b border-gray-100">
+        {['All','Snack','Breakfast','Lunch'].map((t,i) => (
+          <span key={t} className={`text-[4px] rounded-full px-1.5 py-0.5 whitespace-nowrap ${i===1?'bg-teal-500 text-white':'bg-gray-100 text-gray-500'}`}>{t}</span>
+        ))}
+      </div>
+      {/* Recipe list */}
+      <div className="flex-1 px-2 py-1 space-y-0.5 overflow-hidden">
+        {recipes.map(r => (
+          <div key={r.name} className={`flex items-center gap-1.5 rounded-xl px-1.5 py-1 border ${r.selected ? 'bg-teal-50 border-teal-300 ring-1 ring-teal-300' : 'bg-white border-gray-100'}`}>
+            <div className={`w-5 h-5 rounded-lg flex items-center justify-center shrink-0 ${r.selected ? 'bg-teal-100' : 'bg-gray-50'}`}>
+              <span className="text-[10px] leading-none">{r.emoji}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className={`text-[5.5px] font-semibold truncate ${r.selected ? 'text-teal-800' : 'text-gray-800'}`}>{r.name}</p>
+              <span className="text-[4px] bg-gray-100 text-gray-500 rounded-full px-1">{r.tag}</span>
+            </div>
+            {r.selected && <span className="text-[8px] text-teal-500 shrink-0">✓</span>}
+          </div>
+        ))}
+      </div>
+      {/* Add button */}
+      <div className="px-2 pb-2">
+        <div className="bg-teal-600 rounded-full py-1.5 text-center">
+          <span className="text-[6px] font-bold text-white">Add to Meal Plan</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function F4S4_PlannerWithLibrarySnack() {
+  return (
+    <div className="flex flex-col bg-gray-50" style={{ minHeight: 380 }}>
+      <div className="bg-gray-100 px-2 py-1.5 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[9px]">🏠</span>
+        <span className="text-[7px] font-bold text-gray-800">Family meals</span>
+        <span className="text-[9px] text-gray-500">⋮</span>
+      </div>
+      <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-200">
+        <span className="text-[8px] text-gray-500">‹</span>
+        <div className="text-center">
+          <div className="flex items-center gap-1 justify-center">
+            <span className="text-[6px] font-semibold text-gray-700">This week</span>
+            <span className="text-[4.5px] bg-blue-100 text-blue-600 font-bold rounded px-0.5">Draft</span>
+          </div>
+          <span className="text-[4.5px] text-gray-400">4/20 - 4/26</span>
+        </div>
+        <span className="text-[8px] text-gray-500">›</span>
+      </div>
+      <div className="flex-1 px-1.5 py-1 overflow-hidden">
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            <span className="text-[5.5px] font-bold text-gray-800">Wednesday</span>
+            <span className="text-[5px] text-gray-400">4/22</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5 mb-1.5">
+          {/* Filled snack slot from library */}
+          <div className="border border-teal-300 rounded-lg bg-teal-50 flex items-center gap-1 px-1 py-1">
+            <span className="text-[8px] leading-none">🥗</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[4.5px] font-bold text-teal-700 uppercase">Snack</p>
+              <p className="text-[5px] font-semibold text-gray-800 truncate">Fruit Salad</p>
+            </div>
+            <span className="text-[4px] bg-green-100 text-green-600 rounded-full px-0.5 shrink-0">Library</span>
+          </div>
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-between mb-0.5">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            <span className="text-[5.5px] font-bold text-gray-700">Thursday</span>
+            <span className="text-[5px] text-gray-400">4/23</span>
+          </div>
+          <span className="text-[7px] text-gray-400">···</span>
+        </div>
+        <div className="space-y-0.5">
+          {[{emoji:'🌙',label:'Evening snack'},{emoji:'🍎',label:'Snack'},{emoji:'🥞',label:'Breakfast'}].map(s => (
+            <div key={s.label} className="border border-dashed border-gray-300 rounded-lg bg-white flex items-center gap-1 px-1 py-1">
+              <div className="w-3 h-3 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+                <span className="text-[5px] text-gray-400">+</span>
+              </div>
+              <span className="text-[8px] leading-none">{s.emoji}</span>
+              <span className="text-[5.5px] text-gray-400">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 
 function MealPlannerInteractivePhoneFlow() {
@@ -1676,6 +1848,11 @@ function MealPlannerInteractivePhoneFlow() {
       label: 'Flow 3',
       title: 'Flow 3 — Adding a Snack via Custom Recipe',
       subtitle: 'Tap + on Snack slot → Custom Manually → fill recipe form (⚠️ Nuts — Bob badge shown inline) → tap Save → snack slot fills in.',
+    },
+    {
+      label: 'Flow 4',
+      title: 'Flow 4 — Adding a Snack from Recipe Library',
+      subtitle: 'Tap + on Snack slot → Recipe Library → browse & select a saved recipe → tap Add to Meal Plan → snack slot fills in.',
     },
   ];
 
@@ -1758,6 +1935,25 @@ function MealPlannerInteractivePhoneFlow() {
             <FlowArrow label="Tap Save" />
             <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
               <F3S5_PlannerWithSnack />
+            </PhoneShell>
+          </>}
+
+          {/* ── Flow 4 phones ── */}
+          {activeFlow === 3 && <>
+            <PhoneShell label="Screen 1" sublabel="Tap Snack slot" accent="border-teal-500">
+              <F3S1_PlannerSnackTap />
+            </PhoneShell>
+            <FlowArrow label="Tap + on Snack" />
+            <PhoneShell label="Screen 2" sublabel="Recipe Library" accent="border-green-500">
+              <F4S2_AddSnackSheetLibrary />
+            </PhoneShell>
+            <FlowArrow label="Tap Recipe Library" />
+            <PhoneShell label="Screen 3" sublabel="Pick a recipe" accent="border-teal-600">
+              <F4S3_RecipeLibraryPicker />
+            </PhoneShell>
+            <FlowArrow label="Add to Meal Plan" />
+            <PhoneShell label="Screen 4" sublabel="Snack slot filled" accent="border-green-500">
+              <F4S4_PlannerWithLibrarySnack />
             </PhoneShell>
           </>}
 
