@@ -1094,13 +1094,7 @@ function F2S3_AddDinnerSheet() {
           <span className="text-[11px]">🍝</span>
           <span className="text-[6.5px] font-bold text-gray-900">Add dinner</span>
         </div>
-        {/* Recent meals */}
-        <p className="text-[4.5px] text-gray-400 font-semibold uppercase tracking-wide mb-0.5">Recent meals</p>
-        <div className="flex gap-0.5 mb-1.5 overflow-hidden">
-          <span className="text-[4px] bg-gray-100 rounded-full px-1.5 py-0.5 text-gray-700 whitespace-nowrap">❄️ Beef stew…</span>
-          <span className="text-[4px] bg-gray-100 rounded-full px-1.5 py-0.5 text-gray-700 whitespace-nowrap">📥 Imported R…</span>
-        </div>
-        <div className="border-t border-gray-100 pt-1 space-y-1">
+        <div className="pt-0.5 space-y-1">
           {[
             { icon: '🔗', bg: 'bg-blue-50',   label: 'Import by URL or Search', sub: 'Paste a URL or search from Google' },
             { icon: '✏️', bg: 'bg-indigo-50', label: 'Custom Manually',         sub: 'Type the meal name and details' },
