@@ -1100,11 +1100,10 @@ function F2S3_AddDinnerSheet() {
           <span className="text-[4px] bg-gray-100 rounded-full px-1.5 py-0.5 text-gray-700 whitespace-nowrap">❄️ Beef stew…</span>
           <span className="text-[4px] bg-gray-100 rounded-full px-1.5 py-0.5 text-gray-700 whitespace-nowrap">📥 Imported R…</span>
         </div>
-        <div className="border-t border-gray-100 pt-1 space-y-0.5">
+        <div className="border-t border-gray-100 pt-1 space-y-1">
           {[
-            { icon: '📖', bg: 'bg-red-50',    label: 'From recipes',  sub: 'Choose from recipe library' },
-            { icon: '✏️', bg: 'bg-indigo-50', label: 'Custom meal',   sub: 'Type the meal name manually' },
-            { icon: '✨', bg: 'bg-teal-50',   label: 'AI Suggestion', sub: 'Let AI suggest a meal' },
+            { icon: '🔗', bg: 'bg-blue-50',   label: 'Import by URL or Search', sub: 'Paste a URL or search from Google' },
+            { icon: '✏️', bg: 'bg-indigo-50', label: 'Custom Manually',         sub: 'Type the meal name and details' },
           ].map(o => (
             <div key={o.label} className="flex items-center gap-1.5">
               <div className={`w-4 h-4 rounded-lg ${o.bg} flex items-center justify-center shrink-0`}>
