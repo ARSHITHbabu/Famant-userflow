@@ -1551,6 +1551,257 @@ function CalendarMainScreen() {
   );
 }
 
+// ── Calendar: Week View Screen ─────────────────────────────────────
+function CalendarWeekViewScreen() {
+  const [isFamily, setIsFamily] = useState(true);
+  const [selDay, setSelDay] = useState(2);
+  const days = [
+    { label:'S', date:15, events:[] },
+    { label:'M', date:16, events:['blue'] },
+    { label:'T', date:17, events:['blue','red'], today:true },
+    { label:'W', date:18, events:['green'] },
+    { label:'T', date:19, events:[] },
+    { label:'F', date:20, events:['orange','blue'] },
+    { label:'S', date:21, events:['red'] },
+  ] as { label:string; date:number; events:string[]; today?:boolean }[];
+  const HOUR_H = 11;
+  const START = 8;
+  const calEvents = [
+    { title:'Team Mtg', color:'bg-blue-400',   startH:9,    dur:1,    col:1 },
+    { title:'Doctor',   color:'bg-red-400',    startH:14,   dur:1,    col:2 },
+    { title:'Lunch',    color:'bg-green-400',  startH:12,   dur:0.75, col:3 },
+    { title:'Gym',      color:'bg-orange-400', startH:7.5,  dur:1,    col:5 },
+    { title:'Call',     color:'bg-blue-300',   startH:16,   dur:0.5,  col:5 },
+  ];
+  const nowH = 10.25;
+  const memberColors = ['bg-purple-400','bg-pink-400','bg-orange-400','bg-emerald-400'];
+  return (
+    <div className="h-full flex flex-col" style={{ minHeight: 280 }}>
+      {/* Zone 1 — Header (identical to month view, W highlighted) */}
+      <div className="bg-purple-100 px-2 pt-2 pb-1 border-b border-purple-200">
+        <div className="flex items-center justify-between">
+          <div className="text-[7px] font-bold text-purple-900">👨‍👩‍👧 Sharma Family  ▾</div>
+          <button onClick={() => setIsFamily(f => !f)}
+            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5px] font-bold transition-colors ${
+              isFamily ? 'bg-purple-600 text-white border-purple-700' : 'bg-white text-purple-700 border-purple-300'
+            }`}>
+            {isFamily ? <span>👥</span> : <span>👤</span>}
+          </button>
+        </div>
+        {isFamily && (
+          <div className="flex gap-1 mt-1">
+            {['A','B','C','D'].map((m,i)=>(
+              <div key={m} className={`w-4 h-4 rounded-full ${memberColors[i]} flex items-center justify-center text-[5px] text-white font-bold`}>{m}</div>
+            ))}
+            <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+2</div>
+          </div>
+        )}
+        <div className="flex gap-0.5 mt-1.5">
+          {['M','W','D','⊞'].map((v,i)=>(
+            <div key={v} className={`text-[6px] px-1.5 py-0.5 rounded font-semibold ${i===1?'bg-purple-600 text-white':'bg-white text-gray-500 border border-gray-200'}`}>{v}</div>
+          ))}
+          <div className="ml-auto text-[6px] text-purple-600 font-semibold">↗ Share</div>
+        </div>
+      </div>
+
+      {/* Zone 2 — Week grid */}
+      <div className="bg-blue-50 flex-1 flex flex-col overflow-hidden">
+        <div className="px-1 pt-1 pb-0.5 border-b border-blue-100">
+          <div className="flex items-center justify-between mb-0.5">
+            <span className="text-[5px] text-blue-700 font-bold">◀</span>
+            <span className="text-[6px] font-bold text-blue-900">15 – 21 March 2026</span>
+            <span className="text-[5px] text-blue-700 font-bold">▶</span>
+          </div>
+          <div className="grid grid-cols-8 gap-0">
+            <div className="text-[4px] text-gray-400 text-center"></div>
+            {days.map((d,i)=>(
+              <button key={i} onClick={()=>setSelDay(i)}
+                className={`flex flex-col items-center py-0.5 rounded ${selDay===i?'bg-purple-100':''}`}>
+                <span className={`text-[4.5px] font-semibold ${d.today?'text-blue-600':'text-gray-500'}`}>{d.label}</span>
+                <span className={`text-[5.5px] font-bold w-4 h-4 flex items-center justify-center rounded-full ${d.today?'bg-blue-600 text-white':selDay===i?'text-purple-700':'text-gray-700'}`}>{d.date}</span>
+                <div className="flex gap-0.5 mt-0.5 h-1">
+                  {d.events.map((c,ei)=><div key={ei} className={`w-1 h-1 rounded-full bg-${c}-400`}/>)}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex-1 overflow-hidden relative">
+          <div className="flex" style={{height: HOUR_H*10}}>
+            <div className="w-6 flex-none border-r border-blue-100 relative" style={{height: HOUR_H*10}}>
+              {Array.from({length:11},(_,i)=>(
+                <div key={i} className="absolute left-0 right-0 flex items-start justify-end pr-0.5"
+                  style={{top: i*HOUR_H - 2, height: HOUR_H}}>
+                  <span className="text-[4px] text-gray-400">{(START+i)<=12?`${START+i}${START+i<12?'AM':'PM'}`:START+i===12?'12PM':`${START+i-12}PM`}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex-1 relative" style={{height: HOUR_H*10}}>
+              {Array.from({length:11},(_,i)=>(
+                <div key={i} className="absolute left-0 right-0 border-t border-blue-100" style={{top: i*HOUR_H}}/>
+              ))}
+              {Array.from({length:6},(_,i)=>(
+                <div key={i} className="absolute top-0 bottom-0 border-l border-blue-100"
+                  style={{left:`${(i+1)*(100/7)}%`}}/>
+              ))}
+              <div className="absolute left-0 right-0 border-t-[1.5px] border-red-400 z-10"
+                style={{top: (nowH-START)*HOUR_H}}>
+                <div className="absolute -left-0.5 -top-0.5 w-1 h-1 rounded-full bg-red-400"/>
+              </div>
+              {calEvents.map((ev,i)=>(
+                <div key={i}
+                  className={`absolute rounded-sm ${ev.color} opacity-90 flex items-start pl-0.5 overflow-hidden`}
+                  style={{
+                    top: (ev.startH - START)*HOUR_H,
+                    height: ev.dur * HOUR_H,
+                    left: `${(ev.col-1)*(100/7) + 0.5}%`,
+                    width: `${100/7 - 1}%`,
+                  }}>
+                  <span className="text-[3.5px] text-white font-bold leading-tight">{ev.title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Zone 3 — Selected day event list */}
+      <div className="bg-green-50 px-2 py-1 border-t border-green-200">
+        <div className="text-[6px] font-bold text-green-800">Tue 17 · 2 events</div>
+        <div className="mt-0.5 space-y-0.5">
+          <div className="bg-white rounded border-l-2 border-blue-400 px-1 py-0.5">
+            <div className="text-[5.5px] text-gray-700 font-medium">9:00 AM — Team Meeting</div>
+            <div className="text-[4.5px] text-gray-400">Work · Ajay</div>
+          </div>
+          <div className="bg-white rounded border-l-2 border-red-400 px-1 py-0.5">
+            <div className="text-[5.5px] text-gray-700 font-medium">2:00 PM — Doctor</div>
+            <div className="text-[4.5px] text-gray-400">Health · Sarah</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Zone 4 — FAB */}
+      <div className="relative bg-white h-7 border-t border-gray-100">
+        <div className="absolute bottom-1 right-1.5 w-5 h-5 rounded-full bg-indigo-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">+</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Calendar: Day View Screen ──────────────────────────────────────
+function CalendarDayViewScreen() {
+  const [isFamily, setIsFamily] = useState(true);
+  const HOUR_H = 12;
+  const START   = 7;
+  const END     = 21;
+  const HOURS   = END - START;
+  const nowH    = 10.25;
+  const dayEvents = [
+    { title:'Team Meeting',   sub:'Work · Zoom',     color:'bg-blue-400',    startH:9,    dur:1   },
+    { title:'Lunch with Dad', sub:'Home',             color:'bg-green-400',   startH:12.5, dur:1   },
+    { title:'Doctor Appt',    sub:'Health · Clinic',  color:'bg-red-400',     startH:14,   dur:1   },
+    { title:'Gym',            sub:'Personal',         color:'bg-orange-400',  startH:17,   dur:1.5 },
+    { title:'Family Dinner',  sub:'Home',             color:'bg-purple-400',  startH:19,   dur:1   },
+  ];
+  const memberColors = ['bg-purple-400','bg-pink-400','bg-orange-400','bg-emerald-400'];
+  return (
+    <div className="h-full flex flex-col" style={{ minHeight: 280 }}>
+      {/* Zone 1 — Header (identical, D highlighted) */}
+      <div className="bg-purple-100 px-2 pt-2 pb-1 border-b border-purple-200">
+        <div className="flex items-center justify-between">
+          <div className="text-[7px] font-bold text-purple-900">👨‍👩‍👧 Sharma Family  ▾</div>
+          <button onClick={() => setIsFamily(f => !f)}
+            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5px] font-bold transition-colors ${
+              isFamily ? 'bg-purple-600 text-white border-purple-700' : 'bg-white text-purple-700 border-purple-300'
+            }`}>
+            {isFamily ? <span>👥</span> : <span>👤</span>}
+          </button>
+        </div>
+        {isFamily && (
+          <div className="flex gap-1 mt-1">
+            {['A','B','C','D'].map((m,i)=>(
+              <div key={m} className={`w-4 h-4 rounded-full ${memberColors[i]} flex items-center justify-center text-[5px] text-white font-bold`}>{m}</div>
+            ))}
+            <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+2</div>
+          </div>
+        )}
+        <div className="flex gap-0.5 mt-1.5">
+          {['M','W','D','⊞'].map((v,i)=>(
+            <div key={v} className={`text-[6px] px-1.5 py-0.5 rounded font-semibold ${i===2?'bg-purple-600 text-white':'bg-white text-gray-500 border border-gray-200'}`}>{v}</div>
+          ))}
+          <div className="ml-auto text-[6px] text-purple-600 font-semibold">↗ Share</div>
+        </div>
+      </div>
+
+      {/* Day navigation bar */}
+      <div className="bg-blue-50 px-2 py-1 border-b border-blue-100 flex items-center justify-between">
+        <span className="text-[5.5px] text-blue-700 font-bold">◀</span>
+        <span className="text-[6px] font-bold text-blue-900">Tuesday, 17 March 2026</span>
+        <span className="text-[5.5px] text-blue-700 font-bold">▶</span>
+      </div>
+
+      {/* All-day row */}
+      <div className="bg-purple-50 px-1 py-0.5 border-b border-purple-100 flex items-center gap-1">
+        <span className="text-[4px] text-gray-400 w-6 text-right flex-none leading-tight">All-<br/>day</span>
+        <div className="flex gap-1 flex-1 flex-wrap">
+          <div className="bg-purple-200 rounded px-1 py-0.5 text-[4px] text-purple-800 font-semibold">Dad birthday 🎂</div>
+          <div className="bg-blue-200 rounded px-1 py-0.5 text-[4px] text-blue-800 font-semibold">WFH</div>
+        </div>
+      </div>
+
+      {/* Zone 2 — 24-h time grid */}
+      <div className="flex-1 bg-white overflow-auto relative">
+        <div className="flex" style={{height: HOUR_H * HOURS}}>
+          {/* Hour labels */}
+          <div className="w-7 flex-none border-r border-gray-100 relative" style={{height: HOUR_H * HOURS}}>
+            {Array.from({length: HOURS + 1}, (_,i) => {
+              const h = START + i;
+              const label = h < 12 ? `${h} AM` : h === 12 ? '12 PM' : `${h-12} PM`;
+              return (
+                <div key={i} className="absolute left-0 right-0 flex items-start justify-end pr-0.5"
+                  style={{top: i * HOUR_H - 2, height: HOUR_H}}>
+                  <span className="text-[3.5px] text-gray-400 whitespace-nowrap">{label}</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* Events column */}
+          <div className="flex-1 relative" style={{height: HOUR_H * HOURS}}>
+            {Array.from({length: HOURS + 1}, (_,i) => (
+              <div key={i} className="absolute left-0 right-0 border-t border-gray-100" style={{top: i * HOUR_H}}/>
+            ))}
+            {Array.from({length: HOURS}, (_,i) => (
+              <div key={i} className="absolute left-0 right-0 border-t border-dashed border-gray-50"
+                style={{top: (i + 0.5) * HOUR_H}}/>
+            ))}
+            {/* Current time red line */}
+            <div className="absolute left-0 right-0 border-t-[1.5px] border-red-400 z-10"
+              style={{top: (nowH - START) * HOUR_H}}>
+              <div className="absolute -left-0.5 -top-0.5 w-1.5 h-1.5 rounded-full bg-red-400"/>
+            </div>
+            {dayEvents.map((ev,i) => (
+              <div key={i}
+                className={`absolute left-0.5 right-0.5 rounded ${ev.color} opacity-90 px-0.5 pt-0.5 overflow-hidden`}
+                style={{
+                  top:    (ev.startH - START) * HOUR_H + 1,
+                  height: ev.dur * HOUR_H - 2,
+                }}>
+                <div className="text-[4.5px] text-white font-bold leading-tight">{ev.title}</div>
+                <div className="text-[3.5px] text-white opacity-80">{ev.sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Zone 4 — FAB */}
+      <div className="relative bg-white h-7 border-t border-gray-100">
+        <div className="absolute bottom-1 right-1.5 w-5 h-5 rounded-full bg-indigo-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">+</div>
+      </div>
+    </div>
+  );
+}
+
 function CalMultipleViewsScreen() {
   return (
     <div className="flex flex-col" style={{ minHeight: 280 }}>
@@ -10833,12 +11084,16 @@ export function PhoneLayoutDiagram() {
             <span className="text-[9px] font-bold bg-indigo-50 border border-indigo-300 text-indigo-700 px-2 py-0.5 rounded-full">Tap Calendar</span>
             <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
           </div>
-          <PhoneShell label="Calendar Main Screen" sublabel="Zone 1–4 layout" accent="border-purple-500" highlight>
+          <PhoneShell label="Calendar Main Screen" sublabel="Month view — Zone 1–4" accent="border-purple-500" highlight>
             <CalendarMainScreen />
           </PhoneShell>
-          <Arrow label="Tap view switcher" />
-          <PhoneShell label="Multiple Views" sublabel="Month / Week / Day / Matrix" accent="border-blue-500">
-            <CalMultipleViewsScreen />
+          <Arrow label="Tap W" />
+          <PhoneShell label="Week View" sublabel="7-day time grid + event blocks" accent="border-blue-500">
+            <CalendarWeekViewScreen />
+          </PhoneShell>
+          <Arrow label="Tap D" />
+          <PhoneShell label="Day View" sublabel="Hourly time grid · 7AM–9PM" accent="border-indigo-500">
+            <CalendarDayViewScreen />
           </PhoneShell>
         </div>
 
