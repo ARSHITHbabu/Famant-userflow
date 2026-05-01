@@ -1839,13 +1839,81 @@ function CalAddEventScreen() {
         <div><div className="text-[6px] text-gray-400 mb-0.5">LOCATION</div><div className="bg-gray-100 rounded px-1.5 py-1 border border-gray-200 text-[6px] text-gray-500">📍 Add location...</div></div>
         <div><div className="text-[6px] text-gray-400 mb-0.5">MEMBERS</div><div className="flex gap-0.5">{['A','S'].map(m=><div key={m} className="w-4 h-4 rounded-full bg-indigo-400 flex items-center justify-center text-[5px] text-white">{m}</div>)}<div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+</div></div></div>
         <div><div className="text-[6px] text-gray-400 mb-0.5">VISIBILITY</div><div className="flex gap-0.5"><div className="text-[6px] bg-green-100 text-green-700 rounded px-1 py-0.5 font-medium">Personal</div><div className="text-[6px] bg-blue-500 text-white rounded px-1 py-0.5 font-medium">Family</div></div></div>
-        <div><div className="text-[6px] text-gray-400 mb-0.5">ATTACH / LINK</div><div className="flex gap-1 flex-wrap"><div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">📎 Doc</div><div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">✅ Task</div><div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">🛒 List</div><div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">💰 Expense</div></div></div>
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">ATTACH / LINK</div>
+          <div className="flex gap-0.5 flex-wrap mb-1">
+            <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">📎 Doc</div>
+            <div className="text-[6px] bg-emerald-100 text-emerald-700 rounded px-1 py-0.5 border border-emerald-300 font-medium">✅ Task ✓</div>
+            <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">🛒 List</div>
+            <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">💰 Expense</div>
+          </div>
+          {/* Linked Tasks — shown when Task chip is active */}
+          <div className="space-y-0.5">
+            <div className="bg-white rounded-lg border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm border-l-2 border-l-emerald-400">
+              <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
+              <div className="flex-1 min-w-0">
+                <div className="text-[5.5px] font-semibold text-gray-800 truncate">Buy party supplies</div>
+                <div className="text-[4px] text-gray-400">Mom · Today 5pm · 1h</div>
+              </div>
+              <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+            </div>
+            <div className="text-[5px] text-indigo-600 font-semibold">+ Link another task</div>
+          </div>
+        </div>
         <div className="bg-indigo-50 border border-indigo-200 rounded p-1.5">
           <div className="flex items-center justify-between mb-1"><div className="text-[6px] font-bold text-indigo-800">🔁 Recurring Event</div><div className="w-6 h-3 bg-gray-300 rounded-full flex items-center pl-0.5"><div className="w-2 h-2 bg-white rounded-full shadow-sm"/></div></div>
           <div className="flex gap-0.5">{['Daily','Weekly','Monthly','Yearly'].map(f=><div key={f} className="text-[5px] px-1 py-0.5 rounded bg-white text-gray-400 border border-gray-200">{f}</div>)}</div>
         </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100"><div className="bg-indigo-600 text-white text-[7px] font-bold text-center rounded py-1.5">SAVE EVENT</div></div>
+    </div>
+  );
+}
+
+// ── Calendar: Link Task Picker Screen ─────────────────────────────
+function EventLinkTaskPickerScreen() {
+  return (
+    <div className="flex flex-col" style={{ minHeight: 360 }}>
+      <div className="bg-indigo-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[8px]">←</div>
+        <div className="text-[7px] font-bold text-white">Link Tasks to Event</div>
+      </div>
+      {/* Search bar */}
+      <div className="px-2 py-1.5 bg-white border-b border-gray-100">
+        <div className="bg-gray-100 rounded-full px-2 py-1 flex items-center gap-1">
+          <span className="text-[7px] text-gray-400">🔍</span>
+          <span className="text-[5.5px] text-gray-400">Search tasks…</span>
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-2 py-1.5 space-y-1 overflow-hidden">
+        <div className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Today's Tasks</div>
+        {[
+          { title:'Buy party supplies', assignee:'Mom', aColor:'bg-pink-400',   due:'Today 5pm', pColor:'bg-amber-400', est:'1h',  selected:true  },
+          { title:'Book venue call',    assignee:'Dad', aColor:'bg-orange-400', due:'Today 4pm', pColor:'bg-red-400',   est:'30m', selected:true  },
+          { title:'Take out trash',     assignee:'Dad', aColor:'bg-orange-400', due:'Today',     pColor:'bg-gray-300',  est:'30m', selected:false },
+        ].map((t,i)=>(
+          <div key={i} className={`bg-white rounded-lg border px-1.5 py-1 flex items-center gap-1 shadow-sm ${t.selected?'border-indigo-300 ring-1 ring-indigo-300':'border-gray-100'}`}>
+            <div className={`w-3 h-3 rounded border-2 flex-shrink-0 flex items-center justify-center ${t.selected?'bg-indigo-500 border-indigo-500':'border-gray-300'}`}>
+              {t.selected && <span className="text-white text-[6px] leading-none">✓</span>}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5.5px] font-semibold text-gray-800 truncate">{t.title}</div>
+              <div className="flex items-center gap-0.5 mt-0.5">
+                <div className={`w-2.5 h-2.5 rounded-full ${t.aColor} flex items-center justify-center text-[3.5px] text-white font-bold flex-shrink-0`}>{t.assignee[0]}</div>
+                <span className="text-[4px] text-gray-400">{t.assignee} · {t.due}</span>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
+              <div className={`w-1.5 h-1.5 rounded-full ${t.pColor}`}/>
+              <span className="text-[4px] text-gray-400">{t.est}</span>
+            </div>
+          </div>
+        ))}
+        <div className="text-[5px] text-gray-400 text-center pt-0.5">2 tasks selected</div>
+      </div>
+      <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
+        <div className="bg-indigo-600 text-white text-[7px] font-bold text-center rounded py-1.5">DONE — LINK 2 TASKS</div>
+      </div>
     </div>
   );
 }
@@ -1942,6 +2010,17 @@ function CF1_EventDetail() {
         <div className="text-[6px] text-gray-500">📍 City Clinic, 4th Floor</div>
         <div className="text-[6px] text-gray-500">🏷 Health  ·  🔴 Family</div>
         <div className="flex gap-0.5 mt-1">{['A','S'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-red-300 flex items-center justify-center text-[4px] text-red-900">{m}</div>)}</div>
+        {/* Linked Tasks */}
+        <div className="space-y-0.5 mt-0.5">
+          <div className="text-[5px] text-gray-400">LINKED TASKS</div>
+          <div className="bg-white rounded-lg border border-gray-100 border-l-2 border-l-emerald-400 px-1 py-0.5 flex items-center gap-1 shadow-sm">
+            <div className="w-2.5 h-2.5 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5px] font-semibold text-gray-800 truncate">Buy party supplies</div>
+              <div className="text-[4px] text-gray-400">Mom · Today 5pm · 1h</div>
+            </div>
+          </div>
+        </div>
         <div className="bg-yellow-50 border border-yellow-200 rounded p-1"><div className="text-[6px] text-yellow-800 font-semibold">⚠ Conflict detected</div><div className="text-[5px] text-yellow-700">Sarah has soccer at 1:30 PM — travel time overlap</div></div>
       </div>
       <div className="flex gap-1 px-2 pb-2"><div className="flex-1 bg-blue-100 text-blue-700 text-[6px] font-bold text-center rounded py-1">EDIT</div><div className="flex-1 bg-red-100 text-red-700 text-[6px] font-bold text-center rounded py-1">DELETE</div><div className="flex-1 bg-gray-100 text-gray-700 text-[6px] font-bold text-center rounded py-1">COPY</div></div>
@@ -2869,7 +2948,18 @@ function CGF_EventDetail() {
           <div className="text-[5px] text-yellow-800 font-semibold">⚠ Conflict (if any)</div>
           <div className="text-[4.5px] text-yellow-700">Member has overlapping event — details shown here</div>
         </div>
-        <div className="text-[4.5px] text-gray-400">📎 Linked modules: Task · List · Expense · Doc</div>
+        {/* Linked Tasks */}
+        <div className="space-y-0.5">
+          <div className="text-[4.5px] text-gray-400">LINKED TASKS</div>
+          <div className="bg-white rounded border-l-2 border-emerald-400 px-1 py-0.5 flex items-center gap-1 shadow-sm">
+            <div className="w-2.5 h-2.5 rounded border-2 border-gray-300 flex-shrink-0"/>
+            <div className="flex-1 min-w-0">
+              <div className="text-[5px] font-semibold text-gray-800 truncate">Linked task title</div>
+              <div className="text-[4px] text-gray-400">Assignee · Due date · Est. time</div>
+            </div>
+          </div>
+          <div className="text-[4px] text-gray-400">📎 Also: Doc · List · Expense</div>
+        </div>
       </div>
       <div className="flex gap-1 px-2 pb-2">
         <div className="flex-1 bg-blue-100 text-blue-700 text-[5.5px] font-bold text-center rounded py-1">EDIT</div>
@@ -7313,6 +7403,17 @@ function TaskDetailScreen() {
             ))}
           </div>
         </div>
+        {/* Linked Events */}
+        <div className="space-y-0.5">
+          <div className="text-[6px] text-gray-400">LINKED EVENTS</div>
+          <div className="bg-white rounded border-l-2 border-red-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="flex-1">
+              <div className="text-[5.5px] text-gray-700 font-medium">2:00 PM — Doctor Appointment</div>
+              <div className="text-[4.5px] text-gray-400">📅 Mar 17 · Health · Sarah</div>
+            </div>
+            <span className="text-[4.5px] text-indigo-500 font-semibold flex-shrink-0">›</span>
+          </div>
+        </div>
         <div className="bg-red-50 border border-red-200 rounded p-1">
           <div className="text-[5px] text-red-700 font-semibold">⚠ This task is overdue.</div>
         </div>
@@ -7411,10 +7512,10 @@ function AddTaskScreen() {
           <div className="text-[6px] text-gray-400 mb-0.5">CONNECT WITH</div>
           <div className="flex flex-wrap gap-0.5">
             {[
-              { label:'List', icon:'📝', active:true },
-              { label:'Expense', icon:'💰', active:true },
-              { label:'Calendar', icon:'📅', active:false },
-              { label:'Docs', icon:'📁', active:false },
+              { label:'List',     icon:'📝', active:true  },
+              { label:'Expense',  icon:'💰', active:true  },
+              { label:'Calendar', icon:'📅', active:true  },
+              { label:'Docs',     icon:'📁', active:false },
             ].map(({label,icon,active})=>(
               <div key={label} className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[5.5px] font-medium ${active?'bg-violet-100 border-violet-400 text-violet-800':'bg-gray-50 border-gray-200 text-gray-400'}`}>
                 <span className="text-[7px] leading-none">{icon}</span>
@@ -7424,6 +7525,18 @@ function AddTaskScreen() {
             ))}
           </div>
           <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
+        </div>
+        {/* Linked Events — shown when Calendar chip is active */}
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">LINKED EVENTS</div>
+          <div className="bg-white rounded border-l-2 border-red-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="flex-1">
+              <div className="text-[5.5px] text-gray-700 font-medium">2:00 PM — Doctor Appt</div>
+              <div className="text-[4.5px] text-gray-400">📅 Mar 17 · Health · Sarah</div>
+            </div>
+            <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+          </div>
+          <div className="text-[5px] text-indigo-600 font-semibold mt-0.5">+ Link another event</div>
         </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
@@ -7558,9 +7671,78 @@ function AddTaskScreenExpanded() {
           </div>
           <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
         </div>
+        {/* Linked Events — shown when Calendar chip is active */}
+        <div>
+          <div className="text-[6px] text-gray-400 mb-0.5">LINKED EVENTS</div>
+          <div className="bg-white rounded border-l-2 border-blue-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
+            <div className="flex-1">
+              <div className="text-[5.5px] text-gray-700 font-medium">6:30 PM — Family Dinner</div>
+              <div className="text-[4.5px] text-gray-400">📅 May 2 · Family · All</div>
+            </div>
+            <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+          </div>
+          <div className="text-[5px] text-indigo-600 font-semibold mt-0.5">+ Link another event</div>
+        </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
         <div className="bg-emerald-600 text-white text-[7px] font-bold text-center rounded py-1.5">SAVE TASK</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Task: Link Event Picker Screen ────────────────────────────────
+function TaskLinkEventPickerScreen() {
+  return (
+    <div className="flex flex-col" style={{ minHeight: 360 }}>
+      <div className="bg-emerald-600 px-2 py-1.5 flex items-center gap-1">
+        <div className="text-white text-[8px]">←</div>
+        <div className="text-[7px] font-bold text-white">Link Events to Task</div>
+      </div>
+      {/* Search bar */}
+      <div className="px-2 py-1.5 bg-white border-b border-gray-100">
+        <div className="bg-gray-100 rounded-full px-2 py-1 flex items-center gap-1">
+          <span className="text-[7px] text-gray-400">🔍</span>
+          <span className="text-[5.5px] text-gray-400">Search events…</span>
+        </div>
+      </div>
+      <div className="flex-1 bg-gray-50 px-2 py-1.5 space-y-1.5 overflow-hidden">
+        <div className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide">Today · May 1</div>
+        <div className="space-y-0.5">
+          {[
+            { time:'9:00 AM', title:'Team Meeting',        sub:'Work · Ajay',    color:'border-blue-400',   selected:false },
+            { time:'2:00 PM', title:'Doctor Appointment',  sub:'Health · Sarah', color:'border-red-400',    selected:true  },
+          ].map((ev,i)=>(
+            <div key={i} className={`bg-white rounded border-l-2 ${ev.color} px-1.5 py-1 flex items-center gap-1 shadow-sm${ev.selected?' ring-1 ring-emerald-400':''}`}>
+              <div className="flex-1">
+                <div className="text-[5.5px] text-gray-700 font-medium">{ev.time} — {ev.title}</div>
+                <div className="text-[4.5px] text-gray-400">{ev.sub}</div>
+              </div>
+              <div className={`w-3.5 h-3.5 rounded border-2 flex-shrink-0 flex items-center justify-center ${ev.selected?'bg-emerald-500 border-emerald-500':'border-gray-300'}`}>
+                {ev.selected && <span className="text-white text-[6px] leading-none">✓</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[5.5px] font-bold text-gray-500 uppercase tracking-wide mt-1">Tomorrow · May 2</div>
+        <div className="space-y-0.5">
+          {[
+            { time:'10:00 AM', title:'School Pick-up', sub:'Family · Mom', color:'border-purple-400' },
+            { time:'6:30 PM',  title:'Family Dinner',  sub:'Family · All', color:'border-green-400'  },
+          ].map((ev,i)=>(
+            <div key={i} className={`bg-white rounded border-l-2 ${ev.color} px-1.5 py-1 flex items-center gap-1 shadow-sm`}>
+              <div className="flex-1">
+                <div className="text-[5.5px] text-gray-700 font-medium">{ev.time} — {ev.title}</div>
+                <div className="text-[4.5px] text-gray-400">{ev.sub}</div>
+              </div>
+              <div className="w-3.5 h-3.5 rounded border-2 border-gray-300 flex-shrink-0"/>
+            </div>
+          ))}
+        </div>
+        <div className="text-[5px] text-gray-400 text-center pt-0.5">1 event selected</div>
+      </div>
+      <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
+        <div className="bg-emerald-600 text-white text-[7px] font-bold text-center rounded py-1.5">DONE — LINK 1 EVENT</div>
       </div>
     </div>
   );
@@ -11110,6 +11292,50 @@ export function PhoneLayoutDiagram() {
           </PhoneShell>
         </div>
 
+        {/* ── Calendar ↔ Task: Link Task Picker Flow ── */}
+        <div className="border-t border-dashed border-indigo-200 pt-6 mb-8">
+          <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-1">Calendar ↔ Task — Link Task to Event Flow</p>
+          <p className="text-xs text-gray-500 mb-4">
+            User taps <strong>✅ Task</strong> in the "ATTACH / LINK" section of the Add / Edit Event form → browses the task list to pick one or more tasks → returns to the form with linked tasks displayed. On the Event Detail screen the same task cards appear in a read-only LINKED TASKS section.
+          </p>
+          <div className="flex flex-wrap justify-center items-start gap-2">
+            <PhoneShell label="Add Event Form" sublabel="Tap ✅ Task in ATTACH / LINK" accent="border-indigo-500">
+              <CalAddEventScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-indigo-50 border border-indigo-300 text-indigo-700 px-2 py-0.5 rounded-full">Tap ✅ Task</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Link Task Picker" sublabel="Task list · same card style as Tasks module · tap to select" accent="border-emerald-500" highlight>
+              <EventLinkTaskPickerScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-emerald-50 border border-emerald-300 text-emerald-700 px-2 py-0.5 rounded-full">Done — Link 2 Tasks</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Event Form (updated)" sublabel="Linked task cards shown · tap ✕ to remove" accent="border-indigo-500">
+              <CalAddEventScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-purple-50 border border-purple-300 text-purple-700 px-2 py-0.5 rounded-full">Save Event</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Event Detail" sublabel="LINKED TASKS section visible in detail view" accent="border-purple-500">
+              <CF1_EventDetail />
+            </PhoneShell>
+          </div>
+          <div className="mt-4 bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+            <p className="text-xs font-bold text-indigo-700 mb-2">Link Task Picker — Behaviour Notes</p>
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Task cards use the <strong>same card style</strong> as the main Task list: checkbox + title + assignee avatar + due date + priority dot + estimate.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Tap a card to toggle selection (shows indigo ✓ checkmark). Multiple tasks can be linked to one event.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Search bar filters tasks by title or assignee. Counter at bottom shows "N task(s) selected".</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>On return to the event form, each linked task appears as a removable card under <strong>ATTACH / LINK → ✅ Task</strong>. Tap ✕ to unlink.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>In the Event Detail screen the same task cards appear in a read-only <strong>LINKED TASKS</strong> section with an emerald left border. Tap to navigate to that task's detail.</span></li>
+            </ul>
+          </div>
+        </div>
+
         {/* Zone Legend */}
         <div className="flex justify-center mb-8">
           <CalZoneLegend />
@@ -11504,6 +11730,50 @@ export function PhoneLayoutDiagram() {
             <PhoneShell label="Add Task — Family" sublabel="Assigned · recurring" accent="border-emerald-600">
               <AddTaskScreenExpanded />
             </PhoneShell>
+          </div>
+        </div>
+
+        {/* ── Task ↔ Calendar: Link Event Picker Flow ── */}
+        <div className="border-t border-dashed border-emerald-200 pt-6 mb-6">
+          <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Task ↔ Calendar — Link Event to Task Flow</p>
+          <p className="text-xs text-gray-500 mb-4">
+            User taps <strong>📅 Calendar</strong> in the "CONNECT WITH" section of the Add / Edit Task form → browses the event list to pick one or more events → returns to the form with linked events displayed. The event picker uses the same card view as the main Calendar event list.
+          </p>
+          <div className="flex flex-wrap justify-center items-start gap-2">
+            <PhoneShell label="Add Task Form" sublabel="Tap 📅 Calendar chip in CONNECT WITH" accent="border-emerald-500">
+              <AddTaskScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-emerald-50 border border-emerald-300 text-emerald-700 px-2 py-0.5 rounded-full">Tap 📅 Calendar</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Link Event Picker" sublabel="Event list · same card style as Calendar · tap to select" accent="border-indigo-500" highlight>
+              <TaskLinkEventPickerScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-indigo-50 border border-indigo-300 text-indigo-700 px-2 py-0.5 rounded-full">Done — Link 1 Event</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Task Form (updated)" sublabel="Linked event card shown · tap › to view event detail" accent="border-emerald-500">
+              <AddTaskScreen />
+            </PhoneShell>
+            <div className="flex flex-col items-center justify-center gap-1 px-2 shrink-0 self-center">
+              <span className="text-[9px] font-bold bg-teal-50 border border-teal-300 text-teal-700 px-2 py-0.5 rounded-full">Save Task</span>
+              <div className="text-gray-400 text-2xl leading-none mt-1">→</div>
+            </div>
+            <PhoneShell label="Task Detail" sublabel="LINKED EVENTS section visible in detail view" accent="border-teal-500">
+              <TaskDetailScreen />
+            </PhoneShell>
+          </div>
+          <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p className="text-xs font-bold text-emerald-700 mb-2">Link Event Picker — Behaviour Notes</p>
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Event cards use the <strong>same border-left card style</strong> as the main Calendar event list (color matches event type: blue=work, red=health, purple=family, green=leisure)</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Events are grouped by date. Tap a card to toggle selection (shows emerald ✓ checkmark). Multiple events can be linked to one task.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Search bar filters events by title or member. Counter at bottom shows "N event(s) selected".</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>On return to the form, each linked event appears as a removable card under <strong>LINKED EVENTS</strong>. Tap ✕ to unlink; tap the card title to open the Event Detail.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>In the Task Detail screen the same event cards appear in a read-only <strong>LINKED EVENTS</strong> section. Tap › to navigate directly to that event.</span></li>
+            </ul>
           </div>
         </div>
 
