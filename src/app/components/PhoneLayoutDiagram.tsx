@@ -1840,24 +1840,22 @@ function CalAddEventScreen() {
         <div><div className="text-[6px] text-gray-400 mb-0.5">MEMBERS</div><div className="flex gap-0.5">{['A','S'].map(m=><div key={m} className="w-4 h-4 rounded-full bg-indigo-400 flex items-center justify-center text-[5px] text-white">{m}</div>)}<div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-[5px] text-gray-600">+</div></div></div>
         <div><div className="text-[6px] text-gray-400 mb-0.5">VISIBILITY</div><div className="flex gap-0.5"><div className="text-[6px] bg-green-100 text-green-700 rounded px-1 py-0.5 font-medium">Personal</div><div className="text-[6px] bg-blue-500 text-white rounded px-1 py-0.5 font-medium">Family</div></div></div>
         <div>
-          <div className="text-[6px] text-gray-400 mb-0.5">ATTACH / LINK</div>
+          <div className="text-[6px] text-gray-400 mb-1">ATTACH / LINK</div>
           <div className="flex gap-0.5 flex-wrap mb-1">
             <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">📎 Doc</div>
             <div className="text-[6px] bg-emerald-100 text-emerald-700 rounded px-1 py-0.5 border border-emerald-300 font-medium">✅ Task ✓</div>
             <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">🛒 List</div>
             <div className="text-[6px] bg-gray-100 text-gray-600 rounded px-1 py-0.5">💰 Expense</div>
           </div>
-          {/* Linked Tasks — shown when Task chip is active */}
-          <div className="space-y-0.5">
-            <div className="bg-white rounded-lg border border-gray-100 px-1.5 py-1 flex items-center gap-1 shadow-sm border-l-2 border-l-emerald-400">
-              <div className="w-3 h-3 rounded border-2 border-gray-300 flex-shrink-0"/>
-              <div className="flex-1 min-w-0">
-                <div className="text-[5.5px] font-semibold text-gray-800 truncate">Buy party supplies</div>
-                <div className="text-[4px] text-gray-400">Mom · Today 5pm · 1h</div>
-              </div>
-              <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+          <div className="text-[4.5px] text-gray-400 mb-1">Tap to toggle · tap again to remove</div>
+          {/* Connections panel — compact rows, no items listed inline */}
+          <div className="border border-gray-200 rounded-lg overflow-hidden">
+            <div className="flex items-center gap-1 px-1.5 py-1 bg-white">
+              <span className="text-[8px] leading-none">✅</span>
+              <div className="text-[5.5px] font-semibold text-gray-700 flex-1">Task</div>
+              <div className="text-[5px] text-emerald-600 font-semibold mr-1">1 linked</div>
+              <div className="text-[5px] text-indigo-600 font-bold">Manage →</div>
             </div>
-            <div className="text-[5px] text-indigo-600 font-semibold">+ Link another task</div>
           </div>
         </div>
         <div className="bg-indigo-50 border border-indigo-200 rounded p-1.5">
@@ -2010,15 +2008,21 @@ function CF1_EventDetail() {
         <div className="text-[6px] text-gray-500">📍 City Clinic, 4th Floor</div>
         <div className="text-[6px] text-gray-500">🏷 Health  ·  🔴 Family</div>
         <div className="flex gap-0.5 mt-1">{['A','S'].map(m=><div key={m} className="w-3.5 h-3.5 rounded-full bg-red-300 flex items-center justify-center text-[4px] text-red-900">{m}</div>)}</div>
-        {/* Linked Tasks */}
+        {/* Connections (read-only) */}
         <div className="space-y-0.5 mt-0.5">
-          <div className="text-[5px] text-gray-400">LINKED TASKS</div>
-          <div className="bg-white rounded-lg border border-gray-100 border-l-2 border-l-emerald-400 px-1 py-0.5 flex items-center gap-1 shadow-sm">
-            <div className="w-2.5 h-2.5 rounded border-2 border-gray-300 flex-shrink-0"/>
-            <div className="flex-1 min-w-0">
-              <div className="text-[5px] font-semibold text-gray-800 truncate">Buy party supplies</div>
-              <div className="text-[4px] text-gray-400">Mom · Today 5pm · 1h</div>
-            </div>
+          <div className="text-[5px] text-gray-400">CONNECTIONS</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'✅', label:'Tasks', badge:'1 linked', color:'text-emerald-600' },
+              { icon:'🛒', label:'List',  badge:'1 linked', color:'text-blue-600'   },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1 py-0.5 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4.5px] font-semibold mr-0.5 ${m.color}`}>{m.badge}</div>
+                <div className="text-[4.5px] text-indigo-500 font-bold">View →</div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="bg-yellow-50 border border-yellow-200 rounded p-1"><div className="text-[6px] text-yellow-800 font-semibold">⚠ Conflict detected</div><div className="text-[5px] text-yellow-700">Sarah has soccer at 1:30 PM — travel time overlap</div></div>
@@ -2948,17 +2952,23 @@ function CGF_EventDetail() {
           <div className="text-[5px] text-yellow-800 font-semibold">⚠ Conflict (if any)</div>
           <div className="text-[4.5px] text-yellow-700">Member has overlapping event — details shown here</div>
         </div>
-        {/* Linked Tasks */}
+        {/* Connections (read-only) */}
         <div className="space-y-0.5">
-          <div className="text-[4.5px] text-gray-400">LINKED TASKS</div>
-          <div className="bg-white rounded border-l-2 border-emerald-400 px-1 py-0.5 flex items-center gap-1 shadow-sm">
-            <div className="w-2.5 h-2.5 rounded border-2 border-gray-300 flex-shrink-0"/>
-            <div className="flex-1 min-w-0">
-              <div className="text-[5px] font-semibold text-gray-800 truncate">Linked task title</div>
-              <div className="text-[4px] text-gray-400">Assignee · Due date · Est. time</div>
-            </div>
+          <div className="text-[4.5px] text-gray-400">CONNECTIONS</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'✅', label:'Tasks',   badge:'N linked', color:'text-emerald-600' },
+              { icon:'📎', label:'Doc',     badge:'1 linked', color:'text-indigo-600'  },
+              { icon:'🛒', label:'List',    badge:'1 linked', color:'text-blue-600'    },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-0.5 px-1 py-0.5 bg-white">
+                <span className="text-[6px] leading-none">{m.icon}</span>
+                <div className="text-[4.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] font-semibold mr-0.5 ${m.color}`}>{m.badge}</div>
+                <div className="text-[4px] text-indigo-500 font-bold">View →</div>
+              </div>
+            ))}
           </div>
-          <div className="text-[4px] text-gray-400">📎 Also: Doc · List · Expense</div>
         </div>
       </div>
       <div className="flex gap-1 px-2 pb-2">
@@ -3957,11 +3967,31 @@ function AddExpenseScreen() {
           )}
         </div>
         {/* Connect with modules */}
-        <div className="border border-indigo-100 rounded-lg px-1.5 py-1 bg-indigo-50">
-          <div className="text-[4px] text-indigo-700 font-semibold mb-0.5">Connect with</div>
-          <div className="flex gap-0.5 flex-wrap">
-            {[{l:'📋 List',a:true},{l:'📅 Calendar',a:true},{l:'✅ Task',a:false},{l:'📁 Docs',a:false}].map(m=>(
-              <span key={m.l} className={`text-[4px] px-1 py-0.5 rounded-full border ${m.a?'bg-indigo-500 text-white border-indigo-500':'bg-white text-gray-500 border-gray-200'}`}>{m.l}{m.a?' ✓':''}</span>
+        <div>
+          <div className="text-[4px] text-gray-400 mb-1">CONNECT WITH</div>
+          <div className="flex gap-0.5 flex-wrap mb-1">
+            {[
+              { l:'📋 List',     a:true  },
+              { l:'📅 Calendar', a:true  },
+              { l:'✅ Task',     a:false },
+              { l:'📁 Docs',     a:false },
+            ].map(m=>(
+              <span key={m.l} className={`text-[4px] px-1 py-0.5 rounded-full border font-medium ${m.a?'bg-violet-100 text-violet-800 border-violet-400':'bg-gray-50 text-gray-400 border-gray-200'}`}>{m.l}{m.a?' ✓':''}</span>
+            ))}
+          </div>
+          <div className="text-[3.5px] text-gray-400 mb-1">Tap to toggle · tap again to disconnect</div>
+          {/* Connections panel — one compact row per active module */}
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📋', label:'List',     badge:'1 linked',    linked:true  },
+              { icon:'📅', label:'Calendar', badge:'Auto-create', linked:false },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] mr-1 ${m.linked?'text-rose-600 font-semibold':'text-gray-400'}`}>{m.badge}</div>
+                <div className={`text-[4px] font-bold ${m.linked?'text-indigo-600':'text-emerald-600'}`}>{m.linked?'Manage →':'Link +'}</div>
+              </div>
             ))}
           </div>
         </div>
@@ -4171,8 +4201,22 @@ function ExpenseDetailScreen() {
         <div className="bg-gray-100 rounded h-8 flex items-center justify-center border border-dashed border-gray-300">
           <div className="flex items-center gap-1"><span className="text-[8px]">🧾</span><span className="text-[4px] text-gray-400">Receipt attached</span></div>
         </div>
-        <div className="bg-indigo-50 border border-indigo-100 rounded px-1.5 py-0.5">
-          <div className="text-[4px] text-indigo-600">📅 Linked: Monthly Grocery event</div>
+        {/* Connections (read-only) */}
+        <div className="space-y-0.5">
+          <div className="text-[4.5px] text-gray-400 font-semibold">CONNECTIONS</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📅', label:'Calendar', badge:'1 event',  color:'text-indigo-600' },
+              { icon:'📋', label:'List',     badge:'1 linked', color:'text-blue-600'   },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-0.5 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[4.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] font-semibold mr-0.5 ${m.color}`}>{m.badge}</div>
+                <div className="text-[4px] text-indigo-500 font-bold">View →</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="px-2 pb-2 flex gap-1">
@@ -5349,6 +5393,35 @@ function ListMainScreen() {
               <span className="text-[5px] text-gray-400 flex-1">Add item…</span>
               <span className="text-[5px] text-orange-400">🏪</span>
             </div>
+          </div>
+        </div>
+
+        {/* Connections panel */}
+        <div>
+          <div className="text-[5px] font-bold text-gray-400 uppercase tracking-wide mb-1">CONNECT WITH</div>
+          <div className="flex flex-wrap gap-0.5 mb-1">
+            {[
+              { l:'✅ Task',     a:true  },
+              { l:'📅 Calendar', a:false },
+              { l:'💰 Expense',  a:true  },
+              { l:'📅 Event',    a:false },
+            ].map(m=>(
+              <span key={m.l} className={`text-[4px] px-1 py-0.5 rounded-full border font-medium ${m.a?'bg-violet-100 text-violet-800 border-violet-400':'bg-gray-50 text-gray-400 border-gray-200'}`}>{m.l}{m.a?' ✓':''}</span>
+            ))}
+          </div>
+          <div className="text-[3.5px] text-gray-400 mb-1">Tap to toggle · tap again to disconnect</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'✅', label:'Task',    badge:'1 linked',    linked:true  },
+              { icon:'💰', label:'Expense', badge:'Auto-create', linked:false },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] mr-1 ${m.linked?'text-orange-600 font-semibold':'text-gray-400'}`}>{m.badge}</div>
+                <div className={`text-[4px] font-bold ${m.linked?'text-indigo-600':'text-emerald-600'}`}>{m.linked?'Manage →':'Link +'}</div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -7403,15 +7476,21 @@ function TaskDetailScreen() {
             ))}
           </div>
         </div>
-        {/* Linked Events */}
+        {/* Connections (read-only) */}
         <div className="space-y-0.5">
-          <div className="text-[6px] text-gray-400">LINKED EVENTS</div>
-          <div className="bg-white rounded border-l-2 border-red-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
-            <div className="flex-1">
-              <div className="text-[5.5px] text-gray-700 font-medium">2:00 PM — Doctor Appointment</div>
-              <div className="text-[4.5px] text-gray-400">📅 Mar 17 · Health · Sarah</div>
-            </div>
-            <span className="text-[4.5px] text-indigo-500 font-semibold flex-shrink-0">›</span>
+          <div className="text-[6px] text-gray-400">CONNECTIONS</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📝', label:'List',     badge:'1 linked', color:'text-blue-600'   },
+              { icon:'📅', label:'Calendar', badge:'1 event',  color:'text-indigo-600' },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[8px] leading-none">{m.icon}</span>
+                <div className="text-[5.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[5px] font-semibold mr-1 ${m.color}`}>{m.badge}</div>
+                <div className="text-[5px] text-indigo-500 font-bold">View →</div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="bg-red-50 border border-red-200 rounded p-1">
@@ -7509,11 +7588,11 @@ function AddTaskScreen() {
         </div>
         {/* Connect with Modules */}
         <div>
-          <div className="text-[6px] text-gray-400 mb-0.5">CONNECT WITH</div>
-          <div className="flex flex-wrap gap-0.5">
+          <div className="text-[6px] text-gray-400 mb-1">CONNECT WITH</div>
+          <div className="flex flex-wrap gap-0.5 mb-1">
             {[
               { label:'List',     icon:'📝', active:true  },
-              { label:'Expense',  icon:'💰', active:true  },
+              { label:'Expense',  icon:'💰', active:false },
               { label:'Calendar', icon:'📅', active:true  },
               { label:'Docs',     icon:'📁', active:false },
             ].map(({label,icon,active})=>(
@@ -7524,19 +7603,21 @@ function AddTaskScreen() {
               </div>
             ))}
           </div>
-          <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
-        </div>
-        {/* Linked Events — shown when Calendar chip is active */}
-        <div>
-          <div className="text-[6px] text-gray-400 mb-0.5">LINKED EVENTS</div>
-          <div className="bg-white rounded border-l-2 border-red-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
-            <div className="flex-1">
-              <div className="text-[5.5px] text-gray-700 font-medium">2:00 PM — Doctor Appt</div>
-              <div className="text-[4.5px] text-gray-400">📅 Mar 17 · Health · Sarah</div>
-            </div>
-            <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+          <div className="text-[4.5px] text-gray-400 mb-1.5">Tap to toggle · tap again to disconnect</div>
+          {/* Connections panel — one compact row per active module, no items listed here */}
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📝', label:'List',     badge:'Auto-create', linked:false },
+              { icon:'📅', label:'Calendar', badge:'1 event',     linked:true  },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[8px] leading-none">{m.icon}</span>
+                <div className="text-[5.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[5px] mr-1 ${m.linked?'text-indigo-600 font-semibold':'text-gray-400'}`}>{m.badge}</div>
+                <div className={`text-[5px] font-bold ${m.linked?'text-indigo-600':'text-emerald-600'}`}>{m.linked?'Manage →':'Link +'}</div>
+              </div>
+            ))}
           </div>
-          <div className="text-[5px] text-indigo-600 font-semibold mt-0.5">+ Link another event</div>
         </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
@@ -7669,19 +7750,21 @@ function AddTaskScreenExpanded() {
               </div>
             ))}
           </div>
-          <div className="text-[5px] text-gray-400 mt-0.5">Tap to link this task to another module</div>
-        </div>
-        {/* Linked Events — shown when Calendar chip is active */}
-        <div>
-          <div className="text-[6px] text-gray-400 mb-0.5">LINKED EVENTS</div>
-          <div className="bg-white rounded border-l-2 border-blue-400 px-1.5 py-1 flex items-center gap-1 shadow-sm">
-            <div className="flex-1">
-              <div className="text-[5.5px] text-gray-700 font-medium">6:30 PM — Family Dinner</div>
-              <div className="text-[4.5px] text-gray-400">📅 May 2 · Family · All</div>
-            </div>
-            <span className="text-[4.5px] text-red-400 font-semibold flex-shrink-0">✕</span>
+          <div className="text-[4.5px] text-gray-400 mb-1.5">Tap to toggle · tap again to disconnect</div>
+          {/* Connections panel — one compact row per active module */}
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📝', label:'List',     badge:'Auto-create', linked:false },
+              { icon:'📅', label:'Calendar', badge:'2 events',    linked:true  },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[8px] leading-none">{m.icon}</span>
+                <div className="text-[5.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[5px] mr-1 ${m.linked?'text-indigo-600 font-semibold':'text-gray-400'}`}>{m.badge}</div>
+                <div className={`text-[5px] font-bold ${m.linked?'text-indigo-600':'text-emerald-600'}`}>{m.linked?'Manage →':'Link +'}</div>
+              </div>
+            ))}
           </div>
-          <div className="text-[5px] text-indigo-600 font-semibold mt-0.5">+ Link another event</div>
         </div>
       </div>
       <div className="px-2 pb-2 pt-1 bg-white border-t border-gray-100">
@@ -10037,6 +10120,34 @@ function UploadDocumentForm() {
             </div>
           )}
         </div>
+        {/* Connect with modules */}
+        <div>
+          <div className="text-[4px] text-gray-400 mb-1">CONNECT WITH</div>
+          <div className="flex gap-0.5 flex-wrap mb-1">
+            {[
+              { l:'📅 Calendar', a:true  },
+              { l:'✅ Task',     a:true  },
+              { l:'💰 Expense',  a:false },
+              { l:'📋 List',     a:false },
+            ].map(m=>(
+              <span key={m.l} className={`text-[4px] px-1 py-0.5 rounded-full border font-medium ${m.a?'bg-violet-100 text-violet-800 border-violet-400':'bg-gray-50 text-gray-400 border-gray-200'}`}>{m.l}{m.a?' ✓':''}</span>
+            ))}
+          </div>
+          <div className="text-[3.5px] text-gray-400 mb-1">Tap to toggle · tap again to disconnect</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📅', label:'Calendar', badge:'Auto-create', linked:false },
+              { icon:'✅', label:'Task',     badge:'1 linked',    linked:true  },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-1 px-1.5 py-1 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] mr-1 ${m.linked?'text-indigo-600 font-semibold':'text-gray-400'}`}>{m.badge}</div>
+                <div className={`text-[4px] font-bold ${m.linked?'text-indigo-600':'text-emerald-600'}`}>{m.linked?'Manage →':'Link +'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         {/* Upload button */}
         <div className="w-full bg-indigo-500 text-white text-center py-1.5 rounded-lg">
           <span className="text-[6px] font-semibold">Upload Document</span>
@@ -10072,9 +10183,23 @@ function DocumentDetailScreen() {
             <div className="text-[5px] font-medium text-gray-700">{v}</div>
           </div>
         ))}
-        <div className="text-[4px] text-gray-400 font-semibold mt-0.5">LINKED TO</div>
-        <div className="bg-blue-50 border border-blue-200 rounded px-1 py-0.5 text-[4px] text-blue-700">📅 Calendar: Pay Insurance Apr 15</div>
-        <div className="bg-emerald-50 border border-emerald-200 rounded px-1 py-0.5 text-[4px] text-emerald-700">✓ Task: Pay Insurance Premium</div>
+        {/* Connections (read-only) */}
+        <div className="space-y-0.5">
+          <div className="text-[4px] text-gray-400 font-semibold">CONNECTIONS</div>
+          <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100">
+            {[
+              { icon:'📅', label:'Calendar', badge:'1 event',  color:'text-indigo-600'  },
+              { icon:'✅', label:'Task',     badge:'1 linked', color:'text-emerald-600' },
+            ].map((m,i)=>(
+              <div key={i} className="flex items-center gap-0.5 px-1 py-0.5 bg-white">
+                <span className="text-[7px] leading-none">{m.icon}</span>
+                <div className="text-[4.5px] font-semibold text-gray-700 flex-1">{m.label}</div>
+                <div className={`text-[4px] font-semibold mr-0.5 ${m.color}`}>{m.badge}</div>
+                <div className="text-[4px] text-indigo-500 font-bold">View →</div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="flex gap-1">
           <div className="flex-1 bg-indigo-500 text-white text-center py-0.5 rounded text-[5px] font-semibold">View</div>
           <div className="flex-1 border border-gray-200 text-center py-0.5 rounded text-[5px] text-gray-600">Share</div>
@@ -11325,13 +11450,13 @@ export function PhoneLayoutDiagram() {
             </PhoneShell>
           </div>
           <div className="mt-4 bg-indigo-50 border border-indigo-200 rounded-xl p-4">
-            <p className="text-xs font-bold text-indigo-700 mb-2">Link Task Picker — Behaviour Notes</p>
+            <p className="text-xs font-bold text-indigo-700 mb-2">ATTACH / LINK — UI Behaviour</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Task cards use the <strong>same card style</strong> as the main Task list: checkbox + title + assignee avatar + due date + priority dot + estimate.</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Tap a card to toggle selection (shows indigo ✓ checkmark). Multiple tasks can be linked to one event.</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>Search bar filters tasks by title or assignee. Counter at bottom shows "N task(s) selected".</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>On return to the event form, each linked task appears as a removable card under <strong>ATTACH / LINK → ✅ Task</strong>. Tap ✕ to unlink.</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span>In the Event Detail screen the same task cards appear in a read-only <strong>LINKED TASKS</strong> section with an emerald left border. Tap to navigate to that task's detail.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span><strong>Step 1 — Toggle chips:</strong> The ATTACH / LINK row (Doc / Task / List / Expense) are toggles. Tap to enable; tap again to disable. No items appear in the form itself.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span><strong>Step 2 — Connections panel:</strong> For every active chip, a compact row appears below: icon + name + badge (<em>N linked</em> or <em>Auto-create</em>) + action button (<strong>Manage →</strong> or <strong>Link +</strong>).</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span><strong>Step 3 — Picker:</strong> Tap <strong>Link +</strong> or <strong>Manage →</strong> → full-screen picker (task list style, same cards as Task module). Select items, tap DONE.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span><strong>Back in the form:</strong> The row badge updates to "N linked". Items are NOT listed inline — only the count is shown. This keeps the form clean even with 3 tasks + 2 lists linked.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-indigo-500 mt-0.5">•</span><span><strong>Event Detail (read-only):</strong> A compact <strong>CONNECTIONS</strong> panel shows one row per module with badge + <strong>View →</strong> button that opens a dedicated linked-items sheet.</span></li>
             </ul>
           </div>
         </div>
@@ -11766,13 +11891,13 @@ export function PhoneLayoutDiagram() {
             </PhoneShell>
           </div>
           <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-            <p className="text-xs font-bold text-emerald-700 mb-2">Link Event Picker — Behaviour Notes</p>
+            <p className="text-xs font-bold text-emerald-700 mb-2">CONNECT WITH — UI Behaviour</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Event cards use the <strong>same border-left card style</strong> as the main Calendar event list (color matches event type: blue=work, red=health, purple=family, green=leisure)</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Events are grouped by date. Tap a card to toggle selection (shows emerald ✓ checkmark). Multiple events can be linked to one task.</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>Search bar filters events by title or member. Counter at bottom shows "N event(s) selected".</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>On return to the form, each linked event appears as a removable card under <strong>LINKED EVENTS</strong>. Tap ✕ to unlink; tap the card title to open the Event Detail.</span></li>
-              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span>In the Task Detail screen the same event cards appear in a read-only <strong>LINKED EVENTS</strong> section. Tap › to navigate directly to that event.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span><strong>Step 1 — Toggle chips:</strong> The CONNECT WITH row (List / Expense / Calendar / Docs) are pure toggles. Tap to enable; tap again to disable. No items are shown in the form.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span><strong>Step 2 — Connections panel:</strong> For every active chip, one compact row appears: icon + name + badge + action. <em>Auto-create</em> = no specific item linked (one will be created on save). <em>N linked</em> = specific items selected.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span><strong>Step 3 — Picker:</strong> Tap <strong>Link +</strong> → event picker (Calendar card style, grouped by date). Tap <strong>Manage →</strong> to add/remove items. Tap DONE to return.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span><strong>Back in the form:</strong> The badge updates ("2 events"). Items are never listed inline — only the count, keeping the form uncluttered regardless of how many are linked.</span></li>
+              <li className="flex items-start gap-1.5"><span className="text-emerald-500 mt-0.5">•</span><span><strong>Task Detail (read-only):</strong> A compact <strong>CONNECTIONS</strong> panel shows one row per module with badge + <strong>View →</strong> button that opens a dedicated linked-items sheet.</span></li>
             </ul>
           </div>
         </div>
