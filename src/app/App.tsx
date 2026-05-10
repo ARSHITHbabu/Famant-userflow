@@ -8,6 +8,7 @@ import { ResultingActions } from './components/ResultingActions';
 import { SystemProcesses } from './components/SystemProcesses';
 import { ModuleConnections } from './components/ModuleConnections';
 import { MealPlannerHub, MealPlannerScreenFlowDiagram, MealPlannerWorkflow } from './components/MealPlannerFeature';
+import { CarePointsOverview, CarePointsPhoneLayouts } from './components/CarePointsFeature';
 
 export default function App() {
   const [selectedFlow, setSelectedFlow] = useState<string | null>(null);
@@ -80,6 +81,15 @@ export default function App() {
         <MealPlannerHub />
         <MealPlannerScreenFlowDiagram />
         <MealPlannerWorkflow />
+
+        {/* Section 15 — Care Points System */}
+        <div id="section-15" className="border-t-2 border-dashed border-indigo-300 pt-2">
+          <p className="text-xs text-indigo-500 uppercase tracking-widest font-semibold mb-6">
+            Section 15 · Care Points — Household Effort Visibility System
+          </p>
+        </div>
+        <CarePointsOverview />
+        <CarePointsPhoneLayouts />
       </div>
     </div>
   );
