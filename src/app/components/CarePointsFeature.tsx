@@ -174,10 +174,11 @@ function S_VibeCheck() {
   );
 }
 
-// Dashboard shows Sarah's personal CP (312 CP), not household total
+// Dashboard shows Sarah's personal CP (312 CP) as a compact pill — not dominant
 function S_Dashboard() {
   return (
     <div className="flex flex-col bg-white" style={{ minHeight: 232 }}>
+      {/* Header */}
       <div className="px-2 py-1 border-b border-gray-100 flex justify-between items-center">
         <div>
           <p className="text-[5px] text-gray-400">Good morning</p>
@@ -187,39 +188,36 @@ function S_Dashboard() {
           <span className="text-[6px] font-black text-white">F</span>
         </div>
       </div>
-      <div className="px-2 pt-1 flex gap-1 items-center">
+      {/* Avatars + compact CP pill — same row, CP is a supporting detail */}
+      <div className="px-2 pt-1 flex items-center gap-1">
         {[['S','bg-pink-400'],['V','bg-blue-500'],['A','bg-green-400']].map(([n,c])=>(
           <div key={n} className={`w-4 h-4 rounded-full ${c} flex items-center justify-center shrink-0`}>
             <span className="text-[5px] font-bold text-white">{n}</span>
           </div>
         ))}
-      </div>
-      {/* CP Card — personal to Sarah */}
-      <div className="mx-2 mt-1.5 bg-indigo-50 border-2 border-indigo-400 rounded-xl px-2 py-1.5">
-        <div className="flex justify-between items-center mb-0.5">
-          <p className="text-[6px] font-bold text-indigo-700">⭐ Your Care Points · This week</p>
-          <span className="text-[5px] text-indigo-400 font-semibold">View →</span>
+        <div className="ml-auto flex items-center gap-0.5 bg-indigo-50 border border-indigo-200 rounded-full px-1.5 py-0.5">
+          <span className="text-[5.5px]">⭐</span>
+          <span className="text-[5.5px] font-bold text-indigo-700">312 CP</span>
+          <span className="text-[4.5px] text-green-600 font-medium">↑12%</span>
+          <span className="text-[4.5px] text-indigo-300 ml-0.5">View →</span>
         </div>
-        <p className="text-[18px] font-black text-indigo-800 leading-none">312 CP</p>
-        <p className="text-[5px] text-green-600 font-medium mt-0.5">↑ +12% vs last week</p>
-        <div className="my-1 h-1.5 bg-indigo-100 rounded-full overflow-hidden">
-          <div className="h-full rounded-full" style={{ width:'62%', background:'linear-gradient(to right,#86EFAC,#FACC15,#F59E0B)' }} />
-        </div>
-        <p className="text-[5px] text-indigo-600">17 tasks done · 3 days left</p>
       </div>
-      <div className="px-2 mt-1.5 flex-1 space-y-0.5">
+      {/* Today's tasks — main focus */}
+      <div className="px-2 mt-1.5 flex-1 space-y-1">
+        <p className="text-[5px] text-gray-400 uppercase tracking-wider font-semibold">Tasks for today</p>
         {[
-          {n:'School pickup',t:'3:30 PM',cp:'54 CP',bc:'border-indigo-400'},
-          {n:'Cook dinner',  t:'6:00 PM',cp:'63 CP',bc:'border-orange-400'},
+          {n:'School pickup',t:'3:30 PM',cp:'54 CP',bc:'border-l-indigo-400'},
+          {n:'Cook dinner',  t:'6:00 PM',cp:'63 CP',bc:'border-l-orange-400'},
         ].map(t=>(
-          <div key={t.n} className={`bg-white border border-gray-100 border-l-2 ${t.bc} rounded px-1.5 py-0.5 flex justify-between`}>
+          <div key={t.n} className={`bg-white border border-gray-100 border-l-2 ${t.bc} rounded px-1.5 py-1 flex justify-between items-center shadow-sm`}>
             <div>
               <p className="text-[6px] font-bold text-gray-800">{t.n}</p>
               <p className="text-[5px] text-gray-400">{t.t}</p>
             </div>
-            <span className="text-[5px] text-indigo-500 font-medium self-start mt-0.5">{t.cp}</span>
+            <span className="text-[5px] font-medium text-indigo-400 bg-indigo-50 px-1 py-0.5 rounded">{t.cp}</span>
           </div>
         ))}
+        <p className="text-[4.5px] text-gray-400 px-0.5">17 tasks done · 3 days left this week</p>
       </div>
       <Nav active="home" />
     </div>
@@ -229,19 +227,26 @@ function S_Dashboard() {
 function S_Toast() {
   return (
     <div className="flex flex-col bg-white relative" style={{ minHeight: 232 }}>
+      {/* Header dimmed */}
       <div className="px-2 py-1 border-b border-gray-100 flex justify-between items-center opacity-40">
         <p className="text-[7.5px] font-black text-gray-900">Sarah 👋</p>
         <div className="w-5 h-5 rounded-full bg-indigo-600 flex items-center justify-center">
           <span className="text-[6px] font-black text-white">F</span>
         </div>
       </div>
-      <div className="mx-2 mt-2 opacity-30">
-        <div className="bg-indigo-50 border-2 border-indigo-300 rounded-xl px-2 py-1.5">
-          <p className="text-[6px] font-bold text-indigo-700">⭐ Your Care Points</p>
-          <p className="text-[16px] font-black text-indigo-800 leading-none">348 CP</p>
-          <div className="mt-1 h-1.5 bg-indigo-200 rounded-full" />
+      {/* Compact CP pill dimmed */}
+      <div className="px-2 pt-1 flex items-center gap-1 opacity-30">
+        {[['S','bg-pink-400'],['V','bg-blue-500'],['A','bg-green-400']].map(([n,c])=>(
+          <div key={n} className={`w-4 h-4 rounded-full ${c} flex items-center justify-center shrink-0`}>
+            <span className="text-[5px] font-bold text-white">{n}</span>
+          </div>
+        ))}
+        <div className="ml-auto flex items-center gap-0.5 bg-indigo-50 border border-indigo-200 rounded-full px-1.5 py-0.5">
+          <span className="text-[5.5px]">⭐</span>
+          <span className="text-[5.5px] font-bold text-indigo-700">348 CP</span>
         </div>
       </div>
+      {/* Tasks dimmed */}
       <div className="flex-1 opacity-30 px-2 pt-1.5 space-y-0.5">
         {['School pickup','Cook dinner'].map(n=>(
           <div key={n} className="bg-gray-100 rounded px-1.5 py-0.5">
@@ -249,6 +254,7 @@ function S_Toast() {
           </div>
         ))}
       </div>
+      {/* Toast — momentary feedback, fine to be prominent */}
       <div className="absolute bottom-12 left-2 right-2 bg-gray-900 rounded-xl px-2 py-1.5 shadow-2xl flex items-center gap-2 border border-gray-700">
         <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center shrink-0">
           <span className="text-[7px] text-white font-bold">✓</span>
@@ -360,6 +366,75 @@ function S_Household() {
         <div className="bg-indigo-50 border border-indigo-200 rounded-lg px-1.5 py-1 flex gap-1">
           <span className="text-[9px] shrink-0">🤖</span>
           <p className="text-[5.5px] text-indigo-700 italic">"Great teamwork — 1,240 CP across 42 tasks!"</p>
+        </div>
+      </div>
+      <Nav active="home" />
+    </div>
+  );
+}
+
+// History tab — Sarah's personal CP trend over past weeks, no household comparison
+function S_History() {
+  const weeks = [
+    { label: 'W1', cp: 210, h: '33%' },
+    { label: 'W2', cp: 268, h: '42%' },
+    { label: 'W3', cp: 295, h: '46%' },
+    { label: 'W4', cp: 312, h: '49%', current: true },
+  ];
+  return (
+    <div className="flex flex-col bg-white" style={{ minHeight: 232 }}>
+      <div className="px-2 py-1 border-b border-gray-100 flex items-center gap-1">
+        <span className="text-[6px] text-gray-400">←</span>
+        <p className="text-[7px] font-bold text-gray-900">Care Points</p>
+      </div>
+      <div className="flex border-b border-gray-100">
+        {['My Week','Household','History'].map((t,i)=>(
+          <div key={t} className={`flex-1 py-1 text-center ${i===2?'border-b-2 border-indigo-600':''}`}>
+            <p className={`text-[6px] ${i===2?'font-bold text-indigo-600':'text-gray-400'}`}>{t}</p>
+          </div>
+        ))}
+      </div>
+      <div className="flex-1 px-2 pt-1.5 space-y-1.5">
+        {/* Trend header */}
+        <div>
+          <p className="text-[5px] text-gray-400 uppercase tracking-wider">Your trend · last 4 weeks</p>
+          <div className="flex items-baseline gap-1 mt-0.5">
+            <p className="text-[14px] font-black text-indigo-700 leading-none">312</p>
+            <p className="text-[5px] font-bold text-indigo-400">CP this week</p>
+            <span className="text-[5px] text-green-600 font-medium ml-1">↑ +49% vs W1</span>
+          </div>
+        </div>
+        {/* Bar chart */}
+        <div className="flex items-end gap-1.5 h-12 bg-gray-50 rounded-lg px-2 pb-1 pt-1.5">
+          {weeks.map(w => (
+            <div key={w.label} className="flex-1 flex flex-col items-center justify-end gap-0.5">
+              <span className="text-[4.5px] text-gray-500">{w.cp}</span>
+              <div
+                className={`w-full rounded-t ${w.current ? 'bg-indigo-500' : 'bg-indigo-200'}`}
+                style={{ height: w.h }}
+              />
+              <span className={`text-[4.5px] font-bold ${w.current ? 'text-indigo-600' : 'text-gray-400'}`}>{w.label}</span>
+            </div>
+          ))}
+        </div>
+        {/* Weekly rows */}
+        <div className="space-y-0.5">
+          {[
+            {w:'This week', cp:'312 CP', tasks:17, c:'text-indigo-700 font-bold'},
+            {w:'Last week',  cp:'295 CP', tasks:15, c:'text-gray-600'},
+            {w:'2 weeks ago',cp:'268 CP', tasks:13, c:'text-gray-500'},
+          ].map(r=>(
+            <div key={r.w} className="flex items-center justify-between px-1 py-0.5">
+              <span className="text-[5px] text-gray-500 w-16">{r.w}</span>
+              <span className={`text-[5.5px] ${r.c}`}>{r.cp}</span>
+              <span className="text-[5px] text-gray-400">{r.tasks} tasks</span>
+            </div>
+          ))}
+        </div>
+        {/* Liv insight */}
+        <div className="bg-indigo-50 border border-indigo-200 rounded-lg px-1.5 py-1 flex gap-1">
+          <span className="text-[9px] shrink-0">🤖</span>
+          <p className="text-[5.5px] text-indigo-700 leading-snug italic">"Your effort has grown steadily — you're doing great."</p>
         </div>
       </div>
       <Nav active="home" />
@@ -538,33 +613,23 @@ function S_CareModeFeed() {
   );
 }
 
-// Admin panel — v3.4: shows personal baseline only, personal sliders
-function S_AdminPanel() {
+// Settings → Care Points — just effort sliders, same for every member
+function S_SettingsCP() {
   return (
     <div className="flex flex-col bg-gray-50" style={{ minHeight: 232 }}>
       <div className="bg-white px-2 py-1 border-b border-gray-100 flex items-center gap-1">
         <span className="text-[6px] text-gray-400">←</span>
         <p className="text-[6.5px] font-bold text-gray-900">Settings → Care Points</p>
       </div>
-      <div className="flex-1 px-2 pt-1.5 space-y-1.5">
-        {/* Personal baseline — NOT household average */}
+      <div className="flex-1 px-2 pt-1.5 space-y-1.5 overflow-hidden">
         <div className="bg-white border border-gray-200 rounded-xl px-2 py-1.5 shadow-sm">
-          <p className="text-[6px] font-bold text-gray-700 mb-1">📊 Your Baseline</p>
-          {[['Daily baseline','235 CP'],['7-day avg','~220 CP'],['Source','AI + profile']].map(([k,v])=>(
-            <div key={k} className="flex justify-between">
-              <span className="text-[5px] text-gray-500">{k}</span>
-              <span className="text-[5px] font-bold text-gray-800">{v}</span>
-            </div>
-          ))}
-          <p className="text-[4.5px] text-gray-400 mt-0.5 italic">Only you see your baseline · not visible to others</p>
-        </div>
-        {/* Your effort sliders — personal */}
-        <div className="bg-white border border-gray-200 rounded-xl px-2 py-1.5 shadow-sm">
-          <p className="text-[6px] font-bold text-gray-700 mb-0.5">Your Effort Sliders</p>
-          <p className="text-[5px] font-bold text-orange-600 mb-0.5">🍳 Cooking · your ceiling ×1.4</p>
+          <p className="text-[6px] font-bold text-gray-700 mb-0.5">🎚️ Your Effort Sliders</p>
+          <p className="text-[4.5px] text-gray-400 mb-1">Change anytime · no family vote needed · private</p>
           {[
-            {n:'Cook dinner', t:'45m', s:1, cp:63,  src:'Profile'},
-            {n:'Pack lunches', t:'15m', s:0, cp:15,  src:'AI'},
+            {n:'Cook dinner',  t:'45m', s:1, cp:63, src:'Profile'},
+            {n:'Pack lunches', t:'15m', s:0, cp:15, src:'AI'},
+            {n:'School pickup',t:'30m', s:2, cp:54, src:'AI'},
+            {n:'Cleaning',     t:'40m', s:0, cp:40, src:'Profile'},
           ].map(task=>(
             <div key={task.n} className="flex items-center gap-1 bg-gray-50 rounded px-1 py-0.5 mb-0.5">
               <div className="flex-1 min-w-0">
@@ -574,7 +639,7 @@ function S_AdminPanel() {
               <div className="flex gap-0.5 shrink-0">
                 {[0,1,2,3,4,5].map(i=>(
                   <div key={i} className={`w-1.5 h-1.5 rounded-full ${i<=task.s
-                    ?['bg-green-300','bg-green-400','bg-yellow-400','bg-amber-400','bg-orange-400','bg-red-400'][task.s]
+                    ?['bg-green-400','bg-green-400','bg-yellow-400','bg-amber-400','bg-orange-400','bg-red-400'][task.s]
                     :'bg-gray-200'}`} />
                 ))}
               </div>
@@ -582,31 +647,21 @@ function S_AdminPanel() {
               <span className={`text-[4.5px] px-0.5 rounded shrink-0 ${task.src==='AI'?'bg-blue-100 text-blue-600':'bg-indigo-100 text-indigo-600'}`}>{task.src}</span>
             </div>
           ))}
-          <p className="text-[4.5px] text-amber-700 bg-amber-50 px-1 py-0.5 rounded mt-0.5">Slider changes are personal · no family vote needed</p>
         </div>
-        {/* Member capacity */}
-        <div className="bg-white border border-gray-200 rounded-xl px-2 py-1.5 shadow-sm">
-          <p className="text-[6px] font-bold text-gray-700 mb-0.5">Member Capacity</p>
-          {[
-            {n:'Sarah',   s:'🟢 Full',        c:'text-green-600'},
-            {n:'Vinayak', s:'🟡 Reduced 80%', c:'text-yellow-600'},
-          ].map(m=>(
-            <div key={m.n} className="flex justify-between items-center py-0.5">
-              <p className="text-[5.5px] font-bold text-gray-800">{m.n}</p>
-              <p className={`text-[5.5px] font-medium ${m.c}`}>{m.s}</p>
-            </div>
-          ))}
-          <p className="text-[4.5px] text-gray-400 mt-0.5">Set by member or admin · persists until changed</p>
+        <div className="bg-indigo-50 border border-indigo-200 rounded-lg px-1.5 py-1 flex gap-1">
+          <span className="text-[9px] shrink-0">🤖</span>
+          <p className="text-[5.5px] text-indigo-700 leading-snug italic">"Want me to recalibrate these based on how you've been doing?"</p>
         </div>
       </div>
     </div>
   );
 }
 
-// ⑦ Dashboard with Liv's smart preference nudge card
+// ⑦ Dashboard with Liv's smart preference nudge card — CP pill stays compact
 function S_DashboardWithNudge() {
   return (
     <div className="flex flex-col bg-white" style={{ minHeight: 232 }}>
+      {/* Header */}
       <div className="px-2 py-1 border-b border-gray-100 flex justify-between items-center">
         <div>
           <p className="text-[5px] text-gray-400">Good morning</p>
@@ -616,16 +671,23 @@ function S_DashboardWithNudge() {
           <span className="text-[6px] font-black text-white">F</span>
         </div>
       </div>
-      {/* CP card — dimmed to highlight nudge */}
-      <div className="mx-2 mt-1 bg-indigo-50 border border-indigo-200 rounded-xl px-2 py-1 opacity-60">
-        <p className="text-[6px] font-bold text-indigo-700">⭐ Your Care Points</p>
-        <p className="text-[14px] font-black text-indigo-800 leading-none">312 CP</p>
+      {/* Compact CP pill — dimmed, nudge takes focus */}
+      <div className="px-2 pt-1 flex items-center gap-1">
+        {[['S','bg-pink-400'],['V','bg-blue-500'],['A','bg-green-400']].map(([n,c])=>(
+          <div key={n} className={`w-4 h-4 rounded-full ${c} flex items-center justify-center shrink-0`}>
+            <span className="text-[5px] font-bold text-white">{n}</span>
+          </div>
+        ))}
+        <div className="ml-auto flex items-center gap-0.5 bg-indigo-50 border border-indigo-200 rounded-full px-1.5 py-0.5 opacity-50">
+          <span className="text-[5.5px]">⭐</span>
+          <span className="text-[5.5px] font-bold text-indigo-700">312 CP</span>
+        </div>
       </div>
-      {/* 💡 Smart trigger nudge card */}
+      {/* 💡 Smart trigger nudge — main focus */}
       <div className="mx-2 mt-1.5 bg-purple-50 border-2 border-purple-400 rounded-xl px-2 py-1.5">
         <div className="flex items-start gap-1 mb-1">
           <span className="text-[9px] shrink-0">💡</span>
-          <p className="text-[5.5px] font-bold text-purple-800 leading-snug">You've been getting through driving tasks faster lately.</p>
+          <p className="text-[5.5px] font-bold text-purple-800 leading-snug">You've been finishing driving tasks faster lately.</p>
         </div>
         <p className="text-[5.5px] text-purple-700 mb-1.5">Want to update how you feel about it?</p>
         <div className="flex gap-1">
@@ -638,7 +700,8 @@ function S_DashboardWithNudge() {
         </div>
         <p className="text-[4.5px] text-purple-400 mt-0.5 italic">Only you see this · Liv noticed the pattern</p>
       </div>
-      <div className="px-2 mt-1 flex-1 space-y-0.5">
+      {/* Tasks dimmed behind nudge */}
+      <div className="px-2 mt-1 flex-1 space-y-0.5 opacity-40">
         <div className="bg-white border border-gray-100 border-l-2 border-l-indigo-400 rounded px-1.5 py-0.5">
           <p className="text-[6px] font-bold text-gray-800">School pickup</p>
           <p className="text-[5px] text-gray-400">3:30 PM</p>
@@ -888,8 +951,8 @@ export function CarePointsPhoneLayouts() {
       {/* ② Dashboard + toast */}
       <FlowRow
         number="②"
-        title="Dashboard — your CP card + task completion"
-        description="Your personal CP always visible on home · nobody else sees your number"
+        title="Dashboard — compact CP pill + task completion"
+        description="CP shown as a small pill beside avatars — visible but never dominant · tap to view full breakdown · nobody else sees your number"
         color="bg-violet-600"
       >
         <PhoneShell label="Dashboard — your CP" sublabel="Personal to you only" accent="border-violet-500">
@@ -918,6 +981,10 @@ export function CarePointsPhoneLayouts() {
         <Arrow label="Tap tab" />
         <PhoneShell label="Our Household" sublabel="No individual names or sliders" accent="border-indigo-500">
           <S_Household />
+        </PhoneShell>
+        <Arrow label="Tap tab" />
+        <PhoneShell label="History" sublabel="Your personal CP trend" accent="border-violet-500">
+          <S_History />
         </PhoneShell>
       </FlowRow>
 
@@ -980,33 +1047,38 @@ export function CarePointsPhoneLayouts() {
         </PhoneShell>
       </FlowRow>
 
-      {/* ⑥ Admin */}
+      {/* ⑥ Settings → Care Points (every member) */}
       <FlowRow
         number="⑥"
-        title="Admin panel — Settings → Care Points"
-        description="Your personal baseline · your effort sliders · member capacity · no household totals shown"
+        title="Settings → Care Points — same for every member"
+        description="No admin-only page · every member controls only their own baseline, sliders, and capacity · fully private"
         color="bg-teal-600"
       >
-        <PhoneShell label="Admin panel" sublabel="Personal view · v3.4" accent="border-teal-500">
-          <S_AdminPanel />
+        <PhoneShell label="Settings → Care Points" sublabel="Every member — same screen" accent="border-teal-500">
+          <S_SettingsCP />
         </PhoneShell>
         <div className="flex flex-col justify-center gap-3 px-4 max-w-xs">
           <div className="bg-white border border-gray-200 rounded-xl p-3">
             <p className="text-xs font-bold text-gray-800 mb-1">What's in Settings → Care Points</p>
             {[
-              ['📊', 'Your personal daily baseline (only you see this)'],
-              ['🎚️', 'Your effort sliders per task (0–5) — personal, no vote'],
+              ['🎚️', 'Effort sliders per task (0–5) — how hard this feels for you'],
               ['🏷️', 'Source badge: AI inferred / Profile / Manual'],
-              ['🟢', 'Set member capacity: Full / Reduced / Rest'],
-              ['🤖', 'Recalibrate your sliders with Liv'],
+              ['🤖', 'Ask Liv to recalibrate sliders based on your recent activity'],
             ].map(([i,t])=>(
               <p key={t} className="text-[11px] text-gray-600 flex gap-1.5 mb-0.5"><span>{i}</span>{t}</p>
             ))}
           </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
-            <p className="text-xs font-bold text-amber-800 mb-1">Consensus only for shared data</p>
-            <p className="text-[11px] text-amber-700">Task <strong>time estimates</strong> and <strong>category assignments</strong> are shared — changes need family agreement.</p>
-            <p className="text-[11px] text-amber-700 mt-1">Your <strong>effort slider</strong> is personal — change it anytime, no vote needed.</p>
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
+            <p className="text-xs font-bold text-gray-800 mb-1">What was removed and why</p>
+            {[
+              ['📊 Baseline', 'Liv\'s internal number — not actionable, History tab shows the useful version'],
+              ['🟢 Capacity', 'Handled by the daily mood check-in — no duplicate toggle needed'],
+            ].map(([k,v])=>(
+              <div key={k} className="mb-1">
+                <p className="text-[10px] font-bold text-gray-500 line-through">{k}</p>
+                <p className="text-[10px] text-gray-500">{v}</p>
+              </div>
+            ))}
           </div>
         </div>
       </FlowRow>
