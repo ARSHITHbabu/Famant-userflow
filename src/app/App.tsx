@@ -9,7 +9,7 @@ import { SystemProcesses } from './components/SystemProcesses';
 import { ModuleConnections } from './components/ModuleConnections';
 import { MealPlannerHub, MealPlannerScreenFlowDiagram, MealPlannerWorkflow } from './components/MealPlannerFeature';
 import { CarePointsOverview, CarePointsPhoneLayouts } from './components/CarePointsFeature';
-import { SettingsOverview, SettingsRoleScreens, SettingsFlows, SettingsCarePointsFlow, SettingsAnalyticsFlow } from './components/SettingsFeature';
+import { SettingsOverview, SettingsRoleScreens, SettingsFlows, SettingsCarePointsFlow, SettingsAnalyticsFlow, SettingsLanguageLocalizationFlow, SettingsMemberStatusFlow } from './components/SettingsFeature';
 
 export default function App() {
   const [selectedFlow, setSelectedFlow] = useState<string | null>(null);
@@ -45,6 +45,20 @@ export default function App() {
                 className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors cursor-pointer"
               >
                 S7 · Settings
+              </a>
+              <a
+                href="#section-7b-localization"
+                onClick={(e) => { e.preventDefault(); document.getElementById('section-7b-localization')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors cursor-pointer"
+              >
+                S7B · Localization
+              </a>
+              <a
+                href="#section-7c-status"
+                onClick={(e) => { e.preventDefault(); document.getElementById('section-7c-status')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors cursor-pointer"
+              >
+                S7C · Status
               </a>
               <a
                 href="#section-14"
@@ -120,6 +134,22 @@ export default function App() {
         <SettingsFlows />
         <SettingsCarePointsFlow />
         <SettingsAnalyticsFlow />
+
+        {/* Section 7B — Language & Localization */}
+        <div id="section-7b-localization" className="border-t-2 border-dashed border-violet-200 pt-2">
+          <p className="text-xs text-violet-400 uppercase tracking-widest font-semibold mb-6">
+            Section 7B · Language &amp; Localization — Language · Country · Region → Auto Currency &amp; Time Zone
+          </p>
+        </div>
+        <SettingsLanguageLocalizationFlow />
+
+        {/* Section 7C — Household Member Current Status */}
+        <div id="section-7c-status" className="border-t-2 border-dashed border-amber-200 pt-2">
+          <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-6">
+            Section 7C · Household Member Current Status — 🟢 Full · 🟡 Reduced (custom %) · 🔴 On Rest
+          </p>
+        </div>
+        <SettingsMemberStatusFlow />
 
         {/* Section 14 — Meal Planner Workflow */}
         <div id="section-14" className="border-t-2 border-dashed border-green-200 pt-2">
