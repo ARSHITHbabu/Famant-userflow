@@ -173,14 +173,14 @@ function ProfileHeader({ name, role, tasks, lists, events }: {
 // ROLE SCREENS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function SuperAdminSettingsScreen() {
+function OwnerSettingsScreen() {
   return (
     <div className="flex flex-col" style={{ minHeight: 290 }}>
       <div className="bg-white px-2 py-1 flex items-center justify-between border-b border-gray-100">
         <p className="text-[9px] font-black text-gray-900">Profile</p>
       </div>
       <div className="flex-1">
-        <ProfileHeader name="Natasha" role="Super Admin · Owner" tasks={52} lists={5} events={3} />
+        <ProfileHeader name="Natasha" role="Owner" tasks={52} lists={5} events={3} />
         <SH label="Personal" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <SR icon="✏️" label="Edit Profile" />
@@ -227,14 +227,14 @@ function SuperAdminSettingsScreen() {
   );
 }
 
-function AdminSettingsScreen() {
+function OrganizerSettingsScreen() {
   return (
     <div className="flex flex-col" style={{ minHeight: 290 }}>
       <div className="bg-white px-2 py-1 flex items-center border-b border-gray-100">
         <p className="text-[9px] font-black text-gray-900">Profile</p>
       </div>
       <div className="flex-1">
-        <ProfileHeader name="James" role="Admin" tasks={38} lists={4} events={2} />
+        <ProfileHeader name="James" role="Organizer" tasks={38} lists={4} events={2} />
         <SH label="Personal" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <SR icon="✏️" label="Edit Profile" />
@@ -249,20 +249,20 @@ function AdminSettingsScreen() {
           <SD /><SR icon="➕" label="Invite Members" />
           <SD /><SR icon="🔑" label="Invite Code / QR" />
         </div>
-        <Locked label="Manage Roles — Super Admin only" />
-        <Locked label="Permissions — Super Admin only" />
+        <Locked label="Manage Roles — Owner only" />
+        <Locked label="Permissions — Owner only" />
         <SH label="AI & Storage (Permitted)" />
         <div className="mx-2 mb-0.5 rounded-lg border border-green-100 bg-green-50 px-1.5 py-1 flex items-center gap-1">
           <span className="text-[7px]">✅</span>
-          <p className="text-[6px] text-green-700 font-semibold">Permitted by Super Admin</p>
+          <p className="text-[6px] text-green-700 font-semibold">Permitted by Owner</p>
         </div>
         <MiniBar label="Storage" pct={60} color="bg-amber-50" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <SR icon="💾" label="Storage Analytics" />
           <SD /><SR icon="🤖" label="AI Analytics" />
         </div>
-        <Locked label="Billing & Subscription — Super Admin only" />
-        <Locked label="Payment Method — Super Admin only" />
+        <Locked label="Billing & Subscription — Owner only" />
+        <Locked label="Payment Method — Owner only" />
         <SH label="Support" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <SR icon="❓" label="Help & Support" />
@@ -293,13 +293,13 @@ function MemberSettingsScreen() {
           <SD /><SR icon="🔒" label="Account & Security" />
           <SD /><SR icon="🛡️" label="Privacy Controls" />
         </div>
-        <SH label="Family & Admin Sections" />
-        <Locked label="Family Members — Admin only" />
-        <Locked label="Invite Members — Admin only" />
-        <Locked label="Manage Roles — Super Admin only" />
-        <Locked label="Billing — Super Admin only" />
-        <Locked label="AI Analytics — Admin/Super Admin" />
-        <Locked label="Storage Analytics — Admin/Super Admin" />
+        <SH label="Family & Organizer Sections" />
+        <Locked label="Family Members — Organizer only" />
+        <Locked label="Invite Members — Organizer only" />
+        <Locked label="Manage Roles — Owner only" />
+        <Locked label="Billing — Owner only" />
+        <Locked label="AI Analytics — Organizer/Owner" />
+        <Locked label="Storage Analytics — Organizer/Owner" />
         <SH label="Support" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <SR icon="❓" label="Help & Support" />
@@ -453,8 +453,8 @@ function S_FamilyMembers() {
         <SH label="Members" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           {[
-            { n: 'Natasha', r: 'Super Admin', c: 'bg-violet-500', dot: true },
-            { n: 'James', r: 'Admin', c: 'bg-blue-500', dot: true },
+            { n: 'Natasha', r: 'Owner', c: 'bg-violet-500', dot: true },
+            { n: 'James', r: 'Organizer', c: 'bg-blue-500', dot: true },
             { n: 'Stella', r: 'Member', c: 'bg-pink-400', dot: false },
             { n: 'Oliver', r: 'Child', c: 'bg-amber-400', dot: false },
           ].map((m, i) => (
@@ -499,7 +499,7 @@ function S_ManageRoles() {
           <span className="text-[8px]">⚡</span>
           <p className="text-[6px] text-amber-700 font-semibold">Changes apply immediately</p>
         </div>
-        <SH label="Admin Permissions (James)" />
+        <SH label="Organizer Permissions (James)" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           <Toggle on label="Can Invite Members" />
           <SD /><Toggle on label="Can Manage Tasks" />
@@ -511,7 +511,7 @@ function S_ManageRoles() {
         <SH label="Roles" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
           {[
-            { n: 'James', r: 'Admin', c: 'bg-blue-500' },
+            { n: 'James', r: 'Organizer', c: 'bg-blue-500' },
             { n: 'Stella', r: 'Member', c: 'bg-pink-400' },
             { n: 'Oliver', r: 'Child', c: 'bg-amber-400' },
           ].map((m, i) => (
@@ -1030,7 +1030,7 @@ function S_InviteMember() {
           </div>
           <p className="text-[6px] text-gray-400 font-medium px-0.5 mb-1">Assign role on join:</p>
           <div className="flex gap-1">
-            {['Admin', 'Member', 'Child'].map((r) => (
+            {['Organizer', 'Member', 'Child'].map((r) => (
               <div key={r} className={`flex-1 rounded-xl border-2 text-center py-0.5 text-[6.5px] font-bold ${r === 'Member' ? 'border-violet-500 text-violet-700 bg-violet-50' : 'border-gray-200 text-gray-400'}`}>{r}</div>
             ))}
           </div>
@@ -1363,7 +1363,7 @@ const flowData = [
     tag: 'Personal', tagColor: 'bg-violet-100 text-violet-700',
     desc: 'Tap "Edit" on profile header to update name, photo, bio, email and phone.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Edit Profile Form', node: <S_EditProfileForm /> },
     ],
   },
@@ -1372,7 +1372,7 @@ const flowData = [
     tag: 'Account', tagColor: 'bg-gray-100 text-gray-700',
     desc: 'Auth methods, biometric login, 2FA, active sessions and account deletion.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Account & Security', node: <S_AccountSecurity /> },
     ],
   },
@@ -1381,7 +1381,7 @@ const flowData = [
     tag: 'Personal', tagColor: 'bg-violet-100 text-violet-700',
     desc: 'Granular toggles for family alerts, reminders, AI nudges and quiet hours.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Notification Prefs', node: <S_Notifications /> },
     ],
   },
@@ -1390,14 +1390,14 @@ const flowData = [
     tag: 'Family', tagColor: 'bg-blue-100 text-blue-700',
     desc: 'View all members, their roles, online status, and tap to open individual profiles.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Family Members', node: <S_FamilyMembers /> },
     ],
   },
   {
     id: 'roles', emoji: '👑', title: 'Manage Roles & Permissions',
     tag: 'Family', tagColor: 'bg-blue-100 text-blue-700',
-    desc: 'Change member roles (Admin / Member / Child) and set granular per-admin permissions.',
+    desc: 'Change member roles (Organizer / Member / Child) and set granular per-organizer permissions.',
     screens: [
       { label: 'Family Members', node: <S_FamilyMembers /> },
       { label: 'Roles & Permissions', node: <S_ManageRoles /> },
@@ -1415,9 +1415,9 @@ const flowData = [
   {
     id: 'subscription', emoji: '⭐', title: 'Subscription & Billing',
     tag: 'Billing', tagColor: 'bg-amber-100 text-amber-700',
-    desc: 'View current plan, renewal date, upgrade options, payment method. Super Admin only.',
+    desc: 'View current plan, renewal date, upgrade options, payment method. Owner only.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Subscription', node: <S_Subscription /> },
     ],
   },
@@ -1426,7 +1426,7 @@ const flowData = [
     tag: 'AI & Storage', tagColor: 'bg-indigo-100 text-indigo-700',
     desc: 'Circular usage meters, monthly feature breakdown, per-member distribution, upgrade CTA.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'AI Analytics', node: <S_AIUsage /> },
     ],
   },
@@ -1435,7 +1435,7 @@ const flowData = [
     tag: 'AI & Storage', tagColor: 'bg-indigo-100 text-indigo-700',
     desc: 'Storage breakdown by type (docs/photos/voice) and per-member, with Buy More CTA.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Storage Usage', node: <S_StorageUsage /> },
     ],
   },
@@ -1444,7 +1444,7 @@ const flowData = [
     tag: 'AI & Storage', tagColor: 'bg-indigo-100 text-indigo-700',
     desc: 'Dedicated Voice AI screen with monthly minutes tracker and top voice commands breakdown.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Voice AI Usage', node: <S_VoiceAIUsage /> },
     ],
   },
@@ -1462,7 +1462,7 @@ const flowData = [
     tag: 'Personal', tagColor: 'bg-violet-100 text-violet-700',
     desc: 'Choose light/dark/system theme, accent color and text size for a personalized look.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Appearance & Theme', node: <S_Appearance /> },
     ],
   },
@@ -1489,7 +1489,7 @@ const flowData = [
     tag: 'Account', tagColor: 'bg-gray-100 text-gray-700',
     desc: 'See all active sessions by device. Remove individual devices or sign out all.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Linked Devices', node: <S_LinkedDevices /> },
     ],
   },
@@ -1498,7 +1498,7 @@ const flowData = [
     tag: 'Account', tagColor: 'bg-gray-100 text-gray-700',
     desc: 'Control profile visibility, online status, AI learning preferences, and data export/deletion.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Privacy Controls', node: <S_PrivacyControls /> },
     ],
   },
@@ -1507,7 +1507,7 @@ const flowData = [
     tag: 'Support', tagColor: 'bg-green-100 text-green-700',
     desc: 'Live chat, help center articles, video tutorials, and bug reporting. Searchable.',
     screens: [
-      { label: 'Settings Home', node: <SuperAdminSettingsScreen /> },
+      { label: 'Settings Home', node: <OwnerSettingsScreen /> },
       { label: 'Support Center', node: <S_HelpSupport /> },
     ],
   },
@@ -1527,8 +1527,8 @@ export function SettingsOverview() {
             Section 7 — Profile & Settings (👤 Profile Icon)
           </h2>
           <p className="text-sm text-gray-600 mb-4 max-w-2xl leading-relaxed">
-            One unified settings system with role-based visibility. Super Admin sees billing, AI analytics,
-            and full family controls. Admin sees permitted sections. Member sees personal settings only.
+            One unified settings system with role-based visibility. Owner sees billing, AI analytics,
+            and full family controls. Organizer sees permitted sections. Member sees personal settings only.
             <strong> This is NOT three separate apps — it is the same screen with different content shown.</strong>
           </p>
         </div>
@@ -1546,19 +1546,19 @@ export function SettingsOverview() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
         {[
           {
-            role: 'Super Admin', color: 'from-violet-600 to-purple-700', border: 'border-violet-200', bg: 'bg-violet-50',
+            role: 'Owner', color: 'from-violet-600 to-purple-700', border: 'border-violet-200', bg: 'bg-violet-50',
             desc: 'Family creator · Subscription owner',
-            perms: ['Full family control', 'Billing & payment', 'Subscription management', 'AI & storage analytics', 'Manage admin permissions'],
+            perms: ['Full family control', 'Billing & payment', 'Subscription management', 'AI & storage analytics', 'Manage organizer permissions'],
           },
           {
-            role: 'Admin', color: 'from-blue-500 to-indigo-600', border: 'border-blue-200', bg: 'bg-blue-50',
-            desc: 'Delegated by Super Admin',
+            role: 'Organizer', color: 'from-blue-500 to-indigo-600', border: 'border-blue-200', bg: 'bg-blue-50',
+            desc: 'Delegated by Owner',
             perms: ['Manage members', 'Invite members', 'Analytics if permitted', 'Personal settings'],
           },
           {
             role: 'Member', color: 'from-gray-500 to-gray-600', border: 'border-gray-200', bg: 'bg-gray-50',
             desc: 'Standard family member',
-            perms: ['Personal settings only', 'Care point prefs', 'No billing access', 'No family admin features'],
+            perms: ['Personal settings only', 'Care point prefs', 'No billing access', 'No family organizer features'],
           },
         ].map((r) => (
           <div key={r.role} className={`rounded-xl border ${r.border} ${r.bg} p-4`}>
@@ -1584,8 +1584,8 @@ export function SettingsOverview() {
           <thead>
             <tr className="border-b-2 border-violet-100">
               <th className="text-left py-1.5 pr-3 text-xs font-semibold text-gray-500">Setting</th>
-              <th className="text-center py-1.5 px-2 text-xs font-bold text-violet-700">Super Admin</th>
-              <th className="text-center py-1.5 px-2 text-xs font-bold text-blue-600">Admin</th>
+              <th className="text-center py-1.5 px-2 text-xs font-bold text-violet-700">Owner</th>
+              <th className="text-center py-1.5 px-2 text-xs font-bold text-blue-600">Organizer</th>
               <th className="text-center py-1.5 px-2 text-xs font-bold text-gray-600">Member</th>
             </tr>
           </thead>
@@ -1699,7 +1699,7 @@ function RSHead({ label }: { label: string }) {
 
 function RSD() { return <div className="h-px bg-gray-100 mx-2.5" />; }
 
-function FullSuperAdminScreen() {
+function FullOwnerScreen() {
   return (
     <div className="flex flex-col h-full" style={{ minHeight: 520 }}>
       <div className="bg-white px-2.5 py-1.5 flex items-center justify-between border-b border-gray-100">
@@ -1709,7 +1709,7 @@ function FullSuperAdminScreen() {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
-        <RoleProfileHeader name="Natasha" role="Super Admin · Owner" family="Thaikaattu Family" tasks={52} lists={5} events={3} />
+        <RoleProfileHeader name="Natasha" role="Owner" family="Thaikaattu Family" tasks={52} lists={5} events={3} />
         <RSHead label="Personal" />
         <div className="mx-2.5 rounded-xl overflow-hidden border border-gray-100 bg-white">
           <RSRow icon="✏️" label="Edit Profile" /><RSD />
@@ -1765,7 +1765,7 @@ function FullSuperAdminScreen() {
   );
 }
 
-function FullAdminScreen() {
+function FullOrganizerScreen() {
   return (
     <div className="flex flex-col h-full" style={{ minHeight: 520 }}>
       <div className="bg-white px-2.5 py-1.5 flex items-center justify-between border-b border-gray-100">
@@ -1775,7 +1775,7 @@ function FullAdminScreen() {
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
-        <RoleProfileHeader name="James" role="Admin" family="Thaikaattu Family" tasks={38} lists={4} events={2} />
+        <RoleProfileHeader name="James" role="Organizer" family="Thaikaattu Family" tasks={38} lists={4} events={2} />
         <RSHead label="Personal" />
         <div className="mx-2.5 rounded-xl overflow-hidden border border-gray-100 bg-white">
           <RSRow icon="✏️" label="Edit Profile" /><RSD />
@@ -1796,12 +1796,12 @@ function FullAdminScreen() {
           <RSRow icon="🔑" label="Invite Code / QR" /><RSD />
           <RSRow icon="🔗" label="Share Family Link" />
         </div>
-        <RoleLockedSection label="Manage Roles — Super Admin only" />
-        <RoleLockedSection label="Manage Permissions — Super Admin only" />
+        <RoleLockedSection label="Manage Roles — Owner only" />
+        <RoleLockedSection label="Manage Permissions — Owner only" />
         <RSHead label="AI & Storage (Permitted)" />
         <div className="mx-2.5 mb-0.5 rounded-xl border border-green-100 bg-green-50 px-2 py-1 flex items-center gap-1.5">
           <span className="text-[8px]">✅</span>
-          <p className="text-[7px] text-green-700 font-semibold">Permitted by Super Admin</p>
+          <p className="text-[7px] text-green-700 font-semibold">Permitted by Owner</p>
         </div>
         <RoleMiniUsage label="Document Storage" pct={60} color="bg-amber-50" />
         <RoleMiniUsage label="AI Usage" pct={72} color="bg-violet-50" />
@@ -1809,8 +1809,8 @@ function FullAdminScreen() {
           <RSRow icon="💾" label="Storage Analytics" /><RSD />
           <RSRow icon="🤖" label="AI Usage Analytics" />
         </div>
-        <RoleLockedSection label="Billing & Subscription — Super Admin only" />
-        <RoleLockedSection label="Payment Method — Super Admin only" />
+        <RoleLockedSection label="Billing & Subscription — Owner only" />
+        <RoleLockedSection label="Payment Method — Owner only" />
         <RSHead label="Support" />
         <div className="mx-2.5 rounded-xl overflow-hidden border border-gray-100 bg-white">
           <RSRow icon="❓" label="Help & Support" /><RSD />
@@ -1849,13 +1849,13 @@ function FullMemberScreen() {
           <RSRow icon="🔒" label="Account & Security" /><RSD />
           <RSRow icon="🛡️" label="Privacy Controls" />
         </div>
-        <RSHead label="Family & Admin Sections" />
-        <RoleLockedSection label="Family Members — Admin only" />
-        <RoleLockedSection label="Invite Members — Admin only" />
-        <RoleLockedSection label="Manage Roles — Super Admin only" />
-        <RoleLockedSection label="Subscription & Billing — Super Admin only" />
-        <RoleLockedSection label="AI Usage Analytics — Super Admin / Admin" />
-        <RoleLockedSection label="Storage Analytics — Super Admin / Admin" />
+        <RSHead label="Family & Organizer Sections" />
+        <RoleLockedSection label="Family Members — Organizer only" />
+        <RoleLockedSection label="Invite Members — Organizer only" />
+        <RoleLockedSection label="Manage Roles — Owner only" />
+        <RoleLockedSection label="Subscription & Billing — Owner only" />
+        <RoleLockedSection label="AI Usage Analytics — Owner / Organizer" />
+        <RoleLockedSection label="Storage Analytics — Owner / Organizer" />
         <RSHead label="Support" />
         <div className="mx-2.5 rounded-xl overflow-hidden border border-gray-100 bg-white">
           <RSRow icon="❓" label="Help & Support" /><RSD />
@@ -1882,11 +1882,11 @@ export function SettingsRoleScreens() {
           Same settings page, different sections visible based on role. Locked sections show a grayed-out hint — not an error.
         </p>
         <div className="flex flex-wrap gap-8 justify-center">
-          <PhoneShell label="Super Admin" sublabel="Sees everything: billing, AI analytics, full family management" accent="border-violet-600">
-            <FullSuperAdminScreen />
+          <PhoneShell label="Owner" sublabel="Sees everything: billing, AI analytics, full family management" accent="border-violet-600">
+            <FullOwnerScreen />
           </PhoneShell>
-          <PhoneShell label="Admin" sublabel="Family management visible; billing hidden; analytics if permitted" accent="border-blue-500">
-            <FullAdminScreen />
+          <PhoneShell label="Organizer" sublabel="Family management visible; billing hidden; analytics if permitted" accent="border-blue-500">
+            <FullOrganizerScreen />
           </PhoneShell>
           <PhoneShell label="Member" sublabel="Personal settings only — family, billing, analytics all locked" accent="border-gray-500">
             <FullMemberScreen />
@@ -1900,19 +1900,19 @@ export function SettingsRoleScreens() {
         <div className="flex flex-col lg:flex-row gap-4 justify-center items-stretch">
           {[
             {
-              role: 'Super Admin', color: 'from-violet-600 to-purple-700', border: 'border-violet-300', bg: 'bg-violet-50',
+              role: 'Owner', color: 'from-violet-600 to-purple-700', border: 'border-violet-300', bg: 'bg-violet-50',
               desc: 'Family creator & subscription owner',
-              perms: ['Full family control', 'Billing & payment owner', 'Subscription management', 'AI usage & storage analytics', 'Manage admin permissions', 'Linked device management'],
+              perms: ['Full family control', 'Billing & payment owner', 'Subscription management', 'AI usage & storage analytics', 'Manage organizer permissions', 'Linked device management'],
             },
             {
-              role: 'Admin', color: 'from-blue-500 to-indigo-600', border: 'border-blue-200', bg: 'bg-blue-50',
-              desc: 'Delegated by Super Admin',
+              role: 'Organizer', color: 'from-blue-500 to-indigo-600', border: 'border-blue-200', bg: 'bg-blue-50',
+              desc: 'Delegated by Owner',
               perms: ['Manage family members', 'Invite new members', 'View analytics if permitted', 'Personal settings', 'Cannot manage billing'],
             },
             {
               role: 'Member', color: 'from-gray-500 to-gray-600', border: 'border-gray-200', bg: 'bg-gray-50',
               desc: 'Standard family member',
-              perms: ['Personal settings only', 'Care point preferences', 'Notification preferences', 'No family admin features', 'No billing access'],
+              perms: ['Personal settings only', 'Care point preferences', 'Notification preferences', 'No family organizer features', 'No billing access'],
             },
           ].map((r) => (
             <div key={r.role} className={`flex-1 rounded-2xl border ${r.border} ${r.bg} p-5`}>
@@ -1941,8 +1941,8 @@ export function SettingsRoleScreens() {
             <thead>
               <tr className="border-b-2 border-violet-100">
                 <th className="text-left py-2 pr-4 font-semibold text-gray-600 text-xs">Settings Feature</th>
-                <th className="text-center py-2 px-3 font-semibold text-violet-700 text-xs">Super Admin</th>
-                <th className="text-center py-2 px-3 font-semibold text-blue-600 text-xs">Admin</th>
+                <th className="text-center py-2 px-3 font-semibold text-violet-700 text-xs">Owner</th>
+                <th className="text-center py-2 px-3 font-semibold text-blue-600 text-xs">Organizer</th>
                 <th className="text-center py-2 px-3 font-semibold text-gray-600 text-xs">Member</th>
               </tr>
             </thead>
@@ -2000,7 +2000,7 @@ export function SettingsFlows() {
 
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-1">Settings Flow Screens — Super Admin</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-1">Settings Flow Screens — Owner</h2>
       <p className="text-sm text-gray-600 mb-5">
         Click any flow card to expand and see the before → after screens
       </p>
@@ -2649,7 +2649,7 @@ const analyticsDesignPrinciples = [
   { icon: '📊', title: 'Segmented bars', desc: 'Linear bars for breakdown by type or member. Shows proportion clearly inside cards.' },
   { icon: '⚠️', title: 'Proactive alerts', desc: 'Warn users before they hit limits — "At this rate, 8 days left." Not a surprise.' },
   { icon: '🛒', title: 'Contextual upgrade', desc: "Upgrade prompts appear inside analytics — not in a settings menu users won't visit." },
-  { icon: '👥', title: 'By-member breakdown', desc: 'Who is using what — helps the Super Admin understand family usage patterns.' },
+  { icon: '👥', title: 'By-member breakdown', desc: 'Who is using what — helps the Owner understand family usage patterns.' },
 ];
 
 // ── Analytics Flow Data ───────────────────────────────────────────────────────
@@ -2789,7 +2789,7 @@ export function SettingsAnalyticsFlow() {
       <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
         <h2 className="text-lg font-bold text-gray-900 mb-1">Analytics & Storage Flows (14–18)</h2>
         <p className="text-sm text-gray-500 mb-5">
-          Premium analytics screens for Super Admin — no technical jargon, user-friendly language throughout
+          Premium analytics screens for Owner — no technical jargon, user-friendly language throughout
         </p>
         <div className="space-y-3">
           {analyticsFlows.map((flow) => (
@@ -2873,6 +2873,833 @@ export function SettingsAnalyticsFlow() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 7B · LANGUAGE & LOCALIZATION
+// ═══════════════════════════════════════════════════════════════════════════════
+// Lets users localize the app: language + country + region/state. Currency and
+// time zone are NOT chosen manually — they are auto-derived from country/region.
+
+// ── Small primitives for the localization screens ─────────────────────────────
+
+function PickRow({ flag, label, sub, selected }: {
+  flag?: string; label: string; sub?: string; selected?: boolean;
+}) {
+  return (
+    <div className={`flex items-center gap-1.5 px-2 py-[5px] ${selected ? 'bg-violet-50' : 'bg-white'}`}>
+      {flag && <span className="text-[11px] leading-none shrink-0">{flag}</span>}
+      <div className="flex-1 min-w-0">
+        <p className={`text-[7px] font-semibold leading-none ${selected ? 'text-violet-700' : 'text-gray-800'}`}>{label}</p>
+        {sub && <p className="text-[5.5px] text-gray-400 mt-0.5 leading-none">{sub}</p>}
+      </div>
+      {selected
+        ? <span className="text-[8px] text-violet-600 font-black leading-none">✓</span>
+        : <span className="w-2.5 h-2.5 rounded-full border border-gray-200 shrink-0" />}
+    </div>
+  );
+}
+
+function SearchBar({ placeholder }: { placeholder: string }) {
+  return (
+    <div className="mx-2 mt-1.5 mb-1 bg-gray-100 rounded-lg px-1.5 py-1 flex items-center gap-1">
+      <span className="text-[7px] text-gray-400">🔍</span>
+      <span className="text-[6.5px] text-gray-400">{placeholder}</span>
+    </div>
+  );
+}
+
+// Read-only "auto configured" row — derived value, not editable
+function AutoRow({ icon, label, value, note }: {
+  icon: string; label: string; value: string; note?: string;
+}) {
+  return (
+    <div className="flex items-center gap-1.5 px-2 py-[5px] bg-white">
+      <div className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center shrink-0 bg-emerald-50">
+        <span className="text-[8px]">{icon}</span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[7px] font-medium text-gray-800 leading-none">{label}</p>
+        {note && <p className="text-[5.5px] text-gray-400 mt-0.5 leading-none">{note}</p>}
+      </div>
+      <span className="text-[6.5px] text-gray-600 font-semibold">{value}</span>
+      <span className="text-[5px] font-bold bg-emerald-100 text-emerald-700 rounded px-1 py-0.5 leading-none">AUTO</span>
+    </div>
+  );
+}
+
+// ── L&L screen content nodes ──────────────────────────────────────────────────
+
+// 1 — entry point inside Personal settings
+function S_LL_Entry() {
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Settings" />
+      <div className="flex-1">
+        <SH label="Personal" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <SR icon="✏️" label="Edit Profile" />
+          <SD /><SR icon="🔔" label="Notifications" />
+          <SD /><SR icon="🎨" label="Appearance" value="Light" />
+          <SD />
+          {/* highlighted target row */}
+          <div className="flex items-center gap-1.5 px-2 py-[5px] bg-violet-50 ring-1 ring-inset ring-violet-200">
+            <div className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center shrink-0 bg-violet-100">
+              <span className="text-[8px]">🌐</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[7px] font-bold text-violet-700 leading-none">Language &amp; Localization</p>
+              <p className="text-[5.5px] text-violet-400 mt-0.5 leading-none">English · India · Kerala</p>
+            </div>
+            <span className="text-[9px] text-violet-400 leading-none">›</span>
+          </div>
+          <SD /><SR icon="💜" label="Care Point Prefs" />
+          <SD /><SR icon="🔒" label="Account &amp; Security" />
+        </div>
+        <div className="mx-2 mt-2 bg-violet-50 rounded-lg px-1.5 py-1 border border-violet-100">
+          <p className="text-[6px] text-violet-700 leading-snug">
+            Localize the whole app — language, region, and the formats derived from them.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 2 — Language & Localization hub
+function S_LL_Main() {
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Language & Localization" />
+      <div className="flex-1 overflow-y-auto bg-[#f8f7ff]">
+        <SH label="Language" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <SR icon="🗣️" label="App Language" value="English" />
+        </div>
+        <SH label="Region" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <div className="flex items-center gap-1.5 px-2 py-[5px] bg-white">
+            <span className="text-[10px] shrink-0">🇮🇳</span>
+            <p className="text-[7px] font-medium text-gray-800 flex-1">Country</p>
+            <span className="text-[6.5px] text-gray-500 font-semibold">India</span>
+            <span className="text-[9px] text-gray-300 leading-none">›</span>
+          </div>
+          <SD />
+          <SR icon="📍" label="Region / State" value="Kerala" />
+        </div>
+        <SH label="Set Automatically" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-emerald-100">
+          <AutoRow icon="💱" label="Currency" value="₹ INR" note="from country" />
+          <SD />
+          <AutoRow icon="🕒" label="Time Zone" value="GMT+5:30" note="IST · from region" />
+        </div>
+        <div className="mx-2 mt-1.5 mb-1 bg-emerald-50 rounded-lg px-1.5 py-1 border border-emerald-100 flex items-start gap-1">
+          <span className="text-[7px] leading-none mt-px">✨</span>
+          <p className="text-[5.5px] text-emerald-700 leading-snug">
+            Currency &amp; time zone update automatically when you change country or region.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 3 — language picker
+function S_LL_Language() {
+  const langs = [
+    { l: 'English', s: 'Default', sel: true },
+    { l: 'हिन्दी', s: 'Hindi' },
+    { l: 'മലയാളം', s: 'Malayalam' },
+    { l: 'தமிழ்', s: 'Tamil' },
+    { l: 'తెలుగు', s: 'Telugu' },
+    { l: 'Español', s: 'Spanish' },
+    { l: 'Français', s: 'French' },
+    { l: 'العربية', s: 'Arabic' },
+  ];
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="App Language" />
+      <div className="flex-1 overflow-y-auto bg-white">
+        <SearchBar placeholder="Search languages…" />
+        <SH label="Choose Language" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          {langs.map((x, i) => (
+            <div key={x.l}>
+              {i > 0 && <SD />}
+              <PickRow label={x.l} sub={x.s} selected={x.sel} />
+            </div>
+          ))}
+        </div>
+        <div className="px-2 pt-1.5">
+          <div className="bg-violet-600 rounded-xl text-center py-1.5">
+            <span className="text-[7.5px] font-bold text-white">Apply</span>
+          </div>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 4 — country picker
+function S_LL_Country() {
+  const countries = [
+    { f: '🇮🇳', l: 'India', s: '₹ INR · GMT+5:30', sel: true },
+    { f: '🇺🇸', l: 'United States', s: '$ USD · GMT−5:00' },
+    { f: '🇬🇧', l: 'United Kingdom', s: '£ GBP · GMT+0:00' },
+    { f: '🇦🇪', l: 'UAE', s: 'د.إ AED · GMT+4:00' },
+    { f: '🇦🇺', l: 'Australia', s: '$ AUD · GMT+10:00' },
+    { f: '🇸🇬', l: 'Singapore', s: '$ SGD · GMT+8:00' },
+    { f: '🇨🇦', l: 'Canada', s: '$ CAD · GMT−5:00' },
+  ];
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Country" />
+      <div className="flex-1 overflow-y-auto bg-white">
+        <SearchBar placeholder="Search countries…" />
+        <div className="mx-2 mt-0.5 mb-1 bg-amber-50 rounded-lg px-1.5 py-1 border border-amber-100 flex items-start gap-1">
+          <span className="text-[7px] leading-none mt-px">⚠️</span>
+          <p className="text-[5.5px] text-amber-700 leading-snug">
+            Changing country resets Region/State and re-derives currency &amp; time zone.
+          </p>
+        </div>
+        <SH label="Select Country" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          {countries.map((x, i) => (
+            <div key={x.l}>
+              {i > 0 && <SD />}
+              <PickRow flag={x.f} label={x.l} sub={x.s} selected={x.sel} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 5 — region / state picker (depends on selected country = India)
+function S_LL_Region() {
+  const states = [
+    { l: 'Kerala', s: 'GMT+5:30', sel: true },
+    { l: 'Karnataka', s: 'GMT+5:30' },
+    { l: 'Tamil Nadu', s: 'GMT+5:30' },
+    { l: 'Maharashtra', s: 'GMT+5:30' },
+    { l: 'Delhi (NCT)', s: 'GMT+5:30' },
+    { l: 'West Bengal', s: 'GMT+5:30' },
+    { l: 'Gujarat', s: 'GMT+5:30' },
+  ];
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Region / State" />
+      <div className="flex-1 overflow-y-auto bg-white">
+        <div className="mx-2 mt-1.5 bg-violet-50 rounded-lg px-1.5 py-1 flex items-center gap-1 border border-violet-100">
+          <span className="text-[9px]">🇮🇳</span>
+          <span className="text-[6px] font-semibold text-violet-700">States of India · based on your country</span>
+        </div>
+        <SearchBar placeholder="Search states…" />
+        <SH label="Select Region / State" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          {states.map((x, i) => (
+            <div key={x.l}>
+              {i > 0 && <SD />}
+              <PickRow flag="📍" label={x.l} sub={x.s} selected={x.sel} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 6 — saved / updated confirmation
+function S_LL_Updated() {
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Language & Localization" />
+      <div className="flex-1 overflow-y-auto bg-[#f8f7ff]">
+        <div className="mx-2 mt-2 bg-emerald-50 rounded-xl border border-emerald-200 px-2 py-1.5 flex items-center gap-1.5">
+          <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+            <span className="text-[8px] text-white font-black">✓</span>
+          </div>
+          <p className="text-[6.5px] font-bold text-emerald-700 leading-snug">Localization updated for your account</p>
+        </div>
+        <SH label="Your Settings" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <SR icon="🗣️" label="App Language" value="English" />
+          <SD />
+          <div className="flex items-center gap-1.5 px-2 py-[5px] bg-white">
+            <span className="text-[10px] shrink-0">🇮🇳</span>
+            <p className="text-[7px] font-medium text-gray-800 flex-1">Country</p>
+            <span className="text-[6.5px] text-gray-500 font-semibold">India</span>
+          </div>
+          <SD />
+          <SR icon="📍" label="Region / State" value="Kerala" />
+        </div>
+        <SH label="Auto-Applied" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-emerald-100">
+          <AutoRow icon="💱" label="Currency" value="₹ INR" note="Indian Rupee" />
+          <SD />
+          <AutoRow icon="🕒" label="Time Zone" value="GMT+5:30" note="IST" />
+        </div>
+        <div className="mx-2 mt-1.5 bg-white rounded-lg px-1.5 py-1 border border-gray-100">
+          <p className="text-[5.5px] text-gray-500 leading-snug">
+            Dates, prices and reminders across Tasks, Calendar &amp; Expenses now use these formats.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// ── Exported: Language & Localization flow ────────────────────────────────────
+export function SettingsLanguageLocalizationFlow() {
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+
+  const steps = [
+    { title: 'Entry in Settings', desc: 'A "Language & Localization" row sits under Personal settings, showing the current setup at a glance.', screen: <S_LL_Entry />, accent: 'border-gray-600' },
+    { title: 'Localization Hub', desc: 'Language, Country and Region/State are editable. Currency & Time Zone are shown as auto-derived (read-only).', screen: <S_LL_Main />, accent: 'border-violet-600' },
+    { title: 'Select Language', desc: 'Searchable list of supported languages. Tapping one applies it instantly across the app UI.', screen: <S_LL_Language />, accent: 'border-violet-500' },
+    { title: 'Select Country', desc: 'Searchable country list. Each shows the currency + time zone it will derive. Changing it resets Region.', screen: <S_LL_Country />, accent: 'border-blue-500' },
+    { title: 'Select Region / State', desc: 'State list filtered by the chosen country — drives the precise time zone.', screen: <S_LL_Region />, accent: 'border-pink-500' },
+    { title: 'Updated & Auto-Applied', desc: 'Confirmation showing currency & time zone were configured automatically from the choices.', screen: <S_LL_Updated />, accent: 'border-emerald-500' },
+  ];
+
+  return (
+    <div className="space-y-8">
+
+      {/* Explainer */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center shrink-0 shadow-sm">
+            <span className="text-2xl">🌐</span>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 mb-1">Language &amp; Localization</h2>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Lets users customize language and regional settings for a localized experience. The key idea:
+              users pick only <strong>three</strong> things — language, country, and region/state. From those,
+              the app <strong>automatically configures currency and time zone</strong>, so formatting stays
+              correct everywhere without extra setup.
+            </p>
+          </div>
+        </div>
+
+        {/* Manual vs Auto split */}
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-violet-50 rounded-2xl p-4 border border-violet-100">
+            <p className="text-xs font-bold text-violet-800 mb-2">👆 User Chooses</p>
+            <ul className="space-y-1.5">
+              {[
+                ['🗣️', 'Language', 'App UI language'],
+                ['🇮🇳', 'Country', 'Your country of residence'],
+                ['📍', 'Region / State', 'List depends on the country'],
+              ].map(([e, t, d]) => (
+                <li key={t} className="flex items-center gap-2 text-xs text-gray-700">
+                  <span>{e}</span><strong>{t}</strong>
+                  <span className="text-gray-400">— {d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
+            <p className="text-xs font-bold text-emerald-800 mb-2">✨ App Derives Automatically</p>
+            <ul className="space-y-1.5">
+              {[
+                ['💱', 'Currency', 'From country → e.g. India = ₹ INR'],
+                ['🕒', 'Time Zone', 'From region → e.g. Kerala = IST GMT+5:30'],
+              ].map(([e, t, d]) => (
+                <li key={t} className="flex items-center gap-2 text-xs text-gray-700">
+                  <span>{e}</span><strong>{t}</strong>
+                  <span className="text-gray-400">— {d}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[11px] text-emerald-600 mt-2 leading-snug">
+              Shown read-only with an <span className="font-bold">AUTO</span> badge — re-derived whenever country/region changes.
+            </p>
+          </div>
+        </div>
+
+        {/* Derivation chain */}
+        <div className="mt-4 bg-gray-50 rounded-2xl p-4 border border-gray-100">
+          <p className="text-xs font-bold text-gray-700 mb-2">Derivation Chain</p>
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="bg-white rounded-xl px-3 py-1.5 border border-violet-200 font-bold text-violet-700">Country</div>
+            <span className="text-gray-400">→</span>
+            <div className="bg-white rounded-xl px-3 py-1.5 border border-emerald-200 text-emerald-700 font-medium">Currency</div>
+            <span className="text-gray-300 mx-1">·</span>
+            <div className="bg-white rounded-xl px-3 py-1.5 border border-violet-200 font-bold text-violet-700">Region / State</div>
+            <span className="text-gray-400">→</span>
+            <div className="bg-white rounded-xl px-3 py-1.5 border border-emerald-200 text-emerald-700 font-medium">Time Zone</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Flow screens — expandable step accordion */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Complete Flow — 6 Screens</h2>
+        <p className="text-sm text-gray-500 mb-6">Click each step to explore the screen detail</p>
+
+        <div className="space-y-3">
+          {steps.map((step, i) => (
+            <div key={i} className="border-2 rounded-2xl overflow-hidden border-violet-100">
+              <motion.button
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-violet-50/40 transition-colors text-left"
+                onClick={() => setActiveStep(activeStep === i ? null : i)}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center shrink-0">
+                  <span className="text-[10px] font-black text-white">{i + 1}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-gray-900">{step.title}</p>
+                  <p className="text-xs text-gray-500">{step.desc}</p>
+                </div>
+                {activeStep === i ? (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
+              </motion.button>
+
+              <AnimatePresence>
+                {activeStep === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-5 pb-6 pt-2 bg-violet-50/20 border-t border-violet-100 flex justify-center">
+                      <PhoneShell label={`Screen ${i + 1}: ${step.title}`} accent={step.accent}>
+                        {step.screen}
+                      </PhoneShell>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Full flow gallery */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Full Flow — All 6 Screens</h2>
+        <p className="text-sm text-gray-500 mb-6">Settings → Localization hub → Language · Country · Region → auto-applied</p>
+        <div className="flex flex-wrap gap-4 items-start justify-center">
+          {steps.map((step, i) => (
+            <div key={i} className="flex items-start gap-4">
+              <PhoneShell label={`${i + 1}. ${step.title}`} accent={step.accent}>
+                {step.screen}
+              </PhoneShell>
+              {i < steps.length - 1 && (
+                <div className="flex flex-col items-center justify-center mt-20 gap-1">
+                  <span className="text-gray-300 text-2xl">→</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 7C · HOUSEHOLD MEMBER · CURRENT STATUS (CAPACITY)
+// ═══════════════════════════════════════════════════════════════════════════════
+// Settings → Household Members → [Name] → Current Status
+//   🟢 Full capacity   🟡 Reduced capacity (custom %)   🔴 On rest
+// Only the admin OR the member themselves can change a member's status. The status
+// feeds the AI so task load is shared fairly (a resting member isn't assigned work).
+
+// ── Status primitives ─────────────────────────────────────────────────────────
+
+type CapKey = 'full' | 'reduced' | 'rest';
+
+const CAP: Record<CapKey, { dot: string; ring: string; bg: string; text: string; label: string; emoji: string }> = {
+  full:    { dot: 'bg-green-500',  ring: 'border-green-400',  bg: 'bg-green-50',  text: 'text-green-700',  label: 'Full capacity',    emoji: '🟢' },
+  reduced: { dot: 'bg-amber-400',  ring: 'border-amber-400',  bg: 'bg-amber-50',  text: 'text-amber-700',  label: 'Reduced capacity', emoji: '🟡' },
+  rest:    { dot: 'bg-red-500',    ring: 'border-red-400',    bg: 'bg-red-50',    text: 'text-red-700',    label: 'On rest',          emoji: '🔴' },
+};
+
+// pill badge used on member rows
+function StatusPill({ k, pct }: { k: CapKey; pct?: number }) {
+  const c = CAP[k];
+  return (
+    <span className={`inline-flex items-center gap-0.5 rounded-full px-1 py-0.5 ${c.bg}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
+      <span className={`text-[5.5px] font-bold ${c.text}`}>
+        {k === 'reduced' && pct !== undefined ? `${pct}%` : c.label}
+      </span>
+    </span>
+  );
+}
+
+// ── Current Status screen content nodes ───────────────────────────────────────
+
+// 1 — Household members list with live status, tap a member
+function S_CS_Members() {
+  const members: { n: string; r: string; c: string; k: CapKey; pct?: number }[] = [
+    { n: 'Natasha', r: 'Admin', c: 'bg-violet-500', k: 'full' },
+    { n: 'James', r: 'Organizer', c: 'bg-blue-500', k: 'reduced', pct: 60 },
+    { n: 'Stella', r: 'Member', c: 'bg-pink-400', k: 'rest' },
+    { n: 'Oliver', r: 'Child', c: 'bg-amber-400', k: 'full' },
+  ];
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Household Members" />
+      <div className="flex-1">
+        <div className="mx-2 mt-1.5 bg-violet-50 rounded-lg px-1.5 py-1 flex items-center gap-1 border border-violet-100">
+          <span className="text-[8px]">👨‍👩‍👧‍👦</span>
+          <span className="text-[6.5px] font-semibold text-violet-700">Thaikaattu Family · live capacity</span>
+        </div>
+        <SH label="Members" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          {members.map((m, i) => (
+            <div key={m.n}>
+              {i > 0 && <SD />}
+              <div className={`flex items-center gap-1.5 px-2 py-[5px] ${m.n === 'James' ? 'bg-violet-50 ring-1 ring-inset ring-violet-200' : 'bg-white'}`}>
+                <div className="relative">
+                  <div className={`w-6 h-6 rounded-lg ${m.c} flex items-center justify-center`}>
+                    <span className="text-[8px] font-black text-white">{m.n[0]}</span>
+                  </div>
+                  <div className={`absolute -bottom-px -right-px w-2 h-2 rounded-full ${CAP[m.k].dot} border border-white`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[7px] font-semibold text-gray-800 leading-none">{m.n}</p>
+                  <p className="text-[5.5px] text-gray-400 mt-0.5 leading-none">{m.r}</p>
+                </div>
+                <StatusPill k={m.k} pct={m.pct} />
+                <span className="text-[9px] text-gray-300">›</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mx-2 mt-2 bg-gray-50 rounded-lg px-1.5 py-1 border border-gray-100 flex items-start gap-1">
+          <span className="text-[7px] leading-none mt-px">🤖</span>
+          <p className="text-[5.5px] text-gray-500 leading-snug">
+            Liv balances task load using each member's current capacity.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 2 — Member detail with Current Status row
+function S_CS_MemberDetail() {
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="James" />
+      <div className="flex-1 overflow-y-auto bg-[#f8f7ff]">
+        {/* member header */}
+        <div className="bg-white px-2 pt-2 pb-1.5 border-b border-gray-100">
+          <div className="flex items-center gap-1.5">
+            <div className="w-9 h-9 rounded-xl bg-blue-500 flex items-center justify-center shadow-sm">
+              <span className="text-[12px] font-black text-white">J</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-[8.5px] font-black text-gray-900 leading-tight">James Thaikaattu</p>
+              <p className="text-[6.5px] text-blue-600 font-semibold leading-tight">Organizer</p>
+            </div>
+            <StatusPill k="reduced" pct={60} />
+          </div>
+        </div>
+        <SH label="Availability" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-amber-100">
+          {/* current status row — highlighted target */}
+          <div className="flex items-center gap-1.5 px-2 py-[5px] bg-amber-50">
+            <div className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center shrink-0 bg-amber-100">
+              <span className="text-[8px]">⚡</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[7px] font-bold text-gray-800 leading-none">Current Status</p>
+              <p className="text-[5.5px] text-amber-600 mt-0.5 leading-none">🟡 Reduced capacity · 60%</p>
+            </div>
+            <span className="text-[9px] text-gray-300">›</span>
+          </div>
+        </div>
+        <SH label="Profile" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <SR icon="💜" label="Care Points" value="1,240" />
+          <SD /><SR icon="✅" label="Open Tasks" value="3" />
+          <SD /><SR icon="👑" label="Role" value="Organizer" />
+        </div>
+        <div className="mx-2 mt-1.5 bg-violet-50 rounded-lg px-1.5 py-1 border border-violet-100 flex items-start gap-1">
+          <span className="text-[7px] leading-none mt-px">🔒</span>
+          <p className="text-[5.5px] text-violet-700 leading-snug">
+            Status editable by James (self) or the family Admin only.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 3 — Status selector (Reduced selected, custom % slider shown)
+function S_CS_Selector() {
+  const options: { k: CapKey; desc: string }[] = [
+    { k: 'full', desc: 'Available for normal task load' },
+    { k: 'reduced', desc: 'Lighter load — set a custom %' },
+    { k: 'rest', desc: 'Paused — no tasks assigned' },
+  ];
+  const selected: CapKey = 'reduced';
+  const pct = 60;
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Current Status" />
+      <div className="flex-1 overflow-y-auto bg-white">
+        {/* permission banner */}
+        <div className="mx-2 mt-1.5 bg-violet-50 rounded-lg px-1.5 py-1 border border-violet-100 flex items-start gap-1">
+          <span className="text-[7px] leading-none mt-px">🔒</span>
+          <p className="text-[5.5px] text-violet-700 leading-snug">
+            Only the <strong>Admin</strong> or <strong>James</strong> can change this status.
+          </p>
+        </div>
+        <SH label="Set Capacity" />
+        <div className="mx-2 space-y-1.5">
+          {options.map((o) => {
+            const c = CAP[o.k];
+            const on = o.k === selected;
+            return (
+              <div key={o.k} className={`rounded-xl border-2 px-1.5 py-1.5 ${on ? `${c.ring} ${c.bg}` : 'border-gray-200 bg-white'}`}>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] leading-none">{c.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-[7.5px] font-bold leading-none ${on ? c.text : 'text-gray-700'}`}>{c.label}</p>
+                    <p className="text-[5.5px] text-gray-400 mt-0.5 leading-none">{o.desc}</p>
+                  </div>
+                  {on
+                    ? <span className={`w-3 h-3 rounded-full ${c.dot} flex items-center justify-center`}><span className="text-[6px] text-white font-black">✓</span></span>
+                    : <span className="w-3 h-3 rounded-full border border-gray-300" />}
+                </div>
+                {/* custom % slider appears only for reduced when selected */}
+                {o.k === 'reduced' && on && (
+                  <div className="mt-1.5 pt-1.5 border-t border-amber-200">
+                    <div className="flex justify-between mb-0.5">
+                      <span className="text-[5.5px] font-semibold text-amber-700">Capacity level</span>
+                      <span className="text-[6.5px] font-black text-amber-700">{pct}%</span>
+                    </div>
+                    <div className="bg-amber-100 rounded-full h-1.5 relative">
+                      <div className="bg-amber-400 rounded-full h-1.5" style={{ width: `${pct}%` }} />
+                      <div className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white border-2 border-amber-400 shadow" style={{ left: `calc(${pct}% - 5px)` }} />
+                    </div>
+                    <div className="flex justify-between mt-0.5">
+                      <span className="text-[5px] text-gray-400">10%</span>
+                      <span className="text-[5px] text-gray-400">90%</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className="px-2 pt-2 pb-1">
+          <div className="bg-violet-600 rounded-xl text-center py-1.5">
+            <span className="text-[7.5px] font-bold text-white">Save Status</span>
+          </div>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// 4 — Saved confirmation
+function S_CS_Saved() {
+  return (
+    <div style={{ minHeight: 260 }} className="flex flex-col">
+      <TopBar title="Current Status" />
+      <div className="flex-1 overflow-y-auto bg-[#f8f7ff]">
+        <div className="mx-2 mt-2 bg-amber-50 rounded-xl border border-amber-200 px-2 py-1.5 flex items-center gap-1.5">
+          <span className="text-[12px]">🟡</span>
+          <div className="flex-1">
+            <p className="text-[7px] font-black text-amber-700 leading-tight">Reduced capacity · 60%</p>
+            <p className="text-[5.5px] text-amber-500 leading-tight">Status updated for James</p>
+          </div>
+        </div>
+        <SH label="What changes" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <SR icon="🤖" label="AI assigns ~40% less to James" />
+          <SD /><SR icon="🔄" label="Redistributes to full-capacity members" />
+          <SD /><SR icon="💜" label="Care Point expectations adjusted" />
+          <SD /><SR icon="👀" label="New status visible to the family" />
+        </div>
+        <SH label="Member" />
+        <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
+          <div className="flex items-center gap-1.5 px-2 py-[5px] bg-white">
+            <div className="w-6 h-6 rounded-lg bg-blue-500 flex items-center justify-center">
+              <span className="text-[8px] font-black text-white">J</span>
+            </div>
+            <p className="text-[7px] font-semibold text-gray-800 flex-1">James</p>
+            <StatusPill k="reduced" pct={60} />
+          </div>
+        </div>
+        <div className="mx-2 mt-1.5 bg-white rounded-lg px-1.5 py-1 border border-gray-100">
+          <p className="text-[5.5px] text-gray-500 leading-snug">
+            Change it back anytime — set to 🟢 Full capacity when James is ready for normal load.
+          </p>
+        </div>
+      </div>
+      <BottomNav active="profile" />
+    </div>
+  );
+}
+
+// ── Exported: Member Current Status flow ──────────────────────────────────────
+export function SettingsMemberStatusFlow() {
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+
+  const steps = [
+    { title: 'Household Members', desc: 'Each member shows a live capacity dot + status pill. Tap a member to open them.', screen: <S_CS_Members />, accent: 'border-violet-600' },
+    { title: 'Member · Current Status', desc: 'The member profile surfaces a "Current Status" row under Availability, with a permission note.', screen: <S_CS_MemberDetail />, accent: 'border-amber-500' },
+    { title: 'Set Capacity', desc: 'Pick 🟢 Full / 🟡 Reduced / 🔴 On rest. Reduced reveals a custom % slider. Admin or self only.', screen: <S_CS_Selector />, accent: 'border-amber-400' },
+    { title: 'Saved & Applied', desc: 'Confirms the new status and explains how AI task assignment & care points adapt.', screen: <S_CS_Saved />, accent: 'border-green-500' },
+  ];
+
+  return (
+    <div className="space-y-8">
+
+      {/* Explainer */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center shrink-0 shadow-sm">
+            <span className="text-2xl">⚡</span>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 mb-1">Household Member · Current Status</h2>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              <span className="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Settings → Household Members → [Name] → Current Status</span>
+            </p>
+            <p className="text-sm text-gray-600 leading-relaxed mt-2">
+              A lightweight way to signal how much each person can take on right now. The AI uses it to share
+              the household load fairly — nobody on rest gets assigned tasks, and a reduced-capacity member
+              gets a lighter share.
+            </p>
+          </div>
+        </div>
+
+        {/* 3 status options */}
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {([
+            { k: 'full' as CapKey, sub: 'Normal task load — fully available' },
+            { k: 'reduced' as CapKey, sub: 'Lighter load with a custom % (e.g. 60%)' },
+            { k: 'rest' as CapKey, sub: 'Paused — no tasks assigned at all' },
+          ]).map(({ k, sub }) => {
+            const c = CAP[k];
+            return (
+              <div key={k} className={`rounded-2xl border ${c.ring} ${c.bg} p-4`}>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-lg">{c.emoji}</span>
+                  <p className={`text-sm font-bold ${c.text}`}>{c.label}</p>
+                </div>
+                <p className="text-xs text-gray-600 leading-snug">{sub}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Permission rule */}
+        <div className="mt-4 bg-violet-50 rounded-2xl p-4 border border-violet-100 flex items-start gap-3">
+          <span className="text-xl">🔒</span>
+          <div>
+            <p className="text-sm font-bold text-violet-800 mb-0.5">Who can set it</p>
+            <p className="text-xs text-violet-700 leading-relaxed">
+              Only the family <strong>Admin</strong> or the <strong>member themselves</strong> can change a member's
+              current status. Everyone can see it; not everyone can edit it.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Flow screens — expandable step accordion */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Complete Flow — 4 Screens</h2>
+        <p className="text-sm text-gray-500 mb-6">Click each step to explore the screen detail</p>
+
+        <div className="space-y-3">
+          {steps.map((step, i) => (
+            <div key={i} className="border-2 rounded-2xl overflow-hidden border-violet-100">
+              <motion.button
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-violet-50/40 transition-colors text-left"
+                onClick={() => setActiveStep(activeStep === i ? null : i)}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center shrink-0">
+                  <span className="text-[10px] font-black text-white">{i + 1}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-gray-900">{step.title}</p>
+                  <p className="text-xs text-gray-500">{step.desc}</p>
+                </div>
+                {activeStep === i ? (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
+              </motion.button>
+
+              <AnimatePresence>
+                {activeStep === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-5 pb-6 pt-2 bg-violet-50/20 border-t border-violet-100 flex justify-center">
+                      <PhoneShell label={`Screen ${i + 1}: ${step.title}`} accent={step.accent}>
+                        {step.screen}
+                      </PhoneShell>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Full flow gallery */}
+      <div className="bg-white rounded-2xl border border-violet-100 shadow-sm p-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Full Flow — All 4 Screens</h2>
+        <p className="text-sm text-gray-500 mb-6">Members list → Member profile → Set capacity → Saved & applied</p>
+        <div className="flex flex-wrap gap-4 items-start justify-center">
+          {steps.map((step, i) => (
+            <div key={i} className="flex items-start gap-4">
+              <PhoneShell label={`${i + 1}. ${step.title}`} accent={step.accent}>
+                {step.screen}
+              </PhoneShell>
+              {i < steps.length - 1 && (
+                <div className="flex flex-col items-center justify-center mt-20 gap-1">
+                  <span className="text-gray-300 text-2xl">→</span>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
