@@ -3439,9 +3439,7 @@ function S_CS_MemberDetail() {
         </div>
         <SH label="Profile" />
         <div className="mx-2 rounded-lg overflow-hidden border border-gray-100">
-          <SR icon="💜" label="Care Points" value="1,240" />
-          <SD /><SR icon="✅" label="Open Tasks" value="3" />
-          <SD /><SR icon="👑" label="Role" value="Organizer" />
+          <SR icon="👑" label="Role" value="Organizer" />
         </div>
         <div className="mx-2 mt-1.5 bg-violet-50 rounded-lg px-1.5 py-1 border border-violet-100 flex items-start gap-1">
           <span className="text-[7px] leading-none mt-px">🔒</span>
